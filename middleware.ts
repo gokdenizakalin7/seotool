@@ -176,7 +176,8 @@ export const config = {
      * - _next/static (statik dosyalar)
      * - _next/image (görsel optimizasyon)
      * - favicon.ico (ikon)
+     * - catalog/ (katalog ürün görselleri; her görsel isteğinde middleware çalışmasın)
      */
-    '/((?!_next/static|_next/image|favicon.ico).*)'
+    '/((?!_next/static|_next/image|favicon.ico|catalog/).*)'
   ]
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useMemo, useReducer, useRef } from 'react'
+import { foldTurkish } from '@/lib/catalog-match'
 import type {
   EditorCategory,
   EditorItem,
@@ -210,7 +211,8 @@ function historyReducer(h: History, a: HistoryAction): History {
   }
 }
 
-const norm = (s: string) => s.trim().toLocaleLowerCase('tr-TR').replace(/\s+/g, ' ')
+// Türkçe katlama: "Iced Latte" → "iced latte" (toLocaleLowerCase('tr-TR') noktasız ı üretirdi)
+const norm = (s: string) => foldTurkish(s).trim().replace(/\s+/g, ' ')
 
 export function computeIssues(categories: EditorCategory[]): Map<string, ItemIssue[]> {
   const map = new Map<string, ItemIssue[]>()

@@ -31,6 +31,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { flushSync } from 'react-dom'
 import type { Menu, MenuItem, ProductTag } from '@/lib/types'
 import { getBusinessType } from '@/lib/business-types'
+import { catalogThumbUrl } from '@/lib/image-url'
+import { useImageCredits } from '@/lib/use-image-credits'
 
 const FALLBACK_COVER = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&h=600&fit=crop'
 
@@ -219,6 +221,7 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
   const [isItemModalOpen, setIsItemModalOpen] = useState(false)
   const [isTermsOpen, setIsTermsOpen] = useState(false)
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false)
+  const imageCredits = useImageCredits()
   const [wifiCopied, setWifiCopied] = useState(false)
 
   // GOOGLE REVIEW & DEĞERLENDİRME STATE'LERİ
@@ -650,8 +653,10 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
                         {item.image_url ? (
                           <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-[18px] overflow-hidden bg-gray-50 dark:bg-[#3a3a3c]/60 relative shadow-inner">
                             <img
-                              src={item.image_url}
+                              src={catalogThumbUrl(item.image_url)}
                               alt={item.name}
+                              loading="lazy"
+                              decoding="async"
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                             />
                             {item.is_featured && (
@@ -839,6 +844,11 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
             <button onClick={() => setIsPrivacyOpen(true)} className="hover:underline text-gray-400 dark:text-zinc-500">
               Gizlilik Politikası
             </button>
+            {imageCredits.length > 0 && (
+              <a href="/gorsel-kaynaklari" target="_blank" rel="noopener noreferrer" className="hover:underline text-gray-400 dark:text-zinc-500">
+                Görsel kaynakları
+              </a>
+            )}
           </div>
         </div>
       </footer>

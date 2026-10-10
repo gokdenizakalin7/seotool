@@ -1,12 +1,12 @@
 /**
  * dist/seed.json → Supabase katalog ve şablon tabloları (slug'a göre upsert).
  *
- *   SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npx tsx scripts/import-catalog.ts [--dry-run] [--prune]
+ *   SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npx tsx scripts/seed/import-catalog.ts [--dry-run] [--prune]
  *
  *   --dry-run   Hiç yazmaz, sayıları basar.
  *   --prune     Seed'de olmayan catalog_categories / catalog_items / menu_templates satırlarını
  *               is_active=false yapar (silmez).
- *   SEED_FILE   Varsayılan: ../dist/seed.json (önce `node scripts/build.mjs`).
+ *   SEED_FILE   Varsayılan: ../dist/seed.json (seed reposunda `node scripts/build.mjs`); projede SEED_FILE verin.
  *   SEED_INCLUDE_EN=false   name_en / description_en alanlarını atlar (06 migration'ı yoksa).
  *
  * Bu dosya projeye kopyalanabilir; tek bağımlılık @supabase/supabase-js.
@@ -58,7 +58,7 @@ async function upsertAll<T extends { slug: string }>(table: string, rows: T[]): 
   }
   for (const part of chunk(rows)) {
     const { data, error } = await db.from(table).upsert(part, { onConflict: 'slug' }).select('id, slug');
-    if (error) throw new Error(`${table} upsert: ${error.message}${/name_en|description_en/.test(error.message) ? ' — sql/06_catalog_i18n.sql çalıştır ya da SEED_INCLUDE_EN=false ver' : ''}`);
+    if (error) throw new Error(`${table} upsert: ${error.message}${/name_en|description_en/.test(error.message) ? ' — supabase/migrations/06_catalog_i18n.sql çalıştır ya da SEED_INCLUDE_EN=false ver' : ''}`);
     for (const r of data ?? []) ids.set(r.slug, r.id);
   }
   return ids;
@@ -83,7 +83,9 @@ async function main() {
     if (!cat) throw new Error(`${it.slug}: kategori ${it.primary_category} bulunamadı`);
     return {
       slug: it.slug, primary_category_id: cat, name: it.name, description: it.description,
-      price_suggested: it.price_suggested, image_url: it.image_url, allergens: it.allergens, calories: it.calories,
+      // image_url bilerek gönderilmez: katalog görselleri scripts/catalog-images/apply.ts tarafından yazılır;
+      // PostgREST upsert yalnız verilen sütunları günceller, böylece import görselleri silmez.
+      price_suggested: it.price_suggested, allergens: it.allergens, calories: it.calories,
       tags: it.tags, display_order: it.display_order, is_active: true,
       ...(INCLUDE_EN ? { name_en: it.name_en, description_en: it.description_en } : {}),
     };

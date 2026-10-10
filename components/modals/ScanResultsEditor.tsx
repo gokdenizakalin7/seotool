@@ -51,6 +51,10 @@ import {
   type SummaryStats,
 } from './scan-editor/panels'
 import { useCalorieEstimate } from './scan-editor/useCalorieEstimate'
+import { useImageGenerate } from './scan-editor/useImageGenerate'
+import { useRestaurant } from '@/components/providers/RestaurantProvider'
+import { authFetch } from '@/lib/api-client'
+import { normalizeDishName } from '@/lib/catalog-match'
 import {
   uid,
   useScanEditorState,
@@ -74,13 +78,17 @@ Input.displayName = 'Input'
 
 const DRAFT_KEY = 'scan_editor_draft_v1'
 
-type FilterKey = 'noPrice' | 'noCalories' | 'noImage' | 'noAllergens'
+type FilterKey = 'noPrice' | 'noCalories' | 'noImage' | 'noAllergens' | 'suggested' | 'noCatalog'
 const FILTERS: { key: FilterKey; label: string }[] = [
   { key: 'noPrice', label: 'Fiyatı eksik' },
   { key: 'noCalories', label: 'Kalorisi eksik' },
   { key: 'noImage', label: 'Görselsiz' },
   { key: 'noAllergens', label: 'Alerjensiz' },
+  { key: 'suggested', label: 'Öneri var' },
+  { key: 'noCatalog', label: 'Katalogda yok' },
 ]
+
+const isSuggested = (item: EditorItem) => !item.catalog_item_id && item.match?.level === 'suggest' && !!item.match.top
 
 function matchesFilter(item: EditorItem, key: FilterKey) {
   switch (key) {
@@ -92,6 +100,10 @@ function matchesFilter(item: EditorItem, key: FilterKey) {
       return !item.image_url
     case 'noAllergens':
       return !item.allergens || item.allergens.length === 0
+    case 'suggested':
+      return isSuggested(item)
+    case 'noCatalog':
+      return !item.catalog_item_id && !isSuggested(item)
   }
 }
 
@@ -141,6 +153,8 @@ interface CategorySectionProps {
   onToggleCollapse: (catId: string) => void
   onToggleSelect: (itemId: string) => void
   onToggleSelectCat: (catId: string, select: boolean) => void
+  /** İşletme subdomain'i (AI görsel üretimi için); yoksa buton gizlenir */
+  subdomain?: string
 }
 
 const CategorySection = React.memo(function CategorySection({
@@ -154,6 +168,7 @@ const CategorySection = React.memo(function CategorySection({
   onToggleCollapse,
   onToggleSelect,
   onToggleSelectCat,
+  subdomain,
 }: CategorySectionProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: `cat:${cat.id}`,
@@ -245,6 +260,8 @@ const CategorySection = React.memo(function CategorySection({
                   key={item.id}
                   item={item}
                   catId={cat.id}
+                  catName={cat.name}
+                  subdomain={subdomain}
                   selected={selection.has(item.id)}
                   issues={issues.get(item.id)}
                   onToggleSelect={onToggleSelect}
@@ -290,6 +307,9 @@ export function ScanResultsEditor({
     initialCategories
   )
   const calorie = useCalorieEstimate()
+  const { restaurant } = useRestaurant()
+  const subdomain = restaurant?.subdomain || ''
+  const imageGen = useImageGenerate(subdomain)
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const [search, setSearch] = useState('')
@@ -392,7 +412,10 @@ export function ScanResultsEditor({
       duplicate = 0,
       noCalories = 0,
       noImage = 0,
-      complete = 0
+      complete = 0,
+      catalogMatched = 0,
+      catalogSuggested = 0,
+      catalogNone = 0
     for (const c of state.categories)
       for (const it of c.items) {
         items++
@@ -403,9 +426,63 @@ export function ScanResultsEditor({
         if (!it.calories) noCalories++
         if (!it.image_url) noImage++
         if (it.name.trim() && it.price.trim()) complete++
+        if (it.catalog_item_id) catalogMatched++
+        else if (isSuggested(it)) catalogSuggested++
+        else if (it.name.trim()) catalogNone++
       }
-    return { categories: state.categories.length, items, noName, noPrice, duplicate, noCalories, noImage, complete }
+    return {
+      categories: state.categories.length,
+      items,
+      noName,
+      noPrice,
+      duplicate,
+      noCalories,
+      noImage,
+      complete,
+      catalogMatched,
+      catalogSuggested,
+      catalogNone,
+    }
   }, [state.categories, issues])
+
+  /* Katalog önerileri: toplu kabul (tek undo adımı) */
+  const suggestionTargets = useMemo(
+    () => state.categories.flatMap((c) => c.items.filter(isSuggested)),
+    [state.categories]
+  )
+  const acceptAllSuggestions = () => {
+    if (suggestionTargets.length === 0) return
+    const patches: Record<string, Partial<EditorItem>> = {}
+    for (const it of suggestionTargets) {
+      const top = it.match!.top!
+      patches[it.id] = {
+        catalog_item_id: top.item_id,
+        image_url: it.image_url && it.image_url.startsWith('data:') ? it.image_url : top.image_url || it.image_url || '',
+        match: { level: 'confirmed', top, candidates: it.match?.candidates || [] },
+      }
+    }
+    dispatch({ type: 'UPDATE_ITEMS', patches })
+    toast.success(`${suggestionTargets.length} öneri kabul edildi`, { action: { label: 'Geri al', onClick: undo }, duration: 5000 })
+  }
+
+  /* Görselsiz ürünler için AI üretimi (kota dolunca durur) */
+  const imageTargets = useMemo(
+    () =>
+      state.categories.flatMap((c) =>
+        c.items
+          .filter((it) => !it.image_url && it.name.trim())
+          .map((it) => ({ id: it.id, name: it.name.trim(), description: it.description, category: c.name }))
+      ),
+    [state.categories]
+  )
+  const generateMissingImages = async () => {
+    if (imageTargets.length === 0 || !subdomain) return
+    if (!window.confirm(`${imageTargets.length} görselsiz ürün için yapay zeka görseli üretilsin mi? Günlük ücretsiz kota dolunca durur.`)) return
+    const r = await imageGen.run(imageTargets, (id, url) => dispatch({ type: 'UPDATE_ITEM', itemId: id, patch: { image_url: url } }, `${id}:image`))
+    if (r.ok > 0) toast.success(`${r.ok} ürüne AI görsel eklendi`)
+    if (r.stoppedReason) toast.warning(r.stoppedReason)
+    else if (r.failed > 0) toast.error(`${r.failed} ürün için görsel üretilemedi`)
+  }
 
   const issueIds = useMemo(() => {
     const ids: string[] = []
@@ -605,9 +682,29 @@ export function ScanResultsEditor({
         '. Yine de menüyü oluşturmak istiyor musunuz?'
       if (!window.confirm(msg)) return
     }
+    // Onaylanan katalog eşleşmeleri: menüdeki farklı yazımı takma ad olarak öğret (tek toplu istek)
+    const seenAlias = new Set<string>()
+    const pairs: { alias: string; item_id: string }[] = []
+    for (const c of state.categories)
+      for (const i of c.items) {
+        if (!i.catalog_item_id || i.match?.level !== 'confirmed' || !i.name.trim()) continue
+        const k = `${normalizeDishName(i.name)}|${i.catalog_item_id}`
+        if (seenAlias.has(k)) continue
+        seenAlias.add(k)
+        pairs.push({ alias: i.name.trim(), item_id: i.catalog_item_id })
+      }
+    if (pairs.length > 0) {
+      void authFetch('/api/catalog/aliases', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pairs: pairs.slice(0, 200) }),
+      }).catch(() => undefined)
+    }
+
     const cats: ParsedCategory[] = state.categories.map((c) => ({
       name: c.name.trim() || 'Genel',
-      items: c.items.filter((i) => i.name.trim()).map(({ id: _id, ...rest }) => rest),
+      // `match` yalnızca editör bilgisidir; `catalog_item_id` menüyle birlikte kaydedilir
+      items: c.items.filter((i) => i.name.trim()).map(({ id: _id, match: _match, ...rest }) => rest),
     }))
     clearDraft()
     onCreate(state.menuName, cats)
@@ -732,6 +829,37 @@ export function ScanResultsEditor({
               Eksik kalorileri AI ile doldur ({calorieTargets.length})
             </Button>
           )}
+          {suggestionTargets.length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={acceptAllSuggestions}
+              className="gap-1.5"
+              title="Katalog önerilerini tek seferde kabul eder (görsel + bağlantı)"
+            >
+              <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+              Önerileri kabul et ({suggestionTargets.length})
+            </Button>
+          )}
+          {subdomain &&
+            (imageGen.running ? (
+              <Button variant="outline" size="sm" onClick={imageGen.cancel} className="gap-1.5">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Görsel üretiliyor {imageGen.done}/{imageGen.total} · İptal
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={imageTargets.length === 0}
+                onClick={generateMissingImages}
+                className="gap-1.5"
+                title="Görselsiz ürünler için yapay zeka görseli üretir (günlük ücretsiz kota)"
+              >
+                <Sparkles className="h-4 w-4 text-violet-500" />
+                Görselsizler için AI görsel ({imageTargets.length})
+              </Button>
+            ))}
           <Button
             variant="outline"
             size="sm"
@@ -845,6 +973,7 @@ export function ScanResultsEditor({
                       onToggleCollapse={toggleCollapse}
                       onToggleSelect={toggleSelect}
                       onToggleSelectCat={toggleSelectCat}
+                      subdomain={subdomain}
                     />
                   ))}
                 </div>

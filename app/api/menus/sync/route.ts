@@ -15,6 +15,8 @@ const itemSchema = z.object({
   is_featured: z.boolean().optional(),
   tags: z.array(z.string()).optional(),
   display_order: z.number().optional(),
+  // Kataloğa bağlantı; zod bilinmeyen alanları attığı için burada açıkça geçirilir
+  catalog_item_id: z.uuid().nullable().optional(),
 })
 
 const categorySchema = z.object({

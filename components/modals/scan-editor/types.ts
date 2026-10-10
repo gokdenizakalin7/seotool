@@ -1,3 +1,5 @@
+import type { CatalogMatchInfo } from '@/lib/catalog-match'
+
 export interface ParsedItem {
   name: string
   price: string
@@ -5,6 +7,10 @@ export interface ParsedItem {
   description?: string
   allergens?: string[]
   image_url?: string
+  /** Kataloğa bağlantı (eşleşme kabul edildiyse) */
+  catalog_item_id?: string | null
+  /** Sunucudan gelen eşleştirme bilgisi; yalnız editörde kullanılır, kaydedilmez */
+  match?: CatalogMatchInfo
 }
 
 export interface ParsedCategory {

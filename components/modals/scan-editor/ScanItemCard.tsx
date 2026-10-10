@@ -3,12 +3,17 @@
 import React, { useRef, useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Flame, GripVertical, ImagePlus, Loader2, X } from 'lucide-react'
+import { BookOpen, Check, Flame, GripVertical, ImagePlus, Loader2, Sparkles, X } from 'lucide-react'
+import { toast } from 'sonner'
 import { Input as BaseInput, type InputProps } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import { compressImageFile, IMAGE_PRESETS } from '@/lib/image-compression'
+import { catalogThumbUrl, isCatalogImage } from '@/lib/image-url'
+import { generateItemImage } from '@/lib/image-generation-client'
+import type { CatalogMatch } from '@/lib/catalog-match'
 import { ChipAllergenInput } from './ChipAllergenInput'
+import { CatalogPickerPopover } from './CatalogPickerPopover'
 import type { EditorAction } from './useScanEditorState'
 import type { EditorItem, ItemIssue } from './types'
 
@@ -18,7 +23,19 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, ...pr
 ))
 Input.displayName = 'Input'
 
-function ImageUpload({ value, onChange }: { value?: string; onChange: (v: string) => void }) {
+function ImageUpload({
+  value,
+  onChange,
+  badge,
+  onGenerate,
+  generating,
+}: {
+  value?: string
+  onChange: (v: string) => void
+  badge?: string
+  onGenerate?: () => void
+  generating?: boolean
+}) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
 
@@ -36,51 +53,70 @@ function ImageUpload({ value, onChange }: { value?: string; onChange: (v: string
   }
 
   return (
-    <div className="relative h-24 w-24 shrink-0">
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/jpeg,image/png,image/webp"
-        className="hidden"
-        onChange={(e) => {
-          handleFile(e.target.files?.[0])
-          e.target.value = ''
-        }}
-      />
-      {value ? (
-        <>
+    <div className="flex shrink-0 flex-col items-center gap-1">
+      <div className="relative h-24 w-24">
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          className="hidden"
+          onChange={(e) => {
+            handleFile(e.target.files?.[0])
+            e.target.value = ''
+          }}
+        />
+        {value ? (
+          <>
+            <button
+              type="button"
+              onClick={() => inputRef.current?.click()}
+              title="Görseli değiştir"
+              className="h-full w-full overflow-hidden rounded-xl border border-border"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={catalogThumbUrl(value)} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
+            </button>
+            {badge && (
+              <span className="pointer-events-none absolute bottom-1 left-1 rounded bg-black/65 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">
+                {badge}
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={() => onChange('')}
+              title="Görseli kaldır"
+              className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-white shadow"
+            >
+              <X className="h-3 w-3" />
+            </button>
+          </>
+        ) : (
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
-            title="Görseli değiştir"
-            className="h-full w-full overflow-hidden rounded-xl border border-border"
+            disabled={generating}
+            className="flex h-full w-full flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border text-muted-foreground transition-colors hover:border-primary hover:bg-primary/5 hover:text-primary disabled:opacity-60"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={value} alt="" className="h-full w-full object-cover" />
+            {loading || generating ? (
+              <Loader2 className="h-5 w-5 animate-spin" />
+            ) : (
+              <>
+                <ImagePlus className="h-5 w-5" />
+                <span className="text-[10px] font-medium">Görsel yükle</span>
+              </>
+            )}
           </button>
-          <button
-            type="button"
-            onClick={() => onChange('')}
-            title="Görseli kaldır"
-            className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-white shadow"
-          >
-            <X className="h-3 w-3" />
-          </button>
-        </>
-      ) : (
+        )}
+      </div>
+      {!value && onGenerate && (
         <button
           type="button"
-          onClick={() => inputRef.current?.click()}
-          className="flex h-full w-full flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border text-muted-foreground transition-colors hover:border-primary hover:bg-primary/5 hover:text-primary"
+          onClick={onGenerate}
+          disabled={generating}
+          title="Yapay zeka ile ürün görseli üret (günlük ücretsiz kota)"
+          className="flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10px] font-semibold text-violet-600 hover:bg-violet-500/10 disabled:opacity-60"
         >
-          {loading ? (
-            <Loader2 className="h-5 w-5 animate-spin" />
-          ) : (
-            <>
-              <ImagePlus className="h-5 w-5" />
-              <span className="text-[10px] font-medium">Görsel yükle</span>
-            </>
-          )}
+          <Sparkles className="h-3 w-3" /> AI görsel
         </button>
       )}
     </div>
@@ -90,6 +126,10 @@ function ImageUpload({ value, onChange }: { value?: string; onChange: (v: string
 interface Props {
   item: EditorItem
   catId: string
+  /** Kategori adı: AI görsel prompt'u için ipucu */
+  catName?: string
+  /** İşletme subdomain'i; yoksa "AI görsel" butonu gösterilmez */
+  subdomain?: string
   selected: boolean
   issues?: ItemIssue[]
   onToggleSelect: (id: string) => void
@@ -99,6 +139,8 @@ interface Props {
 export const ScanItemCard = React.memo(function ScanItemCard({
   item,
   catId,
+  catName,
+  subdomain,
   selected,
   issues,
   onToggleSelect,
@@ -108,6 +150,8 @@ export const ScanItemCard = React.memo(function ScanItemCard({
     id: item.id,
     data: { type: 'item', catId },
   })
+  const [pickerOpen, setPickerOpen] = useState(false)
+  const [generating, setGenerating] = useState(false)
 
   const update = (patch: Partial<EditorItem>, field: string) =>
     dispatch({ type: 'UPDATE_ITEM', itemId: item.id, patch }, `${item.id}:${field}`)
@@ -115,6 +159,50 @@ export const ScanItemCard = React.memo(function ScanItemCard({
   const noName = issues?.includes('noName')
   const noPrice = issues?.includes('noPrice')
   const dup = issues?.includes('duplicate')
+
+  /* ── Katalog eşleşmesi ── */
+  const match = item.match
+  const linked = !!item.catalog_item_id
+  const linkedName = linked && match?.top && match.top.item_id === item.catalog_item_id ? match.top.name : null
+  const suggestion = !linked && match?.level === 'suggest' && match.top ? match.top : null
+  const usingCatalogImage = isCatalogImage(item.image_url)
+
+  /** Sahibin yüklediği fotoğraf (data:) asla ezilmez; katalog görseli yalnızca boşsa/katalogsa gelir */
+  const applyMatch = (m: CatalogMatch) =>
+    update(
+      {
+        catalog_item_id: m.item_id,
+        image_url: item.image_url && item.image_url.startsWith('data:') ? item.image_url : m.image_url || item.image_url || '',
+        match: { level: 'confirmed', top: m, candidates: match?.candidates || [] },
+      },
+      'catalog'
+    )
+
+  const clearMatch = () =>
+    update(
+      {
+        catalog_item_id: null,
+        image_url: usingCatalogImage ? '' : item.image_url,
+        match: match ? { ...match, level: 'none', top: undefined } : undefined,
+      },
+      'catalog'
+    )
+
+  const ignoreSuggestion = () => update({ match: match ? { ...match, level: 'none', top: undefined } : undefined }, 'catalog')
+
+  const handleGenerate = async () => {
+    if (!subdomain || !item.name.trim()) return
+    setGenerating(true)
+    try {
+      const r = await generateItemImage({ subdomain, name: item.name.trim(), description: item.description, category: catName })
+      update({ image_url: r.url }, 'image')
+      toast.success('AI görsel eklendi', { description: `Bugün kalan: ${Math.min(r.orgRemaining, r.globalRemaining)}` })
+    } catch (e: any) {
+      toast.error(e?.message || 'Görsel üretilemedi')
+    } finally {
+      setGenerating(false)
+    }
+  }
 
   return (
     <div
@@ -146,7 +234,13 @@ export const ScanItemCard = React.memo(function ScanItemCard({
         />
       </div>
 
-      <ImageUpload value={item.image_url} onChange={(v) => update({ image_url: v }, 'image')} />
+      <ImageUpload
+        value={item.image_url}
+        onChange={(v) => update({ image_url: v }, 'image')}
+        badge={usingCatalogImage ? 'Katalog' : undefined}
+        onGenerate={subdomain && item.name.trim() ? handleGenerate : undefined}
+        generating={generating}
+      />
 
       <div className="min-w-0 flex-1 space-y-2">
         <Input
@@ -167,6 +261,61 @@ export const ScanItemCard = React.memo(function ScanItemCard({
             {noName ? 'Ürün adı boş.' : 'Bu kategoride aynı isimde başka bir ürün var.'}
           </p>
         )}
+
+        {/* Katalog durumu: bağlı / öneri / seç */}
+        <div className="relative flex flex-wrap items-center gap-1.5 text-[11px]">
+          {linked ? (
+            <>
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 font-semibold text-emerald-600 dark:text-emerald-400">
+                <BookOpen className="h-3 w-3" /> Katalog: {linkedName || 'bağlı ürün'}
+              </span>
+              <button type="button" onClick={() => setPickerOpen(true)} className="rounded px-1.5 py-0.5 text-muted-foreground hover:bg-muted hover:text-foreground">
+                Değiştir
+              </button>
+              <button type="button" onClick={clearMatch} className="rounded px-1.5 py-0.5 text-muted-foreground hover:bg-muted hover:text-foreground">
+                Kaldır
+              </button>
+            </>
+          ) : suggestion ? (
+            <>
+              <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 font-semibold text-amber-600 dark:text-amber-400">
+                <Sparkles className="h-3 w-3" /> Önerilen: {suggestion.name}
+                <span className="font-normal opacity-70">%{Math.round(suggestion.score * 100)}</span>
+              </span>
+              <button
+                type="button"
+                onClick={() => applyMatch(suggestion)}
+                className="inline-flex items-center gap-0.5 rounded bg-primary/10 px-1.5 py-0.5 font-semibold text-primary hover:bg-primary/20"
+              >
+                <Check className="h-3 w-3" /> Kabul
+              </button>
+              <button type="button" onClick={() => setPickerOpen(true)} className="rounded px-1.5 py-0.5 text-muted-foreground hover:bg-muted hover:text-foreground">
+                Değiştir
+              </button>
+              <button type="button" onClick={ignoreSuggestion} className="rounded px-1.5 py-0.5 text-muted-foreground hover:bg-muted hover:text-foreground">
+                Yok say
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setPickerOpen(true)}
+              className="inline-flex items-center gap-1 rounded-full border border-dashed border-border px-2 py-0.5 text-muted-foreground hover:border-primary hover:text-primary"
+            >
+              <BookOpen className="h-3 w-3" /> Katalogdan seç
+            </button>
+          )}
+          <CatalogPickerPopover
+            open={pickerOpen}
+            onClose={() => setPickerOpen(false)}
+            onSelect={(m) => {
+              applyMatch(m)
+              setPickerOpen(false)
+            }}
+            initialQuery={pickerOpen && !match?.candidates?.length ? item.name : ''}
+            suggestions={match?.candidates}
+          />
+        </div>
       </div>
 
       <div className="grid w-full shrink-0 grid-cols-2 gap-2 sm:w-64">

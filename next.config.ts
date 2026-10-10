@@ -9,6 +9,15 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: false,
   },
   turbopack: {}, // Silence Next.js 16 Turbopack warning
+  // Katalog görselleri (public/catalog) içerik hash'li ?v= ile bust edilir; public/ varsayılanı max-age=0
+  async headers() {
+    return [
+      {
+        source: '/catalog/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+    ]
+  },
 };
 
 export default nextConfig;

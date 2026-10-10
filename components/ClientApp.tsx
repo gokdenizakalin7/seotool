@@ -24,6 +24,7 @@ import { EditMenuContent } from '@/components/dashboard/EditMenuContent'
 import { QRCodesContent } from '@/components/dashboard/QRCodesContent'
 import { SettingsContent } from '@/components/dashboard/SettingsContent'
 import { PublicMenuView } from '@/components/public/PublicMenuView'
+import { ImageCredits } from '@/components/public/ImageCredits'
 
 function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -173,6 +174,7 @@ export function ClientApp() {
           <Route path="/dashboard/*" element={<AuthGuard><RestaurantProvider><DashboardLayout /></RestaurantProvider></AuthGuard>} />
           <Route path="/business" element={<BusinessDirectory />} />
           <Route path="/menu/:subdomain" element={<PublicMenuView />} />
+          <Route path="/gorsel-kaynaklari" element={<ImageCredits />} />
           <Route path="*" element={<LandingPage />} />
         </Routes>
       </BrowserRouter>

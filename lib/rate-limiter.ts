@@ -183,6 +183,14 @@ export const RATE_LIMITS = {
   AUTH_SIGNUP: { limit: 5, windowSeconds: 3600 },
   // Logo/kapak yükleme: kullanıcı başına 10 dakikada 20
   ASSET_UPLOAD: { limit: 20, windowSeconds: 600 },
+  // Katalog arama / eşleştirme: IP başına dakikada 60
+  CATALOG_MATCH: { limit: 60, windowSeconds: 60 },
+  // Katalog takma adı onayı: IP başına 10 dakikada 30 istek
+  CATALOG_ALIAS: { limit: 30, windowSeconds: 600 },
+  // Aynı kullanıcı aynı takma adı 24 saatte bir kez saydırır
+  ALIAS_PER_USER: { limit: 1, windowSeconds: 86400 },
+  // AI ürün görseli üretimi: kullanıcı başına 10 dakikada 10 (günlük kota DB'de)
+  IMAGE_GENERATE: { limit: 10, windowSeconds: 600 },
   // Genel API rotaları: Dakikada en fazla 100 istek (DDoS & Scraping koruması)
   GENERAL_API: { limit: 100, windowSeconds: 60 }
 }

@@ -1,0 +1,5482 @@
+{
+  "version": 1,
+  "items": {
+    "acik-ayran": {
+      "hash": "d4ea9f217921db80",
+      "bytes": 14134,
+      "thumbBytes": 3956,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 171562599,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/11932978@N00/4986050208",
+        "creator": "tomislavmedak",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:18:46.037Z"
+    },
+    "adacayi": {
+      "hash": "a4d95387aa6a6f04",
+      "bytes": 14584,
+      "thumbBytes": 4146,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1140640556,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/53326337@N00/5110284517",
+        "creator": "quinn.anya",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:19:00.731Z"
+    },
+    "adana-kebap": {
+      "hash": "10aec72773ec2ae2",
+      "bytes": 71338,
+      "thumbBytes": 14420,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1289456569,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/48524258@N00/40525832951",
+        "creator": "rjw1",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:19:03.330Z"
+    },
+    "aeropress": {
+      "hash": "09be74bb3972595d",
+      "bytes": 20056,
+      "thumbBytes": 5450,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 332081151,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/73084860@N00/24364494806",
+        "creator": "Nico Kaiser",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:19:14.642Z"
+    },
+    "affogato": {
+      "hash": "f641cdfbc73f15de",
+      "bytes": 35696,
+      "thumbBytes": 9034,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 205900241,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/69668444@N03/8055969157",
+        "creator": "Migle Seikyte",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:19:21.068Z"
+    },
+    "ahtapot-izgara": {
+      "hash": "fe30b2a61937f7a1",
+      "bytes": 24348,
+      "thumbBytes": 5240,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1186641150,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/49215102@N00/4221288736",
+        "creator": "goodiesfirst",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:19:27.688Z"
+    },
+    "ahtapot-salatasi": {
+      "hash": "bae5a38242edf8b8",
+      "bytes": 87050,
+      "thumbBytes": 20566,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1190421085,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/83684294@N00/3647189361",
+        "creator": "Craig Hatfield",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:19:36.580Z"
+    },
+    "ahududu-cayi": {
+      "hash": "79a6bb3efcdb69fd",
+      "bytes": 45312,
+      "thumbBytes": 10118,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1820950450,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.rawpixel.com/image/3303702/free-photo-image-coffee-tea-cup",
+        "creator": null,
+        "license": "CC CC0 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+      },
+      "generatedAt": "2026-10-09T18:19:50.306Z"
+    },
+    "akdeniz-salata": {
+      "hash": "bc8551cb4073d9f0",
+      "bytes": 24176,
+      "thumbBytes": 7996,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1876678964,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/125008237@N07/52469736500",
+        "creator": "Musicaloris",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:20:03.082Z"
+    },
+    "alabalik-izgara": {
+      "hash": "49f145661ebb79b1",
+      "bytes": 58294,
+      "thumbBytes": 14002,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2009312287,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/21458229@N00/3915298975",
+        "creator": "lejoe",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:20:04.899Z"
+    },
+    "almond-latte": {
+      "hash": "b2de72ac28ee08e4",
+      "bytes": 20782,
+      "thumbBytes": 6264,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 365585849,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/3566017727",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:21:17.430Z"
+    },
+    "americano": {
+      "hash": "b019e52eab5c8ae7",
+      "bytes": 11094,
+      "thumbBytes": 3600,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 534141406,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/8550448@N07/2819582675",
+        "creator": "modomatic",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:20:27.596Z"
+    },
+    "antep-fistigi": {
+      "hash": "3a2dadfdf7952e4e",
+      "bytes": 21042,
+      "thumbBytes": 6548,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 179667171,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/141324643@N05/39799740255",
+        "creator": "Theo Crazzolara",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:20:33.217Z"
+    },
+    "antep-usulu-lahmacun": {
+      "hash": "ff031a14c5a10db1",
+      "bytes": 127862,
+      "thumbBytes": 22958,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 941348068,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/51035724167@N01/6171761657",
+        "creator": "Dominik Schwind",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:20:31.513Z"
+    },
+    "antrikot": {
+      "hash": "2c89fef9bf4391b3",
+      "bytes": 39984,
+      "thumbBytes": 10820,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1668685251,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/67872859@N00/33027663868",
+        "creator": "IainCameron",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:20:37.765Z"
+    },
+    "aperol-spritz": {
+      "hash": "794f314ef4533371",
+      "bytes": 34490,
+      "thumbBytes": 8746,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 623330626,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7633518@N08/52316931421",
+        "creator": "sarahstierch",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:20:36.010Z"
+    },
+    "avokado-maki": {
+      "hash": "71277d333f31b768",
+      "bytes": 82888,
+      "thumbBytes": 19312,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 213280571,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/74699799@N00/3310305438",
+        "creator": "Albertas Agejevas",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:22:10.557Z"
+    },
+    "avokado-smoothie": {
+      "hash": "ff26b5255a485599",
+      "bytes": 13372,
+      "thumbBytes": 3934,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1180990920,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/14764065@N02/4992779598",
+        "creator": "tristankenney",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:22:17.435Z"
+    },
+    "ayran": {
+      "hash": "d4ea9f217921db80",
+      "bytes": 14134,
+      "thumbBytes": 3956,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1371468001,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/11932978@N00/4986050208",
+        "creator": "tomislavmedak",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:22:49.859Z"
+    },
+    "b-52-shot": {
+      "hash": "11e18d0ece76b6ad",
+      "bytes": 18904,
+      "thumbBytes": 4386,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1540156151,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/43515091@N08/4329498302",
+        "creator": "Kinchan1",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:23:15.295Z"
+    },
+    "babagannus": {
+      "hash": "39a8ca95893f1bfb",
+      "bytes": 24458,
+      "thumbBytes": 7280,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 573252733,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35034346243@N01/15520182542",
+        "creator": "stu_spivack",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:23:35.378Z"
+    },
+    "badem": {
+      "hash": "0eab6be43902e4f4",
+      "bytes": 98920,
+      "thumbBytes": 18584,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1179726727,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/60879087@N02/5605239684",
+        "creator": "HealthAliciousNess",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:23:37.458Z"
+    },
+    "badem-sutu": {
+      "hash": "dd14ab5ef5cecaf8",
+      "bytes": 31230,
+      "thumbBytes": 8036,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1756400503,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/71430589@N02/8596721996",
+        "creator": "AmazingAlmonds",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:23:59.866Z"
+    },
+    "bademli-kruvasan": {
+      "hash": "842fbf9d11573f49",
+      "bytes": 28216,
+      "thumbBytes": 7180,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 969410804,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/5061330975",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:24:00.344Z"
+    },
+    "bagel": {
+      "hash": "02f0c781cc4b1ccf",
+      "bytes": 30178,
+      "thumbBytes": 7708,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2025491677,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/28012204@N03/2884521776",
+        "creator": "dreamcat115",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:24:23.605Z"
+    },
+    "bagel-sandvic-fume-somon": {
+      "hash": "fde2af9046f63b31",
+      "bytes": 24208,
+      "thumbBytes": 7320,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1987774560,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/25925793@N00/4250906232",
+        "creator": "fifikins",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:25:31.174Z"
+    },
+    "baget": {
+      "hash": "779c74a0f82cd6d9",
+      "bytes": 42054,
+      "thumbBytes": 10178,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 33324373,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/48439369@N00/3091754800",
+        "creator": "Tim Pierce",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:26:57.333Z"
+    },
+    "baharatli-firin-tavuk-but": {
+      "hash": "35baee1d87567449",
+      "bytes": 65226,
+      "thumbBytes": 15240,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1648754047,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/71317184@N00/4360764888",
+        "creator": "roolrool",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:27:31.023Z"
+    },
+    "bbq-dana-kaburga": {
+      "hash": "3729c982fe10df64",
+      "bytes": 142834,
+      "thumbBytes": 23968,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 721593121,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/46126272@N00/9271400428",
+        "creator": "larry&flo",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:29:16.286Z"
+    },
+    "beef-burrito": {
+      "hash": "449b19502834574e",
+      "bytes": 42980,
+      "thumbBytes": 11736,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 960715427,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/8628568071",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:29:36.397Z"
+    },
+    "beyin-salatasi": {
+      "hash": "aeaea7240698c32a",
+      "bytes": 38246,
+      "thumbBytes": 11062,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1056381491,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/4280334057",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:55:48.373Z"
+    },
+    "biber-dolma": {
+      "hash": "f90e5cd15cf67c99",
+      "bytes": 50120,
+      "thumbBytes": 12886,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1143447100,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/7461795756",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T18:58:42.776Z"
+    },
+    "bibimbap": {
+      "hash": "5af968d945094876",
+      "bytes": 73892,
+      "thumbBytes": 17520,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 393184326,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/3085707177",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:14:54.330Z"
+    },
+    "brioche": {
+      "hash": "41e45a7da01fe268",
+      "bytes": 37616,
+      "thumbBytes": 8890,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 441164957,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/2306605339",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:28:01.866Z"
+    },
+    "brokoli-corbasi": {
+      "hash": "fe2ac282320e3ca8",
+      "bytes": 15956,
+      "thumbBytes": 3826,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 994032611,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/726057913",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:28:08.569Z"
+    },
+    "brownie": {
+      "hash": "a53f24723a135448",
+      "bytes": 49356,
+      "thumbBytes": 13138,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1849539461,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/4448807631",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:28:18.804Z"
+    },
+    "buddha-bowl": {
+      "hash": "8fdd4df919bdfeaf",
+      "bytes": 128004,
+      "thumbBytes": 17226,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1902334391,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/66491748@N05/41695870932",
+        "creator": "Mumumío",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:28:27.969Z"
+    },
+    "buffalo-kanat": {
+      "hash": "bb80464d25784507",
+      "bytes": 44544,
+      "thumbBytes": 10964,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 180770686,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35034361412@N01/2466707152",
+        "creator": "rick",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:28:34.004Z"
+    },
+    "caffe-latte": {
+      "hash": "0f85be35bee9a246",
+      "bytes": 29560,
+      "thumbBytes": 5554,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 839776470,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/91049143@N00/13748606594",
+        "creator": "bryan...",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:29:06.970Z"
+    },
+    "caipirinha": {
+      "hash": "ca7e854e66f9f328",
+      "bytes": 25036,
+      "thumbBytes": 6686,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1229058430,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/30544210@N04/2924919555",
+        "creator": "Martin Bartosch",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:29:13.076Z"
+    },
+    "cappuccino": {
+      "hash": "c51a52f17a0b0caf",
+      "bytes": 16882,
+      "thumbBytes": 4396,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 269630536,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/57104631@N00/4437445488",
+        "creator": "Bryan Pocius",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:29:27.659Z"
+    },
+    "caprese-salata": {
+      "hash": "a965b9d7be445d1c",
+      "bytes": 20248,
+      "thumbBytes": 5880,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1470447040,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35892836@N07/6662178673",
+        "creator": "amlamster",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:29:42.590Z"
+    },
+    "cavdar-ekmegi": {
+      "hash": "3f9b3f04e58c57e2",
+      "bytes": 49372,
+      "thumbBytes": 11688,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1091210789,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/60413841@N08/5530128104",
+        "creator": "Beckmann's Old World Bakery",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:29:55.304Z"
+    },
+    "cay-bardak": {
+      "hash": "a5ba82bebaa04ae5",
+      "bytes": 27866,
+      "thumbBytes": 8528,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1612563882,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/15087210@N00/3468680402",
+        "creator": "henribergius",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:29:58.714Z"
+    },
+    "cevizli-baklava": {
+      "hash": "29eafc0666fa3c46",
+      "bytes": 28816,
+      "thumbBytes": 8090,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1921981937,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10069023@N00/5338048825",
+        "creator": "Charkrem",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:30:33.079Z"
+    },
+    "cheddar-soslu-patates": {
+      "hash": "3b444c1b52a46589",
+      "bytes": 42676,
+      "thumbBytes": 11646,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 965463400,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/85153112@N03/7800078384",
+        "creator": "MicheleColetteFrazier",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:31:00.174Z"
+    },
+    "chemex": {
+      "hash": "7fa45ac2dd68d5aa",
+      "bytes": 19606,
+      "thumbBytes": 6206,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 459838896,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/15216811@N06/14968888908",
+        "creator": "Nicola since 1972",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:31:17.350Z"
+    },
+    "chicken-burrito": {
+      "hash": "7bee556de7b99ed4",
+      "bytes": 22876,
+      "thumbBytes": 6308,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 253409370,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/41942551@N02/7842256236",
+        "creator": "SodanieChea",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:31:30.673Z"
+    },
+    "chicken-parmesan": {
+      "hash": "471f6e9f167ff6b2",
+      "bytes": 52370,
+      "thumbBytes": 11906,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 250404560,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/54159514@N00/4243612810",
+        "creator": "naviniea",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:31:40.233Z"
+    },
+    "chicken-strips": {
+      "hash": "1f1f36dc87777e52",
+      "bytes": 88086,
+      "thumbBytes": 18094,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1318256533,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/11538141@N08/4018831434",
+        "creator": "dbgg1979",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:31:45.860Z"
+    },
+    "chicken-taco": {
+      "hash": "36dba8649c0508d5",
+      "bytes": 68326,
+      "thumbBytes": 18318,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 852918303,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/6332996010",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:31:52.301Z"
+    },
+    "chicken-teriyaki": {
+      "hash": "19c1658e212764d4",
+      "bytes": 76970,
+      "thumbBytes": 18394,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1531355459,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/49326400@N00/6870393191",
+        "creator": "mosespreciado",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:32:03.121Z"
+    },
+    "chicken-tikka-masala": {
+      "hash": "bfc653b1918a46f4",
+      "bytes": 38756,
+      "thumbBytes": 9836,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1362034456,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/72949902@N00/4705955437",
+        "creator": "TheCulinaryGeek",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:32:04.780Z"
+    },
+    "chili-con-carne": {
+      "hash": "6fe70d7b8b6e3b97",
+      "bytes": 64264,
+      "thumbBytes": 12998,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1692926869,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/23178876@N03/2222710953",
+        "creator": "cyclonebill",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:32:15.914Z"
+    },
+    "cikolatali-dondurma": {
+      "hash": "7da27e19ca239aea",
+      "bytes": 21518,
+      "thumbBytes": 6684,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 893187048,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/72949902@N00/5076304681",
+        "creator": "TheCulinaryGeek",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:33:31.872Z"
+    },
+    "cikolatali-krep": {
+      "hash": "1cba1d204391b56b",
+      "bytes": 143684,
+      "thumbBytes": 25958,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 404423119,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://wordpress.org/photos/photo/69667d7ab1/",
+        "creator": "Bigul Malayi",
+        "license": "CC CC0 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+      },
+      "generatedAt": "2026-10-09T19:33:45.060Z"
+    },
+    "cikolatali-kruvasan": {
+      "hash": "fc75650abf853c63",
+      "bytes": 35858,
+      "thumbBytes": 9776,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1704483256,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/49978063@N00/5290030329",
+        "creator": "khawkins04",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:33:52.863Z"
+    },
+    "cikolatali-milkshake": {
+      "hash": "727bb6851cfbcac6",
+      "bytes": 17720,
+      "thumbBytes": 4998,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 72545243,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/62558987@N07/11740923773",
+        "creator": "kurmanstaff",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:33:58.084Z"
+    },
+    "cikolatali-mousse": {
+      "hash": "14caf75686dce7d2",
+      "bytes": 17760,
+      "thumbBytes": 4300,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1677915143,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/58367355@N00/4252722699",
+        "creator": "jules:stonesoup",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:34:06.879Z"
+    },
+    "cikolatali-muffin": {
+      "hash": "487160c852a6ec30",
+      "bytes": 38098,
+      "thumbBytes": 9846,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1805841959,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/8174757@N02/6110545140",
+        "creator": "emmadiscovery",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:34:09.996Z"
+    },
+    "cikolatali-pasta-dilim": {
+      "hash": "a45c33109a25aca9",
+      "bytes": 55454,
+      "thumbBytes": 9532,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1095876670,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/62558987@N07/50409691977",
+        "creator": "kurmanstaff",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:34:20.579Z"
+    },
+    "cikolatali-sut": {
+      "hash": "953ea22a216201f2",
+      "bytes": 28412,
+      "thumbBytes": 8548,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1479958385,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/32653260@N00/4169031076",
+        "creator": "jlz",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:34:33.864Z"
+    },
+    "cilekli-cheesecake": {
+      "hash": "954bc8e71e68c57a",
+      "bytes": 27076,
+      "thumbBytes": 7244,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 733330943,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/19451080@N00/2310348202",
+        "creator": "Phillie Casablanca",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:35:05.169Z"
+    },
+    "cilekli-dondurma": {
+      "hash": "c909dff57330dbd4",
+      "bytes": 20484,
+      "thumbBytes": 5460,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 307342532,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/72949902@N00/5076899310",
+        "creator": "TheCulinaryGeek",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:35:09.594Z"
+    },
+    "cilekli-limonata": {
+      "hash": "311c8a66daba1936",
+      "bytes": 36676,
+      "thumbBytes": 9772,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2052485132,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/47489771@N00/473324332",
+        "creator": "miss karen",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:35:14.679Z"
+    },
+    "cilekli-milkshake": {
+      "hash": "8e4359960cae4cf2",
+      "bytes": 18226,
+      "thumbBytes": 5966,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1851032519,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/91188380@N05/16031156131",
+        "creator": "elsie.hui",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:35:20.539Z"
+    },
+    "cilekli-sicak-cikolata": {
+      "hash": "8cc803c6721c45c5",
+      "bytes": 18044,
+      "thumbBytes": 4176,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 479207997,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/41720539@N03/8479717321",
+        "creator": "missmeng",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:35:34.098Z"
+    },
+    "cilekli-smoothie": {
+      "hash": "595d72957970ec42",
+      "bytes": 75842,
+      "thumbBytes": 15160,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2140864406,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/150788323@N04/33909113164",
+        "creator": "EasyHealthySmoothie",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:35:39.973Z"
+    },
+    "cilekli-waffle": {
+      "hash": "b524497d74314673",
+      "bytes": 28382,
+      "thumbBytes": 9008,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2032653525,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/22251370@N02/4594680020",
+        "creator": "marc kjerland",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:35:53.103Z"
+    },
+    "cinnamon-latte": {
+      "hash": "fcc8c0b66de8938c",
+      "bytes": 26470,
+      "thumbBytes": 6936,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2038452849,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/141324643@N05/40792838441",
+        "creator": "Theo Crazzolara",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:35:50.224Z"
+    },
+    "cinnamon-roll": {
+      "hash": "a91026de45ac38e2",
+      "bytes": 56664,
+      "thumbBytes": 14450,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 514137927,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/11487819925",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:36:01.589Z"
+    },
+    "cipura-izgara": {
+      "hash": "9252768003cfd206",
+      "bytes": 72478,
+      "thumbBytes": 13452,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 615622677,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/68147320@N02/36588411451",
+        "creator": "T.Tseng",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:36:08.336Z"
+    },
+    "cirpilmis-yumurta": {
+      "hash": "d202a7d101f74a6e",
+      "bytes": 29182,
+      "thumbBytes": 8630,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 421740744,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/56832361@N00/144821744",
+        "creator": "vidalia_11",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:36:16.976Z"
+    },
+    "citir-kalamar-halkasi": {
+      "hash": "bb2539c2cd19c18b",
+      "bytes": 57422,
+      "thumbBytes": 13152,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1497837470,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/46246687@N05/24389126418",
+        "creator": "ppacificvancouver",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:36:27.197Z"
+    },
+    "citir-tavuk-burger": {
+      "hash": "d332606d5dd1e487",
+      "bytes": 36166,
+      "thumbBytes": 7926,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1402163462,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/115225894@N07/54380260364",
+        "creator": "ccnull.de Bilddatenbank",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:36:26.264Z"
+    },
+    "club-sandwich": {
+      "hash": "81b69208cd059122",
+      "bytes": 34488,
+      "thumbBytes": 8916,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1774233744,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35034346243@N01/9449332492",
+        "creator": "stu_spivack",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:36:43.349Z"
+    },
+    "coban-salata": {
+      "hash": "e571331796c08c5b",
+      "bytes": 52916,
+      "thumbBytes": 13522,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1314751662,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/34517103@N00/2275153309",
+        "creator": "angela n.",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:36:54.036Z"
+    },
+    "cocuk-tavuk-snitzel": {
+      "hash": "9b609e95c5570f89",
+      "bytes": 55640,
+      "thumbBytes": 15508,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 118186957,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/12915607034",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:37:32.934Z"
+    },
+    "cold-brew": {
+      "hash": "284b2b165b504222",
+      "bytes": 14266,
+      "thumbBytes": 3976,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2044588824,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/53197929@N00/6151592831",
+        "creator": "skinnydiver",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:37:54.396Z"
+    },
+    "cosmopolitan": {
+      "hash": "a1994b7be0f565a4",
+      "bytes": 14370,
+      "thumbBytes": 4350,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 328676965,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/92269745@N00/5434949056",
+        "creator": "ralph and jenny",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:49:34.023Z"
+    },
+    "crispy-shrimp-roll": {
+      "hash": "ba9834e0b7de0668",
+      "bytes": 30308,
+      "thumbBytes": 8694,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 353914854,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/34128007@N04/9637410132",
+        "creator": "Prayitno / Thank you for (12 millions +) view",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:49:35.766Z"
+    },
+    "cuba-libre": {
+      "hash": "0b72c88fb845c134",
+      "bytes": 21306,
+      "thumbBytes": 5670,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1519716627,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/51035804249@N01/127816689",
+        "creator": "currybet",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T19:50:53.553Z"
+    },
+    "cubuk-kraker": {
+      "hash": "406e3b51d8bd0c3d",
+      "bytes": 49916,
+      "thumbBytes": 11798,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 200208743,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/17425845@N00/768591540",
+        "creator": "oskay",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T20:07:49.751Z"
+    },
+    "daiquiri": {
+      "hash": "eeb1eb76bf8dcb3e",
+      "bytes": 23648,
+      "thumbBytes": 6140,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1698782275,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/49503155650@N01/6650731979",
+        "creator": "oropeza",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T20:07:49.756Z"
+    },
+    "damla-cikolatali-cookie": {
+      "hash": "de6db658083dc4ca",
+      "bytes": 38350,
+      "thumbBytes": 10688,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1964067252,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/70757891@N00/7133349441",
+        "creator": "grongar",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T20:08:01.518Z"
+    },
+    "damla-sakizli-turk-kahvesi": {
+      "hash": "d5c70fe0fc7226a5",
+      "bytes": 46420,
+      "thumbBytes": 7916,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 320087936,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/25834786@N03/4376748878",
+        "creator": "secretlondon123",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-09T20:25:30.654Z"
+    },
+    "dana-bonfile": {
+      "hash": "fe7ecd937c5c01c8",
+      "bytes": 61952,
+      "thumbBytes": 13814,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1891110603,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/7996842181",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T20:09:24.909Z"
+    },
+    "dana-pirzola": {
+      "hash": "ce5bebc98983f647",
+      "bytes": 65828,
+      "thumbBytes": 12966,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1912153669,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/33398244@N00/13226310563",
+        "creator": "patrickkuhl",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T21:17:22.641Z"
+    },
+    "demirhindi-serbeti": {
+      "hash": "5a067cf19ec06ff4",
+      "bytes": 13588,
+      "thumbBytes": 3640,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 336382650,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/66761763@N00/41282902",
+        "creator": "elif ayse",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T21:16:14.065Z"
+    },
+    "deniz-borulcesi": {
+      "hash": "e433c8d30fdd3ef8",
+      "bytes": 91422,
+      "thumbBytes": 16384,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1779503401,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/95267793@N00/2732304307",
+        "creator": "Denna Jones",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T21:38:55.473Z"
+    },
+    "deniz-mahsullu-linguine": {
+      "hash": "d5384baed26f959d",
+      "bytes": 56682,
+      "thumbBytes": 13144,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 742022444,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/34948727@N00/16506080100",
+        "creator": "ultrakml",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T22:11:12.634Z"
+    },
+    "dil-baligi-tava": {
+      "hash": "74a7c88433091112",
+      "bytes": 35536,
+      "thumbBytes": 9396,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 136053593,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/18472724@N00/2186543860",
+        "creator": "MollySVH",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-09T22:56:49.659Z"
+    },
+    "kabak-cicegi-dolmasi": {
+      "hash": "c7e8c65027693798",
+      "bytes": 21560,
+      "thumbBytes": 5536,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 459761501,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/88916555@N00/9413662813",
+        "creator": "ampersandyslexia",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:19:10.471Z"
+    },
+    "kabak-dolmasi": {
+      "hash": "1cb0c3fca063de34",
+      "bytes": 41688,
+      "thumbBytes": 10542,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1979677540,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/26396944@N02/4806946900",
+        "creator": "SavvyChristine",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:19:11.535Z"
+    },
+    "kafeinsiz-latte": {
+      "hash": "18aea106dafaffb2",
+      "bytes": 15186,
+      "thumbBytes": 4352,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1980276301,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/3430350863",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:23:50.446Z"
+    },
+    "kafeinsiz-turk-kahvesi": {
+      "hash": "889f83f7cca9f076",
+      "bytes": 92676,
+      "thumbBytes": 21048,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 782923344,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/97844767@N00/14245350315",
+        "creator": "WordRidden",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:23:55.401Z"
+    },
+    "kaju": {
+      "hash": "c7c8dfb58363ec71",
+      "bytes": 27038,
+      "thumbBytes": 6836,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 418589114,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/13144581@N00/4208655591",
+        "creator": "Razor512",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:24:03.091Z"
+    },
+    "kalamar-izgara": {
+      "hash": "9bf5c65220afe7c1",
+      "bytes": 41838,
+      "thumbBytes": 9454,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 472326455,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/32031278@N03/29297884102",
+        "creator": "debbietingzon",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:24:10.474Z"
+    },
+    "kalamar-tava": {
+      "hash": "7431771e321f74c4",
+      "bytes": 36690,
+      "thumbBytes": 8474,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1873497319,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/44094498@N03/6632175159",
+        "creator": "coolmikeol",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:24:13.498Z"
+    },
+    "karamel-milkshake": {
+      "hash": "5519ad2ac3f8c407",
+      "bytes": 23762,
+      "thumbBytes": 4674,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1597988214,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/57853375@N08/5409809821",
+        "creator": "joshwept",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:24:34.097Z"
+    },
+    "karamelli-dondurma": {
+      "hash": "6121992440a416e1",
+      "bytes": 26670,
+      "thumbBytes": 7022,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 362499892,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/24468935@N03/6989368477",
+        "creator": "razvan.orendovici",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:24:37.734Z"
+    },
+    "karides-izgara": {
+      "hash": "6f8493262e1c8cb0",
+      "bytes": 34646,
+      "thumbBytes": 9890,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1664116632,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/36521954194@N01/3178521250",
+        "creator": "[cipher]",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:24:43.097Z"
+    },
+    "karides-nigiri": {
+      "hash": "49b5b88826414d66",
+      "bytes": 27490,
+      "thumbBytes": 7530,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 338296667,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.rawpixel.com/image/6037178/photo-image-public-domain-tiger-food",
+        "creator": null,
+        "license": "CC CC0 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+      },
+      "generatedAt": "2026-10-10T01:24:45.623Z"
+    },
+    "karisik-izgara": {
+      "hash": "55227f0aadea22e5",
+      "bytes": 76788,
+      "thumbBytes": 13004,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 209313664,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/2475256277",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:25:06.846Z"
+    },
+    "karisik-kuruyemis": {
+      "hash": "c9aa654eeafe4367",
+      "bytes": 81088,
+      "thumbBytes": 12208,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 723822923,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/45032885@N04/4415406430",
+        "creator": "s58y",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:25:23.408Z"
+    },
+    "karisik-soguk-meze-tabagi": {
+      "hash": "392724bf8367c4d5",
+      "bytes": 51700,
+      "thumbBytes": 10638,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1031724984,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/71959942@N00/858974063",
+        "creator": "Francis Barton",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:25:44.622Z"
+    },
+    "karpuz-bubble-tea": {
+      "hash": "a7a3a5623380a87a",
+      "bytes": 14436,
+      "thumbBytes": 3736,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 461567992,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/15109233@N00/7529699768",
+        "creator": "DeepBluC",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:25:54.702Z"
+    },
+    "kasarli-tost": {
+      "hash": "e1a0520f9d607906",
+      "bytes": 20028,
+      "thumbBytes": 5812,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1975740675,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/36251685@N00/4692864192",
+        "creator": "Br3nda",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:26:48.141Z"
+    },
+    "kis-cayi": {
+      "hash": "901be089b449fa87",
+      "bytes": 17216,
+      "thumbBytes": 4752,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 155078491,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/48326903@N06/31868169113",
+        "creator": "Ka `",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:27:37.714Z"
+    },
+    "kiymali-gozleme": {
+      "hash": "7bb24d6883794ee9",
+      "bytes": 42230,
+      "thumbBytes": 12354,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1885897628,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/93641148@N03/8534995760",
+        "creator": "AntonPree",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:27:43.493Z"
+    },
+    "kizarmis-ekmek-sepeti": {
+      "hash": "210267d0e6969db8",
+      "bytes": 37394,
+      "thumbBytes": 9068,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 613697863,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/55231259@N00/6818358609",
+        "creator": "futureshape",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:27:59.410Z"
+    },
+    "klasik-burger": {
+      "hash": "8d7384b9e623a235",
+      "bytes": 47140,
+      "thumbBytes": 11134,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1482739518,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/57902140@N08/5635059129",
+        "creator": "Shreveport-Bossier: Louisiana's Other Side",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:28:03.291Z"
+    },
+    "kofteli-spaghetti": {
+      "hash": "3b78651e2a3ccf8f",
+      "bytes": 28950,
+      "thumbBytes": 8106,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 442172512,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/39714654@N07/5953485010",
+        "creator": "Unsound Media",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:28:39.380Z"
+    },
+    "korean-fried-chicken": {
+      "hash": "61f66a750e059458",
+      "bytes": 58276,
+      "thumbBytes": 15746,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1228781957,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/27119975@N00/8678525071",
+        "creator": "Edsel L",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:29:07.578Z"
+    },
+    "kozlenmis-biber": {
+      "hash": "4e3dd8b8a8758620",
+      "bytes": 67164,
+      "thumbBytes": 14266,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1721280451,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/82547169@N00/89364547",
+        "creator": "ella novak",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:30:21.158Z"
+    },
+    "kozlenmis-misir": {
+      "hash": "bf48d0c43472e83f",
+      "bytes": 59850,
+      "thumbBytes": 16368,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 480470790,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/63324741@N04/48286496447",
+        "creator": "spurekar",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:30:24.837Z"
+    },
+    "kozlenmis-patlican-salatasi": {
+      "hash": "b22bb6c6f11ac718",
+      "bytes": 31522,
+      "thumbBytes": 9246,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2019131899,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/3578599370",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:30:29.459Z"
+    },
+    "krem-karamel": {
+      "hash": "b53e4cdea34618a2",
+      "bytes": 19558,
+      "thumbBytes": 5696,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 304347860,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/8514720@N04/39557729461",
+        "creator": "fred_v",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:30:34.226Z"
+    },
+    "kremali-mantar-corbasi": {
+      "hash": "1ce901818428a6e1",
+      "bytes": 14508,
+      "thumbBytes": 4536,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 275220240,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35034346243@N01/1356543",
+        "creator": "stu_spivack",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:30:42.584Z"
+    },
+    "krep-suzette": {
+      "hash": "98be1892728918c0",
+      "bytes": 29854,
+      "thumbBytes": 9008,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 15104957,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/23001639@N04/2220655887",
+        "creator": "Marcus Jeffrey",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:30:53.644Z"
+    },
+    "kung-pao-tavuk": {
+      "hash": "9f7c10d4cf5e32db",
+      "bytes": 62640,
+      "thumbBytes": 16300,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2063073853,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/58367355@N00/15697967854",
+        "creator": "jules:stonesoup",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:31:19.669Z"
+    },
+    "kurabiye-tabagi": {
+      "hash": "c05c40ee7b2dcd80",
+      "bytes": 75170,
+      "thumbBytes": 15004,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1587641182,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/18472724@N00/6553328415",
+        "creator": "MollySVH",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:31:27.678Z"
+    },
+    "kuru-baklava": {
+      "hash": "11b01020ffe0b68e",
+      "bytes": 23542,
+      "thumbBytes": 6358,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1048705612,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/3482667643",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:31:32.051Z"
+    },
+    "kuzu-incik": {
+      "hash": "771bb4b2776c1d69",
+      "bytes": 51310,
+      "thumbBytes": 14958,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 313825301,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/23876767@N00/945508815",
+        "creator": "gemsling",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:31:56.499Z"
+    },
+    "kuzu-pirzola": {
+      "hash": "d9f7ed740e6847fb",
+      "bytes": 42208,
+      "thumbBytes": 11590,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1620702184,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/55711655@N08/5674634678",
+        "creator": "manguzmo",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:32:05.785Z"
+    },
+    "kuzu-sis": {
+      "hash": "8439849849bd03a7",
+      "bytes": 48786,
+      "thumbBytes": 11950,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1255195217,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35034346243@N01/189501673",
+        "creator": "stu_spivack",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:32:07.410Z"
+    },
+    "lahana-sarma": {
+      "hash": "ef2eae375948a83b",
+      "bytes": 50082,
+      "thumbBytes": 12580,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1892154400,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/25239801202",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:32:13.205Z"
+    },
+    "lahmacun": {
+      "hash": "ff031a14c5a10db1",
+      "bytes": 127862,
+      "thumbBytes": 22958,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 701693748,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/51035724167@N01/6171761657",
+        "creator": "Dominik Schwind",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:32:15.748Z"
+    },
+    "lazanya": {
+      "hash": "1a62813608f42468",
+      "bytes": 31970,
+      "thumbBytes": 8598,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1129272821,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/31474531@N00/5413268570",
+        "creator": "plasticrevolver",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:32:40.773Z"
+    },
+    "leblebi": {
+      "hash": "4ef5c04b0bd4d0f0",
+      "bytes": 109252,
+      "thumbBytes": 23762,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 953257360,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/58367355@N00/5728960418",
+        "creator": "jules:stonesoup",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:32:40.072Z"
+    },
+    "lemon-drop-shot": {
+      "hash": "7046622fb90c8c62",
+      "bytes": 13380,
+      "thumbBytes": 3326,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 765621960,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/90155432@N02/10672823144",
+        "creator": "Thriving Vegetarian",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:32:44.765Z"
+    },
+    "levrek-izgara": {
+      "hash": "48318003c33a3c62",
+      "bytes": 25154,
+      "thumbBytes": 5546,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1506755742,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/19479358@N00/5367442065",
+        "creator": "KLGreenNYC",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:32:45.578Z"
+    },
+    "limonlu-cheesecake": {
+      "hash": "f0ce7b6989dc65a8",
+      "bytes": 41378,
+      "thumbBytes": 10114,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 404448003,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/87232391@N00/86579948",
+        "creator": "Charles Haynes",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:32:53.697Z"
+    },
+    "limonlu-kek": {
+      "hash": "cbb6d0d486d42283",
+      "bytes": 20660,
+      "thumbBytes": 6082,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 449860915,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/4371893485",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:33:01.779Z"
+    },
+    "limonlu-sorbe": {
+      "hash": "382d7d8218859431",
+      "bytes": 15938,
+      "thumbBytes": 3820,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 120970487,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/130723024@N03/19761414769",
+        "creator": "Lari Koponen",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:33:10.087Z"
+    },
+    "london-fog": {
+      "hash": "a7e9355f96ebb9ff",
+      "bytes": 27234,
+      "thumbBytes": 6424,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 391330471,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/56183874@N08/6287147411",
+        "creator": "Stephan Rosger",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:33:24.951Z"
+    },
+    "long-island-iced-tea": {
+      "hash": "4caa09a99e2a9d43",
+      "bytes": 18288,
+      "thumbBytes": 5356,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 90652921,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/29756225@N00/2671201912",
+        "creator": "Uninen",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:33:29.398Z"
+    },
+    "mac-and-cheese": {
+      "hash": "961b5bd02ae3c82a",
+      "bytes": 33010,
+      "thumbBytes": 9552,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 451170652,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/28531775@N06/4349686722",
+        "creator": "snowpea&bokchoi",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:34:03.925Z"
+    },
+    "mai-tai": {
+      "hash": "e8c3f7a6dbc352d3",
+      "bytes": 27374,
+      "thumbBytes": 8632,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 216269944,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/12508217@N08/7182106846",
+        "creator": "Sam Howzit",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:34:14.784Z"
+    },
+    "makaron": {
+      "hash": "9c8ef3db206dced8",
+      "bytes": 22718,
+      "thumbBytes": 5454,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1255381672,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10785432@N03/5172572319",
+        "creator": "Groume",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:34:16.222Z"
+    },
+    "mango-smoothie": {
+      "hash": "3d6ec41f3ea60a18",
+      "bytes": 26700,
+      "thumbBytes": 7980,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 959096070,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/150788323@N04/33908826224",
+        "creator": "EasyHealthySmoothie",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:34:33.315Z"
+    },
+    "mango-suyu": {
+      "hash": "f9b38394aeb4a977",
+      "bytes": 27208,
+      "thumbBytes": 8202,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 519330503,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/40998509@N02/8397119665",
+        "creator": "GinkgoTelegraph",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:34:40.155Z"
+    },
+    "mantar-corbasi": {
+      "hash": "840a14b953fd76c7",
+      "bytes": 24970,
+      "thumbBytes": 5500,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1060943091,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/25128194@N02/3725200253",
+        "creator": "Vegan Feast Catering",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:34:43.370Z"
+    },
+    "mantar-soslu-bonfile": {
+      "hash": "a95f5fcb28a4b36f",
+      "bytes": 35184,
+      "thumbBytes": 10096,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 794411114,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/3646892644",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:34:48.358Z"
+    },
+    "mantarli-kremali-makarna": {
+      "hash": "e1dfec44b6c91aa5",
+      "bytes": 32410,
+      "thumbBytes": 8970,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1039725973,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/4720978262",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:35:03.568Z"
+    },
+    "mantarli-omlet": {
+      "hash": "931770bd717545dd",
+      "bytes": 78542,
+      "thumbBytes": 13136,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 236385100,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/94643613@N00/23681844806",
+        "creator": "BruceMatsunaga",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:35:12.012Z"
+    },
+    "margarita": {
+      "hash": "dcbca61d31f7d9ec",
+      "bytes": 11320,
+      "thumbBytes": 3540,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2137464096,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/72949902@N00/5076907896",
+        "creator": "TheCulinaryGeek",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:35:22.927Z"
+    },
+    "masala-chai": {
+      "hash": "520aba801f0bda24",
+      "bytes": 30304,
+      "thumbBytes": 8186,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1730934607,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/21222022@N03/4700888947",
+        "creator": "karaemurphy",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:35:18.088Z"
+    },
+    "matcha-bubble-tea": {
+      "hash": "b0d40de6726b77e7",
+      "bytes": 13478,
+      "thumbBytes": 3402,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 782957884,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/23178876@N03/7660765558",
+        "creator": "cyclonebill",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:35:49.995Z"
+    },
+    "matcha-latte": {
+      "hash": "e6c55d7cef642f16",
+      "bytes": 47270,
+      "thumbBytes": 8974,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2058427536,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/3122544172",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:35:59.892Z"
+    },
+    "melisa-cayi": {
+      "hash": "7239b10451340949",
+      "bytes": 52088,
+      "thumbBytes": 14346,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 56490568,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/89060048@N03/16723546768",
+        "creator": "City Foodsters",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:36:10.993Z"
+    },
+    "mercimek-corbasi": {
+      "hash": "57846b77c0f92ba8",
+      "bytes": 34640,
+      "thumbBytes": 7974,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 223258635,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/8286199@N08/3210281474",
+        "creator": "bobjudge",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:36:25.911Z"
+    },
+    "mevsim-meyveleri": {
+      "hash": "166b90dfb0a5b55d",
+      "bytes": 20794,
+      "thumbBytes": 5926,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 242054237,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/79148003@N00/37623088800",
+        "creator": "NathalieSt",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:36:39.814Z"
+    },
+    "meyve-salatasi": {
+      "hash": "b6d4840aaff7ad2d",
+      "bytes": 46992,
+      "thumbBytes": 13428,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2018230428,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10563005@N06/3471292501",
+        "creator": "lori05871",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:36:55.131Z"
+    },
+    "meyve-tabagi": {
+      "hash": "662b344b08ae4a4c",
+      "bytes": 22644,
+      "thumbBytes": 5998,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1099949609,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/2139379360",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:36:54.747Z"
+    },
+    "meyveli-krep": {
+      "hash": "43165930e043623e",
+      "bytes": 46230,
+      "thumbBytes": 11650,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 947971022,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/87542849@N00/3264724745",
+        "creator": "kimberlykv",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:37:06.000Z"
+    },
+    "meyveli-pancake": {
+      "hash": "e9b09fd9a5aaffea",
+      "bytes": 29118,
+      "thumbBytes": 9120,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2057767664,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/54873598@N00/9189967622",
+        "creator": "Jaime Olmo",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:37:09.459Z"
+    },
+    "midye-dolma": {
+      "hash": "ddc4c14bdf4cce9e",
+      "bytes": 66172,
+      "thumbBytes": 13032,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 529022898,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/18658635@N00/5711620155",
+        "creator": "Patty OK",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:37:26.819Z"
+    },
+    "midye-tava": {
+      "hash": "65be570acfe8e36f",
+      "bytes": 60000,
+      "thumbBytes": 15292,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1621710521,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7633518@N08/45856988005",
+        "creator": "sarahstierch",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:37:29.158Z"
+    },
+    "milfoy-tatlisi": {
+      "hash": "7fdeca6dc4a5cfec",
+      "bytes": 33136,
+      "thumbBytes": 7764,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1082851507,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/64015205@N00/46035623",
+        "creator": "timtak",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:37:37.476Z"
+    },
+    "mini-pizza": {
+      "hash": "06c4e3671f5216c2",
+      "bytes": 32868,
+      "thumbBytes": 8722,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1517288773,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/97247234@N00/4090231796",
+        "creator": "Dennis Wong",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:37:54.915Z"
+    },
+    "mocha": {
+      "hash": "744cb4ba5670e67d",
+      "bytes": 21562,
+      "thumbBytes": 5810,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 795597357,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/96748294@N06/13014814655",
+        "creator": "Nickay3111",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:38:03.325Z"
+    },
+    "mojito": {
+      "hash": "6f58006f0f59f58d",
+      "bytes": 14302,
+      "thumbBytes": 3946,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2099584756,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/72949902@N00/5084101811",
+        "creator": "TheCulinaryGeek",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:38:09.609Z"
+    },
+    "moscow-mule": {
+      "hash": "c378c6973f08854a",
+      "bytes": 98922,
+      "thumbBytes": 17628,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 130161421,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/125112383@N06/33465488603",
+        "creator": "vwcampin",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:38:12.511Z"
+    },
+    "mozzarella-sticks": {
+      "hash": "7e99c06b26e916e8",
+      "bytes": 32870,
+      "thumbBytes": 8904,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 85015100,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/92329419@N00/3824617005",
+        "creator": "abbamouse",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:38:25.391Z"
+    },
+    "mushroom-swiss-burger": {
+      "hash": "a3b9d22ceb53cf31",
+      "bytes": 55124,
+      "thumbBytes": 12920,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 123985953,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/49326400@N00/6870386851",
+        "creator": "mosespreciado",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:38:43.721Z"
+    },
+    "muzlu-smoothie": {
+      "hash": "a54aca1c258fa697",
+      "bytes": 8842,
+      "thumbBytes": 2496,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 383349795,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/58367355@N00/394857344",
+        "creator": "jules:stonesoup",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:38:59.887Z"
+    },
+    "nachos": {
+      "hash": "d6801819f05aba17",
+      "bytes": 33432,
+      "thumbBytes": 10532,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 804821844,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/78011127@N00/4516996612",
+        "creator": "ginnerobot",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:39:03.599Z"
+    },
+    "naneli-limonata": {
+      "hash": "93c9c28201021ebf",
+      "bytes": 22844,
+      "thumbBytes": 5388,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 926914018,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/33993074@N00/9318580149",
+        "creator": "joyosity",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:39:10.967Z"
+    },
+    "nar-eksili-salata": {
+      "hash": "fbe518fc5d55401e",
+      "bytes": 69560,
+      "thumbBytes": 19818,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1116273793,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/80665970@N03/10286948625",
+        "creator": "simpleprovisions",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:39:24.534Z"
+    },
+    "nargile-blueberry": {
+      "hash": "ab5e1e5fd11fb8fe",
+      "bytes": 41050,
+      "thumbBytes": 12020,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 935663038,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/78153302@N00/257551906",
+        "creator": "brx0",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:39:37.574Z"
+    },
+    "nargile-bogurtlen": {
+      "hash": "7adf64c7bcde3f55",
+      "bytes": 44956,
+      "thumbBytes": 9192,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 201924470,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/73574411@N00/7444621308",
+        "creator": "jared_smith",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:39:56.443Z"
+    },
+    "nargile-cilek": {
+      "hash": "a387b91e6d2af3b8",
+      "bytes": 22148,
+      "thumbBytes": 6726,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1543493657,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/58450786@N05/7480544400",
+        "creator": "vanessa lollipop",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:40:08.291Z"
+    },
+    "nargile-karpuz": {
+      "hash": "6b5440d901576688",
+      "bytes": 38402,
+      "thumbBytes": 6864,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 218653457,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/43581314@N08/7553631828",
+        "creator": "timsackton",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:50:53.729Z"
+    },
+    "nargile-karpuz-nane": {
+      "hash": "0a00428a1352337d",
+      "bytes": 31276,
+      "thumbBytes": 8700,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 473432097,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/49889671@N03/6092886489",
+        "creator": "Didriks",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:51:55.949Z"
+    },
+    "nargile-kavun": {
+      "hash": "9e8f48725fc6ee15",
+      "bytes": 35838,
+      "thumbBytes": 9202,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1338661997,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/38712296@N07/4595692147",
+        "creator": "zigazou76",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T01:52:30.851Z"
+    },
+    "nargile-mango": {
+      "hash": "0c8979070dff8e99",
+      "bytes": 47546,
+      "thumbBytes": 13390,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1440736383,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/50445916@N00/227084493",
+        "creator": "robert and fabienne",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T02:10:44.888Z"
+    },
+    "nargile-seftali": {
+      "hash": "4cdf63e0b0ecbd03",
+      "bytes": 23280,
+      "thumbBytes": 4364,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 989833283,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/41517846@N08/4283993001",
+        "creator": "katiesw1",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T02:27:34.736Z"
+    },
+    "nargile-visne": {
+      "hash": "9a8d6dc386416b37",
+      "bytes": 21728,
+      "thumbBytes": 6470,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1211287358,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/98799884@N00/678762774",
+        "creator": "audreyjm529",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T03:26:16.174Z"
+    },
+    "negroni": {
+      "hash": "fc239acfc38a2ff3",
+      "bytes": 37276,
+      "thumbBytes": 10218,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 994611490,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/31027007@N08/33733845085",
+        "creator": "Wine Dharma",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T03:26:19.268Z"
+    },
+    "nugget": {
+      "hash": "6b954702e071c51e",
+      "bytes": 25452,
+      "thumbBytes": 6030,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1208655071,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/44124362019@N01/639108699",
+        "creator": "yoppy",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T03:28:27.805Z"
+    },
+    "oolong-cay": {
+      "hash": "cec16b28f5dca32c",
+      "bytes": 133518,
+      "thumbBytes": 31732,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 873255790,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/23851271@N00/1443377823",
+        "creator": "Mr Wabu",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T04:13:00.874Z"
+    },
+    "orgu-peyniri": {
+      "hash": "3d2ecb5002097757",
+      "bytes": 30554,
+      "thumbBytes": 5842,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 765110882,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/22768390@N00/3793579727",
+        "creator": "nikoretro",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T04:12:30.033Z"
+    },
+    "osmanli-serbeti": {
+      "hash": "ba6ded36cdddcd6f",
+      "bytes": 49810,
+      "thumbBytes": 12588,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1005946003,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/50958392@N00/14384435433",
+        "creator": "Hasan Basri AKIRMAK",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T04:14:45.607Z"
+    },
+    "pad-thai": {
+      "hash": "323ad5ac40f7263a",
+      "bytes": 97658,
+      "thumbBytes": 21838,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 29083847,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/156097806@N07/38383939511",
+        "creator": "NuCastiel",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T04:14:53.004Z"
+    },
+    "pancar-salatasi": {
+      "hash": "a4afe17ecf0b81ef",
+      "bytes": 23478,
+      "thumbBytes": 7206,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 508712964,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/55231259@N00/6818299173",
+        "creator": "futureshape",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T04:33:55.582Z"
+    },
+    "panna-cotta": {
+      "hash": "062730d5d105e443",
+      "bytes": 25624,
+      "thumbBytes": 7224,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1158161568,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/58862846@N00/353420626",
+        "creator": "Sebastian Mary",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T04:33:55.247Z"
+    },
+    "papatya-cayi": {
+      "hash": "54e2f75b6cd902ad",
+      "bytes": 42592,
+      "thumbBytes": 9164,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1772513376,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/29321726@N00/228714588",
+        "creator": "gwdexter",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T04:34:29.753Z"
+    },
+    "patates-kizartmasi": {
+      "hash": "4ed11cda88be7476",
+      "bytes": 43200,
+      "thumbBytes": 11588,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2059956327,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/16287002@N00/7433812616",
+        "creator": "Richard Allaway",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T07:06:16.443Z"
+    },
+    "patlamis-misir": {
+      "hash": "cb7f84dcf17a71b8",
+      "bytes": 56048,
+      "thumbBytes": 17246,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 881073533,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/72139255@N00/2145862702",
+        "creator": "veggiefrog",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T07:26:23.024Z"
+    },
+    "pavlova": {
+      "hash": "0698fd16fc32d83c",
+      "bytes": 38640,
+      "thumbBytes": 11434,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 127823829,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/96105360@N00/41591925",
+        "creator": "Maestro_AU",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T07:57:13.782Z"
+    },
+    "penne-pesto": {
+      "hash": "107925dc0d6e6092",
+      "bytes": 47552,
+      "thumbBytes": 10198,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 148655325,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/34883952@N02/5777925126",
+        "creator": "StuartWebster",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T07:57:26.133Z"
+    },
+    "peynirli-makarna": {
+      "hash": "4d92e9d669d0b506",
+      "bytes": 13930,
+      "thumbBytes": 3452,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 275422205,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/27469126@N00/2055877820",
+        "creator": "Pirate Alice",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T08:17:09.030Z"
+    },
+    "peynirli-mantar-dolmasi": {
+      "hash": "bbdae0830b0c1dee",
+      "bytes": 65946,
+      "thumbBytes": 15164,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2044887323,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/25802865@N08/55025180342",
+        "creator": "chooyutshing",
+        "license": "CC PDM 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+      },
+      "generatedAt": "2026-10-10T08:17:10.133Z"
+    },
+    "peynirli-omlet": {
+      "hash": "9edf3ead326e4f7f",
+      "bytes": 71228,
+      "thumbBytes": 12964,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1782751157,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/32539604@N00/16024957891",
+        "creator": "Kakei.R",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T08:35:32.174Z"
+    },
+    "pizza-diavola": {
+      "hash": "cb8249114685b261",
+      "bytes": 113868,
+      "thumbBytes": 18692,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 106655604,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/48524258@N00/29833616111",
+        "creator": "rjw1",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T09:52:38.927Z"
+    },
+    "pizza-dort-peynirli": {
+      "hash": "6a698aa4eb24a623",
+      "bytes": 30292,
+      "thumbBytes": 8866,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 45356840,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/4166168830",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T09:52:48.716Z"
+    },
+    "pizza-hawaii": {
+      "hash": "5ba241f9779313ba",
+      "bytes": 52666,
+      "thumbBytes": 14764,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 51856376,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/91188380@N05/15452035777",
+        "creator": "elsie.hui",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T09:53:20.650Z"
+    },
+    "pizza-mantarli": {
+      "hash": "4e1ecda96169d6dc",
+      "bytes": 33432,
+      "thumbBytes": 10222,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2031050753,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/5032563365",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T09:54:26.796Z"
+    },
+    "pizza-margherita": {
+      "hash": "99217fc89930ea96",
+      "bytes": 33176,
+      "thumbBytes": 9136,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1696477446,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35034346243@N01/3630876286",
+        "creator": "stu_spivack",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T09:54:36.899Z"
+    },
+    "pizza-mexican": {
+      "hash": "e832fe7a0978453a",
+      "bytes": 118632,
+      "thumbBytes": 24480,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 830798209,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/133117136@N05/51697086906",
+        "creator": "dodopizzastory",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T09:54:53.077Z"
+    },
+    "pizza-pepperoni": {
+      "hash": "dea5be3726cfefa3",
+      "bytes": 36204,
+      "thumbBytes": 10856,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1848943225,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/61324768@N00/5101400206",
+        "creator": "crd!",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T09:55:37.990Z"
+    },
+    "pizza-pesto-tavuklu": {
+      "hash": "fdee65f9886f7f2f",
+      "bytes": 158656,
+      "thumbBytes": 24886,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1016981573,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://wordpress.org/photos/photo/511680f62e/",
+        "creator": "Bigul Malayi",
+        "license": "CC CC0 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+      },
+      "generatedAt": "2026-10-10T09:55:38.976Z"
+    },
+    "pizza-truf-mantarli": {
+      "hash": "2c9e284b3637bf75",
+      "bytes": 46088,
+      "thumbBytes": 13514,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1298253318,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/27119975@N00/17178719244",
+        "creator": "Edsel L",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T09:55:57.366Z"
+    },
+    "profiterol": {
+      "hash": "8ca8106fcff2ed33",
+      "bytes": 19720,
+      "thumbBytes": 4814,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 708991594,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/69668444@N03/12612871065",
+        "creator": "Migle Seikyte",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T10:55:21.548Z"
+    },
+    "quesadilla": {
+      "hash": "452939d119afeb10",
+      "bytes": 54236,
+      "thumbBytes": 14350,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1890768378,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/6043709990",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T10:44:16.443Z"
+    },
+    "raki-sour": {
+      "hash": "78578ff735f15cb4",
+      "bytes": 16676,
+      "thumbBytes": 4044,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 425193744,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/95786359@N05/8770440670",
+        "creator": "T.78UopXx",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T10:54:11.499Z"
+    },
+    "ravioli": {
+      "hash": "5cb00e9e8f806025",
+      "bytes": 65054,
+      "thumbBytes": 11634,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1362832669,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/11399912@N00/2315391883",
+        "creator": "basykes",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T10:55:11.170Z"
+    },
+    "red-velvet": {
+      "hash": "855372532229347b",
+      "bytes": 39346,
+      "thumbBytes": 6404,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 292046592,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/25257922@N07/2610840815",
+        "creator": "Southern Foodways Alliance",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T10:55:57.549Z"
+    },
+    "revani": {
+      "hash": "7eb9cb24d61aeaa0",
+      "bytes": 166502,
+      "thumbBytes": 26632,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 258346386,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/70253321@N00/3519235376",
+        "creator": "fugzu",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T10:55:59.750Z"
+    },
+    "rezene-cayi": {
+      "hash": "e0722b14d21c7c85",
+      "bytes": 17760,
+      "thumbBytes": 5348,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 387703329,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35468144810@N01/6305507082",
+        "creator": "Girl Interrupted Eating",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T10:56:14.465Z"
+    },
+    "rooibos-cayi": {
+      "hash": "64a2aa80e686fc6c",
+      "bytes": 6710,
+      "thumbBytes": 2022,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 274918035,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35237094214@N01/4211004783",
+        "creator": "plindberg",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T10:56:52.170Z"
+    },
+    "sac-kavurma-durum": {
+      "hash": "77d594ded0ad48a2",
+      "bytes": 35410,
+      "thumbBytes": 10044,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1342991058,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/54359128@N00/3010140566",
+        "creator": "Geoff Peters 604",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T10:57:21.822Z"
+    },
+    "sade-kruvasan": {
+      "hash": "a28fe37fbe42b180",
+      "bytes": 22764,
+      "thumbBytes": 5424,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2097637117,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/38142119@N00/54408180656",
+        "creator": "The Marmot",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T10:57:53.681Z"
+    },
+    "sahanda-yumurta": {
+      "hash": "2e57135d53a1a91a",
+      "bytes": 20486,
+      "thumbBytes": 4416,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 614696191,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/22937701@N00/5313353035",
+        "creator": "MattHurst",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T10:58:24.446Z"
+    },
+    "sakizli-muhallebi": {
+      "hash": "a35b875687ef7f37",
+      "bytes": 73566,
+      "thumbBytes": 14796,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 683913835,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/57866029@N00/53665858784",
+        "creator": "Abdulla Al Muhairi",
+        "license": "CC CC0 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+      },
+      "generatedAt": "2026-10-10T10:58:23.357Z"
+    },
+    "salted-caramel-latte": {
+      "hash": "e13aad8e34ae343b",
+      "bytes": 35652,
+      "thumbBytes": 9030,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 174808150,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/28520161@N06/3552527785",
+        "creator": "ESS3969",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T10:59:11.619Z"
+    },
+    "san-sebastian-cheesecake": {
+      "hash": "bf0ac52f75fef272",
+      "bytes": 13926,
+      "thumbBytes": 4730,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1090157709,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/183168244@N06/54401033261",
+        "creator": "tanja-mueller.eu",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T10:59:29.562Z"
+    },
+    "sarimsakli-ekmek": {
+      "hash": "4e5e8c445465804a",
+      "bytes": 29576,
+      "thumbBytes": 6884,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 126435777,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/58246614@N00/3008052276",
+        "creator": "mdid",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:01:03.848Z"
+    },
+    "sariyer-boregi": {
+      "hash": "698113e6578e2e64",
+      "bytes": 32624,
+      "thumbBytes": 9216,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1776349240,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/69455149@N00/3851743531",
+        "creator": "pterjan",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:01:18.985Z"
+    },
+    "sebze-corbasi": {
+      "hash": "ccbadedec8c7b4ee",
+      "bytes": 18386,
+      "thumbBytes": 4972,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1800217741,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/26242865@N04/4424028697",
+        "creator": "Katrin Gilger",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:01:51.160Z"
+    },
+    "seftali-suyu": {
+      "hash": "80323f5188135d38",
+      "bytes": 32452,
+      "thumbBytes": 6656,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1751752844,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/24183489@N00/193165297",
+        "creator": "gadl",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:04:03.707Z"
+    },
+    "sex-on-the-beach": {
+      "hash": "e10684ef6b8bfb28",
+      "bytes": 8906,
+      "thumbBytes": 2100,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1973791807,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/34883952@N02/4217128164",
+        "creator": "StuartWebster",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:04:39.358Z"
+    },
+    "sicak-cikolata": {
+      "hash": "141c743a10fc7e08",
+      "bytes": 61382,
+      "thumbBytes": 9658,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 7150015,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/18090920@N07/16277789881",
+        "creator": "Sean MacEntee",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:05:38.590Z"
+    },
+    "sicak-sut": {
+      "hash": "2089e5958dc1c719",
+      "bytes": 12498,
+      "thumbBytes": 3476,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 319216511,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/2311644793",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:06:09.889Z"
+    },
+    "sigara-boregi": {
+      "hash": "698113e6578e2e64",
+      "bytes": 32624,
+      "thumbBytes": 9216,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 820896584,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/69455149@N00/3851743531",
+        "creator": "pterjan",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:06:23.413Z"
+    },
+    "simit": {
+      "hash": "2fa237f9ff662b42",
+      "bytes": 138144,
+      "thumbBytes": 24358,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 577381929,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/28395560@N06/4000871434",
+        "creator": "drivoit",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:06:39.677Z"
+    },
+    "sogan-halkasi": {
+      "hash": "6080c9bb8f07bdaf",
+      "bytes": 61336,
+      "thumbBytes": 12124,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 154576666,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/7672333050",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:11:48.639Z"
+    },
+    "sogan-kebabi": {
+      "hash": "74d8899793b90c48",
+      "bytes": 112858,
+      "thumbBytes": 24462,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 921128307,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/46944656@N00/155147995",
+        "creator": "Samer Farha",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:10:07.660Z"
+    },
+    "soguk-demleme-cay": {
+      "hash": "8dca52bec1e79fe4",
+      "bytes": 38160,
+      "thumbBytes": 8626,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1284872453,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/92836650@N05/27043674170",
+        "creator": "ありわかだ．．．",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:12:16.469Z"
+    },
+    "soguk-turk-kahvesi": {
+      "hash": "920c3c7a6ebd540b",
+      "bytes": 26008,
+      "thumbBytes": 6424,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1368395266,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/25977089@N00/14723130287",
+        "creator": "goblinbox_(queen_of_ad_hoc_bento)",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:12:42.594Z"
+    },
+    "somon-izgara": {
+      "hash": "2a554b5744f66b50",
+      "bytes": 34048,
+      "thumbBytes": 8554,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 159396193,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/34128007@N04/15950616571",
+        "creator": "Prayitno / Thank you for (12 millions +) view",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:13:08.218Z"
+    },
+    "somon-nigiri": {
+      "hash": "a2cb6d9e4366ff34",
+      "bytes": 93376,
+      "thumbBytes": 17618,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1584167532,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7633518@N08/46034634724",
+        "creator": "sarahstierch",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:13:24.845Z"
+    },
+    "somon-sashimi": {
+      "hash": "fb8d58a1024e3932",
+      "bytes": 36520,
+      "thumbBytes": 9228,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 8566332,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/12832970@N00/4776576528",
+        "creator": "naotakem",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:13:30.299Z"
+    },
+    "somonlu-salata": {
+      "hash": "d4ba59db0392920a",
+      "bytes": 53658,
+      "thumbBytes": 13896,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 851256190,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/74105777@N00/200944451",
+        "creator": "adactio",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:13:56.371Z"
+    },
+    "somonlu-tagliatelle": {
+      "hash": "b0875664d2a4dd68",
+      "bytes": 39946,
+      "thumbBytes": 12140,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 964417809,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/45488928@N00/49765612018",
+        "creator": "Cristiano Betta",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:13:56.699Z"
+    },
+    "somun-ekmek": {
+      "hash": "a8f92269eaf15218",
+      "bytes": 41482,
+      "thumbBytes": 10122,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1239229495,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/74534949@N00/20434043136",
+        "creator": "Eljay",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:14:28.260Z"
+    },
+    "sosisli-patates": {
+      "hash": "f8564f424bda5bd7",
+      "bytes": 42132,
+      "thumbBytes": 9460,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 722765232,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/81497476@N00/51974271962",
+        "creator": "nakashi",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:14:58.626Z"
+    },
+    "sosisli-sandvic": {
+      "hash": "13c447ecda675435",
+      "bytes": 34516,
+      "thumbBytes": 8542,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1247788939,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/58819758@N00/2525868128",
+        "creator": "arnold | inuyaki",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:15:50.654Z"
+    },
+    "spaghetti-bolognese": {
+      "hash": "e183dc76fbc3fb0a",
+      "bytes": 39942,
+      "thumbBytes": 9154,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1856479718,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/2145112149",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:16:08.746Z"
+    },
+    "spaghetti-carbonara": {
+      "hash": "7ae786b4684f4f15",
+      "bytes": 39290,
+      "thumbBytes": 11750,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 489167921,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/20220415350",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:16:13.558Z"
+    },
+    "spaghetti-napoliten": {
+      "hash": "872710e7b2e6ff03",
+      "bytes": 38038,
+      "thumbBytes": 10774,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2006125247,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/54549113@N00/14871224486",
+        "creator": "Haydn Blackey",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:16:41.201Z"
+    },
+    "spanish-latte": {
+      "hash": "5a13a08854df3475",
+      "bytes": 17070,
+      "thumbBytes": 5022,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2029224250,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/80403443@N00/37434595",
+        "creator": "tiarescott",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:16:42.185Z"
+    },
+    "spring-roll": {
+      "hash": "2756814e240c6c81",
+      "bytes": 38052,
+      "thumbBytes": 10320,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1164756618,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/7217579892",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:18:21.274Z"
+    },
+    "striploin-steak": {
+      "hash": "118235181b4cadbf",
+      "bytes": 115788,
+      "thumbBytes": 22794,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1714850105,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/32031278@N03/34480385451",
+        "creator": "debbietingzon",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:19:49.063Z"
+    },
+    "sucuk-ekmek": {
+      "hash": "ae658b1f1e5e966c",
+      "bytes": 38278,
+      "thumbBytes": 10948,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2056685285,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/4008245596",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:22:06.636Z"
+    },
+    "sucuklu-kasarli-tost": {
+      "hash": "aee8213fe40dee98",
+      "bytes": 27700,
+      "thumbBytes": 8040,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1715304847,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/4981183523",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:22:49.932Z"
+    },
+    "sufle": {
+      "hash": "fe3896272122246b",
+      "bytes": 49218,
+      "thumbBytes": 10274,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1998071863,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35237094214@N01/2201990579",
+        "creator": "plindberg",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:23:50.931Z"
+    },
+    "sunrise-mocktail": {
+      "hash": "e1f4b4ecaca3d843",
+      "bytes": 13834,
+      "thumbBytes": 4046,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1910595998,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/23635617@N03/3068430634",
+        "creator": "Beatnik Photos",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:25:04.310Z"
+    },
+    "sushi-set-16-parca": {
+      "hash": "e380123b4564281a",
+      "bytes": 54710,
+      "thumbBytes": 10452,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 530283827,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/103414654@N05/10590555284",
+        "creator": "Yuri Samoilov Photo",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:25:07.721Z"
+    },
+    "sutlac": {
+      "hash": "bdc5197e0b6289a9",
+      "bytes": 92360,
+      "thumbBytes": 13306,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1928424820,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/53190938@N06/7715635904",
+        "creator": "İnci Mercan",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:25:33.248Z"
+    },
+    "sutlu-cay": {
+      "hash": "0adb229048c0e7c4",
+      "bytes": 34336,
+      "thumbBytes": 7492,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1062304283,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/42453902@N00/2240821779",
+        "creator": "David de la Luz H.",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:25:51.220Z"
+    },
+    "sutlu-kakao": {
+      "hash": "d71ce268c39426ba",
+      "bytes": 24954,
+      "thumbBytes": 7204,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 904093726,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/33904751@N04/5282306724",
+        "creator": "thepinkpeppercorn",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:25:55.013Z"
+    },
+    "suzme-mercimek-corbasi": {
+      "hash": "57846b77c0f92ba8",
+      "bytes": 34640,
+      "thumbBytes": 7974,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 679623609,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/8286199@N08/3210281474",
+        "creator": "bobjudge",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:29:06.261Z"
+    },
+    "sweet-and-sour-chicken": {
+      "hash": "a3ef7e75a12fe284",
+      "bytes": 42198,
+      "thumbBytes": 11604,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 961391345,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/28531775@N06/4311754642",
+        "creator": "snowpea&bokchoi",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:26:47.712Z"
+    },
+    "t-bone-steak": {
+      "hash": "8f15aa51d54064a7",
+      "bytes": 39174,
+      "thumbBytes": 9934,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1428372651,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/49215102@N00/7231450624",
+        "creator": "goodiesfirst",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:27:57.288Z"
+    },
+    "tabule": {
+      "hash": "a6bfff14fab89a33",
+      "bytes": 61712,
+      "thumbBytes": 16410,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1874638878,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/23178876@N03/2548028515",
+        "creator": "cyclonebill",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:28:17.084Z"
+    },
+    "tahin-helvasi": {
+      "hash": "089eb91e3c05d4bf",
+      "bytes": 63076,
+      "thumbBytes": 13924,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1161456290,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/38559542@N02/4052386064",
+        "creator": "La.Catholique",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:28:30.845Z"
+    },
+    "tam-bugday-ekmegi": {
+      "hash": "56f07842c5b5b6c9",
+      "bytes": 69728,
+      "thumbBytes": 16482,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2134541093,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/31104779@N02/5656956353",
+        "creator": "Veganbaking.net",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:29:37.736Z"
+    },
+    "tam-bugday-sandvic-tavuklu": {
+      "hash": "bc57940f4006f9de",
+      "bytes": 36854,
+      "thumbBytes": 8916,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 121450021,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35034346243@N01/8712425260",
+        "creator": "stu_spivack",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:30:31.639Z"
+    },
+    "tarcinli-kurabiye": {
+      "hash": "5f8e7f842f4f8217",
+      "bytes": 35250,
+      "thumbBytes": 9168,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1665106107,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/53190938@N06/9797774584",
+        "creator": "İnci Mercan",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:30:41.359Z"
+    },
+    "taro-bubble-tea": {
+      "hash": "159b5d03a4a674c8",
+      "bytes": 13992,
+      "thumbBytes": 3918,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1496274049,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/49215102@N00/5394359603",
+        "creator": "goodiesfirst",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:30:56.426Z"
+    },
+    "tas-kebabi": {
+      "hash": "29dea80588b377e1",
+      "bytes": 25780,
+      "thumbBytes": 8100,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1455996188,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/28531775@N06/4866382196",
+        "creator": "snowpea&bokchoi",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:30:56.230Z"
+    },
+    "tavuk-burger": {
+      "hash": "65aa68e666b8820e",
+      "bytes": 40296,
+      "thumbBytes": 10852,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 378164143,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/36093266@N06/8277316356",
+        "creator": "Ari Helminen",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:31:08.291Z"
+    },
+    "tavuk-iskender": {
+      "hash": "a279b573fc904aed",
+      "bytes": 66600,
+      "thumbBytes": 13068,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1889912828,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35034346243@N01/1547841375",
+        "creator": "stu_spivack",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:32:02.544Z"
+    },
+    "tavuk-kanat-izgara": {
+      "hash": "a44e47522b47bfd8",
+      "bytes": 38202,
+      "thumbBytes": 11326,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 856750975,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/4372774194",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:32:03.184Z"
+    },
+    "tavuk-sis": {
+      "hash": "11bd72af80b00d53",
+      "bytes": 49506,
+      "thumbBytes": 14462,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1971636341,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/53442856@N06/7668715414",
+        "creator": "Valters Krontals",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:33:50.337Z"
+    },
+    "tavuk-sis-durum": {
+      "hash": "d4e432dd9bac1c69",
+      "bytes": 29256,
+      "thumbBytes": 9206,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1736065950,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/17152247@N00/8572495203",
+        "creator": "kennejima",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:33:26.994Z"
+    },
+    "tavuk-snitzel": {
+      "hash": "9b609e95c5570f89",
+      "bytes": 55640,
+      "thumbBytes": 15508,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2092858695,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/12915607034",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:33:46.544Z"
+    },
+    "tavuk-steak": {
+      "hash": "fc3b4be4b6cacc91",
+      "bytes": 32508,
+      "thumbBytes": 9246,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 979466587,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/36206937@N02/3649822984",
+        "creator": "monirquazi",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:34:02.254Z"
+    },
+    "tavuklu-kizarmis-pilav": {
+      "hash": "6a721896543cb460",
+      "bytes": 57932,
+      "thumbBytes": 16332,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1666217025,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/51930963@N02/5776792747",
+        "creator": "Calgary Reviews",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:35:03.393Z"
+    },
+    "tavuklu-noodle": {
+      "hash": "0cbf42eed149c3b6",
+      "bytes": 59890,
+      "thumbBytes": 17266,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1080011641,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/6364178931",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:35:45.062Z"
+    },
+    "tavuklu-penne": {
+      "hash": "6b7803935ad70005",
+      "bytes": 27700,
+      "thumbBytes": 8822,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1267421606,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/54359128@N00/3374729757",
+        "creator": "Geoff Peters 604",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:36:07.038Z"
+    },
+    "tavuklu-ramen": {
+      "hash": "fe42aa3f1d7bed32",
+      "bytes": 36886,
+      "thumbBytes": 8890,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 315050509,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/193353181@N06/51387120869",
+        "creator": "midnightbreakfastcafe",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:37:53.223Z"
+    },
+    "tavuklu-sezar-salata": {
+      "hash": "462b2b2738d4984c",
+      "bytes": 61264,
+      "thumbBytes": 14346,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1942988523,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/521246021",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:37:15.662Z"
+    },
+    "taze-ananas-suyu": {
+      "hash": "21d88705ea243bc2",
+      "bytes": 31860,
+      "thumbBytes": 8386,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 697725070,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35297772@N00/14006604761",
+        "creator": "Rob.Bertholf",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:38:47.693Z"
+    },
+    "taze-elma-suyu": {
+      "hash": "44043ca53c5890f9",
+      "bytes": 23364,
+      "thumbBytes": 6674,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 295264260,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/147875007@N03/45739251042",
+        "creator": "Rawpixel Ltd",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:38:27.670Z"
+    },
+    "taze-havuc-suyu": {
+      "hash": "0ace0fb5c91e9778",
+      "bytes": 34898,
+      "thumbBytes": 5840,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 290847367,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/58912424@N06/8608485347",
+        "creator": "aurorami",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:39:11.873Z"
+    },
+    "taze-karisik-meyve-suyu": {
+      "hash": "11276c82e74d1113",
+      "bytes": 17406,
+      "thumbBytes": 5212,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 316204619,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/33772123@N03/3444207913",
+        "creator": "Matthias Rhomberg",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:39:27.883Z"
+    },
+    "taze-portakal-suyu": {
+      "hash": "bef165db95d7d2bc",
+      "bytes": 15686,
+      "thumbBytes": 4636,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 602152904,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/33878790@N07/8394247611",
+        "creator": "Daniel Wehner",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:40:40.532Z"
+    },
+    "tereyagi": {
+      "hash": "f09ab1c6aad37e73",
+      "bytes": 35210,
+      "thumbBytes": 6120,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 121126136,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/66992990@N00/4819375090",
+        "creator": "Joanna Bourne",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:42:45.394Z"
+    },
+    "testi-kebabi": {
+      "hash": "68170d5b16a1ce22",
+      "bytes": 39198,
+      "thumbBytes": 10080,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 337971367,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/11121785@N00/5356817855",
+        "creator": "Tracy Hunter",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:43:10.614Z"
+    },
+    "thai-green-curry": {
+      "hash": "04cb687f46bd2d75",
+      "bytes": 35096,
+      "thumbBytes": 9622,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 793123487,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/97844767@N00/3814272817",
+        "creator": "WordRidden",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:43:25.252Z"
+    },
+    "thai-tea": {
+      "hash": "1add39573b3752e3",
+      "bytes": 25908,
+      "thumbBytes": 5598,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1656690730,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/89745292@N00/50212945761",
+        "creator": "Jose Nicdao",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:43:44.559Z"
+    },
+    "tiramisu-latte": {
+      "hash": "f8fd9c200cdc90cc",
+      "bytes": 27678,
+      "thumbBytes": 5744,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 470968008,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/20424426@N00/3615431915",
+        "creator": "jbrisch",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:45:30.446Z"
+    },
+    "tom-yum-corbasi": {
+      "hash": "a6e10b0a17c59ba1",
+      "bytes": 63972,
+      "thumbBytes": 14798,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 487580990,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/74105777@N00/192069451",
+        "creator": "adactio",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:45:46.613Z"
+    },
+    "tomahawk-steak": {
+      "hash": "403463ab408c9509",
+      "bytes": 44498,
+      "thumbBytes": 10682,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 85401149,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/49215102@N00/9406298072",
+        "creator": "goodiesfirst",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:45:49.873Z"
+    },
+    "ton-baligi-nigiri": {
+      "hash": "28f5acdfc90faf10",
+      "bytes": 21814,
+      "thumbBytes": 5914,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 892874351,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/2648979899",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:46:04.148Z"
+    },
+    "ton-balikli-sandvic": {
+      "hash": "4c9e2feed922ead7",
+      "bytes": 27562,
+      "thumbBytes": 7510,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1403828331,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/31696772@N00/87453530",
+        "creator": "RatRanch",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:46:44.569Z"
+    },
+    "tortilla-cips-salsa": {
+      "hash": "d049d25b6d5ec6fb",
+      "bytes": 48188,
+      "thumbBytes": 11242,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 134878618,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/7927684@N03/6637805197",
+        "creator": "jeffreyw",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:46:35.222Z"
+    },
+    "turk-kahvesi": {
+      "hash": "889f83f7cca9f076",
+      "bytes": 92676,
+      "thumbBytes": 21048,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1605474437,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/97844767@N00/14245350315",
+        "creator": "WordRidden",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:47:21.126Z"
+    },
+    "tuzda-levrek": {
+      "hash": "cfa1a205fa40248e",
+      "bytes": 131650,
+      "thumbBytes": 25542,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1724792400,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/75921150@N00/5946972308",
+        "creator": "AVID Vines",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:47:46.758Z"
+    },
+    "uc-peynirli-tost": {
+      "hash": "aee8213fe40dee98",
+      "bytes": 27700,
+      "thumbBytes": 8040,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 678321313,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10559879@N00/4981183523",
+        "creator": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:47:58.272Z"
+    },
+    "uc-top-dondurma": {
+      "hash": "c38b6a4fb2f77de4",
+      "bytes": 28332,
+      "thumbBytes": 7934,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1560126506,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/27284887@N03/5455193200",
+        "creator": "seafaringwoman",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:48:10.706Z"
+    },
+    "un-helvasi": {
+      "hash": "089eb91e3c05d4bf",
+      "bytes": 63076,
+      "thumbBytes": 13924,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 710547390,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/38559542@N02/4052386064",
+        "creator": "La.Catholique",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:48:07.696Z"
+    },
+    "v60": {
+      "hash": "e6d1ed24348435bb",
+      "bytes": 13750,
+      "thumbBytes": 4324,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 136247907,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/195403219@N08/52201071566",
+        "creator": "markolaz",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:48:34.665Z"
+    },
+    "vanilyali-milkshake": {
+      "hash": "8ea58bd68e45ba9a",
+      "bytes": 12076,
+      "thumbBytes": 3118,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1866875609,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/10581108@N00/3500380742",
+        "creator": "jencu",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:49:52.972Z"
+    },
+    "vegan-burger": {
+      "hash": "b8ff6b40f25c825b",
+      "bytes": 117188,
+      "thumbBytes": 17560,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2089918549,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/82179181@N04/19831506242",
+        "creator": "YellowGreenFarmersMarket",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:50:04.630Z"
+    },
+    "vegan-domatesli-spaghetti": {
+      "hash": "11c0146fa29ff972",
+      "bytes": 39848,
+      "thumbBytes": 9838,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1269559226,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35022955@N06/5039910111",
+        "creator": "Lablascovegmenu",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:50:18.002Z"
+    },
+    "vegan-sebzeli-wrap": {
+      "hash": "579d4ded8c7e9b1c",
+      "bytes": 39068,
+      "thumbBytes": 8026,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 855349939,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/25128194@N02/3310697872",
+        "creator": "Vegan Feast Catering",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:50:50.011Z"
+    },
+    "visne-cayi": {
+      "hash": "e0debe6398c1b48d",
+      "bytes": 25454,
+      "thumbBytes": 7664,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1220856777,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/67975030@N00/6809530420",
+        "creator": "Bernt Rostad",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:51:47.104Z"
+    },
+    "whiskey-sour": {
+      "hash": "88f1d9883a6d31d4",
+      "bytes": 25392,
+      "thumbBytes": 8120,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 980136525,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/49215102@N00/3437186488",
+        "creator": "goodiesfirst",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:52:05.461Z"
+    },
+    "white-mocha": {
+      "hash": "744cb4ba5670e67d",
+      "bytes": 21562,
+      "thumbBytes": 5810,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2094962176,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/96748294@N06/13014814655",
+        "creator": "Nickay3111",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:52:17.756Z"
+    },
+    "yaban-mersinli-cheesecake": {
+      "hash": "0beb7ad62be91f42",
+      "bytes": 26918,
+      "thumbBytes": 6852,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 519116381,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/78428166@N00/4179765491",
+        "creator": "Tobyotter",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:52:32.247Z"
+    },
+    "yaban-mersinli-muffin": {
+      "hash": "8809f6a9d6570d49",
+      "bytes": 28728,
+      "thumbBytes": 7428,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1706809693,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/22722986@N08/7590898848",
+        "creator": "balise42",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:52:54.830Z"
+    },
+    "yaprak-sarma": {
+      "hash": "a9789cb2c1c6f41a",
+      "bytes": 46190,
+      "thumbBytes": 11422,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1774339366,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/47943919@N07/6789271976",
+        "creator": "topsyntages.gr",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:52:58.353Z"
+    },
+    "yasemin-cayi": {
+      "hash": "67030f33cbbe3025",
+      "bytes": 52646,
+      "thumbBytes": 14414,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1671001216,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/95142644@N00/8658148091",
+        "creator": "Ruth and Dave",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:53:31.066Z"
+    },
+    "yesil-cay": {
+      "hash": "0b2ca6aa26c5bfda",
+      "bytes": 23104,
+      "thumbBytes": 5934,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1361521911,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/56796376@N00/140902695",
+        "creator": "mckaysavage",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:53:59.311Z"
+    },
+    "yesil-cayli-nane": {
+      "hash": "c6a5a073d36e4e62",
+      "bytes": 18330,
+      "thumbBytes": 4844,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1698749351,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/96666162@N00/889412512",
+        "creator": "ali edwards",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:54:03.231Z"
+    },
+    "yesil-salata": {
+      "hash": "d794c6553e43010d",
+      "bytes": 42036,
+      "thumbBytes": 9820,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 31966333,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/58367355@N00/4906703866",
+        "creator": "jules:stonesoup",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:54:22.137Z"
+    },
+    "yesil-smoothie": {
+      "hash": "2b408fa7ce99797c",
+      "bytes": 18802,
+      "thumbBytes": 5486,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1171531366,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/21001756@N06/8761977445",
+        "creator": "Stacy Spensley",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:54:13.165Z"
+    },
+    "yogurtlu-kebap": {
+      "hash": "a279b573fc904aed",
+      "bytes": 66600,
+      "thumbBytes": 13068,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 205209828,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/35034346243@N01/1547841375",
+        "creator": "stu_spivack",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:54:34.000Z"
+    },
+    "yulaf-kasesi": {
+      "hash": "81e09569c14f2570",
+      "bytes": 46892,
+      "thumbBytes": 10114,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1342115192,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/14913305@N00/8850625256",
+        "creator": "Chris Hunkeler",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:54:52.655Z"
+    },
+    "yulafli-pancake": {
+      "hash": "5902e680d5511e1f",
+      "bytes": 38316,
+      "thumbBytes": 8468,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 874037111,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/75231152@N00/8047295823",
+        "creator": "kae71463",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:54:53.372Z"
+    },
+    "yunan-salatasi": {
+      "hash": "f44024d95d17c524",
+      "bytes": 37370,
+      "thumbBytes": 9370,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2055753727,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/79022843@N00/275312852",
+        "creator": "Nicolas Lannuzel",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:55:03.614Z"
+    },
+    "zeytin-porsiyon": {
+      "hash": "1a818aaef51206aa",
+      "bytes": 17608,
+      "thumbBytes": 5174,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1894282790,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/37054091@N06/5622055101",
+        "creator": "CeresB",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:55:38.195Z"
+    },
+    "zeytin-tabagi": {
+      "hash": "524f6c44b65b695b",
+      "bytes": 44882,
+      "thumbBytes": 10012,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2136376874,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/22768390@N00/3774240013",
+        "creator": "nikoretro",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:55:42.721Z"
+    },
+    "zeytinyagli-bakla": {
+      "hash": "8fc24460ed50cec0",
+      "bytes": 46208,
+      "thumbBytes": 13930,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 780481319,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/97844767@N00/4745617997",
+        "creator": "WordRidden",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:55:57.237Z"
+    },
+    "zeytinyagli-enginar-dolmasi": {
+      "hash": "b2f0d9a61d8aeedb",
+      "bytes": 45090,
+      "thumbBytes": 11768,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1037763999,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/15450567@N04/4452153013",
+        "creator": "Chuck.falzone",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:57:12.325Z"
+    },
+    "zeytinyagli-kabak": {
+      "hash": "8260a2bdc05f4342",
+      "bytes": 35478,
+      "thumbBytes": 8966,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 1613073641,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/28970677@N04/4396546608",
+        "creator": "dailyfood",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:57:15.612Z"
+    },
+    "zeytinyagli-pirasa": {
+      "hash": "21e33f52c0c7ebad",
+      "bytes": 51376,
+      "thumbBytes": 12884,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 115817678,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/8514720@N04/6743640519",
+        "creator": "fred_v",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:57:30.483Z"
+    },
+    "zeytinyagli-taze-fasulye": {
+      "hash": "cb7558c26e3f8a2c",
+      "bytes": 32326,
+      "thumbBytes": 9666,
+      "backend": "stock",
+      "model": "openverse+gemini-judge",
+      "promptVersion": 1,
+      "seed": 2064333239,
+      "credit": {
+        "source": "openverse",
+        "source_url": "https://www.flickr.com/photos/15131913@N00/3209138696",
+        "creator": "rpongsaj",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "generatedAt": "2026-10-10T11:57:37.258Z"
+    }
+  },
+  "cloudflare": {
+    "neurons": {}
+  }
+}

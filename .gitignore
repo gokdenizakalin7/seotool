@@ -84,3 +84,7 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Katalog görsel üretimi çalışma dosyaları
+scripts/catalog-images/.work/
+!.env.example

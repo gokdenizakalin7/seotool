@@ -1,0 +1,317 @@
+{
+  "efes-pilsen-33cl": {
+    "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "efes-pilsen-50cl": {
+    "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "efes-malt-50cl": {
+    "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "efes-ozel-seri-50cl": {
+    "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "tuborg-gold-50cl": {
+    "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "bomonti-50cl": {
+    "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "bomonti-filtresiz-50cl": {
+    "subject": "a tall glass of cloudy unfiltered wheat beer with foam, plain unlabeled bottle",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "corona-extra": {
+    "subject": "a clear glass bottle-shaped glass of pale lager with a lime wedge, plain unlabeled bottle",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "heineken-33cl": {
+    "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "miller-genuine-draft-33cl": {
+    "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "carlsberg-33cl": {
+    "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "guinness-draught-44cl": {
+    "subject": "a pint glass of dark stout beer with a creamy head, plain unlabeled glass",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "efes-alkolsuz-33cl": {
+    "subject": "a tall glass of cold pale beer with foam, plain unlabeled bottle",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "tekirdag-rakisi-35cl": {
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, plain unlabeled bottle, small meze plates",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "tekirdag-rakisi-70cl": {
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, plain unlabeled bottle, small meze plates",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "tekirdag-altin-seri-35cl": {
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, plain unlabeled bottle, small meze plates",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "beylerbeyi-gobek-35cl": {
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, plain unlabeled bottle, small meze plates",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "kavaklidere-yakut-sise": {
+    "subject": "a glass of red wine beside a plain unlabeled dark bottle, soft warm light",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "kavaklidere-cankaya-sise": {
+    "subject": "a glass of chilled white wine beside a plain unlabeled bottle, condensation",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "kavaklidere-angora-kirmizi-sise": {
+    "subject": "a glass of red wine beside a plain unlabeled dark bottle, soft warm light",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "doluca-antik-kirmizi-sise": {
+    "subject": "a glass of red wine beside a plain unlabeled dark bottle, soft warm light",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "doluca-antik-beyaz-sise": {
+    "subject": "a glass of chilled white wine beside a plain unlabeled bottle, condensation",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "kayra-buzbag-sise": {
+    "subject": "a glass of red wine beside a plain unlabeled dark bottle, soft warm light",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "sevilen-isabey-sauvignon-blanc-sise": {
+    "subject": "a glass of chilled white wine beside a plain unlabeled bottle, condensation",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "kavaklidere-lal-roze-sise": {
+    "subject": "a glass of chilled rosé wine beside a plain unlabeled bottle",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "jack-daniels": {
+    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "jameson": {
+    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "chivas-regal-12": {
+    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "johnnie-walker-red-label": {
+    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "johnnie-walker-black-label": {
+    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "glenfiddich-12": {
+    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "macallan-12": {
+    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "absolut-votka": {
+    "subject": "a short glass of clear vodka with ice, plain unlabeled frosted bottle softly out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "smirnoff-votka": {
+    "subject": "a short glass of clear vodka with ice, plain unlabeled frosted bottle softly out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "grey-goose-votka": {
+    "subject": "a short glass of clear vodka with ice, plain unlabeled frosted bottle softly out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "gordons-cin": {
+    "subject": "a gin and tonic in a balloon glass with ice, lime and juniper, plain unlabeled bottle out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "bombay-sapphire-cin": {
+    "subject": "a gin and tonic in a balloon glass with ice, lime and juniper, plain unlabeled bottle out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "bacardi-carta-blanca-rom": {
+    "subject": "a short glass of clear white rum with ice and mint, plain unlabeled bottle out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "captain-morgan-rom": {
+    "subject": "a short glass of golden rum with ice, plain unlabeled bottle out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "havana-club-7-rom": {
+    "subject": "a short glass of golden rum with ice, plain unlabeled bottle out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "olmeca-tekila": {
+    "subject": "a shot of tequila with lime wedge and salt, plain unlabeled bottle out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "jose-cuervo-tekila": {
+    "subject": "a shot of tequila with lime wedge and salt, plain unlabeled bottle out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "aperol": {
+    "subject": "a glass of bright orange aperitif with ice and an orange slice, plain unlabeled bottle out of focus",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "campari": {
+    "subject": "a glass of red bitter aperitif with ice and an orange slice, plain unlabeled bottle",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "martini-bianco": {
+    "subject": "a glass of white vermouth with ice and a lemon twist, plain unlabeled bottle",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "jagermeister": {
+    "subject": "a chilled shot glass of dark herbal liqueur, plain unlabeled green bottle",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "baileys": {
+    "subject": "a glass of creamy coffee liqueur over ice, plain unlabeled bottle",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "cointreau": {
+    "subject": "a small glass of clear orange liqueur with an orange peel, plain unlabeled bottle",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "jagermeister-shot": {
+    "subject": "a chilled shot glass of dark herbal liqueur on a dark bar counter",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "baby-guinness-shot": {
+    "subject": "a layered shot glass: dark coffee liqueur with a thin cream top, dark bar counter",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "red-bull": {
+    "subject": "a tall glass of sparkling golden energy drink with ice, plain unlabeled slim can beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "red-bull-sugarfree": {
+    "subject": "a tall glass of sparkling golden energy drink with ice, plain unlabeled slim can beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "monster-energy": {
+    "subject": "a tall glass of sparkling green energy drink with ice, plain unlabeled black can",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "burn": {
+    "subject": "a tall glass of sparkling golden energy drink with ice, plain unlabeled slim can beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "kola": {
+    "subject": "a tall glass of cola with ice and a lemon slice, condensation, plain unlabeled glass bottle beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "kola-light": {
+    "subject": "a tall glass of cola with ice, condensation, plain unlabeled silver can beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "kola-zero": {
+    "subject": "a tall glass of cola with ice, condensation, plain unlabeled silver can beside it",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "fanta": {
+    "subject": "a tall glass of orange fizzy soda with ice and an orange slice, plain unlabeled bottle",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "sprite": {
+    "subject": "a tall glass of clear lemon-lime soda with ice and a lime wedge, plain unlabeled bottle",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "ice-tea-seftali": {
+    "subject": "a tall glass of iced peach tea with ice and peach slices, plain unlabeled bottle",
+    "skipStock": true,
+    "note": "marka çağrışımı"
+  },
+  "ice-tea-limon": {
+    "subject": "a tall glass of iced lemon tea with ice and lemon slices",
+    "skipStock": true,
+    "note": "marka çağrışımı"
+  },
+  "ice-tea-mango": {
+    "subject": "a tall glass of iced mango tea with ice and mango pieces",
+    "skipStock": true,
+    "note": "marka çağrışımı"
+  },
+  "ice-tea-karpuz": {
+    "subject": "a tall glass of iced watermelon tea with ice and watermelon pieces",
+    "skipStock": true,
+    "note": "marka çağrışımı"
+  }
+}

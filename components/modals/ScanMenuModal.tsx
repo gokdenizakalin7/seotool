@@ -229,7 +229,10 @@ export function ScanMenuModal({ isOpen, onClose, onMenuCreated }: ScanMenuModalP
           price: i.price ? String(i.price) : '',
           calories: typeof i.calories === 'number' ? i.calories : (parseInt(i.calories) || undefined),
           allergens: Array.isArray(i.allergens) ? i.allergens : [],
-          image_url: i.image_url || ''
+          image_url: i.image_url || '',
+          // Katalog eşleştirmesi (sunucu): bağlantı + öneri bilgisi
+          catalog_item_id: typeof i.catalog_item_id === 'string' ? i.catalog_item_id : null,
+          match: i.match && typeof i.match === 'object' ? i.match : undefined
         }))
       }))
 
@@ -281,7 +284,9 @@ export function ScanMenuModal({ isOpen, onClose, onMenuCreated }: ScanMenuModalP
           allergens: item.allergens && item.allergens.length > 0 ? item.allergens : undefined,
           calories: item.calories || undefined,
           display_order: itemIdx + 1,
-          is_available: true
+          is_available: true,
+          // Kataloğa bağlantı; buradan sync şemasına ve RPC'ye taşınır
+          catalog_item_id: item.catalog_item_id ?? null
         }))
       }))
 

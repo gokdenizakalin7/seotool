@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Plus, ArrowLeft, Trash2, Edit, Utensils, Clock, Check, Save } from 'lucide-react'
+import { catalogThumbUrl } from '@/lib/image-url'
 import { mockMenusByRestaurant } from '@/lib/mock-data'
 import { Menu, MenuItem, MenuCategory } from '@/lib/types'
 import { motion } from 'framer-motion'
@@ -284,7 +285,7 @@ export function EditMenuContent() {
                       <div key={item.id} className="py-2.5 flex items-center justify-between first:pt-0 last:pb-0">
                         <div className="flex items-center space-x-3">
                           {item.image_url && (
-                            <img src={item.image_url} alt={item.name} className="w-12 h-12 rounded object-cover border" />
+                            <img src={catalogThumbUrl(item.image_url)} alt={item.name} loading="lazy" decoding="async" className="w-12 h-12 rounded object-cover border" />
                           )}
                           <div>
                             <div className="font-semibold text-sm text-foreground">{item.name}</div>

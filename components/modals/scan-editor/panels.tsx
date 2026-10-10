@@ -33,6 +33,12 @@ export interface SummaryStats {
   noCalories: number
   noImage: number
   complete: number
+  /** Kataloğa bağlı ürün sayısı */
+  catalogMatched?: number
+  /** Bekleyen katalog önerisi olan ürün sayısı */
+  catalogSuggested?: number
+  /** Katalogda karşılığı olmayan ürün sayısı */
+  catalogNone?: number
 }
 
 export function ScanSummaryPanel({
@@ -55,6 +61,8 @@ export function ScanSummaryPanel({
     { label: 'Tekrar eden', value: stats.duplicate, warn: true },
     { label: 'Kalorisi eksik', value: stats.noCalories },
     { label: 'Görseli yok', value: stats.noImage },
+    { label: 'Katalog önerisi bekleyen', value: stats.catalogSuggested ?? 0 },
+    { label: 'Katalogda yok', value: stats.catalogNone ?? 0 },
   ]
 
   return (
@@ -69,6 +77,10 @@ export function ScanSummaryPanel({
           <div className="rounded-xl border border-border bg-card p-3">
             <p className="text-2xl font-bold">{stats.items}</p>
             <p className="text-[11px] text-muted-foreground">Ürün</p>
+          </div>
+          <div className="col-span-2 rounded-xl border border-border bg-card p-3">
+            <p className="text-2xl font-bold">{stats.catalogMatched ?? 0}</p>
+            <p className="text-[11px] text-muted-foreground">Katalogdan eşleşen (görselli)</p>
           </div>
         </div>
       </div>

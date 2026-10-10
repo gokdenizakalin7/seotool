@@ -4,6 +4,8 @@ import { validateBase64Image } from '@/lib/file-validator'
 import { sanitizeText, sanitizePrice } from '@/lib/sanitizer'
 import { logSecurityEvent } from '@/lib/security-logger'
 import { requireUser } from '@/lib/auth-middleware'
+import { logUnmatched, matchScannedItems } from '@/lib/server/catalog-matcher'
+import type { CatalogMatchInfo } from '@/lib/catalog-match'
 
 export const maxDuration = 60
 
@@ -151,9 +153,12 @@ Lütfen çıktıyı tam olarak şu JSON şemasında ver:
     }
 
     // Aktif modeller
+    // Model başına ücretsiz kota ayrıdır; ilk ikisi 429 verirse yedeklere geçilir
     const modelsToTry = [
       'gemini-3.5-flash',
-      'gemini-3.5-flash-lite'
+      'gemini-3.5-flash-lite',
+      'gemini-3.8-flash',
+      'gemini-3.1-flash-lite'
     ]
 
     let lastError: any = null
@@ -214,16 +219,51 @@ Lütfen çıktıyı tam olarak şu JSON şemasında ver:
 
     // Çıktıları XSS ve injection saldırılarına karşı sanitize et
     const sanitizedMenuName = sanitizeText(parsedResult.menuName || 'Taranan Menü', 100)
-    const cleanedCategories = (parsedResult.categories || []).map((cat: any) => ({
+    type ScannedItem = {
+      name: string
+      description: string
+      price: string
+      calories: number | null
+      allergens: string[]
+      image_url: string
+      catalog_item_id: string | null
+      match: CatalogMatchInfo
+    }
+    const cleanedCategories: { name: string; items: ScannedItem[] }[] = (parsedResult.categories || []).map((cat: any) => ({
       name: sanitizeText(cat.name || 'Genel', 80),
-      items: (cat.items || []).map((item: any) => ({
+      items: (cat.items || []).map((item: any): ScannedItem => ({
         name: sanitizeText(item.name || '', 120),
         description: sanitizeText(item.description || '', 255),
         price: sanitizePrice(item.price || ''),
         calories: typeof item.calories === 'number' ? item.calories : null,
-        allergens: Array.isArray(item.allergens) ? item.allergens.map((a: any) => sanitizeText(String(a), 50)) : []
+        allergens: Array.isArray(item.allergens) ? item.allergens.map((a: any) => sanitizeText(String(a), 50)) : [],
+        image_url: '',
+        catalog_item_id: null,
+        match: { level: 'none', candidates: [] },
       }))
     }))
+
+    // 3. KATALOG EŞLEŞTİRME: otomatik eşleşenlere katalog görseli + bağlantı; asla fırlatmaz (fail-open)
+    const flat = cleanedCategories.flatMap((c, ci) => c.items.map((it, ii) => ({ ci, ii, name: it.name, category: c.name })))
+    const infos = await matchScannedItems(flat, { menuName: sanitizedMenuName })
+    const unmatched: { name: string; category_name: string; best_slug: string | null; best_score: number | null }[] = []
+    flat.forEach((f, k) => {
+      const info = infos[k]
+      const it = cleanedCategories[f.ci].items[f.ii]
+      it.match = info
+      if (info.level === 'auto' && info.top) {
+        it.catalog_item_id = info.top.item_id
+        it.image_url = info.top.image_url || ''
+      } else if (info.level === 'none' && it.name) {
+        unmatched.push({
+          name: it.name,
+          category_name: f.category,
+          best_slug: info.candidates[0]?.slug ?? null,
+          best_score: info.candidates[0]?.score ?? null,
+        })
+      }
+    })
+    if (unmatched.length) logUnmatched(unmatched)
 
     return NextResponse.json({
       success: true,

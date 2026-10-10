@@ -55,6 +55,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import { compressImageFile, IMAGE_PRESETS, formatFileSize } from '@/lib/image-compression'
 import { safeJsonParse } from '@/lib/utils'
+import { catalogThumbUrl } from '@/lib/image-url'
+import { generateItemImage } from '@/lib/image-generation-client'
+import { CatalogPickerPopover } from '@/components/modals/scan-editor/CatalogPickerPopover'
 
 // KURUMSAL & SEO UYUMLU ANA KATEGORİ REHBERİ
 export const ORDERED_CATEGORY_GROUPS = [
@@ -306,6 +309,10 @@ export function LiveMenuEditor() {
   const [itemCarbs, setItemCarbs] = useState('')
   const [itemFat, setItemFat] = useState('')
   const [itemImage, setItemImage] = useState('')
+  // Kataloğa bağlantı (şablon/eşleştirme/katalogdan seç ile gelir)
+  const [itemCatalogId, setItemCatalogId] = useState<string | null>(null)
+  const [catalogPickerOpen, setCatalogPickerOpen] = useState(false)
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false)
   const [itemIsFeatured, setItemIsFeatured] = useState(false)
   const [isCompressingPhoto, setIsCompressingPhoto] = useState(false)
   const [compressedPhotoInfo, setCompressedPhotoInfo] = useState<string | null>(null)
@@ -655,11 +662,34 @@ export function LiveMenuEditor() {
     setCategoryDescription(defaultDesc)
   }
 
+  // AI ile ürün görseli üret (Cloudflare ücretsiz havuzu, günlük kota sunucuda)
+  const handleGenerateImage = async () => {
+    if (!subdomain || !itemName.trim()) return
+    setIsGeneratingImage(true)
+    try {
+      const r = await generateItemImage({
+        subdomain,
+        name: itemName.trim(),
+        description: itemDesc,
+        category: targetCategoryObj?.name || null,
+      })
+      setItemImage(r.url)
+      setCompressedPhotoInfo(null)
+      toast.success('AI görsel eklendi', { description: `Bugün kalan: ${Math.min(r.orgRemaining, r.globalRemaining)}` })
+    } catch (e: any) {
+      toast.error(e?.message || 'Görsel üretilemedi')
+    } finally {
+      setIsGeneratingImage(false)
+    }
+  }
+
   // Ürün Ekle Modalı Aç
   const openAddItemModal = (catId: string, item?: MenuItem) => {
     setTargetCatId(catId)
     const cat = menu ? (menu.categories.find(c => c.id === catId) || null) : null
     setTargetCategoryObj(cat)
+    setCatalogPickerOpen(false)
+    setItemCatalogId(item?.catalog_item_id ?? null)
 
     if (item) {
       setEditingItem(item)
@@ -739,6 +769,7 @@ export function LiveMenuEditor() {
                   allergens: cleanAllergens,
                   macros: macros,
                   image_url: itemImage || '',
+                  catalog_item_id: itemCatalogId ?? null,
                   is_featured: itemIsFeatured,
                   calorie_source: calorieSource
                 } : item
@@ -755,6 +786,7 @@ export function LiveMenuEditor() {
         description: cleanDesc,
         price: formattedPrice,
         image_url: itemImage || '',
+        catalog_item_id: itemCatalogId ?? null,
         calories: cleanCalories,
         allergens: cleanAllergens,
         macros: macros,
@@ -1328,7 +1360,9 @@ export function LiveMenuEditor() {
                             <div className="flex items-center space-x-3 overflow-hidden">
                               {item.image_url ? (
                                 <img 
-                                  src={item.image_url} 
+                                  src={catalogThumbUrl(item.image_url)}
+                                  loading="lazy"
+                                  decoding="async" 
                                   alt={item.name} 
                                   className="w-10 h-10 rounded-lg object-cover border bg-gray-100 shrink-0" 
                                 />
@@ -2007,7 +2041,7 @@ export function LiveMenuEditor() {
               <div className="flex items-center gap-3">
                 {itemImage ? (
                   <div className="relative w-20 h-20 rounded-xl overflow-hidden border shadow-xs shrink-0 group">
-                    <img src={itemImage} alt="Seçilen Ürün" className="w-full h-full object-cover" />
+                    <img src={catalogThumbUrl(itemImage)} alt="Seçilen Ürün" className="w-full h-full object-cover" />
                     <button 
                       type="button" 
                       onClick={() => setItemImage('')} 
@@ -2047,8 +2081,58 @@ export function LiveMenuEditor() {
                   <p className="text-[11px] text-gray-400">
                     {itemImage ? 'Seçilen görsel menüde kullanılacak.' : 'Fotoğraf yüklemezseniz varsayılan sade ikon gösterilir.'}
                   </p>
+                  <div className="flex gap-1.5">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 text-xs font-semibold"
+                      onClick={() => setCatalogPickerOpen(v => !v)}
+                      title="Hazır katalog görseli seç (ücretsiz)"
+                    >
+                      <BookOpen className="h-3.5 w-3.5 mr-1.5 text-primary" />
+                      Katalogdan seç
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      disabled={isGeneratingImage || !itemName.trim() || !subdomain}
+                      className="flex-1 text-xs font-semibold"
+                      onClick={handleGenerateImage}
+                      title="Yapay zeka ile ürün görseli üret (günlük ücretsiz kota)"
+                    >
+                      {isGeneratingImage ? (
+                        <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin text-violet-500" />
+                      ) : (
+                        <Sparkles className="h-3.5 w-3.5 mr-1.5 text-violet-500" />
+                      )}
+                      AI ile görsel üret
+                    </Button>
+                  </div>
+                  {itemCatalogId && (
+                    <p className="text-[11px] text-emerald-600">
+                      Katalog ürününe bağlı ·{' '}
+                      <button type="button" onClick={() => setItemCatalogId(null)} className="underline hover:text-emerald-800">
+                        bağlantıyı kaldır
+                      </button>
+                    </p>
+                  )}
                 </div>
               </div>
+              <CatalogPickerPopover
+                inline
+                open={catalogPickerOpen}
+                onClose={() => setCatalogPickerOpen(false)}
+                initialQuery={itemName}
+                onSelect={(m) => {
+                  if (m.image_url) setItemImage(m.image_url)
+                  setItemCatalogId(m.item_id)
+                  if (!itemName.trim()) setItemName(m.name)
+                  setCompressedPhotoInfo(null)
+                  setCatalogPickerOpen(false)
+                }}
+              />
             </div>
 
             {/* 6. ALERJENLER */}
