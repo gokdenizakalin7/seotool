@@ -149,6 +149,7 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
 
   const searchParams = new URLSearchParams(location.search)
   const tableName = searchParams.get('table') || searchParams.get('masa')
+  const tableId = searchParams.get('tid')
 
   const isPreview = searchParams.get('preview') === '1'
   const [previewMenu, setPreviewMenu] = useState<Menu | null>(null)
@@ -286,7 +287,11 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
       if (!restaurant) return;
       if (isPreview || restaurant.suspended) { setIsLoading(false); return }
       try {
-        const res = await fetch(`/api/public/menus?orgId=${restaurant.id}`)
+        // Masa QR'ından gelindiyse masa kimliği/adı da gönderilir (masa okunma sayacı)
+        const tableQuery =
+          (tableName ? `&table=${encodeURIComponent(tableName)}` : '') +
+          (tableId ? `&tid=${encodeURIComponent(tableId)}` : '')
+        const res = await fetch(`/api/public/menus?orgId=${restaurant.id}${tableQuery}`)
         if (res.ok) {
           const data = await res.json()
           if (data && data.length > 0) {

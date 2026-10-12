@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { confirmLeave, setLeaveGuard } from '@/lib/leave-guard'
 import { motion } from 'framer-motion'
 import { Check, Store, Wifi, Palette, KeyRound, Share2, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -52,6 +53,52 @@ export function SettingsContent() {
       setLoadedFor(restaurant.id)
     }
   }, [restaurant, loadedFor])
+
+  // Restoran başka yerden güncellenirse (ör. logodan alınan renk) kullanıcının dokunmadığı alanlar da güncellensin;
+  // yoksa Kaydet eski değeri geri yazar
+  const baseline = useMemo(() => draftFromRestaurant(restaurant), [restaurant])
+  const prevBaselineRef = useRef(baseline)
+  useEffect(() => {
+    const prev = prevBaselineRef.current
+    prevBaselineRef.current = baseline
+    setDraft((d) => {
+      const next = { ...d }
+      for (const k of Object.keys(baseline) as (keyof ProfileDraft)[]) {
+        if (d[k] === prev[k]) next[k] = baseline[k]
+      }
+      return next
+    })
+  }, [baseline])
+
+  const isDirty = !!restaurant && loadedFor === restaurant.id &&
+    (Object.keys(baseline) as (keyof ProfileDraft)[]).some((k) => draft[k] !== baseline[k])
+
+  // Kaydedilmemiş değişiklik varken sekmeyi kapatma ve sol menüden ayrılma uyarısı
+  useEffect(() => {
+    if (!isDirty) return
+    setLeaveGuard('Kaydedilmemiş değişiklikleriniz var. Kaydetmeden çıkılsın mı?')
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault()
+      e.returnValue = ''
+    }
+    const onClickCapture = (e: MouseEvent) => {
+      const anchor = (e.target as HTMLElement | null)?.closest?.('a[href]') as HTMLAnchorElement | null
+      if (!anchor || anchor.target === '_blank') return
+      const href = anchor.getAttribute('href') || ''
+      if (!href || href.startsWith('#') || /^(https?:|mailto:|tel:)/.test(href)) return
+      if (!confirmLeave(href)) {
+        e.preventDefault()
+        e.stopPropagation()
+      }
+    }
+    window.addEventListener('beforeunload', onBeforeUnload)
+    document.addEventListener('click', onClickCapture, true)
+    return () => {
+      setLeaveGuard(null)
+      window.removeEventListener('beforeunload', onBeforeUnload)
+      document.removeEventListener('click', onClickCapture, true)
+    }
+  }, [isDirty])
 
   const selectTab = (id: TabId) => {
     setActiveTab(id)
@@ -228,8 +275,9 @@ export function SettingsContent() {
       )}
 
       {activeTab !== 'sifre' && (
-        <div className="flex justify-end pt-4">
-          <Button onClick={handleSave} disabled={isSaving} className="bg-primary text-white px-8">
+        <div className="flex items-center justify-end pt-4">
+          {isDirty && <span className="mr-3 text-xs font-semibold text-amber-600 dark:text-amber-400">Kaydedilmemiş değişiklikler var</span>}
+          <Button onClick={handleSave} disabled={isSaving || !isDirty} className="bg-primary text-white px-8">
             {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : (<><Check className="h-4 w-4 mr-2" /> Değişiklikleri Kaydet</>)}
           </Button>
         </div>

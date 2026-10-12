@@ -6,40 +6,35 @@ import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { Plus, MoreVertical, Eye, Edit3, Trash2, Globe, EyeOff, QrCode, Smartphone, Sparkles, Camera, Utensils } from 'lucide-react'
-import { Menu, Restaurant } from '@/lib/types'
-import { getStoredMenus, setStoredMenus } from '@/lib/mock-data'
-import { QRCodeModal } from '@/components/modals/QRCodeModal'
+import { Plus, MoreVertical, Eye, Trash2, Globe, EyeOff, QrCode, Smartphone, Sparkles, Camera, Utensils, RefreshCw } from 'lucide-react'
+import { Menu } from '@/lib/types'
+import { setStoredMenus } from '@/lib/mock-data'
 import { ScanMenuModal } from '@/components/modals/ScanMenuModal'
+import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 
 export function MenusContent() {
-  const [currentRestaurant] = useState<Restaurant | null>(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('currentRestaurant')
-      if (stored) return JSON.parse(stored)
-    }
-    return null
-  })
-
+  const { restaurant: currentRestaurant } = useRestaurant()
   const subdomain = currentRestaurant?.subdomain || ''
   const [menus, setMenus] = useState<Menu[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  // Yükleme hatasında eski önbellekle devam edilmez: eski veriyle yayın/silme işlemi veritabanını ezebilir
+  const [loadError, setLoadError] = useState<string | null>(null)
 
   const loadMenus = async () => {
+    if (!subdomain) return
     setIsLoading(true)
+    setLoadError(null)
     try {
       const res = await authFetch(`/api/menus/load?subdomain=${subdomain}`)
-      if (res.ok) {
-        const data = await res.json()
-        setMenus(data.menus || [])
-      } else {
-        setMenus(getStoredMenus(subdomain))
-      }
-    } catch (err) {
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data?.error || 'Menüler yüklenemedi.')
+      setMenus(data.menus || [])
+      setStoredMenus(subdomain, data.menus || [])
+    } catch (err: any) {
       console.error(err)
-      setMenus(getStoredMenus(subdomain))
+      setLoadError(err?.message || 'Menüler yüklenemedi.')
     } finally {
       setIsLoading(false)
     }
@@ -47,11 +42,15 @@ export function MenusContent() {
 
   React.useEffect(() => {
     loadMenus()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subdomain])
 
   const [isScanMenuModalOpen, setIsScanMenuModalOpen] = useState(false)
-  const [selectedQRMenu, setSelectedQRMenu] = useState<any>(null)
   const navigate = useNavigate()
+
+  // Müşteri menüsü yayındaki ilk menüyü gösterir (sunucu created_at ile sıralar)
+  const customerMenuId = menus.find((m) => m.is_listed)?.id
+  const openCustomerMenu = () => window.open(`/menu/${subdomain}`, '_blank', 'noopener,noreferrer')
 
   const syncWithSupabase = async (updatedMenus: Menu[], previousMenus: Menu[]) => {
     try {
@@ -65,6 +64,8 @@ export function MenusContent() {
       })
       if (res.ok) {
         toast.success('Değişiklikler başarıyla kaydedildi.')
+        // Yeni menüler gerçek kimlikleriyle gelsin: geçici menu- kimliği bir sonraki kayıtta kopya oluşturmasın
+        await loadMenus()
       } else {
         const err = await res.json()
         toast.error(`Senkronizasyon hatası: ${err.error || 'Bilinmeyen hata'}`)
@@ -82,7 +83,12 @@ export function MenusContent() {
   }
 
   const handleDelete = async (id: string) => {
-    if (confirm('Bu menüyü silmek istediğinize emin misiniz?')) {
+    const target = menus.find((m) => m.id === id)
+    const isCustomerMenu = id === customerMenuId
+    const message =
+      `"${target?.name || 'Menü'}" kalıcı olarak silinecek; tüm kategori ve ürünleri de silinir. Bu işlem geri alınamaz.` +
+      (isCustomerMenu ? '\n\nBu, müşterilerinizin QR kodla gördüğü menü. Silinirse QR kodu okutan müşteriler boş sayfa görür.' : '')
+    if (confirm(message)) {
       const previousMenus = [...menus]
       try {
         const updated = menus.filter(menu => menu.id !== id)
@@ -113,6 +119,10 @@ export function MenusContent() {
   }
 
   const toggleMenuListing = (id: string) => {
+    if (
+      id === customerMenuId &&
+      !confirm('Bu menü yayından kaldırılırsa QR kodu okutan müşteriler menünüzü göremez. Devam edilsin mi?')
+    ) return
     const previousMenus = [...menus]
     const updated = menus.map(menu => 
       menu.id === id ? { ...menu, is_listed: !menu.is_listed } : menu
@@ -132,27 +142,35 @@ export function MenusContent() {
     >
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-foreground">Menü Yönetimi</h1>
-          <p className="text-sm text-muted-foreground">Restoranınızın dijital menülerini oluşturun ve canlı editörde düzenleyin</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">Menü Listesi</h1>
+          <p className="text-sm text-muted-foreground">Menünüzün yayın durumunu yönetin; ürün ve kategorileri canlı editörde düzenleyin</p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" onClick={() => navigate('/dashboard/menu-editor')}>
-            <Smartphone className="mr-2 h-4 w-4 text-primary" /> Canlı Editöre Git
-          </Button>
-          <Button 
-            variant="outline" 
-            onClick={() => setIsScanMenuModalOpen(true)}
-            className="scan-attention border-violet-300 text-violet-700 hover:bg-violet-50"
-          >
-            <Camera className="mr-2 h-4 w-4" /> Kendi Menünü Tara
-          </Button>
-          <Button onClick={() => navigate('/dashboard/menu-editor')}>
-            <Plus className="mr-2 h-4 w-4" /> Yeni Menü Oluştur
-          </Button>
-        </div>
+        {/* Menü varken yeni menü/tarama ikinci bir menü açar ama müşteri yalnızca ilkini görür: işlemler editöre yönlenir */}
+        {menus.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={openCustomerMenu} disabled={!customerMenuId}>
+              <Eye className="mr-2 h-4 w-4" /> Müşteri Gözüyle Gör
+            </Button>
+            <Button onClick={() => navigate('/dashboard/menu-editor')}>
+              <Smartphone className="mr-2 h-4 w-4" /> Canlı Editörde Düzenle
+            </Button>
+          </div>
+        )}
       </div>
 
-      {menus.length === 0 && !isLoading ? (
+      {loadError ? (
+        <div className="text-center py-16 glass-card border-dashed">
+          <h3 className="text-lg font-semibold text-foreground mb-2">Menüler yüklenemedi</h3>
+          <p className="text-muted-foreground mb-6">{loadError}</p>
+          <Button onClick={loadMenus}>
+            <RefreshCw className="mr-2 h-4 w-4" /> Tekrar dene
+          </Button>
+        </div>
+      ) : isLoading && menus.length === 0 ? (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="h-80 animate-pulse rounded-2xl bg-muted" />
+        </div>
+      ) : menus.length === 0 ? (
         <div className="text-center py-16 glass-card border-dashed">
           <Utensils className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
           <h3 className="text-lg font-semibold text-foreground mb-2">Henüz Bir Menünüz Yok</h3>
@@ -162,7 +180,7 @@ export function MenusContent() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Button 
               size="lg" 
-              onClick={() => navigate('/dashboard/menu-editor')}
+              onClick={() => navigate('/dashboard/menu-editor?start=template')}
               className="bg-primary hover:bg-primary/90 text-white font-bold px-6 py-6 text-base shadow-md w-full sm:w-auto"
             >
               <Sparkles className="h-5 w-5 mr-2" /> Hazır Menü Paketi Yükle
@@ -179,7 +197,7 @@ export function MenusContent() {
             <Button 
               size="lg" 
               variant="outline"
-              onClick={() => navigate('/dashboard/menu-editor')}
+              onClick={() => navigate('/dashboard/menu-editor?start=blank')}
               className="border-border hover:bg-accent text-foreground font-semibold px-6 py-6 text-base w-full sm:w-auto"
             >
               <Plus className="h-5 w-5 mr-2 text-primary" /> Sıfırdan Boş Menü Başlat
@@ -195,19 +213,34 @@ export function MenusContent() {
             return (
               <Card key={menu.id} className={`overflow-hidden hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 ${!menu.is_listed ? 'opacity-70' : ''}`}>
                 <div className="relative h-48 w-full">
-                  <img
-                    src={menu.image_url}
-                    alt={menu.name}
-                    className="w-full h-full object-cover"
-                  />
+                  {menu.image_url ? (
+                    <img
+                      src={menu.image_url}
+                      alt={menu.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => { e.currentTarget.style.display = 'none' }}
+                    />
+                  ) : null}
+                  {!menu.image_url && (
+                    <div className="flex h-full w-full items-center justify-center bg-muted text-muted-foreground">
+                      <Utensils className="h-10 w-10" />
+                    </div>
+                  )}
                   <div className="absolute top-2 right-2 flex gap-1">
                     {!menu.is_listed ? (
                       <span className="bg-amber-600 text-white px-2 py-0.5 rounded text-xs font-semibold flex items-center">
                         <EyeOff className="h-3 w-3 mr-1" /> Yayında Değil
                       </span>
-                    ) : (
+                    ) : menu.id === customerMenuId ? (
                       <span className="bg-green-600 text-white px-2 py-0.5 rounded text-xs font-semibold flex items-center">
-                        <Globe className="h-3 w-3 mr-1" /> Yayında
+                        <Globe className="h-3 w-3 mr-1" /> Yayında · Müşteriler bunu görüyor
+                      </span>
+                    ) : (
+                      <span
+                        className="bg-slate-600 text-white px-2 py-0.5 rounded text-xs font-semibold flex items-center"
+                        title="Müşteri menüsü yayındaki ilk menüyü gösterir"
+                      >
+                        <Globe className="h-3 w-3 mr-1" /> Yayında · Müşteriler görmüyor
                       </span>
                     )}
                   </div>
@@ -229,11 +262,11 @@ export function MenusContent() {
                         <DropdownMenuItem onClick={() => navigate(`/dashboard/menu-editor?menu=${menu.id}`)}>
                           <Smartphone className="h-4 w-4 mr-2 text-primary" /> Canlı Editörde Aç
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => navigate(`/menu/${subdomain}`)}>
-                          <Eye className="h-4 w-4 mr-2" /> Menüyü Görüntüle
+                        <DropdownMenuItem onClick={openCustomerMenu} disabled={menu.id !== customerMenuId}>
+                          <Eye className="h-4 w-4 mr-2" /> Müşteri Gözüyle Gör
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setSelectedQRMenu(menu)}>
-                          <QrCode className="h-4 w-4 mr-2" /> QR Kodunu Göster
+                        <DropdownMenuItem onClick={() => navigate('/dashboard/qr-codes')}>
+                          <QrCode className="h-4 w-4 mr-2" /> QR Kodlar & Masalar
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => toggleMenuListing(menu.id)}>
                           {menu.is_listed ? <EyeOff className="h-4 w-4 mr-2" /> : <Globe className="h-4 w-4 mr-2" />}
@@ -294,26 +327,6 @@ export function MenusContent() {
         }}
       />
 
-      {selectedQRMenu && (
-        <QRCodeModal
-          isOpen={!!selectedQRMenu}
-          onClose={() => setSelectedQRMenu(null)}
-          qrCode={{
-            id: selectedQRMenu.id,
-            menu_id: selectedQRMenu.id,
-            created_at: selectedQRMenu.created_at,
-            last_regenerated_at: selectedQRMenu.updated_at,
-            menu: {
-              name: selectedQRMenu.name,
-              organization: {
-                subdomain: subdomain
-              }
-            },
-            views: 1200
-          }}
-          setQrCodes={() => {}}
-        />
-      )}
     </motion.div>
   )
 }

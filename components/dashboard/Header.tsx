@@ -6,8 +6,10 @@ import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Menu as MenuIcon, Settings, LogOut, ExternalLink, QrCode } from 'lucide-react'
-import { clearClientSession } from '@/lib/session'
+import { signOutClient } from '@/lib/session'
+import { confirmLeave } from '@/lib/leave-guard'
 import { ThemeToggle } from '@/components/theme/PanelTheme'
+import { useRestaurant } from '@/components/providers/RestaurantProvider'
 
 export function Header({ 
   setIsSidebarOpen, 
@@ -21,10 +23,12 @@ export function Header({
   logoUrl?: string;
 }) {
   const navigate = useNavigate()
+  const { email } = useRestaurant()
 
-  const handleLogout = () => {
-    clearClientSession()
-    navigate('/')
+  const handleLogout = async () => {
+    if (!confirmLeave()) return
+    await signOutClient()
+    navigate('/login')
   }
 
   return (
@@ -44,10 +48,10 @@ export function Header({
         <Button 
           variant="outline" 
           size="sm" 
-          onClick={() => navigate('/dashboard/qr-codes')}
+          onClick={() => confirmLeave('/dashboard/qr-codes') && navigate('/dashboard/qr-codes')}
           className="hidden sm:flex"
         >
-          <QrCode className="h-4 w-4 mr-1.5" /> Hızlı QR Görüntüle
+          <QrCode className="h-4 w-4 mr-1.5" /> QR Kodlar
         </Button>
 
         <DropdownMenu>
@@ -65,14 +69,14 @@ export function Header({
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-semibold leading-none">{restaurantName || 'Yönetici'}</p>
-                <p className="text-xs leading-none text-muted-foreground">Panel Kullanıcısı</p>
+                <p className="truncate text-xs leading-none text-muted-foreground">{email || 'Panel kullanıcısı'}</p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => navigate('/dashboard/settings')}>
+            <DropdownMenuItem onClick={() => confirmLeave('/dashboard/settings') && navigate('/dashboard/settings')}>
               <Settings className="h-4 w-4 mr-2" /> Ayarlar
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate('/business')}>
+            <DropdownMenuItem onClick={() => confirmLeave('/business') && navigate('/business')}>
               <ExternalLink className="h-4 w-4 mr-2" /> Restoran Rehberi
             </DropdownMenuItem>
             <DropdownMenuSeparator />

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import { PageTransition, useSmoothScroll, useRevealOnScroll } from '@/components/dashboard/ScrollNavigation'
 
 import { LandingPage } from '@/components/landing/LandingPage'
@@ -21,7 +21,6 @@ import { Header } from '@/components/dashboard/Header'
 import { DashboardContent } from '@/components/dashboard/DashboardContent'
 import { LiveMenuEditor } from '@/components/dashboard/LiveMenuEditor'
 import { MenusContent } from '@/components/dashboard/MenusContent'
-import { EditMenuContent } from '@/components/dashboard/EditMenuContent'
 import { QRCodesContent } from '@/components/dashboard/QRCodesContent'
 import { SettingsContent } from '@/components/dashboard/SettingsContent'
 import { PublicMenuView } from '@/components/public/PublicMenuView'
@@ -85,10 +84,9 @@ function DashboardLayout() {
               <Route path="/menu-editor" element={<LiveMenuEditor />} />
               <Route path="menus" element={<MenusContent />} />
               <Route path="/menus" element={<MenusContent />} />
-              <Route path="menus/:id" element={<PublicMenuView restaurantSubdomain={currentRestaurant?.subdomain || null} />} />
-              <Route path="/menus/:id" element={<PublicMenuView restaurantSubdomain={currentRestaurant?.subdomain || null} />} />
-              <Route path="menus/:id/edit" element={<EditMenuContent />} />
-              <Route path="/menus/:id/edit" element={<EditMenuContent />} />
+              {/* Eski menü görüntüleme/düzenleme adresleri tek editöre yönlenir */}
+              <Route path="menus/:id" element={<MenuEditorRedirect />} />
+              <Route path="menus/:id/edit" element={<MenuEditorRedirect />} />
               <Route path="qr-codes" element={<QRCodesContent />} />
               <Route path="/qr-codes" element={<QRCodesContent />} />
               <Route path="settings" element={<SettingsContent />} />
@@ -102,6 +100,12 @@ function DashboardLayout() {
     </div>
     </PanelThemeProvider>
   )
+}
+
+/** /dashboard/menus/:id(/edit) → canlı editörde o menü */
+function MenuEditorRedirect() {
+  const { id } = useParams()
+  return <Navigate to={`/dashboard/menu-editor${id ? `?menu=${encodeURIComponent(id)}` : ''}`} replace />
 }
 
 class AppErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean; error: Error | null }> {

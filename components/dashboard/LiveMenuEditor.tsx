@@ -216,7 +216,7 @@ export function LiveMenuEditor() {
   const [searchParams] = useSearchParams()
   const menuIdParam = searchParams.get('menu')
 
-  const { restaurant: currentRestaurant } = useRestaurant()
+  const { restaurant: currentRestaurant, save: saveRestaurant } = useRestaurant()
 
   const subdomain = currentRestaurant?.subdomain || ''
   const [isLoading, setIsLoading] = useState(true)
@@ -269,6 +269,26 @@ export function LiveMenuEditor() {
     const c = currentRestaurant?.branding?.primaryColor
     if (c) setPrimaryColor(c)
   }, [currentRestaurant?.branding?.primaryColor])
+
+  // Tema rengi restoranın marka rengidir: yalnızca kullanıcının renk seçimi, seçim bitince (sürükleme durunca)
+  // kaydedilir. Şablon/senkron kaynaklı setPrimaryColor marka rengini ezmez.
+  const colorSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const pickPrimaryColor = (color: string) => {
+    setPrimaryColor(color)
+    if (colorSaveTimer.current) clearTimeout(colorSaveTimer.current)
+    if (!currentRestaurant) return
+    const saved = currentRestaurant.branding?.primaryColor || '#e11d48'
+    if (color.toLowerCase() === saved.toLowerCase()) return
+    colorSaveTimer.current = setTimeout(async () => {
+      colorSaveTimer.current = null
+      try {
+        await saveRestaurant({ primaryColor: color })
+        toast.success('Tema rengi kaydedildi.')
+      } catch (e: any) {
+        toast.error(e?.message || 'Tema rengi kaydedilemedi.')
+      }
+    }, 800)
+  }
 
   // Canlı Önizleme State'i
   const [previewCategory, setPreviewCategory] = useState<string>('all')
@@ -1006,7 +1026,13 @@ export function LiveMenuEditor() {
           <Button 
             variant="outline" 
             size="sm" 
-            onClick={() => setIsScanMenuModalOpen(true)}
+            onClick={() => {
+              if (
+                menu?.categories?.length &&
+                !window.confirm('Taranan menü mevcut menünüzün yerini alacak: tüm kategori ve ürünleriniz değiştirilecek. Devam etmek istiyor musunuz?')
+              ) return
+              setIsScanMenuModalOpen(true)
+            }}
             className="scan-attention border-violet-500/40 bg-violet-500/10 text-violet-700 hover:bg-violet-500/20 hover:text-violet-800 dark:border-violet-400/40 dark:bg-violet-400/10 dark:text-violet-200 dark:hover:bg-violet-400/20 dark:hover:text-violet-100 font-semibold"
           >
             <Camera className="h-4 w-4 mr-1.5" /> Kendi Menünü Tara
@@ -1178,9 +1204,9 @@ export function LiveMenuEditor() {
                 <input 
                   type="color" 
                   value={primaryColor} 
-                  onChange={(e) => setPrimaryColor(e.target.value)}
+                  onChange={(e) => pickPrimaryColor(e.target.value)}
                   className="w-7 h-7 rounded border cursor-pointer p-0.5"
-                  title="Menü rengini canlı değiştirin"
+                  title="Marka rengini değiştirin (otomatik kaydedilir)"
                 />
               </div>
             </CardHeader>
@@ -1617,7 +1643,8 @@ export function LiveMenuEditor() {
             name: scannedMenu.name || `${currentRestaurant?.name || 'Restoran'} Menüsü`,
             description: scannedMenu.description || 'Fotoğraftan taranarak oluşturulan menü',
             image_url: scannedMenu.image_url || currentRestaurant?.branding?.bannerUrl || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&h=400&fit=crop',
-            is_listed: true,
+            // Yayından kaldırılmış menü taramayla sessizce yeniden yayına alınmasın
+            is_listed: menu?.is_listed ?? true,
             available_days: [1, 2, 3, 4, 5, 6, 7],
             layout: 'grid',
             created_at: menu?.created_at || new Date().toISOString(),
