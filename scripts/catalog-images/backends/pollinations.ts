@@ -15,7 +15,8 @@ export const pollinationsBackend: Backend = {
     const url =
       `https://gen.pollinations.ai/image/${encodeURIComponent(ctx.prompt)}` +
       `?model=${encodeURIComponent(MODEL)}&width=${size}&height=${size}&seed=${ctx.seed}&nologo=true`
-    const res = await fetchWithTimeout(url, { headers: { Authorization: `Bearer ${key}` } }, 120_000)
+    // Uzun zaman aşımı: istemci erken koparsa sunucu yine üretip ücretleyebilir
+    const res = await fetchWithTimeout(url, { headers: { Authorization: `Bearer ${key}` } }, 300_000)
     if (res.status === 429) throw new BackendError('Pollinations hız limiti', 'rate', retryAfterMs(res, 20_000))
     if (res.status === 402 || res.status === 403) throw new BackendError(`Pollinations Pollen bitti / yetki yok (HTTP ${res.status})`, 'quota')
     if (res.status === 401) throw new BackendError('Pollinations anahtarı geçersiz', 'fatal')

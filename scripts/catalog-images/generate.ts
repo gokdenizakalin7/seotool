@@ -52,7 +52,7 @@ const BACKENDS: Record<BackendName, Backend> = {
   drawthings: drawThingsBackend,
 }
 
-const MAX_ATTEMPTS = 5
+const DEFAULT_MAX_ATTEMPTS = 5
 
 async function main() {
   const args = parseArgs()
@@ -73,6 +73,9 @@ async function main() {
   const shard = args.str('shard')
   const budgetNeurons = args.num('budget-neurons', 9600)
   const concurrency = Math.max(1, args.num('concurrency', backend.concurrency))
+  // Ücretli/kotalı backend'lerde varsayılan: hata alan istek TEKRARLANMAZ (bir başarısız üretim de ücretlenebilir).
+  // Hız limiti (429) beklemeleri deneme sayılmaz ve ücretsizdir. --max-attempts N ile açıkça değiştirilebilir.
+  const MAX_ATTEMPTS = Math.max(1, args.num('max-attempts', backendName === 'pollinations' || backendName === 'cloudflare' ? 1 : DEFAULT_MAX_ATTEMPTS))
 
   const seed = loadSeed()
   const chains = buildChains(seed.categories)
@@ -95,8 +98,10 @@ async function main() {
   else if (!force && only.size === 0) {
     // Bu backend'de zaten "uygun sonuç yok" denen ürünler tekrar denenmez (kota israfı); --retry-failed ile denenir
     const before = items.length
-    items = items.filter((it) => !(failures[it.slug]?.backend === backendName && failures[it.slug]?.kind === 'nomatch'))
-    if (before !== items.length) console.log(`${backendName}: daha önce eşleşmeyen ${before - items.length} ürün atlandı`)
+    // Bu backend'de daha önce herhangi bir hata alan ürün otomatik tekrar denenmez (kota/Pollen israfı);
+    // yalnız --retry-failed ile, bilinçli olarak denenir
+    items = items.filter((it) => failures[it.slug]?.backend !== backendName)
+    if (before !== items.length) console.log(`${backendName}: daha önce hata alan ${before - items.length} ürün atlandı (--retry-failed ile denenir)`)
   }
   if (!force) {
     items = items.filter((it) => {
@@ -117,7 +122,7 @@ async function main() {
   }
   if (Number.isFinite(limit)) items = items.slice(0, limit)
 
-  console.log(`${backendName}: ${items.length} ürün${dryRun ? ' (dry-run)' : ''}, boyut ${size}, paralellik ${concurrency}`)
+  console.log(`${backendName}: ${items.length} ürün${dryRun ? ' (dry-run)' : ''}, boyut ${size}, paralellik ${concurrency}, deneme ${MAX_ATTEMPTS}`)
   if (items.length === 0) return
 
   const ctxOf = (it: SeedItem): GenerateContext => {
