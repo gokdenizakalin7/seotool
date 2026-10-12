@@ -14,8 +14,20 @@ const SUPER_ADMIN_EMAIL = (
   process.env.SUPER_ADMIN_EMAIL || 'gokdenizakalin7@gmail.com'
 ).toLowerCase()
 
+/** Kök sistem yöneticisi (SUPER_ADMIN_EMAIL): engellenemez, silinemez, e-postası değiştirilemez. */
 export function isSuperAdminEmail(email: string | null | undefined): boolean {
   return (email || '').toLowerCase() === SUPER_ADMIN_EMAIL
+}
+
+/**
+ * Admin panelinden açılan sistem yöneticilerinin app_metadata.role değeri.
+ * app_metadata'yı yalnızca service role yazabilir; kullanıcı kendi yetkisini değiştiremez.
+ */
+export const SYSTEM_ADMIN_ROLE = 'super_admin'
+
+/** Sistem yöneticisi: kök e-posta ya da app_metadata.role = super_admin */
+export function isSystemAdmin(user: { email?: string | null; app_metadata?: Record<string, any> | null } | null | undefined): boolean {
+  return !!user && (isSuperAdminEmail(user.email) || user.app_metadata?.role === SYSTEM_ADMIN_ROLE)
 }
 
 export interface AuthUser {
@@ -60,7 +72,7 @@ async function getAuthUser(req: NextRequest | Request): Promise<AuthUser | null>
   const user: AuthUser = {
     id: data.user.id,
     email,
-    isSuperAdmin: email === SUPER_ADMIN_EMAIL,
+    isSuperAdmin: isSystemAdmin(data.user),
   }
 
   if (tokenCache.size >= TOKEN_CACHE_MAX) {

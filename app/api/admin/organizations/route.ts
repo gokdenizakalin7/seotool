@@ -6,6 +6,7 @@ import { createOrganizationSchema } from '@/lib/server/admin/schemas'
 import { isEmailTakenError, isSubdomainTaken, mapOrgOverviewRow } from '@/lib/server/admin/orgs'
 import { logAdminAction } from '@/lib/server/admin/audit'
 import { businessTypeExists } from '@/lib/server/business-types'
+import { isSuperAdminEmail } from '@/lib/auth-middleware'
 import { foldTurkish } from '@/lib/catalog-match'
 import type { AdminOrgRow } from '@/lib/admin-types'
 
@@ -61,6 +62,8 @@ export async function POST(request: NextRequest) {
     const body = await parseBody(request, createOrganizationSchema)
     if ('response' in body) return body.response
     const input = body.data
+
+    if (isSuperAdminEmail(input.email)) return jsonError(400, 'Sistem yöneticisine restoran atanamaz.', 'SUPER_ADMIN')
 
     if (input.subdomain && (await isSubdomainTaken(input.subdomain))) {
       return jsonError(409, 'Bu subdomain başka bir restoran tarafından kullanılıyor.', 'SUBDOMAIN_TAKEN')

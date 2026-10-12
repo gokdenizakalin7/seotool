@@ -84,6 +84,21 @@ export const removeMemberSchema = z.object({ userId: z.string().uuid() })
 
 /* ---------------- Kullanıcılar ---------------- */
 
+/** system_admin restorana bağlanmaz; diğer roller organizationId ile o restorana eklenir */
+export const createUserSchema = z
+  .object({
+    email,
+    password,
+    ownerName: clean(80).optional(),
+    mustChangePassword: z.boolean().default(true),
+    role: z.enum(['system_admin', 'owner', 'admin', 'staff']),
+    organizationId: z.string().uuid().optional(),
+  })
+  .refine((v) => (v.role === 'system_admin' ? !v.organizationId : !!v.organizationId), {
+    message: 'Sistem yöneticisine restoran atanamaz; restoran kullanıcısı için restoran seçilmeli',
+    path: ['organizationId'],
+  })
+
 export const updateUserSchema = z.object({
   email: email.optional(),
   ownerName: clean(80).optional(),

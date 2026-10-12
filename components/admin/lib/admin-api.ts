@@ -124,6 +124,7 @@ export const AUDIT_ACTION_LABELS: Record<string, string> = {
   'member.create': 'Yeni üye oluşturuldu',
   'member.role': 'Üye rolü değişti',
   'member.remove': 'Üye çıkarıldı',
+  'user.create': 'Kullanıcı oluşturuldu',
   'user.update': 'Kullanıcı güncellendi',
   'user.password': 'Şifre belirlendi',
   'user.ban': 'Kullanıcı engellendi',

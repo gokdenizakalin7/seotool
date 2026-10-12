@@ -3,8 +3,10 @@ import { z } from 'zod'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { adminRoute, jsonError, parseBody } from '@/lib/server/admin/http'
 import { addMemberSchema, removeMemberSchema, updateMemberSchema } from '@/lib/server/admin/schemas'
-import { getOrgMembers, getOrgRow, isEmailTakenError } from '@/lib/server/admin/orgs'
+import { getOrgMembers, getOrgRow } from '@/lib/server/admin/orgs'
+import { createAdminUser } from '@/lib/server/admin/users'
 import { logAdminAction } from '@/lib/server/admin/audit'
+import { isSuperAdminEmail, isSystemAdmin } from '@/lib/auth-middleware'
 
 type Ctx = { params: Promise<{ id: string }> }
 
@@ -34,11 +36,14 @@ export async function POST(request: NextRequest, { params }: Ctx) {
     const body = await parseBody(request, addMemberSchema)
     if ('response' in body) return body.response
     const input = body.data
+    if (isSuperAdminEmail(input.email)) return jsonError(400, 'Sistem yöneticisine restoran atanamaz.', 'SUPER_ADMIN')
 
     let userId: string
     if (input.mode === 'existing') {
       const found = await findUserIdByEmail(input.email)
       if (!found) return jsonError(404, 'Bu e-posta ile kayıtlı kullanıcı yok. "Yeni kullanıcı" seçeneğini kullanın.', 'USER_NOT_FOUND')
+      const { data: foundUser } = await supabaseAdmin.auth.admin.getUserById(found)
+      if (isSystemAdmin(foundUser?.user)) return jsonError(400, 'Sistem yöneticisine restoran atanamaz.', 'SUPER_ADMIN')
       const { data: existing } = await supabaseAdmin
         .from('organization_members')
         .select('organization_id, organizations(name)')
@@ -55,28 +60,11 @@ export async function POST(request: NextRequest, { params }: Ctx) {
       }
       userId = found
     } else {
-      const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
-        email: input.email,
-        password: input.password,
-        email_confirm: true,
-        user_metadata: {
-          owner_name: input.ownerName || '',
-          must_change_password: input.mustChangePassword,
-          skip_org_create: true,
-          created_by_admin: true,
-        },
-      })
-      if (error || !created?.user) {
-        if (isEmailTakenError(error)) return jsonError(409, 'Bu e-posta ile zaten bir kullanıcı var. "Mevcut kullanıcı" seçeneğini kullanın.', 'EMAIL_TAKEN')
-        throw error || new Error('createUser boş döndü')
+      const created = await createAdminUser(input)
+      if ('taken' in created) {
+        return jsonError(409, 'Bu e-posta ile zaten bir kullanıcı var. "Mevcut kullanıcı" seçeneğini kullanın.', 'EMAIL_TAKEN')
       }
-      userId = created.user.id
-
-      // Tetikleyici skip_org_create bayrağını tanımıyorsa (migration 11 eksik) açtığı boş restoranı geri al
-      const { data: auto } = await supabaseAdmin.from('organization_members').select('organization_id').eq('user_id', userId).maybeSingle()
-      if (auto) {
-        await supabaseAdmin.from('organizations').delete().eq('id', auto.organization_id)
-      }
+      userId = created.userId
     }
 
     const { error: insErr } = await supabaseAdmin

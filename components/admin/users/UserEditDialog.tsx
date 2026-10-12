@@ -17,7 +17,8 @@ export interface EditableUser {
   mustChangePassword: boolean
   bannedUntil: string | null
   lastSignInAt?: string | null
-  isSuperAdmin?: boolean
+  /** Kök sistem yöneticisi (SUPER_ADMIN_EMAIL): e-postası değiştirilemez, engellenemez, silinemez */
+  isRootAdmin?: boolean
 }
 
 /**
@@ -116,7 +117,7 @@ export function UserEditDialog({
 
               <div className="space-y-4">
                 <Field label="E-posta (giriş adı)">
-                  <Input value={email} onChange={(e) => setEmail(e.target.value)} disabled={user.isSuperAdmin} />
+                  <Input value={email} onChange={(e) => setEmail(e.target.value)} disabled={user.isRootAdmin} />
                 </Field>
                 <Field label="Ad soyad">
                   <Input value={ownerName} onChange={(e) => setOwnerName(e.target.value)} />
@@ -134,7 +135,7 @@ export function UserEditDialog({
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border/60 pt-4">
-                {!user.isSuperAdmin ? (
+                {!user.isRootAdmin ? (
                   <div className="flex gap-1.5">
                     {banned ? (
                       <Button
@@ -158,7 +159,7 @@ export function UserEditDialog({
                     </Button>
                   </div>
                 ) : (
-                  <span className="text-xs text-muted-foreground">Süper admin hesabı</span>
+                  <span className="text-xs text-muted-foreground">Kök sistem yöneticisi hesabı</span>
                 )}
                 <div className="flex gap-2">
                   <Button variant="outline" onClick={() => onOpenChange(false)} disabled={busy}>
