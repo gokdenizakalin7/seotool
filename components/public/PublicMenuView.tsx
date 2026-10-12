@@ -57,7 +57,9 @@ const TRANSLATIONS = {
     hours: 'Çalışma Saatleri',
     instagramShort: 'Instagram',
     googleReviewShort: 'Yorum Yap',
-    close: 'Kapat'
+    close: 'Kapat',
+    categoriesTitle: 'Ne arzu edersiniz?',
+    itemsCount: 'ürün'
   },
   en: {
     searchPlaceholder: 'Search dishes, drinks or desserts...',
@@ -78,7 +80,9 @@ const TRANSLATIONS = {
     hours: 'Opening Hours',
     instagramShort: 'Instagram',
     googleReviewShort: 'Write a Review',
-    close: 'Close'
+    close: 'Close',
+    categoriesTitle: 'What would you like?',
+    itemsCount: 'items'
   },
   ar: {
     searchPlaceholder: 'ابحث عن أطباق، مشروبات أو حلويات...',
@@ -99,7 +103,9 @@ const TRANSLATIONS = {
     hours: 'ساعات العمل',
     instagramShort: 'انستغرام',
     googleReviewShort: 'اكتب تقييماً',
-    close: 'إغلاق'
+    close: 'إغلاق',
+    categoriesTitle: 'ماذا تود أن تطلب؟',
+    itemsCount: 'منتجات'
   },
   ru: {
     searchPlaceholder: 'Поиск блюд, напитков или десертов...',
@@ -120,7 +126,9 @@ const TRANSLATIONS = {
     hours: 'Часы работы',
     instagramShort: 'Instagram',
     googleReviewShort: 'Оставить отзыв',
-    close: 'Закрыть'
+    close: 'Закрыть',
+    categoriesTitle: 'Что желаете?',
+    itemsCount: 'позиций'
   }
 }
 
@@ -160,6 +168,9 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedTag, setSelectedTag] = useState<string>('all')
   const [activeCategory, setActiveCategory] = useState<string>('')
+  // İlk açılışta büyük kategori kartları; bir kategori seçilince liste görünümüne geçilir.
+  // Editör önizlemesinde (preview=1) ürünler doğrudan görünsün diye atlanır.
+  const [showLanding, setShowLanding] = useState(!isPreview)
   
   const tabsContainerRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -320,6 +331,14 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
     })
     return { ...cat, items }
   }).filter(cat => cat.items.length > 0)
+
+  const landingVisible = showLanding && !searchTerm.trim() && filteredCategories.length > 1
+
+  const openCategory = (categoryId: string) => {
+    // Bölümler önce render edilsin ki scrollToCategory hedefi bulabilsin
+    flushSync(() => setShowLanding(false))
+    scrollToCategory(categoryId)
+  }
 
   // Intersection Observer for Scroll Spy
   useEffect(() => {
@@ -598,7 +617,7 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
             />
           </div>
 
-          {filteredCategories.length > 0 && (
+          {!landingVisible && filteredCategories.length > 0 && (
             <div className="sticky top-0 z-40 w-[calc(100%+2rem)] -mx-4 px-4 py-2 bg-[#F5F5F7]/95 dark:bg-[#1c1c1e]/95 backdrop-blur-xl sm:w-full sm:mx-0 sm:px-0 border-b border-gray-200/50 dark:border-white/5">
               <div 
                 ref={tabsContainerRef}
@@ -623,7 +642,51 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
             </div>
           )}
 
-          {/* Dergi Bento Izgarası */}
+          {landingVisible ? (
+            /* Karşılama: büyük kategori kartları */
+            <div className="pt-2 pb-12">
+              <h2 className="mb-3 text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-zinc-100">{t.categoriesTitle}</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                {filteredCategories.map((category, index) => {
+                  const cover =
+                    category.items.find((i) => i.is_featured && i.image_url)?.image_url ||
+                    category.items.find((i) => i.image_url)?.image_url
+                  return (
+                    <motion.button
+                      key={category.id}
+                      type="button"
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35, delay: Math.min(index, 10) * 0.04, ease: 'easeOut' }}
+                      onClick={() => openCategory(category.id)}
+                      className="group relative aspect-[4/5] overflow-hidden rounded-[28px] text-left shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:shadow-none focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/30"
+                      style={cover ? undefined : { background: `linear-gradient(145deg, ${primaryColor}, ${primaryColor}99)` }}
+                    >
+                      {cover ? (
+                        <img
+                          src={catalogThumbUrl(cover)}
+                          alt=""
+                          loading={index < 6 ? 'eager' : 'lazy'}
+                          decoding="async"
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                        />
+                      ) : (
+                        <Utensils className="absolute right-4 top-4 h-10 w-10 text-white/40" />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                      <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-4">
+                        <p className="text-base sm:text-lg font-bold leading-tight text-white capitalize line-clamp-2 drop-shadow-sm">{category.name}</p>
+                        <p className="mt-0.5 text-xs font-medium text-white/75">
+                          {category.items.length} {t.itemsCount}
+                        </p>
+                      </div>
+                    </motion.button>
+                  )
+                })}
+              </div>
+            </div>
+          ) : (
+          /* Dergi Bento Izgarası */
           <div className="space-y-10 pt-2 pb-12">
             {!activeMenu || filteredCategories.length === 0 ? (
               <div className="text-center py-20 bg-white dark:bg-[#2c2c2e] rounded-[32px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-gray-400 dark:text-zinc-500 text-base font-medium">
@@ -736,6 +799,7 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
               ))
             )}
           </div>
+          )}
 
         </main>
       </div>
