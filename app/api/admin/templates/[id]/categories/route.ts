@@ -30,6 +30,9 @@ export async function PUT(request: NextRequest, { params }: Ctx) {
       if (error) throw error
     }
 
+    const now = new Date().toISOString()
+    await supabaseAdmin.from('menu_templates').update({ admin_edited_at: now, updated_at: now }).eq('id', id)
+
     await logAdminAction({
       actor,
       action: 'template.categories',

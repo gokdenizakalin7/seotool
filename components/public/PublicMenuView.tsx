@@ -30,7 +30,7 @@ import { PublicPrivacyPolicyModal } from '@/components/modals/PublicPrivacyPolic
 import { motion, AnimatePresence } from 'framer-motion'
 import { flushSync } from 'react-dom'
 import type { Menu, MenuItem, ProductTag } from '@/lib/types'
-import { getBusinessType } from '@/lib/business-types'
+import { useBusinessTypes } from '@/lib/use-business-types'
 import { catalogThumbUrl } from '@/lib/image-url'
 import { useImageCredits } from '@/lib/use-image-credits'
 
@@ -149,6 +149,7 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
   const targetSubdomain = restaurantSubdomain || paramSubdomain || ''
 
   const [restaurant, setRestaurant] = useState<any>(null)
+  const { get: getBusinessType } = useBusinessTypes()
   const [restaurantError, setRestaurantError] = useState(false)
   const [isLoadingRestaurant, setIsLoadingRestaurant] = useState(true)
 

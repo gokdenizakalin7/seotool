@@ -4,6 +4,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useS
 import { authFetch } from '@/lib/api-client'
 import { extractPrimaryBrandColorFromDataUrl } from '@/lib/extract-brand-color'
 import type { Restaurant } from '@/lib/types'
+import { clearImpersonation, getImpersonatedOrgId } from '@/lib/impersonation'
 
 export type ProfilePatch = Record<string, unknown>
 
@@ -13,6 +14,10 @@ interface RestaurantContextValue {
   role: string
   isLoading: boolean
   onboardingCompleted: boolean
+  /** Süper admin başka bir restoranın panelinde */
+  impersonating: boolean
+  /** Restoran askıda: panel salt-okunur */
+  isSuspended: boolean
   refresh: () => Promise<void>
   /** Sunucuya kaydeder ve yerel durumu günceller. Hata varsa fırlatır. */
   save: (patch: ProfilePatch) => Promise<Restaurant>
@@ -36,6 +41,7 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
   const [role, setRole] = useState('restaurant')
   const [onboardingCompleted, setOnboardingCompleted] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
+  const [impersonating, setImpersonating] = useState(false)
 
   const refresh = useCallback(async () => {
     try {
@@ -44,18 +50,27 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
       const data = await res.json()
       setEmail(data.email || '')
       setRole(data.role || 'restaurant')
+
+      // Süper admin "Panele Gir": seçili restoranın profili sunucudan okunur (kendi restoranı yerine)
+      const impersonatedId = data.role === 'superadmin' ? getImpersonatedOrgId() : null
+      if (impersonatedId) {
+        const imp = await authFetch(`/api/admin/organizations/${impersonatedId}/impersonate`)
+        if (imp.ok) {
+          const { restaurant: r } = await imp.json()
+          setRestaurant(r)
+          setImpersonating(true)
+          setOnboardingCompleted(true)
+          persistLegacy(r)
+          return
+        }
+        clearImpersonation()
+      }
+
+      setImpersonating(false)
       setOnboardingCompleted(data.organization ? !!data.organization.onboardingCompleted : true)
       if (data.restaurant) {
         setRestaurant(data.restaurant)
         persistLegacy(data.restaurant)
-      } else if (data.role === 'superadmin' || data.role === 'admin') {
-        // Süper admin "restoran olarak görüntüle" (impersonation): seçili restoran localStorage'da
-        try {
-          const stored = localStorage.getItem('currentRestaurant')
-          if (stored) setRestaurant(JSON.parse(stored))
-        } catch {
-          // bozuk kayıt
-        }
       }
     } catch (err) {
       console.error('Profil yüklenemedi', err)
@@ -120,7 +135,8 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
   )
 
   const removeAsset = useCallback(async (kind: 'logo' | 'cover') => {
-    const res = await authFetch(`/api/organizations/assets?kind=${kind}`, { method: 'DELETE' })
+    const orgParam = restaurant?.id ? `&organizationId=${encodeURIComponent(restaurant.id)}` : ''
+    const res = await authFetch(`/api/organizations/assets?kind=${kind}${orgParam}`, { method: 'DELETE' })
     if (!res.ok) throw new Error('Görsel kaldırılamadı.')
     setRestaurant((prev) => {
       if (!prev) return prev
@@ -132,11 +148,24 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
       persistLegacy(next)
       return next
     })
-  }, [])
+  }, [restaurant?.id])
 
   const value = useMemo(
-    () => ({ restaurant, email, role, isLoading, onboardingCompleted, refresh, save, uploadAsset, removeAsset }),
-    [restaurant, email, role, isLoading, onboardingCompleted, refresh, save, uploadAsset, removeAsset]
+    () => ({
+      restaurant,
+      email,
+      role,
+      isLoading,
+      onboardingCompleted,
+      impersonating,
+      // Süper admin askıdaki restoranda da düzenleyebilir
+      isSuspended: restaurant?.status === 'suspended' && !impersonating,
+      refresh,
+      save,
+      uploadAsset,
+      removeAsset,
+    }),
+    [restaurant, email, role, isLoading, onboardingCompleted, impersonating, refresh, save, uploadAsset, removeAsset]
   )
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>

@@ -26,6 +26,13 @@ export async function POST(request: NextRequest) {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password })
     
     if (error) {
+      // Admin panelinden girişi engellenen kullanıcı
+      if (error.code === 'user_banned' || /banned/i.test(error.message)) {
+        return NextResponse.json(
+          { error: 'Hesabınızın girişi yönetici tarafından engellendi. Lütfen bizimle iletişime geçin.', code: 'USER_BANNED' },
+          { status: 403 }
+        )
+      }
       return NextResponse.json({ error: error.message }, { status: 400 })
     }
 

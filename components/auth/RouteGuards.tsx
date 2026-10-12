@@ -8,7 +8,7 @@ import { authFetch } from '@/lib/api-client'
 
 /**
  * Admin Rota Kalkanı (AdminGuard)
- * /admin/* rotalarına yalnızca 'superadmin' veya 'admin' rolündeki kullanıcıların erişmesini sağlar.
+ * /admin/* rotalarına yalnızca süper admin erişir. Restoran içindeki 'admin' rolü (org yöneticisi) bu panele giremez.
  */
 export function AdminGuard({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate()
@@ -25,10 +25,9 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
         if (res.ok) {
           const user = await res.json()
           if (isMounted) {
-            const isAdmin = user.role === 'superadmin' || user.role === 'admin'
-            if (!isAdmin) {
+            if (user.role !== 'superadmin') {
               setIsAuthorized(false)
-              startRedirect(user.role)
+              startRedirect('restaurant')
             } else {
               setIsAuthorized(true)
             }
@@ -139,7 +138,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
           return
         }
         const me = await res.json()
-        const isAdmin = me.role === 'superadmin' || me.role === 'admin'
+        const isAdmin = me.role === 'superadmin'
         if (!isAdmin && me.organization && !me.organization.onboardingCompleted) {
           navigate('/onboarding', { replace: true })
           return
@@ -203,7 +202,7 @@ export function OnboardingGuard({ children }: { children: React.ReactNode }) {
           return
         }
         const me = await res.json()
-        if (me.role === 'superadmin' || me.role === 'admin') {
+        if (me.role === 'superadmin') {
           navigate('/admin', { replace: true })
         } else if (!me.organization || me.organization.onboardingCompleted) {
           navigate('/dashboard', { replace: true })

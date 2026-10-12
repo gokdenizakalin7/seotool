@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { PageTransition, useSmoothScroll, useRevealOnScroll } from '@/components/dashboard/ScrollNavigation'
 
 import { LandingPage } from '@/components/landing/LandingPage'
@@ -10,8 +10,9 @@ import { Login } from '@/components/auth/Login'
 import { Signup } from '@/components/auth/Signup'
 import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard'
 import { RestaurantProvider, useRestaurant } from '@/components/providers/RestaurantProvider'
-import { AccountActivation } from '@/components/auth/AccountActivation'
-import { AdminDashboard } from '@/components/admin/AdminDashboard'
+import { AdminApp } from '@/components/admin/AdminApp'
+import { MustChangePasswordGate } from '@/components/auth/MustChangePasswordGate'
+import { AccountBanners } from '@/components/dashboard/AccountBanners'
 import { AdminGuard, AuthGuard, OnboardingGuard } from '@/components/auth/RouteGuards'
 
 import { Sidebar } from '@/components/dashboard/Sidebar'
@@ -67,6 +68,7 @@ function DashboardLayout() {
           subdomain={currentRestaurant?.subdomain}
           logoUrl={currentRestaurant?.branding?.logoUrl}
         />
+        <AccountBanners />
 
         <main ref={mainRef} className="flex-1 overflow-y-auto overflow-x-hidden p-4 lg:p-6">
           <PageTransition mainRef={mainRef}>
@@ -164,13 +166,15 @@ export function ClientApp() {
   return (
     <AppErrorBoundary>
       <BrowserRouter>
+        <MustChangePasswordGate />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/onboarding" element={<OnboardingGuard><OnboardingWizard /></OnboardingGuard>} />
-          <Route path="/activate" element={<AccountActivation />} />
-          <Route path="/admin/*" element={<AdminGuard><AdminDashboard /></AdminGuard>} />
+          {/* Eski aktivasyon linkleri: şifreyi artık admin belirliyor */}
+          <Route path="/activate" element={<Navigate to="/login" replace />} />
+          <Route path="/admin/*" element={<AdminGuard><AdminApp /></AdminGuard>} />
           <Route path="/dashboard/*" element={<AuthGuard><RestaurantProvider><DashboardLayout /></RestaurantProvider></AuthGuard>} />
           <Route path="/business" element={<BusinessDirectory />} />
           <Route path="/menu/:subdomain" element={<PublicMenuView />} />

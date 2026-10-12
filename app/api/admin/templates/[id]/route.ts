@@ -50,7 +50,7 @@ export async function PATCH(request: NextRequest, { params }: Ctx) {
 
     const { data, error } = await supabaseAdmin
       .from('menu_templates')
-      .update({ ...update, updated_at: new Date().toISOString() })
+      .update({ ...update, updated_at: new Date().toISOString(), admin_edited_at: new Date().toISOString() })
       .eq('id', tpl.id)
       .select(TEMPLATE_COLUMNS)
       .single()

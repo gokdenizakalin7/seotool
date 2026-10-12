@@ -76,6 +76,10 @@ Müşterinin gördüğü sayfa. Playwright testi gerçek restoran için **demo r
 
 ## 4. Admin paneli ve hesap aktivasyonu (P0, büyük iş)
 
+> **Durum (2026-10-12):** K1 = tam panel. 4.1, 4.2, 4.4, 4.5, 4.6, 4.7, 4.8 yapıldı (`feat/admin-panel`).
+> Admin paneli gerçek veriye bağlı (`/api/admin/*`, migration 11). Aktivasyon linki yerine şifreyi admin belirler,
+> isteğe bağlı olarak ilk girişte değiştirme zorunlu. Kalan: 4.3 (çerez temizliği), 4.9 (şifremi unuttum).
+
 Şu an admin yetkisi ve tüm kullanıcı/restoran yönetimi tarayıcıda `localStorage` üzerinde. **Önce karar gerekli** (aşağıdaki "Kararlar" bölümü).
 
 | # | Dosya / konum | Sorun | Yapılacak | Öncelik |

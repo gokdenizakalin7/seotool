@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
 
     const { data, error } = await supabaseAdmin
       .from('menu_templates')
-      .insert({ slug: input.slug, ...templateToDb({ ...input, displayOrder }) })
+      .insert({ slug: input.slug, ...templateToDb({ ...input, displayOrder }), admin_edited_at: new Date().toISOString() })
       .select(TEMPLATE_COLUMNS)
       .single()
     if (error) {

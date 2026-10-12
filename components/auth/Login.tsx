@@ -6,6 +6,7 @@ import { QrCode, Loader2, ArrowRight, Lock, Mail, ChefHat } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { setClientSession } from '@/lib/session'
 import { supabase } from '@/lib/supabase'
+import { clearImpersonation } from '@/lib/impersonation'
 
 export function Login() {
   const [email, setEmail] = useState('')
@@ -65,8 +66,11 @@ export function Login() {
         return
       }
 
-      // God User veya Admin Kontrolü
-      if (meData.role === 'superadmin' || meData.role === 'admin') {
+      // Önceki "Panele Gir" seçimi yeni oturuma taşınmasın
+      clearImpersonation()
+
+      // Süper admin kontrolü
+      if (meData.role === 'superadmin') {
         setClientSession({ role: meData.role, userId: meData.id })
         localStorage.setItem('user_role', meData.role)
         window.location.href = '/admin'

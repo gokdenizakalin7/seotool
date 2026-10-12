@@ -100,18 +100,26 @@ export async function DELETE(request: NextRequest) {
     if (kind !== 'logo' && kind !== 'cover') {
       return NextResponse.json({ error: 'Geçersiz görsel türü.' }, { status: 400 })
     }
-    const { data: m } = await supabaseAdmin
-      .from('organization_members')
-      .select('organization_id')
-      .eq('user_id', auth.user.id)
-      .maybeSingle()
-    if (!m) return NextResponse.json({ error: 'Restoran bulunamadı.' }, { status: 404 })
+    // Süper admin "Panele Gir" sırasında hedef restoranı belirtir; diğerleri üyelikten çözülür
+    let orgId = auth.user.isSuperAdmin ? new URL(request.url).searchParams.get('organizationId') : null
+    if (!orgId) {
+      const { data: m } = await supabaseAdmin
+        .from('organization_members')
+        .select('organization_id')
+        .eq('user_id', auth.user.id)
+        .maybeSingle()
+      orgId = m?.organization_id ?? null
+    }
+    if (!orgId) return NextResponse.json({ error: 'Restoran bulunamadı.' }, { status: 404 })
+
+    const access = await requireOrgAccess(request, orgId)
+    if ('response' in access) return access.response
 
     const column = kind === 'logo' ? 'logo_url' : 'cover_url'
-    const { data: old } = await supabaseAdmin.from('organizations').select(column).eq('id', m.organization_id).maybeSingle()
-    await supabaseAdmin.from('organizations').update({ [column]: null }).eq('id', m.organization_id)
+    const { data: old } = await supabaseAdmin.from('organizations').select(column).eq('id', orgId).maybeSingle()
+    await supabaseAdmin.from('organizations').update({ [column]: null }).eq('id', orgId)
     const oldPath = pathFromPublicUrl((old as any)?.[column])
-    if (oldPath && oldPath.startsWith(`orgs/${m.organization_id}/`)) {
+    if (oldPath && oldPath.startsWith(`orgs/${orgId}/`)) {
       await supabaseAdmin.storage.from(BUCKET).remove([oldPath])
     }
     return NextResponse.json({ success: true })

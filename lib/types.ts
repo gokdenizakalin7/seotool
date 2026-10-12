@@ -1,21 +1,4 @@
-export type UserRole = 'superadmin' | 'restaurant'
 export type AccountStatus = 'active' | 'suspended'
-
-export interface UserAccount {
-  id: string
-  name: string
-  email: string
-  role: UserRole
-  status: AccountStatus
-  password?: string
-  restaurantId?: string
-  restaurantName?: string
-  phone?: string
-  city?: string
-  createdAt: string
-  lastLogin?: string
-  activationToken?: string
-}
 
 export type ProductTag =
   | 'hot'

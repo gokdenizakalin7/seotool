@@ -29,6 +29,7 @@ export function clearClientSession() {
   localStorage.removeItem('user_role')
   localStorage.removeItem('is_admin')
   localStorage.removeItem('is_admin_impersonating')
+  localStorage.removeItem('admin_impersonate_org_id')
   localStorage.removeItem('currentRestaurant')
   localStorage.removeItem('user_id')
 

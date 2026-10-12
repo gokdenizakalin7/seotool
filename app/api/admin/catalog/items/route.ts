@@ -9,7 +9,7 @@ import { foldTurkish } from '@/lib/catalog-match'
 import type { AdminCatalogItem } from '@/lib/admin-types'
 
 /**
- * GET /api/admin/catalog/items?q=&categoryId=&image=missing|has&active=all|active|inactive&page=&size=
+ * GET /api/admin/catalog/items?q=&categoryId=&image=missing|has&active=all|active|inactive&page=&size=&usage=0
  * categoryId alt kategorileri de kapsar.
  */
 export async function GET(request: NextRequest) {
@@ -20,7 +20,9 @@ export async function GET(request: NextRequest) {
     const image = p.get('image')
     const active = p.get('active') || 'all'
     const page = Math.max(1, Number(p.get('page')) || 1)
-    const size = Math.min(200, Math.max(1, Number(p.get('size')) || 60))
+    // Şablon editörü tüm kataloğu tek seferde ister (size=2000&usage=0)
+    const size = Math.min(2000, Math.max(1, Number(p.get('size')) || 60))
+    const withUsage = p.get('usage') !== '0'
 
     const rows = await fetchAll<any>(supabaseAdmin, 'catalog_items', ITEM_COLUMNS, (qb) => qb.order('display_order'))
     let items: AdminCatalogItem[] = rows.map(mapItem)
@@ -38,7 +40,8 @@ export async function GET(request: NextRequest) {
     }
 
     const total = items.length
-    const pageItems = await attachUsage(items.slice((page - 1) * size, page * size))
+    const slice = items.slice((page - 1) * size, page * size)
+    const pageItems = withUsage ? await attachUsage(slice) : slice
     return NextResponse.json({ items: pageItems, total, page, size })
   })
 }

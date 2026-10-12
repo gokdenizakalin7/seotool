@@ -61,6 +61,11 @@ async function authFetchUncached(url: string, options: RequestInit = {}) {
 
   const res = await fetch(url, { ...options, headers })
 
+  // Askıdaki restoranda yazma denemesi: panel bandı kullanıcıyı bilgilendirir
+  if (res.status === 423 && typeof window !== 'undefined') {
+    window.dispatchEvent(new Event('org-suspended'))
+  }
+
   if (res.status === 401 && typeof window !== 'undefined') {
     const onLoginPage = window.location.pathname === '/login'
     if (!onLoginPage) {

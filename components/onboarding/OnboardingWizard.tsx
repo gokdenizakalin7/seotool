@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { PanelThemeProvider, PanelBackground, ThemeToggle } from '@/components/theme/PanelTheme'
 import { RestaurantProvider, useRestaurant } from '@/components/providers/RestaurantProvider'
 import { usePublicMenuPreview } from '@/lib/use-public-menu-preview'
-import { getBusinessType } from '@/lib/business-types'
+import { useBusinessTypes } from '@/lib/use-business-types'
 import { useCatalogTemplates } from '@/lib/use-catalog-templates'
 import {
   BasicsSection,
@@ -58,6 +58,7 @@ function Wizard() {
   const previewRestaurant = useMemo(() => applyDraftToRestaurant(restaurant, draft), [restaurant, draft])
   const iframeRef = usePublicMenuPreview({ menu: null, restaurant: previewRestaurant, primaryColor: draft.primaryColor })
 
+  const { get: getBusinessType } = useBusinessTypes()
   const typeInfo = getBusinessType(draft.businessType)
   const { templates: typeTemplates } = useCatalogTemplates(
     draft.businessType || null,

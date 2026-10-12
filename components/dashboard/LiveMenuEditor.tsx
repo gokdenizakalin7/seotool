@@ -49,7 +49,7 @@ import { sanitizeText, sanitizeMultilineText, sanitizePrice } from '@/lib/saniti
 import { ScanMenuModal } from '@/components/modals/ScanMenuModal'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import { usePublicMenuPreview } from '@/lib/use-public-menu-preview'
-import { getBusinessType } from '@/lib/business-types'
+import { useBusinessTypes } from '@/lib/use-business-types'
 import { setScrollNavGuard } from '@/components/dashboard/ScrollNavigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
@@ -425,12 +425,13 @@ export function LiveMenuEditor() {
   const { templates: allTemplates, isLoading: templatesLoading } = useCatalogTemplates(null)
   const [showAllTemplates, setShowAllTemplates] = useState(false)
   const businessTypeId = currentRestaurant?.businessType
+  const { get: getBusinessType } = useBusinessTypes()
   const orderedTemplates = useMemo(() => {
     const recommendedSlug = getBusinessType(businessTypeId)?.templateId
     const rank = (t: CatalogTemplateSummary) =>
       t.slug === recommendedSlug ? 2 : t.businessType === businessTypeId ? 1 : 0
     return [...allTemplates].sort((a, b) => rank(b) - rank(a))
-  }, [allTemplates, businessTypeId])
+  }, [allTemplates, businessTypeId, getBusinessType])
   const hasTypeMatches = orderedTemplates.some((t) => t.businessType === businessTypeId)
   const visibleTemplates = useMemo(
     () =>

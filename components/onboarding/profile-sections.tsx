@@ -5,7 +5,7 @@ import { ImagePlus, Loader2, Trash2, Check } from 'lucide-react'
 import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { BUSINESS_TYPES, getBusinessType } from '@/lib/business-types'
+import { useBusinessTypes } from '@/lib/use-business-types'
 import { compressImageFile, IMAGE_PRESETS } from '@/lib/image-compression'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import type { Restaurant } from '@/lib/types'
@@ -137,6 +137,7 @@ function Field({
 /* ------------------------------------------------------------------ */
 
 export function BasicsSection({ draft, setDraft }: SectionProps) {
+  const { types: businessTypes, get: getBusinessType } = useBusinessTypes()
   return (
     <div className="space-y-5">
       <Field label="İşletme Adı">
@@ -151,7 +152,7 @@ export function BasicsSection({ draft, setDraft }: SectionProps) {
       <div className="space-y-2">
         <Label className="font-semibold">İşletme Türü</Label>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-          {BUSINESS_TYPES.map((t) => {
+          {businessTypes.map((t) => {
             const active = draft.businessType === t.id
             return (
               <button
