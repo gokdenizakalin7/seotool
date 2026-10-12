@@ -94,6 +94,7 @@ DROP INDEX IF EXISTS idx_menu_views_created;
 DROP INDEX IF EXISTS idx_menu_views_org_created;
 ALTER TABLE menu_views DROP COLUMN IF EXISTS organization_id;
 
+ALTER TABLE menu_templates     DROP COLUMN IF EXISTS admin_edited_at;
 ALTER TABLE catalog_items      DROP COLUMN IF EXISTS admin_edited_at;
 ALTER TABLE catalog_categories DROP COLUMN IF EXISTS admin_edited_at;
 

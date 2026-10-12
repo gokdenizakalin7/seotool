@@ -5,7 +5,11 @@
  *
  *   --dry-run   Hiç yazmaz, sayıları basar.
  *   --prune     Seed'de olmayan catalog_categories / catalog_items / menu_templates satırlarını
- *               is_active=false yapar (silmez).
+ *               is_active=false yapar (silmez). Admin panelinde oluşturulan/düzenlenenler hariç.
+ *   --force     Admin panelinde düzenlenmiş satırları da seed'deki haliyle ezer.
+ *
+ * Veritabanı katalogun ana kaynağıdır: admin_edited_at dolu satırlar (admin paneli) varsayılan olarak
+ * atlanır; yalnızca seed'deki yeni slug'lar eklenir ve dokunulmamış satırlar güncellenir.
  *   SEED_FILE   Varsayılan: ../dist/seed.json (seed reposunda `node scripts/build.mjs`); projede SEED_FILE verin.
  *   SEED_INCLUDE_EN=false   name_en / description_en alanlarını atlar (06 migration'ı yoksa).
  *
@@ -34,6 +38,7 @@ type Seed = { categories: SeedCategory[]; items: SeedItem[]; templates: SeedTemp
 const args = new Set(process.argv.slice(2));
 const DRY = args.has('--dry-run');
 const PRUNE = args.has('--prune');
+const FORCE = args.has('--force');
 const INCLUDE_EN = process.env.SEED_INCLUDE_EN !== 'false';
 const SEED_FILE = process.env.SEED_FILE ?? resolve(dirname(fileURLToPath(import.meta.url)), '../dist/seed.json');
 
@@ -64,17 +69,39 @@ async function upsertAll<T extends { slug: string }>(table: string, rows: T[]): 
   return ids;
 }
 
+/** Admin panelinde düzenlenmiş satırlar: slug → id. Sütun yoksa (migration 11 öncesi) boş. */
+async function loadAdminEdited(table: string): Promise<Map<string, string>> {
+  const out = new Map<string, string>();
+  if (FORCE) return out;
+  const { data, error } = await db.from(table).select('id, slug').not('admin_edited_at', 'is', null);
+  if (error) {
+    console.warn(`${table}: admin_edited_at okunamadı (${error.message}); tüm satırlar seed'den yazılacak`);
+    return out;
+  }
+  for (const r of data ?? []) out.set(r.slug, r.id);
+  return out;
+}
+
 async function main() {
+  const [editedCats, editedItems, editedTpls] = await Promise.all([
+    loadAdminEdited('catalog_categories'),
+    loadAdminEdited('catalog_items'),
+    loadAdminEdited('menu_templates'),
+  ]);
+  if (editedCats.size + editedItems.size + editedTpls.size) {
+    console.log(`admin düzenlemesi korunuyor: ${editedCats.size} kategori, ${editedItems.size} ürün, ${editedTpls.size} şablon (--force ile ezilir)`);
+  }
+
   // 1) Kategoriler — iki geçiş: önce parent_id olmadan id al, sonra parent_id ile tekrar upsert.
   const catBase = seed.categories.map((c) => ({
     slug: c.slug, name: c.name, icon: c.icon, display_order: c.display_order, is_active: true,
     ...(INCLUDE_EN ? { name_en: c.name_en } : {}),
   }));
-  const catIds = await upsertAll('catalog_categories', catBase.map((c) => ({ ...c, parent_id: null })));
-  await upsertAll('catalog_categories', seed.categories.map((c, i) => ({
-    ...catBase[i],
-    parent_id: c.parent ? catIds.get(c.parent) ?? null : null,
-  })));
+  const catIds = await upsertAll('catalog_categories', catBase.filter((c) => !editedCats.has(c.slug)).map((c) => ({ ...c, parent_id: null })));
+  for (const [slug, id] of editedCats) catIds.set(slug, id);
+  await upsertAll('catalog_categories', seed.categories
+    .map((c, i) => ({ ...catBase[i], parent_id: c.parent ? catIds.get(c.parent) ?? null : null }))
+    .filter((c) => !editedCats.has(c.slug)));
   console.log(`catalog_categories: ${catIds.size}`);
 
   // 2) Ürünler
@@ -90,20 +117,23 @@ async function main() {
       ...(INCLUDE_EN ? { name_en: it.name_en, description_en: it.description_en } : {}),
     };
   });
-  const itemIds = await upsertAll('catalog_items', itemRows);
+  const itemIds = await upsertAll('catalog_items', itemRows.filter((r) => !editedItems.has(r.slug)));
+  for (const [slug, id] of editedItems) itemIds.set(slug, id);
   console.log(`catalog_items: ${itemIds.size}`);
 
   // 3) Şablonlar
-  const tplIds = await upsertAll('menu_templates', seed.templates.map((t) => ({
+  const tplIds = await upsertAll('menu_templates', seed.templates.filter((t) => !editedTpls.has(t.slug)).map((t) => ({
     slug: t.slug, business_type: t.business_type, name: t.name, tagline: t.tagline, venue_type: t.venue_type,
     icon: t.icon, color: t.color, cover_image: t.cover_image, description: t.description,
     display_order: t.display_order, is_active: true,
   })));
+  for (const [slug, id] of editedTpls) tplIds.set(slug, id);
   console.log(`menu_templates: ${tplIds.size}`);
 
   // 4) Şablon bağlantıları — şablon başına sil + yaz
   let linkCats = 0, linkItems = 0;
   for (const t of seed.templates) {
+    if (editedTpls.has(t.slug)) continue; // admin panelinde içeriği düzenlenmiş şablon
     const tid = tplIds.get(t.slug)!;
     const cats = t.categories.map((c) => ({ template_id: tid, category_id: catIds.get(c.category), display_order: c.display_order }));
     const items = t.items.map((i) => ({ template_id: tid, item_id: itemIds.get(i.item), display_order: i.display_order, price_override: i.price_override ?? null }));
@@ -133,7 +163,8 @@ async function main() {
     ] as const) {
       const { data, error } = await db.from(table).select('slug').eq('is_active', true);
       if (error) throw new Error(`${table} select: ${error.message}`);
-      const stale = (data ?? []).map((r) => r.slug).filter((s) => !keep.includes(s));
+      const edited = table === 'catalog_items' ? editedItems : table === 'catalog_categories' ? editedCats : editedTpls;
+      const stale = (data ?? []).map((r) => r.slug).filter((s) => !keep.includes(s) && !edited.has(s));
       if (stale.length) {
         const upd = await db.from(table).update({ is_active: false }).in('slug', stale);
         if (upd.error) throw new Error(`${table} prune: ${upd.error.message}`);

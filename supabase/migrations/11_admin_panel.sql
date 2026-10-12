@@ -7,7 +7,7 @@
 --  * admin_audit_log: panelden yapılan her değişiklik
 --  * business_types: işletme türleri artık DB'den yönetilir (lib/business-types.ts yalnızca yedek)
 --  * platform_settings: panelden değiştirilebilen platform ayarları
---  * catalog_*.admin_edited_at: import script'i admin düzenlemelerini ezmez
+--  * catalog_* / menu_templates.admin_edited_at: import script'i admin düzenlemelerini ezmez
 --  * Katalog görseli yayılımı: admin'in Storage'a yüklediği varsayılan görseller de tanınır,
 --    restoranın kendi yüklediği görsel asla ezilmez
 --  * menu_views.organization_id + admin RPC'leri (liste, kullanıcılar, istatistik)
@@ -148,6 +148,7 @@ ON CONFLICT (key) DO NOTHING;
 -- --------------------------------------------
 ALTER TABLE catalog_categories ADD COLUMN IF NOT EXISTS admin_edited_at timestamptz;
 ALTER TABLE catalog_items      ADD COLUMN IF NOT EXISTS admin_edited_at timestamptz;
+ALTER TABLE menu_templates     ADD COLUMN IF NOT EXISTS admin_edited_at timestamptz;
 
 -- --------------------------------------------
 -- 7. Katalog varsayılan görseli tanıma + yayılım

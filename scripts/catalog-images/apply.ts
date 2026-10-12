@@ -1,7 +1,10 @@
 /**
  * manifest.json → catalog_items.image_url (+ bağlı işletme ürünlerine backfill) + public/catalog/credits.json
  *
- *   npm run catalog:images:apply -- [--dry-run] [--only a,b] [--clear a,b] [--no-backfill]
+ *   npm run catalog:images:apply -- [--dry-run] [--only a,b] [--clear a,b] [--no-backfill] [--force]
+ *
+ *   Admin panelinden yüklenen/üretilen görseller (Storage'daki menu-images/catalog/…) korunur;
+ *   --force verilirse manifest'teki statik görselle ezilir.
  *
  *   SUPABASE_URL (veya NEXT_PUBLIC_SUPABASE_URL) ve SUPABASE_SERVICE_ROLE_KEY gerekir (.env.local).
  */
@@ -19,6 +22,7 @@ async function main() {
   const only = new Set(args.list('only'))
   const clear = args.list('clear')
   const noBackfill = args.has('no-backfill')
+  const force = args.has('force')
 
   const manifest = loadManifest()
   const seed = loadSeed()
@@ -59,10 +63,22 @@ async function main() {
   if (!url || !key) throw new Error('SUPABASE_URL ve SUPABASE_SERVICE_ROLE_KEY gerekli')
   const db = createClient(url, key, { auth: { persistSession: false } })
 
+  // Admin panelinde görseli değiştirilmiş ürünler: image_url statik /catalog/ yolu değil
+  let toWrite = rows
+  if (!force) {
+    const { data: current, error } = await db.from('catalog_items').select('slug, image_url').like('image_url', '%/menu-images/catalog/%')
+    if (error) throw new Error(`catalog_items okunamadı: ${error.message}`)
+    const adminImages = new Set((current || []).map((r) => r.slug))
+    toWrite = rows.filter((r) => !adminImages.has(r.slug))
+    if (rows.length !== toWrite.length) {
+      console.log(`${rows.length - toWrite.length} ürünün admin panelinden yüklenen görseli korunuyor (--force ile ezilir)`)
+    }
+  }
+
   let updated = 0
   const missing: string[] = []
-  for (let i = 0; i < rows.length; i += 300) {
-    const part = rows.slice(i, i + 300)
+  for (let i = 0; i < toWrite.length; i += 300) {
+    const part = toWrite.slice(i, i + 300)
     const { data, error } = await db.rpc('set_catalog_item_images', { p_rows: part })
     if (error) throw new Error(`set_catalog_item_images: ${error.message} (08 migration'ı çalıştı mı?)`)
     const r = (data || {}) as { updated?: number; missing?: string[] }
