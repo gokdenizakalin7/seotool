@@ -14,6 +14,10 @@ const SUPER_ADMIN_EMAIL = (
   process.env.SUPER_ADMIN_EMAIL || 'gokdenizakalin7@gmail.com'
 ).toLowerCase()
 
+export function isSuperAdminEmail(email: string | null | undefined): boolean {
+  return (email || '').toLowerCase() === SUPER_ADMIN_EMAIL
+}
+
 export interface AuthUser {
   id: string
   email: string
@@ -118,12 +122,30 @@ export async function requireSuperAdmin(
   return auth
 }
 
+export interface OrgAccessOptions {
+  /** Askıya alınmış restoranda da izin ver (yalnızca okuma uçları için). */
+  allowSuspended?: boolean
+}
+
+/** Org askıdaysa sebebini döner. Migration 11 çalışmadıysa (sütun yok) askıda sayılmaz. */
+export async function getOrgSuspension(organizationId: string): Promise<{ reason: string } | null> {
+  const { data, error } = await supabaseAdmin
+    .from('organizations')
+    .select('status, status_reason')
+    .eq('id', organizationId)
+    .maybeSingle()
+  if (error || !data || data.status !== 'suspended') return null
+  return { reason: data.status_reason || '' }
+}
+
 /**
  * Kullanıcının verilen organizasyonun üyesi (veya süper admin) olmasını zorunlu kılar.
+ * Askıya alınmış restoranda üyeler yazamaz (423 ORG_SUSPENDED); süper admin etkilenmez.
  */
 export async function requireOrgAccess(
   req: NextRequest | Request,
-  organizationId: string
+  organizationId: string,
+  opts: OrgAccessOptions = {}
 ): Promise<{ user: AuthUser; organizationId: string } | Denied> {
   const auth = await requireUser(req)
   if ('response' in auth) return auth
@@ -153,6 +175,22 @@ export async function requireOrgAccess(
     )
   }
 
+  if (!opts.allowSuspended) {
+    const suspended = await getOrgSuspension(organizationId)
+    if (suspended) {
+      return {
+        response: NextResponse.json(
+          {
+            error: 'Hesabınız askıya alındığı için değişiklik yapılamaz.',
+            code: 'ORG_SUSPENDED',
+            reason: suspended.reason,
+          },
+          { status: 423 }
+        ),
+      }
+    }
+  }
+
   return { user, organizationId }
 }
 
@@ -162,7 +200,8 @@ export async function requireOrgAccess(
  */
 export async function requireSubdomainAccess(
   req: NextRequest | Request,
-  subdomain: string
+  subdomain: string,
+  opts: OrgAccessOptions = {}
 ): Promise<{ user: AuthUser; organizationId: string } | Denied> {
   const auth = await requireUser(req)
   if ('response' in auth) return auth
@@ -175,5 +214,5 @@ export async function requireSubdomainAccess(
 
   if (!org) return deny(404, 'Organizasyon bulunamadı.', 'ORG_NOT_FOUND')
 
-  return requireOrgAccess(req, org.id)
+  return requireOrgAccess(req, org.id, opts)
 }

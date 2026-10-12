@@ -1,39 +1,4 @@
-import { Restaurant, Menu, MenuCategory, UserAccount } from './types'
-
-// SİSTEM KULLANICI HESAPLARI
-export const SYSTEM_USERS: UserAccount[] = [
-  {
-    id: 'user-admin',
-    name: 'Gökdeniz Akalın',
-    email: 'gokdenizakalin7@gmail.com',
-    password: 'Password123!',
-    role: 'superadmin',
-    status: 'active',
-    createdAt: '2024-01-01'
-  },
-  {
-    id: 'user-mehmet',
-    name: 'Mehmet Usta',
-    email: 'mehmet@lezzetocakbasi.com',
-    password: 'Password123!',
-    role: 'restaurant',
-    status: 'active',
-    restaurantId: 'rest-1',
-    restaurantName: 'Tarihi Lezzet Ocakbaşı & Anadolu Et Mutfağı',
-    createdAt: '2024-01-15'
-  },
-  {
-    id: 'user-zeynep',
-    name: 'Zeynep Kaya',
-    email: 'zeynep@modacafe.com',
-    password: 'Password123!',
-    role: 'restaurant',
-    status: 'active',
-    restaurantId: 'rest-2',
-    restaurantName: 'All-Day Dining Kafe & Bistro',
-    createdAt: '2024-02-10'
-  }
-]
+import { Restaurant, Menu, MenuCategory } from './types'
 
 export const MOCK_RESTAURANTS: Restaurant[] = [
   {
@@ -44,10 +9,6 @@ export const MOCK_RESTAURANTS: Restaurant[] = [
     role: 'restaurant',
     currency: '₺',
     status: 'active',
-    credentials: {
-      email: 'mehmet@lezzetocakbasi.com',
-      password: 'Password123!'
-    },
     businessInfo: {
       owner_name: "Mehmet Usta",
       email: 'mehmet@lezzetocakbasi.com',
@@ -76,10 +37,6 @@ export const MOCK_RESTAURANTS: Restaurant[] = [
     role: 'restaurant',
     currency: '₺',
     status: 'active',
-    credentials: {
-      email: 'zeynep@modacafe.com',
-      password: 'Password123!'
-    },
     businessInfo: {
       owner_name: "Zeynep Kaya",
       email: 'zeynep@modacafe.com',

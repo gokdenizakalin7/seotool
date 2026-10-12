@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limiter'
+import { getSetting } from '@/lib/server/platform-settings'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -18,6 +19,13 @@ const schema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    if (!(await getSetting('signup_enabled'))) {
+      return NextResponse.json(
+        { error: 'Yeni kayıtlar şu an kapalı. Hesap açmak için bizimle iletişime geçin.', code: 'SIGNUP_DISABLED' },
+        { status: 403 }
+      )
+    }
+
     const ip = getClientIp(request)
     const rl = checkRateLimit(`signup_${ip}`, RATE_LIMITS.AUTH_SIGNUP.limit, RATE_LIMITS.AUTH_SIGNUP.windowSeconds)
     if (!rl.success) {

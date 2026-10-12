@@ -272,7 +272,7 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
   useEffect(() => {
     async function loadMenus() {
       if (!restaurant) return;
-      if (isPreview) { setIsLoading(false); return }
+      if (isPreview || restaurant.suspended) { setIsLoading(false); return }
       try {
         const res = await fetch(`/api/public/menus?orgId=${restaurant.id}`)
         if (res.ok) {
@@ -391,6 +391,20 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
         <AlertCircle className="h-16 w-16 text-gray-400 mb-4" />
         <h2 className="text-2xl font-bold text-gray-800 mb-2">Restoran Bulunamadı</h2>
         <p className="text-gray-500 text-center max-w-md">Aradığınız menüye ulaşılamıyor veya böyle bir restoran sistemimizde kayıtlı değil.</p>
+      </div>
+    )
+  }
+
+  if (restaurant.suspended) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6 text-center">
+        {restaurant.logo_url ? (
+          <img src={restaurant.logo_url} alt="" className="h-20 w-20 rounded-2xl object-cover mb-5 shadow-sm" />
+        ) : (
+          <AlertCircle className="h-16 w-16 text-gray-400 mb-4" />
+        )}
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">{restaurant.name}</h2>
+        <p className="text-gray-500 max-w-md">{restaurant.message || 'Bu menü geçici olarak hizmet dışıdır.'}</p>
       </div>
     )
   }

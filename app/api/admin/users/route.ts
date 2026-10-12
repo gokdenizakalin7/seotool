@@ -1,25 +1,46 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-import { requireSuperAdmin } from '@/lib/auth-middleware'
+import { supabaseAdmin } from '@/lib/supabase-admin'
+import { adminRoute, jsonError } from '@/lib/server/admin/http'
+import { foldTurkish } from '@/lib/catalog-match'
+import type { AdminUserRow } from '@/lib/admin-types'
+import { mapUserRow } from '@/lib/server/admin/users'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-
+/** GET /api/admin/users?q=&filter=all|banned|orphan&page=&size= — tüm kullanıcılar ve üyelikleri */
 export async function GET(request: NextRequest) {
-  try {
-    const authCheck = await requireSuperAdmin(request)
-    if ('response' in authCheck) return authCheck.response
+  return adminRoute(request, 'users list', async () => {
+    const params = request.nextUrl.searchParams
+    const q = foldTurkish((params.get('q') || '').trim())
+    const filter = params.get('filter') || 'all'
+    const page = Math.max(1, Number(params.get('page')) || 1)
+    const size = Math.min(200, Math.max(1, Number(params.get('size')) || 50))
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
-
-    const { data: users, error } = await supabase.auth.admin.listUsers()
-
+    const { data, error } = await supabaseAdmin.rpc('admin_users_overview')
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      console.error('admin_users_overview:', error)
+      return jsonError(500, 'Kullanıcılar okunamadı. Migration 11 çalıştırıldı mı?', 'DB')
     }
 
-    return NextResponse.json({ users: users.users })
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 })
-  }
+    const now = Date.now()
+    let rows: AdminUserRow[] = ((data || []) as any[]).map(mapUserRow)
+    const isBanned = (u: AdminUserRow) => !!u.bannedUntil && new Date(u.bannedUntil).getTime() > now
+    const counts = {
+      all: rows.length,
+      banned: rows.filter(isBanned).length,
+      orphan: rows.filter((u) => u.memberships.length === 0 && !u.isSuperAdmin).length,
+    }
+
+    if (filter === 'banned') rows = rows.filter(isBanned)
+    if (filter === 'orphan') rows = rows.filter((u) => u.memberships.length === 0 && !u.isSuperAdmin)
+    if (q) {
+      rows = rows.filter((u) =>
+        [u.email, u.ownerName, ...u.memberships.map((m) => m.name), ...u.memberships.map((m) => m.subdomain)]
+          .filter(Boolean)
+          .some((v) => foldTurkish(String(v)).includes(q))
+      )
+    }
+
+    const total = rows.length
+    rows = rows.slice((page - 1) * size, page * size)
+    return NextResponse.json({ users: rows, total, page, size, counts })
+  })
 }

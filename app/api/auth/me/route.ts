@@ -50,6 +50,8 @@ export async function GET(request: NextRequest) {
             business_phone: org.business_phone,
             onboardingCompleted: !!org.onboarding_completed_at,
             onboardingStep: org.onboarding_step || null,
+            status: org.status === 'suspended' ? 'suspended' : 'active',
+            statusReason: org.status_reason || '',
           }
         : null,
       restaurant: org ? orgRowToRestaurant(org, { email: user.email, role }) : null,

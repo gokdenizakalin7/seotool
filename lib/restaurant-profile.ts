@@ -1,6 +1,5 @@
 import { z } from 'zod'
 import type { Restaurant } from '@/lib/types'
-import { BUSINESS_TYPES } from '@/lib/business-types'
 
 /* ------------------------------------------------------------------ */
 /* Temizleyiciler (istemci ve sunucu ortak)                            */
@@ -63,12 +62,13 @@ const clean = (max: number) =>
 /* Güncelleme şeması                                                   */
 /* ------------------------------------------------------------------ */
 
-export const BUSINESS_TYPE_IDS = BUSINESS_TYPES.map((t) => t.id) as [string, ...string[]]
+/** İşletme türleri artık DB'den (business_types) yönetildiği için yalnızca biçim doğrulanır. */
+export const businessTypeSlug = z.string().regex(/^[a-z0-9-]{2,40}$/)
 
 export const profileUpdateSchema = z.object({
   name: clean(100).optional(),
   currency: clean(10).optional(),
-  businessType: z.enum(BUSINESS_TYPE_IDS).optional(),
+  businessType: businessTypeSlug.optional(),
   phone: clean(30).optional(),
   address: clean(300).optional(),
   city: clean(50).optional(),
@@ -124,12 +124,17 @@ export function orgRowToRestaurant(row: any, extra: { email?: string; role?: str
     name: row.name || 'Restoranım',
     subdomain: row.subdomain,
     currency: row.currency || '₺',
-    status: 'active',
+    status: row.status === 'suspended' ? 'suspended' : 'active',
+    statusReason: row.status_reason || '',
+    statusChangedAt: row.status_changed_at || null,
     role: extra.role,
+    ownerName: row.owner_name || '',
+    createdAt: row.created_at || undefined,
     businessType: row.business_type || undefined,
     onboardingStep: row.onboarding_step || undefined,
     onboardingCompletedAt: row.onboarding_completed_at || null,
     businessInfo: {
+      owner_name: row.owner_name || '',
       email: extra.email,
       phone: row.business_phone || '',
       address: row.address || '',
@@ -153,7 +158,7 @@ export function orgRowToRestaurant(row: any, extra: { email?: string; role?: str
 }
 
 export const ORG_PROFILE_COLUMNS =
-  'id, name, subdomain, currency, business_type, business_phone, address, city, logo_url, cover_url, primary_color, wifi_name, wifi_password, instagram_handle, whatsapp_number, google_maps_url, google_review_url, working_hours, onboarding_step, onboarding_completed_at'
+  'id, name, subdomain, owner_name, status, status_reason, status_changed_at, created_at, currency, business_type, business_phone, address, city, logo_url, cover_url, primary_color, wifi_name, wifi_password, instagram_handle, whatsapp_number, google_maps_url, google_review_url, working_hours, onboarding_step, onboarding_completed_at'
 
 /* ------------------------------------------------------------------ */
 /* Tamamlama kontrol listesi                                           */

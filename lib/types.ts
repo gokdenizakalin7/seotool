@@ -1,5 +1,5 @@
 export type UserRole = 'superadmin' | 'restaurant'
-export type AccountStatus = 'active' | 'passive' | 'pending_activation'
+export type AccountStatus = 'active' | 'suspended'
 
 export interface UserAccount {
   id: string
@@ -125,18 +125,16 @@ export interface Restaurant {
   subdomain: string
   currency: string
   status: AccountStatus
+  /** Askıya alma sebebi (yalnızca status = 'suspended' iken anlamlı) */
+  statusReason?: string
+  statusChangedAt?: string | null
   role?: string
   ownerName?: string
-  activationToken?: string
   createdAt?: string
   businessType?: string
   onboardingStep?: string
   onboardingCompletedAt?: string | null
   tables?: any[]
-  credentials?: {
-    email: string
-    password?: string
-  }
   businessInfo?: {
     owner_name?: string
     email?: string

@@ -8,14 +8,17 @@ import { checkRateLimit, RATE_LIMITS } from '@/lib/rate-limiter'
 import { sanitizeText } from '@/lib/sanitizer'
 import { buildItemPrompt } from '@/lib/catalog-image-prompt'
 import { CloudflareImageError, generateCloudflareImage } from '@/lib/server/cloudflare-image'
+import { getPlatformSettings } from '@/lib/server/platform-settings'
 
 export const maxDuration = 60
 
 const BUCKET = 'menu-images'
 const OUTPUT_SIZE = 512
 
-const orgCap = () => Number(process.env.IMAGE_GEN_ORG_DAILY_CAP) || 20
-const globalCap = () => Number(process.env.IMAGE_GEN_DAILY_CAP) || 150
+async function caps() {
+  const s = await getPlatformSettings()
+  return { org: s.image_gen_org_daily_cap, global: s.image_gen_daily_cap }
+}
 
 const bodySchema = z.object({
   subdomain: z.string().min(1).max(80),
@@ -33,9 +36,10 @@ function nextUtcMidnight(): string {
 async function quotaSnapshot(orgId: string) {
   const { data } = await supabaseAdmin.rpc('get_image_generation_quota', { p_org_id: orgId })
   const used = (data || {}) as { org_used?: number; global_used?: number }
+  const cap = await caps()
   return {
-    orgRemaining: Math.max(0, orgCap() - (used.org_used ?? 0)),
-    globalRemaining: Math.max(0, globalCap() - (used.global_used ?? 0)),
+    orgRemaining: Math.max(0, cap.org - (used.org_used ?? 0)),
+    globalRemaining: Math.max(0, cap.global - (used.global_used ?? 0)),
     resetsAt: nextUtcMidnight(),
   }
 }
@@ -44,7 +48,7 @@ async function quotaSnapshot(orgId: string) {
 export async function GET(req: NextRequest) {
   const subdomain = sanitizeText(req.nextUrl.searchParams.get('subdomain') || '', 80)
   if (!subdomain) return NextResponse.json({ error: 'subdomain gerekli.' }, { status: 400 })
-  const access = await requireSubdomainAccess(req, subdomain)
+  const access = await requireSubdomainAccess(req, subdomain, { allowSuspended: true })
   if ('response' in access) return access.response
   try {
     return NextResponse.json({ configured: !!(process.env.CLOUDFLARE_ACCOUNT_ID && process.env.CLOUDFLARE_API_TOKEN), ...(await quotaSnapshot(access.organizationId)) })
@@ -81,10 +85,11 @@ export async function POST(req: NextRequest) {
   const category = body.category ? sanitizeText(body.category, 80) : ''
 
   // Kota önce düşülür; üretim başarısızsa geri verilir
+  const cap = await caps()
   const { data: quota, error: quotaErr } = await supabaseAdmin.rpc('consume_image_generation_quota', {
     p_org_id: organizationId,
-    p_org_cap: orgCap(),
-    p_global_cap: globalCap(),
+    p_org_cap: cap.org,
+    p_global_cap: cap.global,
   })
   if (quotaErr) {
     console.error('consume_image_generation_quota error:', quotaErr)
@@ -96,8 +101,8 @@ export async function POST(req: NextRequest) {
       {
         error: 'Günlük AI görsel kotası doldu. Yarın tekrar deneyin ya da fotoğraf yükleyin.',
         code: 'QUOTA_EXCEEDED',
-        orgRemaining: Math.max(0, orgCap() - (q.org_used ?? 0)),
-        globalRemaining: Math.max(0, globalCap() - (q.global_used ?? 0)),
+        orgRemaining: Math.max(0, cap.org - (q.org_used ?? 0)),
+        globalRemaining: Math.max(0, cap.global - (q.global_used ?? 0)),
         resetsAt: nextUtcMidnight(),
       },
       { status: 429 }
@@ -125,8 +130,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       url: pub.publicUrl,
-      orgRemaining: Math.max(0, orgCap() - (q.org_used ?? 0)),
-      globalRemaining: Math.max(0, globalCap() - (q.global_used ?? 0)),
+      orgRemaining: Math.max(0, cap.org - (q.org_used ?? 0)),
+      globalRemaining: Math.max(0, cap.global - (q.global_used ?? 0)),
       resetsAt: nextUtcMidnight(),
     })
   } catch (e: any) {

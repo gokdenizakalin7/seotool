@@ -1,13 +1,8 @@
-export type BusinessTypeId =
-  | 'cafe'
-  | 'restaurant'
-  | 'kebab'
-  | 'pub'
-  | 'nargile'
-  | 'fastfood'
-  | 'bakery'
-  | 'meyhane'
-  | 'other'
+/**
+ * İşletme türleri business_types tablosundan yönetilir (admin paneli, /api/business-types).
+ * Aşağıdaki liste yalnızca tablo okunamazsa kullanılan yedek ve tohum verisidir.
+ */
+export type BusinessTypeId = string
 
 export interface BusinessType {
   id: BusinessTypeId
