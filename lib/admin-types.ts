@@ -94,7 +94,10 @@ export interface AdminUserRow {
   bannedUntil: string | null
   ownerName: string
   mustChangePassword: boolean
+  /** Sistem yöneticisi (kök ya da panelden açılmış) */
   isSuperAdmin: boolean
+  /** Kök sistem yöneticisi (SUPER_ADMIN_EMAIL): engellenemez, silinemez */
+  isRootAdmin: boolean
   memberships: {
     organizationId: string
     name: string
@@ -214,7 +217,7 @@ export const SUSPEND_REASON_PRESETS = [
 
 export const MEMBER_ROLE_LABELS: Record<MemberRole, string> = {
   owner: 'Sahip',
-  admin: 'Yönetici',
+  admin: 'Restoran yöneticisi',
   staff: 'Personel',
 }
 

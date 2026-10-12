@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Pencil, Search, ShieldCheck, Users } from 'lucide-react'
+import { Pencil, Plus, Search, ShieldCheck, Users } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -11,6 +11,7 @@ import { Badge, EmptyState, ErrorBanner, LoadingBlock, PageHeader, Pager, Panel,
 import { fmtDate, fmtRelative, isBanned, qs } from '../lib/admin-api'
 import { useAdminQuery } from '../lib/use-admin-query'
 import { UserEditDialog, type EditableUser } from './UserEditDialog'
+import { CreateUserDialog } from './CreateUserDialog'
 
 type Filter = 'all' | 'banned' | 'orphan'
 
@@ -27,6 +28,7 @@ export function UsersPage() {
   const [filter, setFilter] = useState<Filter>('all')
   const [page, setPage] = useState(1)
   const [edit, setEdit] = useState<EditableUser | null>(null)
+  const [createOpen, setCreateOpen] = useState(false)
 
   const list = useAdminQuery<ListResponse>(`/api/admin/users${qs({ q, filter: filter === 'all' ? null : filter, page, size: 50 })}`)
   const counts = list.data?.counts
@@ -36,6 +38,11 @@ export function UsersPage() {
       <PageHeader
         title="Kullanıcılar"
         description="Panele giriş yapabilen tüm hesaplar: e-posta, şifre, giriş engeli ve restoran üyelikleri"
+        actions={
+          <Button onClick={() => setCreateOpen(true)}>
+            <Plus className="mr-1.5 h-4 w-4" /> Yeni kullanıcı
+          </Button>
+        }
       />
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -91,7 +98,7 @@ export function UsersPage() {
                     <TableCell>
                       <p className="flex items-center gap-1.5 font-medium">
                         {u.ownerName || '—'}
-                        {u.isSuperAdmin && <ShieldCheck className="h-3.5 w-3.5 text-blue-600" aria-label="Süper admin" />}
+                        {u.isSuperAdmin && <ShieldCheck className="h-3.5 w-3.5 text-blue-600" aria-label="Sistem yöneticisi" />}
                       </p>
                       <p className="font-mono text-xs text-muted-foreground">{u.email}</p>
                     </TableCell>
@@ -133,7 +140,7 @@ export function UsersPage() {
                             mustChangePassword: u.mustChangePassword,
                             bannedUntil: u.bannedUntil,
                             lastSignInAt: u.lastSignInAt,
-                            isSuperAdmin: u.isSuperAdmin,
+                            isRootAdmin: u.isRootAdmin,
                           })
                         }
                       >
@@ -153,6 +160,7 @@ export function UsersPage() {
         )}
       </Panel>
 
+      <CreateUserDialog open={createOpen} onOpenChange={setCreateOpen} onCreated={list.reload} />
       <UserEditDialog user={edit} onOpenChange={(v) => !v && setEdit(null)} onChanged={list.reload} />
     </>
   )
