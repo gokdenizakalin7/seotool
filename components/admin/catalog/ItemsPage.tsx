@@ -149,10 +149,11 @@ export function ItemsPage() {
               <div className="p-2.5">
                 <p className="truncate text-sm font-semibold">{i.name}</p>
                 <p className="truncate text-[11px] text-muted-foreground">{catPath.get(i.categoryId) || '—'}</p>
-                <div className="mt-1 flex items-center justify-between">
-                  <span className="text-xs tabular-nums text-muted-foreground">{i.priceSuggested}</span>
-                  {!i.isActive && <Badge tone="neutral">Pasif</Badge>}
-                </div>
+                {!i.isActive && (
+                  <div className="mt-1">
+                    <Badge tone="neutral">Pasif</Badge>
+                  </div>
+                )}
               </div>
             </button>
           ))}
@@ -166,7 +167,6 @@ export function ItemsPage() {
                   <TableHead className="w-14" />
                   <TableHead>Ürün</TableHead>
                   <TableHead>Kategori</TableHead>
-                  <TableHead>Fiyat</TableHead>
                   <TableHead className="text-right">Kullanım</TableHead>
                   <TableHead>Durum</TableHead>
                 </TableRow>
@@ -188,7 +188,6 @@ export function ItemsPage() {
                       <p className="font-mono text-[11px] text-muted-foreground">{i.slug}</p>
                     </TableCell>
                     <TableCell className="max-w-[260px] truncate text-xs text-muted-foreground">{catPath.get(i.categoryId) || '—'}</TableCell>
-                    <TableCell className="text-sm tabular-nums">{i.priceSuggested}</TableCell>
                     <TableCell className="text-right text-sm tabular-nums">
                       {i.usageCount ?? 0}
                       <span className="text-xs text-muted-foreground"> / {i.orgCount ?? 0} rest.</span>
