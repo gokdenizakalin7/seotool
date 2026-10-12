@@ -2,240 +2,256 @@
   "efes-pilsen-33cl": {
     "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
     "skipStock": true,
-    "note": "marka"
+    "note": "marka; sabit bira bardağı",
+    "sameAs": "efes-pilsen-50cl"
   },
   "efes-pilsen-50cl": {
-    "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
+    "subject": "a tall glass of cold golden lager beer with a white foam head and condensation",
     "skipStock": true,
     "note": "marka"
   },
   "efes-malt-50cl": {
     "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
     "skipStock": true,
-    "note": "marka"
+    "note": "marka; sabit bira bardağı",
+    "sameAs": "efes-pilsen-50cl"
   },
   "efes-ozel-seri-50cl": {
     "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
     "skipStock": true,
-    "note": "marka"
+    "note": "marka; sabit bira bardağı",
+    "sameAs": "efes-pilsen-50cl"
   },
   "tuborg-gold-50cl": {
     "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
     "skipStock": true,
-    "note": "marka"
+    "note": "marka; sabit bira bardağı",
+    "sameAs": "efes-pilsen-50cl"
   },
   "bomonti-50cl": {
     "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
     "skipStock": true,
-    "note": "marka"
+    "note": "marka; sabit bira bardağı",
+    "sameAs": "efes-pilsen-50cl"
   },
   "bomonti-filtresiz-50cl": {
     "subject": "a tall glass of cloudy unfiltered wheat beer with foam, plain unlabeled bottle",
     "skipStock": true,
-    "note": "marka"
+    "note": "marka; sabit bira bardağı",
+    "sameAs": "efes-pilsen-50cl"
   },
   "corona-extra": {
     "subject": "a clear glass bottle-shaped glass of pale lager with a lime wedge, plain unlabeled bottle",
     "skipStock": true,
-    "note": "marka"
+    "note": "marka; sabit bira bardağı",
+    "sameAs": "efes-pilsen-50cl"
   },
   "heineken-33cl": {
     "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
     "skipStock": true,
-    "note": "marka"
+    "note": "marka; sabit bira bardağı",
+    "sameAs": "efes-pilsen-50cl"
   },
   "miller-genuine-draft-33cl": {
     "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
     "skipStock": true,
-    "note": "marka"
+    "note": "marka; sabit bira bardağı",
+    "sameAs": "efes-pilsen-50cl"
   },
   "carlsberg-33cl": {
     "subject": "a tall glass of cold pale lager beer with a white foam head, condensation, plain unlabeled brown bottle beside it",
     "skipStock": true,
-    "note": "marka"
+    "note": "marka; sabit bira bardağı",
+    "sameAs": "efes-pilsen-50cl"
   },
   "guinness-draught-44cl": {
-    "subject": "a pint glass of dark stout beer with a creamy head, plain unlabeled glass",
+    "subject": "a pint glass of dark stout beer with a creamy head",
     "skipStock": true,
     "note": "marka"
   },
   "efes-alkolsuz-33cl": {
     "subject": "a tall glass of cold pale beer with foam, plain unlabeled bottle",
     "skipStock": true,
-    "note": "marka"
+    "note": "marka; sabit bira bardağı",
+    "sameAs": "efes-pilsen-50cl"
   },
   "tekirdag-rakisi-35cl": {
-    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, plain unlabeled bottle, small meze plates",
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, small meze plates",
     "skipStock": true,
     "note": "marka"
   },
   "tekirdag-rakisi-70cl": {
-    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, plain unlabeled bottle, small meze plates",
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, small meze plates",
     "skipStock": true,
     "note": "marka"
   },
   "tekirdag-altin-seri-35cl": {
-    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, plain unlabeled bottle, small meze plates",
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, small meze plates",
     "skipStock": true,
     "note": "marka"
   },
   "beylerbeyi-gobek-35cl": {
-    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, plain unlabeled bottle, small meze plates",
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, small meze plates",
     "skipStock": true,
     "note": "marka"
   },
   "kavaklidere-yakut-sise": {
-    "subject": "a glass of red wine beside a plain unlabeled dark bottle, soft warm light",
+    "subject": "a glass of red wine, soft warm light",
     "skipStock": true,
     "note": "marka"
   },
   "kavaklidere-cankaya-sise": {
-    "subject": "a glass of chilled white wine beside a plain unlabeled bottle, condensation",
+    "subject": "a glass of chilled white wine, condensation",
     "skipStock": true,
     "note": "marka"
   },
   "kavaklidere-angora-kirmizi-sise": {
-    "subject": "a glass of red wine beside a plain unlabeled dark bottle, soft warm light",
+    "subject": "a glass of red wine, soft warm light",
     "skipStock": true,
     "note": "marka"
   },
   "doluca-antik-kirmizi-sise": {
-    "subject": "a glass of red wine beside a plain unlabeled dark bottle, soft warm light",
+    "subject": "a glass of red wine, soft warm light",
     "skipStock": true,
     "note": "marka"
   },
   "doluca-antik-beyaz-sise": {
-    "subject": "a glass of chilled white wine beside a plain unlabeled bottle, condensation",
+    "subject": "a glass of chilled white wine, condensation",
     "skipStock": true,
     "note": "marka"
   },
   "kayra-buzbag-sise": {
-    "subject": "a glass of red wine beside a plain unlabeled dark bottle, soft warm light",
+    "subject": "a glass of red wine, soft warm light",
     "skipStock": true,
     "note": "marka"
   },
   "sevilen-isabey-sauvignon-blanc-sise": {
-    "subject": "a glass of chilled white wine beside a plain unlabeled bottle, condensation",
+    "subject": "a glass of chilled white wine, condensation",
     "skipStock": true,
     "note": "marka"
   },
   "kavaklidere-lal-roze-sise": {
-    "subject": "a glass of chilled rosé wine beside a plain unlabeled bottle",
+    "subject": "a glass of chilled rosé wine",
     "skipStock": true,
     "note": "marka"
   },
   "jack-daniels": {
-    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "subject": "a crystal tumbler of amber whisky with a large ice cube",
     "skipStock": true,
     "note": "marka"
   },
   "jameson": {
-    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "subject": "a crystal tumbler of amber whisky with a large ice cube",
     "skipStock": true,
     "note": "marka"
   },
   "chivas-regal-12": {
-    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "subject": "a crystal tumbler of amber whisky with a large ice cube",
     "skipStock": true,
     "note": "marka"
   },
   "johnnie-walker-red-label": {
-    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "subject": "a crystal tumbler of amber whisky with a large ice cube",
     "skipStock": true,
     "note": "marka"
   },
   "johnnie-walker-black-label": {
-    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "subject": "a crystal tumbler of amber whisky with a large ice cube",
     "skipStock": true,
     "note": "marka"
   },
   "glenfiddich-12": {
-    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "subject": "a crystal tumbler of amber whisky with a large ice cube",
     "skipStock": true,
     "note": "marka"
   },
   "macallan-12": {
-    "subject": "a crystal tumbler of amber whisky with a large ice cube, plain unlabeled bottle softly out of focus",
+    "subject": "a crystal tumbler of amber whisky with a large ice cube",
     "skipStock": true,
     "note": "marka"
   },
   "absolut-votka": {
-    "subject": "a short glass of clear vodka with ice, plain unlabeled frosted bottle softly out of focus",
+    "subject": "a short glass of clear vodka with ice",
     "skipStock": true,
     "note": "marka"
   },
   "smirnoff-votka": {
-    "subject": "a short glass of clear vodka with ice, plain unlabeled frosted bottle softly out of focus",
+    "subject": "a short glass of clear vodka with ice",
     "skipStock": true,
     "note": "marka"
   },
   "grey-goose-votka": {
-    "subject": "a short glass of clear vodka with ice, plain unlabeled frosted bottle softly out of focus",
+    "subject": "a short glass of clear vodka with ice",
     "skipStock": true,
     "note": "marka"
   },
   "gordons-cin": {
-    "subject": "a gin and tonic in a balloon glass with ice, lime and juniper, plain unlabeled bottle out of focus",
+    "subject": "a gin and tonic in a balloon glass with ice, lime and juniper",
     "skipStock": true,
     "note": "marka"
   },
   "bombay-sapphire-cin": {
-    "subject": "a gin and tonic in a balloon glass with ice, lime and juniper, plain unlabeled bottle out of focus",
+    "subject": "a gin and tonic in a balloon glass with ice, lime and juniper",
     "skipStock": true,
     "note": "marka"
   },
   "bacardi-carta-blanca-rom": {
-    "subject": "a short glass of clear white rum with ice and mint, plain unlabeled bottle out of focus",
+    "subject": "a short glass of clear white rum with ice and mint",
     "skipStock": true,
     "note": "marka"
   },
   "captain-morgan-rom": {
-    "subject": "a short glass of golden rum with ice, plain unlabeled bottle out of focus",
+    "subject": "a short glass of golden rum with ice",
     "skipStock": true,
     "note": "marka"
   },
   "havana-club-7-rom": {
-    "subject": "a short glass of golden rum with ice, plain unlabeled bottle out of focus",
+    "subject": "a short glass of golden rum with ice",
     "skipStock": true,
     "note": "marka"
   },
   "olmeca-tekila": {
-    "subject": "a shot of tequila with lime wedge and salt, plain unlabeled bottle out of focus",
+    "subject": "a shot of tequila with lime wedge and salt",
     "skipStock": true,
     "note": "marka"
   },
   "jose-cuervo-tekila": {
-    "subject": "a shot of tequila with lime wedge and salt, plain unlabeled bottle out of focus",
+    "subject": "a shot of tequila with lime wedge and salt",
     "skipStock": true,
     "note": "marka"
   },
   "aperol": {
-    "subject": "a glass of bright orange aperitif with ice and an orange slice, plain unlabeled bottle out of focus",
+    "subject": "a glass of bright orange aperitif with ice and an orange slice",
     "skipStock": true,
     "note": "marka"
   },
   "campari": {
-    "subject": "a glass of red bitter aperitif with ice and an orange slice, plain unlabeled bottle",
+    "subject": "a glass of red bitter aperitif with ice and an orange slice",
     "skipStock": true,
     "note": "marka"
   },
   "martini-bianco": {
-    "subject": "a glass of white vermouth with ice and a lemon twist, plain unlabeled bottle",
+    "subject": "a glass of white vermouth with ice and a lemon twist",
     "skipStock": true,
     "note": "marka"
   },
   "jagermeister": {
-    "subject": "a chilled shot glass of dark herbal liqueur, plain unlabeled green bottle",
+    "subject": "a chilled shot glass of dark herbal liqueur",
     "skipStock": true,
-    "note": "marka"
+    "note": "marka",
+    "stockQueries": [
+      "herbal liqueur shot",
+      "dark liqueur shot glass"
+    ],
+    "judgeNote": "Any dark brown liqueur in a shot glass is acceptable, without labels."
   },
   "baileys": {
-    "subject": "a glass of creamy coffee liqueur over ice, plain unlabeled bottle",
+    "subject": "a glass of creamy coffee liqueur over ice",
     "skipStock": true,
     "note": "marka"
   },
   "cointreau": {
-    "subject": "a small glass of clear orange liqueur with an orange peel, plain unlabeled bottle",
+    "subject": "a small glass of clear orange liqueur with an orange peel",
     "skipStock": true,
     "note": "marka"
   },
@@ -313,5 +329,427 @@
     "subject": "a tall glass of iced watermelon tea with ice and watermelon pieces",
     "skipStock": true,
     "note": "marka çağrışımı"
+  },
+  "disaronno": {
+    "note": "marka",
+    "stockQueries": [
+      "amaretto on the rocks",
+      "amaretto liqueur glass"
+    ],
+    "subject": "a small glass of amber almond liqueur over ice",
+    "skipStock": true
+  },
+  "kahlua": {
+    "note": "marka",
+    "stockQueries": [
+      "black russian cocktail",
+      "white russian cocktail",
+      "coffee liqueur"
+    ],
+    "judgeNote": "A coffee-liqueur drink such as a Black or White Russian in a short glass is acceptable.",
+    "subject": "a small glass of dark coffee liqueur over ice with a few coffee beans",
+    "skipStock": true
+  },
+  "gara-guzu-ipa-33cl": {
+    "note": "marka; sabit bira bardağı",
+    "stockQueries": [
+      "ipa beer glass",
+      "hazy craft beer glass"
+    ],
+    "subject": "a tulip glass of hazy golden craft pale ale with a white foam head, plain unlabeled brown bottle beside it",
+    "skipStock": true,
+    "sameAs": "efes-pilsen-50cl"
+  },
+  "duble-raki-kadeh": {
+    "note": "marka",
+    "stockQueries": [
+      "rakı",
+      "raki glass",
+      "rakı balık"
+    ],
+    "judgeNote": "Any glass of milky-white rakı (anise spirit mixed with water) is acceptable, with or without ice; meze plates or a water glass beside it are fine as long as the rakı glass is the main subject.",
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, small meze plates",
+    "skipStock": true
+  },
+  "efe-yas-uzum-35cl": {
+    "note": "marka",
+    "stockQueries": [
+      "rakı",
+      "raki glass",
+      "rakı balık"
+    ],
+    "judgeNote": "Any glass of milky-white rakı (anise spirit mixed with water) is acceptable, with or without ice; meze plates or a water glass beside it are fine as long as the rakı glass is the main subject.",
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, small meze plates",
+    "skipStock": true
+  },
+  "kulup-rakisi-35cl": {
+    "note": "marka",
+    "stockQueries": [
+      "rakı",
+      "raki glass",
+      "rakı balık"
+    ],
+    "judgeNote": "Any glass of milky-white rakı (anise spirit mixed with water) is acceptable, with or without ice; meze plates or a water glass beside it are fine as long as the rakı glass is the main subject.",
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, small meze plates",
+    "skipStock": true
+  },
+  "monkey-shoulder": {
+    "note": "marka",
+    "stockQueries": [
+      "whisky glass with ice",
+      "scotch whisky tumbler"
+    ],
+    "subject": "a crystal tumbler of golden malt whisky with a large ice cube and an orange zest",
+    "skipStock": true
+  },
+  "hendricks-cin": {
+    "note": "marka",
+    "stockQueries": [
+      "gin tonic with cucumber",
+      "gin and tonic glass"
+    ],
+    "subject": "a gin and tonic in a balloon glass with ice and thin cucumber slices and rose petals",
+    "skipStock": true
+  },
+  "kola-turka": {
+    "note": "marka",
+    "stockQueries": [
+      "glass of cola with ice",
+      "cola glass"
+    ]
+  },
+  "double-espresso": {
+    "stockQueries": [
+      "double espresso",
+      "espresso cup"
+    ],
+    "judgeNote": "Any espresso served in a small cup is acceptable."
+  },
+  "espresso-macchiato": {
+    "stockQueries": [
+      "espresso macchiato",
+      "macchiato coffee"
+    ],
+    "judgeNote": "An espresso with a small spot of milk foam in a small cup or glass is acceptable."
+  },
+  "elma-suyu": {
+    "stockQueries": [
+      "apple juice glass",
+      "apple juice"
+    ],
+    "judgeNote": "A glass of apple juice is acceptable; no carton is needed."
+  },
+  "karisik-meyve-suyu": {
+    "stockQueries": [
+      "mixed fruit juice glass",
+      "fruit juice glass"
+    ],
+    "judgeNote": "A glass of fruit juice is acceptable; no carton is needed."
+  },
+  "kayisi-suyu": {
+    "stockQueries": [
+      "apricot juice",
+      "apricot nectar glass"
+    ],
+    "judgeNote": "A glass of orange-yellow apricot juice is acceptable; no carton is needed."
+  },
+  "kusburnu-nektari": {
+    "stockQueries": [
+      "rosehip juice",
+      "rosehip drink glass",
+      "kuşburnu"
+    ],
+    "judgeNote": "A glass of red rosehip drink is acceptable; no carton is needed."
+  },
+  "eriste": {
+    "stockQueries": [
+      "erişte",
+      "homemade egg noodles",
+      "turkish noodles"
+    ],
+    "judgeNote": "Any plate of homemade flat egg noodles is acceptable."
+  },
+  "ezogelin-corbasi": {
+    "stockQueries": [
+      "ezogelin",
+      "red lentil soup",
+      "lentil soup bowl"
+    ],
+    "judgeNote": "Any bowl of orange-red lentil soup is acceptable."
+  },
+  "fincan-cay": {
+    "stockQueries": [
+      "black tea porcelain cup",
+      "tea cup saucer"
+    ],
+    "judgeNote": "Any black tea in a porcelain cup with saucer is acceptable."
+  },
+  "findik-lahmacun": {
+    "stockQueries": [
+      "lahmacun",
+      "turkish lahmacun",
+      "lahmajun"
+    ],
+    "judgeNote": "Any classic lahmacun (thin round flatbread with a minced meat topping, possibly with lemon and greens) is acceptable."
+  },
+  "kasarli-lahmacun": {
+    "stockQueries": [
+      "lahmacun",
+      "turkish lahmacun",
+      "lahmajun"
+    ],
+    "judgeNote": "Any classic lahmacun (thin round flatbread with a minced meat topping, possibly with lemon and greens) is acceptable."
+  },
+  "peynirli-lahmacun": {
+    "stockQueries": [
+      "lahmacun",
+      "turkish lahmacun",
+      "lahmajun"
+    ],
+    "judgeNote": "Any classic lahmacun (thin round flatbread with a minced meat topping, possibly with lemon and greens) is acceptable."
+  },
+  "lahmacun-porsiyon-3-adet": {
+    "stockQueries": [
+      "lahmacun",
+      "turkish lahmacun",
+      "lahmajun"
+    ],
+    "judgeNote": "Any classic lahmacun (thin round flatbread with a minced meat topping, possibly with lemon and greens) is acceptable."
+  },
+  "halka-tatli": {
+    "stockQueries": [
+      "halka tatlısı",
+      "tulumba tatlısı",
+      "tulumba dessert"
+    ],
+    "judgeNote": "Tulumba or another syrup-soaked fried dough dessert is acceptable."
+  },
+  "hamsi-pilavi": {
+    "stockQueries": [
+      "hamsili pilav",
+      "hamsi pilavı",
+      "anchovy rice"
+    ],
+    "judgeNote": "Rice baked in a crust of anchovies, or a slice of it, is acceptable."
+  },
+  "hingel": {
+    "stockQueries": [
+      "mantı",
+      "turkish manti",
+      "manti yogurt"
+    ],
+    "judgeNote": "Any Turkish mantı (small dumplings topped with yogurt and red pepper butter sauce) is acceptable."
+  },
+  "ispanakli-manti": {
+    "stockQueries": [
+      "mantı",
+      "turkish manti",
+      "manti yogurt"
+    ],
+    "judgeNote": "Any Turkish mantı (small dumplings topped with yogurt and red pepper butter sauce) is acceptable."
+  },
+  "mantar-mantisi": {
+    "stockQueries": [
+      "mantı",
+      "turkish manti",
+      "manti yogurt"
+    ],
+    "judgeNote": "Any Turkish mantı (small dumplings topped with yogurt and red pepper butter sauce) is acceptable."
+  },
+  "patatesli-manti": {
+    "stockQueries": [
+      "mantı",
+      "turkish manti",
+      "manti yogurt"
+    ],
+    "judgeNote": "Any Turkish mantı (small dumplings topped with yogurt and red pepper butter sauce) is acceptable."
+  },
+  "iced-chai-latte": {
+    "stockQueries": [
+      "iced chai latte",
+      "iced latte glass",
+      "iced milk tea"
+    ],
+    "judgeNote": "Any iced milky tea or coffee drink in a clear glass with ice is acceptable."
+  },
+  "izmir-kofte": {
+    "stockQueries": [
+      "izmir köfte",
+      "meatballs potatoes tomato sauce",
+      "köfte"
+    ],
+    "judgeNote": "Meatballs baked with potatoes and peppers in tomato sauce are acceptable."
+  },
+  "islak-hamburger": {
+    "stockQueries": [
+      "ıslak hamburger",
+      "islak burger",
+      "wet burger"
+    ]
+  },
+  "jager-bomb": {
+    "stockQueries": [
+      "jager bomb",
+      "bomb shot energy drink"
+    ],
+    "judgeNote": "Any shot glass dropped into or beside a glass of energy drink is acceptable, without labels."
+  },
+  "kadinbudu-kofte": {
+    "stockQueries": [
+      "kadınbudu köfte",
+      "kadınbudu",
+      "fried meatballs"
+    ],
+    "judgeNote": "Oval egg-coated fried meatballs are acceptable."
+  },
+  "kagit-kebabi": {
+    "stockQueries": [
+      "kağıt kebabı",
+      "meat baked in parchment paper",
+      "lamb in paper"
+    ]
+  },
+  "kelle-sogus": {
+    "stockQueries": [
+      "kelle söğüş",
+      "söğüş",
+      "beef cheek meat"
+    ],
+    "judgeNote": "Sliced boiled head meat or beef cheek served with onion, tomato and greens is acceptable."
+  },
+  "kokorec-ceyrek-ekmek": {
+    "stockQueries": [
+      "kokoreç",
+      "kokorec",
+      "kokoretsi"
+    ],
+    "judgeNote": "Any kokoreç (chopped grilled lamb intestines, in bread or on a plate, or cooking on the grill) is acceptable."
+  },
+  "kokorec-durum": {
+    "stockQueries": [
+      "kokoreç",
+      "kokorec",
+      "kokoretsi"
+    ],
+    "judgeNote": "Any kokoreç (chopped grilled lamb intestines, in bread or on a plate, or cooking on the grill) is acceptable."
+  },
+  "kokorec-tabagi-2-kisilik": {
+    "stockQueries": [
+      "kokoreç",
+      "kokorec",
+      "kokoretsi"
+    ],
+    "judgeNote": "Any kokoreç (chopped grilled lamb intestines, in bread or on a plate, or cooking on the grill) is acceptable."
+  },
+  "kokorec-yarim-ekmek": {
+    "stockQueries": [
+      "kokoreç",
+      "kokorec",
+      "kokoretsi"
+    ],
+    "judgeNote": "Any kokoreç (chopped grilled lamb intestines, in bread or on a plate, or cooking on the grill) is acceptable."
+  },
+  "kup-pasta": {
+    "stockQueries": [
+      "trifle cup dessert",
+      "layered dessert in glass",
+      "dessert cup"
+    ],
+    "judgeNote": "Any layered cake or cream dessert served in a cup or glass is acceptable."
+  },
+  "maras-dondurmasi-porsiyon": {
+    "stockQueries": [
+      "maraş dondurması",
+      "turkish ice cream",
+      "vanilla ice cream plate"
+    ],
+    "judgeNote": "Any white Turkish dondurma or vanilla ice cream served on a plate or in a bowl is acceptable."
+  },
+  "mozaik-pasta": {
+    "stockQueries": [
+      "mosaic cake",
+      "chocolate biscuit cake",
+      "lazy cake"
+    ],
+    "judgeNote": "Slices of chocolate biscuit lazy cake are acceptable."
+  },
+  "nargile-sipsi": {
+    "stockQueries": [
+      "hookah mouthpiece",
+      "hookah hose",
+      "shisha hose"
+    ],
+    "judgeNote": "A hookah hose with mouthpiece, or a hookah close-up, is acceptable."
+  },
+  "ankara-viskisi": {
+    "subject": "a crystal tumbler of light amber whisky with a large ice cube",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "ballantines-finest": {
+    "subject": "a crystal tumbler of golden blended Scotch whisky with a large ice cube",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "jim-beam": {
+    "subject": "a crystal tumbler of amber bourbon with a large ice cube",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "woodford-reserve": {
+    "subject": "a crystal tumbler of deep amber bourbon with a large ice cube",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "tanqueray-cin": {
+    "subject": "a gin and tonic in a balloon glass with ice and a lime wedge",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "patron-silver-tekila": {
+    "subject": "a short glass of clear silver tequila with lime wedges and coarse salt",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "tekila-shot": {
+    "subject": "a shot glass of golden tequila with a lemon wedge and a small pile of salt",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "yeni-raki-20cl": {
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, small meze plates",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "yeni-raki-35cl": {
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, small meze plates",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "yeni-raki-70cl": {
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, small meze plates",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "yeni-raki-uzun-demleme-35cl": {
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, small meze plates",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "tek-raki-kadeh": {
+    "subject": "a tall thin glass of milky-white raki with ice and a glass of water, small meze plates",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "prosecco-sise": {
+    "subject": "a single flute of sparkling white wine with fine bubbles",
+    "skipStock": true,
+    "note": "marka"
+  },
+  "fici-bira-50cl": {
+    "subject": "a large glass mug of freshly poured golden draught beer with a thick foam head, condensation, no bottle",
+    "skipStock": true,
+    "note": "marka; sabit bira bardağı",
+    "sameAs": "efes-pilsen-50cl"
   }
 }

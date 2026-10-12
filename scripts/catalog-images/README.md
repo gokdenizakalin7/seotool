@@ -19,5 +19,7 @@ npm run catalog:images:apply -- --dry-run && npm run catalog:images:apply       
 
 - Durma (çıkış kodu 3) = kota/limit; aynı komut kaldığı yerden devam eder (manifest her üründen sonra yazılır).
 - `overrides.json`: markalı ürünler için jenerik konu + `skipStock`; QA sonrası elle düzeltmeler.
+- Stok turu Pixabay + Wikimedia Commons + Openverse adaylarını harmanlar; Commons Türk yemeklerinde en geniş kapsamı verir (anahtar gerekmez).
+- `overrides.json` → `stockQueries`: ürün adı yerine kullanılacak stok sorguları (markalı ürünleri de stok turuna sokar), `judgeNote`: hakeme ek kabul kuralı.
 - Gerekli anahtarlar `.env.example` içinde. Stok turu için en azından `GEMINI_API_KEY` (+ tercihen `PIXABAY_API_KEY`).
 - Toptan yeniden üretim yapmayın (repo büyür); yalnızca `--only` ile düzeltin.

@@ -11,6 +11,8 @@ import { dirname } from 'node:path'
 import { catalogImageUrl } from '../../lib/image-url'
 import { CREDITS_PATH, loadManifest, loadSeed, parseArgs } from './common'
 
+const SOURCE_LABEL: Record<string, string> = { pixabay: 'Pixabay', openverse: 'Openverse', wikimedia: 'Wikimedia Commons' }
+
 async function main() {
   const args = parseArgs()
   const dry = args.has('dry-run')
@@ -24,7 +26,7 @@ async function main() {
 
   const rows = Object.entries(manifest.items)
     .filter(([slug]) => only.size === 0 || only.has(slug))
-    .map(([slug, m]) => ({ slug, image_url: catalogImageUrl(slug, m.hash) }))
+    .map(([slug, m]) => ({ slug, image_url: catalogImageUrl(slug, m.hash, m.single) }))
   for (const slug of clear) rows.push({ slug, image_url: '' })
 
   // Atıf dosyası: yalnız stok kaynaklı görseller
@@ -33,7 +35,7 @@ async function main() {
     .map(([slug, m]) => ({
       slug,
       name: nameBySlug.get(slug) || slug,
-      source: m.credit!.source === 'pixabay' ? 'Pixabay' : 'Openverse',
+      source: SOURCE_LABEL[m.credit!.source] || m.credit!.source,
       source_url: m.credit!.source_url,
       creator: m.credit!.creator,
       license: m.credit!.license,

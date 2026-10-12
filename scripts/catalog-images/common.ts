@@ -17,6 +17,8 @@ export const CREDITS_PATH = resolve(PUBLIC_CATALOG_DIR, 'credits.json')
 
 export const MAIN_SIZE = 768
 export const THUMB_SIZE = 320
+/** --single: tek dosya. Mobil liste kartı 96 CSS px (3x = 288) ve detay penceresi ikisini de karşılar */
+export const SINGLE_SIZE = 512
 
 /* ───────────── CLI ───────────── */
 
@@ -137,17 +139,31 @@ export function loadOverrides(): Record<string, Override> {
 
 /* ───────────── Görsel işleme ───────────── */
 
-export async function processImage(bytes: Buffer): Promise<{ main: Buffer; thumb: Buffer }> {
+export async function processImage(bytes: Buffer, single = false): Promise<{ main: Buffer; thumb: Buffer | null }> {
   const base = sharp(bytes, { failOn: 'none' }).rotate()
+  if (single) {
+    const main = await base.resize(SINGLE_SIZE, SINGLE_SIZE, { fit: 'cover', position: 'attention', withoutEnlargement: true }).webp({ quality: 75, effort: 5 }).toBuffer()
+    return { main, thumb: null }
+  }
   const main = await base.clone().resize(MAIN_SIZE, MAIN_SIZE, { fit: 'cover', position: 'attention' }).webp({ quality: 75, effort: 5 }).toBuffer()
   const thumb = await sharp(main).resize(THUMB_SIZE, THUMB_SIZE, { fit: 'cover' }).webp({ quality: 70, effort: 5 }).toBuffer()
   return { main, thumb }
 }
 
-export function writeImages(slug: string, main: Buffer, thumb: Buffer): void {
+export function writeImages(slug: string, main: Buffer, thumb: Buffer | null): void {
   mkdirSync(PUBLIC_CATALOG_DIR, { recursive: true })
   writeFileSync(resolve(PUBLIC_CATALOG_DIR, `${slug}.webp`), main)
-  writeFileSync(resolve(PUBLIC_CATALOG_DIR, `${slug}-s.webp`), thumb)
+  const thumbPath = resolve(PUBLIC_CATALOG_DIR, `${slug}-s.webp`)
+  if (thumb) writeFileSync(thumbPath, thumb)
+  else if (existsSync(thumbPath)) rmSync(thumbPath)
+}
+
+export function copyImages(fromSlug: string, toSlug: string, single: boolean): void {
+  writeImages(
+    toSlug,
+    readFileSync(resolve(PUBLIC_CATALOG_DIR, `${fromSlug}.webp`)),
+    single ? null : readFileSync(resolve(PUBLIC_CATALOG_DIR, `${fromSlug}-s.webp`)),
+  )
 }
 
 export function removeImages(slug: string): void {

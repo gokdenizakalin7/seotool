@@ -1287,18 +1287,32 @@
     "attempts": 1,
     "at": "2026-10-10T11:57:38.648Z"
   },
-  "corona-extra": {
-    "error": "Pollinations Pollen bitti / yetki yok (HTTP 402)",
-    "kind": "quota",
-    "backend": "pollinations",
+  "kayisi-suyu": {
+    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates show a glass of apricot juice. Candidate 0 shows whole apricots, 1, 3, 6, 9 show flowers, 2 shows pomegranate juice, 4 shows tomatoes, 5 shows a smoothie with raspberries, 7 shows a person, 8 shows carrot juice, 10 shows a market stall, and 11 shows green juice.)",
+    "kind": "nomatch",
+    "backend": "stock",
     "attempts": 1,
-    "at": "2026-10-12T10:13:37.935Z"
+    "at": "2026-10-12T12:06:17.478Z"
   },
-  "jim-beam": {
-    "error": "Pollinations HTTP 503",
-    "kind": "transient",
-    "backend": "pollinations",
+  "kelle-sogus": {
+    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates are acceptable. Candidates 0, 1, 2, 3, 4, 5, 6, 7, 8, and 9 are not the requested dish. Candidate 10 is a low-quality, poorly lit photo of sliced meat that does not meet the appetizing standard. Candidate 11 shows hands holding the dish, violating rule 4.)",
+    "kind": "nomatch",
+    "backend": "stock",
     "attempts": 1,
-    "at": "2026-10-12T10:50:42.919Z"
+    "at": "2026-10-12T12:06:35.784Z"
+  },
+  "kusburnu-nektari": {
+    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates are suitable. Candidate 0 is carrot juice. Candidate 1 contains branding and text. Candidates 2, 5, 7, 8, and 10 show a drink garnished with a slice of watermelon and herbs, which is not rosehip nectar. Candidates 3 and 4 are green juice. Candidate 6 is a breakfast scene. Candidate 9 is a breakfast scene with a newspaper. Candidate 11 is a close-up of a drink that does not clearly represent rosehip nectar.)",
+    "kind": "nomatch",
+    "backend": "stock",
+    "attempts": 1,
+    "at": "2026-10-12T12:06:58.054Z"
+  },
+  "mozaik-pasta": {
+    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the provided candidates are acceptable. Candidate 0 is a blueberry cheesecake. Candidate 1 is an ancient mosaic artwork. Candidate 2 is a collage of various food items. Candidate 3 is a slice of black forest cake. Candidate 4 is a buffet table with multiple dishes. Candidate 5 is a collection of abstract patterns. Candidate 6 is a chocolate cake with cinnamon and powdered sugar, not a mosaic cake. Candidate 7 is a buffet table. Candidate 8 is a collection of cookies. Candidate 9 is a chocolate cake with candles. Candidate 10 is an ancient mosaic artwork. Candidate 11 is a collage of unrelated images.)",
+    "kind": "nomatch",
+    "backend": "stock",
+    "attempts": 1,
+    "at": "2026-10-12T12:07:14.040Z"
   }
 }

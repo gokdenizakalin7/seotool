@@ -4,7 +4,8 @@
  *   npm run catalog:images -- --backend stock|pollinations|cloudflare|drawthings [seçenekler]
  *
  *   --missing            manifest'te olmayan ürünler (stok turundan sonra AI turu için)
- *   --size 768|1024      AI üretim boyutu (çıktı her zaman 768 + 320 px webp)
+ *   --size 512|768|1024  AI üretim boyutu (çıktı 768 + 320 px webp)
+ *   --single             tek çıktı: yalnız {slug}.webp (512 px), -s varyantı yok
  *   --limit N            en fazla N ürün
  *   --only a,b           yalnız bu slug'lar
  *   --category <slug>    kategori alt ağacı
@@ -26,6 +27,7 @@ import { stockBackend } from './backends/stock'
 import {
   backoffMs,
   buildChains,
+  copyImages,
   hash16,
   itemLabel,
   loadFailures,
@@ -66,6 +68,7 @@ async function main() {
   const force = args.has('force')
   const missingOnly = args.has('missing')
   const retryFailed = args.has('retry-failed')
+  const single = args.has('single')
   const size = args.num('size', backendName === 'cloudflare' ? 1024 : 1024)
   const limit = args.num('limit', Infinity)
   const only = new Set(args.list('only'))
@@ -117,13 +120,17 @@ async function main() {
     for (const root of ['alkollu-icecekler', 'enerji-icecekleri', 'gazli-icecekler']) for (const sl of subtreeSlugs(seed.categories, root)) skipCats.add(sl)
     for (const keep of ['kokteyller', 'shotlar']) skipCats.delete(keep)
     const before = items.length
-    items = items.filter((it) => !overrides[it.slug]?.skipStock && !skipCats.has(it.primary_category))
+    items = items.filter((it) => overrides[it.slug]?.stockQueries?.length || (!overrides[it.slug]?.skipStock && !skipCats.has(it.primary_category)))
     if (before !== items.length) console.log(`stok: ${before - items.length} markalı/alkollü ürün atlandı (overrides.skipStock + kategori)`)
   }
   if (Number.isFinite(limit)) items = items.slice(0, limit)
 
-  console.log(`${backendName}: ${items.length} ürün${dryRun ? ' (dry-run)' : ''}, boyut ${size}, paralellik ${concurrency}, deneme ${MAX_ATTEMPTS}`)
-  if (items.length === 0) return
+  // sameAs: üretim yerine kaynak görselin kopyası; kaynak bu turda üretilecekse önce o çalışsın diye sona alınır
+  const copies = items.filter((it) => overrides[it.slug]?.sameAs)
+  items = items.filter((it) => !overrides[it.slug]?.sameAs)
+
+  console.log(`${backendName}: ${items.length} ürün${copies.length ? ` + ${copies.length} kopya` : ''}${dryRun ? ' (dry-run)' : ''}, boyut ${size}${single ? ' → tek 512' : ''}, paralellik ${concurrency}, deneme ${MAX_ATTEMPTS}`)
+  if (items.length === 0 && copies.length === 0) return
 
   const ctxOf = (it: SeedItem): GenerateContext => {
     const chain = chains.chainOf(it.primary_category)
@@ -146,6 +153,7 @@ async function main() {
       const ctx = ctxOf(it)
       console.log(`\n${itemLabel(it)}\n  seed=${ctx.seed}\n  ${ctx.prompt.slice(0, 220)}${ctx.prompt.length > 220 ? '…' : ''}`)
     }
+    for (const it of copies) console.log(`\n${itemLabel(it)}\n  = ${overrides[it.slug]!.sameAs}`)
     return
   }
 
@@ -178,12 +186,13 @@ async function main() {
         lastStart = Date.now()
         try {
           const r = await backend.generate(ctx)
-          const { main, thumb } = await processImage(r.bytes)
+          const { main, thumb } = await processImage(r.bytes, single)
           writeImages(it.slug, main, thumb)
           manifest.items[it.slug] = {
             hash: hash16(main),
             bytes: main.length,
-            thumbBytes: thumb.length,
+            thumbBytes: thumb?.length ?? 0,
+            ...(single ? { single: true } : {}),
             backend: backendName,
             model: r.model,
             promptVersion: 1,
@@ -241,6 +250,21 @@ async function main() {
   }
 
   await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, worker))
+
+  for (const it of stopReason ? [] : copies) {
+    const src = overrides[it.slug]!.sameAs!
+    const from = manifest.items[src]
+    if (!from) {
+      console.log(`✗ ${itemLabel(it)}: sameAs kaynağı ${src} manifest'te yok`)
+      failed++
+      continue
+    }
+    copyImages(src, it.slug, !!from.single)
+    manifest.items[it.slug] = { ...from, generatedAt: new Date().toISOString() }
+    delete failures[it.slug]
+    ok++
+    console.log(`= ${itemLabel(it)} ← ${src}`)
+  }
   saveManifest(manifest)
   saveFailures(failures)
   console.log(`\nbitti: ${ok} üretildi, ${failed} başarısız, manifest ${Object.keys(manifest.items).length} ürün`)

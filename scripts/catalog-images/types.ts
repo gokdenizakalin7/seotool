@@ -32,8 +32,10 @@ export interface Seed {
 
 export type BackendName = 'stock' | 'pollinations' | 'cloudflare' | 'drawthings'
 
+export type StockSource = 'pixabay' | 'openverse' | 'wikimedia'
+
 export interface ImageCredit {
-  source: 'pixabay' | 'openverse'
+  source: StockSource
   source_url: string
   creator: string | null
   license: string
@@ -44,6 +46,8 @@ export interface ManifestEntry {
   hash: string
   bytes: number
   thumbBytes: number
+  /** true: yalnız {slug}.webp (SINGLE_SIZE), -s varyantı yok */
+  single?: boolean
   backend: BackendName
   model: string
   promptVersion: number
@@ -81,6 +85,15 @@ export interface Override {
   note?: string
   /** true: stok aramasına girmez (logo/marka riski), doğrudan AI */
   skipStock?: boolean
+  /**
+   * Stok aramasında ürün adı yerine kullanılacak sorgular (daraltandan genişleyene).
+   * Verilirse skipStock ve marka kategorisi filtresi atlanır: sorgu jeneriktir, hakem etiketli şişeyi zaten eler.
+   */
+  stockQueries?: string[]
+  /** Stok hakemine ek kabul kuralı (ör. "karton yerine bardakta meyve suyu da olur") */
+  judgeNote?: string
+  /** Üretim yok: bu slug'ın görseli kopyalanır (ör. tüm biralar için tek sabit bardak) */
+  sameAs?: string
 }
 
 export interface GenerateContext {

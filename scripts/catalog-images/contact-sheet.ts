@@ -20,7 +20,7 @@ for (const it of [...seed.items].sort((a, b) => a.slug.localeCompare(b.slug))) {
   const m = manifest.items[it.slug]
   const f = failures[it.slug]
   const cell = m
-    ? `<figure><img loading="lazy" src="../../../public/catalog/${it.slug}-s.webp?v=${m.hash}" alt=""><figcaption><b>${esc(it.name)}</b><br><code>${it.slug}</code><br><small>${esc(leaf)} · ${m.backend}${m.credit ? ` · ${m.credit.source}` : ''}</small></figcaption></figure>`
+    ? `<figure><img loading="lazy" src="../../../public/catalog/${it.slug}${m.single ? '' : '-s'}.webp?v=${m.hash}" alt=""><figcaption><b>${esc(it.name)}</b><br><code>${it.slug}</code><br><small>${esc(leaf)} · ${m.backend}${m.credit ? ` · ${m.credit.source}` : ''}</small></figcaption></figure>`
     : `<figure class="missing"><div class="ph">${f ? esc(f.kind) : 'yok'}</div><figcaption><b>${esc(it.name)}</b><br><code>${it.slug}</code><br><small>${esc(leaf)}${f ? ` · ${esc(f.error.slice(0, 60))}` : ''}</small></figcaption></figure>`
   groups.set(l2, [...(groups.get(l2) || []), cell])
 }

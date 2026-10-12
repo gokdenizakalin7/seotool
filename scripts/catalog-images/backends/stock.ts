@@ -1,16 +1,17 @@
 /**
- * Stok fotoğraf backend'i — Pixabay + Openverse araması, Gemini vision hakem.
+ * Stok fotoğraf backend'i — Pixabay + Openverse + Wikimedia Commons araması, Gemini vision hakem.
  *  - Pixabay: anahtar anında ücretsiz, 100 istek/dk; görsel indirilmek zorunda (hotlink yasak) → zaten public/catalog'a yazıyoruz.
  *  - Openverse: anahtarsız çalışır (isteğe bağlı OPENVERSE_CLIENT_ID/SECRET); yalnız by, by-sa, cc0, pdm lisansları.
+ *  - Wikimedia Commons: anahtarsız; yalnız CC0, kamu malı, CC BY ve CC BY-SA (NC/ND yok). Türk yemeklerinde en geniş kapsam.
  *  - Hakem: Gemini'ye adayların küçük halleri gönderilir; "hangisi açıkça bu yemek?" → confidence < 0,7 ise nomatch.
  * Marka/etiket riski taşıyan ürünler (overrides.skipStock) bu backend'e girmez.
  */
 import { geminiJson, GeminiError } from '../../../lib/server/gemini'
-import { BackendError, type Backend, type GenerateContext, type GenerateResult, type ImageCredit } from '../types'
+import { BackendError, type Backend, type GenerateContext, type GenerateResult, type ImageCredit, type StockSource } from '../types'
 import { fetchWithTimeout, retryAfterMs } from '../common'
 
 interface Candidate {
-  source: 'pixabay' | 'openverse'
+  source: StockSource
   thumbUrl: string
   fullUrl: string
   width: number
@@ -18,7 +19,7 @@ interface Candidate {
   credit: ImageCredit
 }
 
-const MAX_CANDIDATES = 8
+const MAX_CANDIDATES = 12
 const MIN_SIDE = 600
 const JUDGE_MIN_CONFIDENCE = Number(process.env.STOCK_JUDGE_MIN_CONFIDENCE) || 0.8
 let consecutiveGeminiRate = 0
@@ -106,9 +107,69 @@ async function searchOpenverse(q: string): Promise<Candidate[]> {
     }))
 }
 
+const UA = 'qr-menu-catalog-images/1.0 (contact: projeyonetim@sabah.com.tr)'
+const COMMONS_OK_LICENSE = /^(cc0|public domain|pd\b|pd-|cc[ -]by(-sa)?[ -]\d)/i
+const COMMONS_BAD_LICENSE = /\b(nc|nd)\b|non-?commercial|no ?deriv/i
+
+function stripHtml(s: string | undefined): string | null {
+  const t = String(s || '').replace(/<[^>]*>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/\s+/g, ' ').trim()
+  return t ? t.slice(0, 120) : null
+}
+
+async function searchWikimedia(q: string): Promise<Candidate[]> {
+  const params = new URLSearchParams({
+    action: 'query',
+    format: 'json',
+    generator: 'search',
+    gsrsearch: `${q.slice(0, 200)} filetype:bitmap`,
+    gsrnamespace: '6',
+    gsrlimit: '12',
+    prop: 'imageinfo',
+    iiprop: 'url|size|mime|extmetadata',
+    iiurlwidth: '1280',
+    iiextmetadatafilter: 'LicenseShortName|LicenseUrl|Artist|NonFree',
+  })
+  const res = await fetchWithTimeout(`https://commons.wikimedia.org/w/api.php?${params}`, { headers: { 'User-Agent': UA } }, 30_000)
+  if (res.status === 429) throw new BackendError('Wikimedia hız limiti', 'rate', retryAfterMs(res, 60_000))
+  if (!res.ok) throw new BackendError(`Wikimedia HTTP ${res.status}`, res.status >= 500 ? 'transient' : 'fatal')
+  const data: any = await res.json()
+  const pages: any[] = Object.values(data?.query?.pages || {}).sort((a: any, b: any) => (a.index || 0) - (b.index || 0))
+  const out: Candidate[] = []
+  for (const p of pages) {
+    const ii = p?.imageinfo?.[0]
+    if (!ii?.thumburl || !/^image\/(jpeg|png|webp)$/.test(ii.mime || '')) continue
+    const meta = ii.extmetadata || {}
+    const license = String(meta.LicenseShortName?.value || '').trim()
+    if (!license || meta.NonFree?.value === 'true' || !COMMONS_OK_LICENSE.test(license) || COMMONS_BAD_LICENSE.test(license)) continue
+    out.push({
+      source: 'wikimedia',
+      // Hakeme 500 px, indirme için 1280 px (Wikimedia yalnız standart küçük resim boyutlarını veriyor; orijinaller 20 MB'ı bulabiliyor)
+      thumbUrl: String(ii.thumburl).replace(/\/1280px-/, '/500px-'),
+      fullUrl: ii.thumburl,
+      width: ii.width || 0,
+      height: ii.height || 0,
+      credit: {
+        source: 'wikimedia',
+        source_url: ii.descriptionurl || `https://commons.wikimedia.org/wiki/${encodeURIComponent(p.title)}`,
+        creator: stripHtml(meta.Artist?.value),
+        license,
+        license_url: meta.LicenseUrl?.value || null,
+      },
+    })
+  }
+  return out
+}
+
+/** Kaynakları sırayla harmanla: tek kaynak ilk sorguda havuzu doldurmasın */
+function interleave<T>(lists: T[][]): T[] {
+  const out: T[] = []
+  for (let i = 0; lists.some((l) => i < l.length); i++) for (const l of lists) if (i < l.length) out.push(l[i])
+  return out
+}
+
 async function fetchAsInline(url: string): Promise<{ mime_type: string; data: string } | null> {
   try {
-    const res = await fetchWithTimeout(url, { headers: { 'User-Agent': 'qr-menu-catalog-images/1.0' } }, 30_000)
+    const res = await fetchWithTimeout(url, { headers: { 'User-Agent': UA } }, 30_000)
     if (!res.ok) return null
     const ct = (res.headers.get('content-type') || 'image/jpeg').split(';')[0]
     if (!ct.startsWith('image/')) return null
@@ -134,6 +195,7 @@ async function judge(ctx: GenerateContext, candidates: Candidate[]): Promise<Ver
       `You are a strict photo editor choosing ONE stock photo for a restaurant's digital menu.\n` +
       `Item: "${ctx.item.name_en || ctx.item.name}" (Turkish name: "${ctx.item.name}"). Category: ${chain}.\n` +
       `Description: ${ctx.item.description_en || ctx.item.description || '-'}\n\n` +
+      (ctx.override?.judgeNote ? `Editor's note (overrides rule 1 where they conflict): ${ctx.override.judgeNote}\n\n` : '') +
       `Candidate photos are numbered from 0. A candidate is acceptable ONLY if ALL of these hold:\n` +
       `1. It clearly shows exactly this dish or drink, and that item is the main subject filling most of the frame (not one element of a table spread, not a different dish).\n` +
       `2. It looks appetizing, sharp and well lit, like a menu photo (no dark, blurry, messy or amateur snapshots).\n` +
@@ -171,32 +233,35 @@ export const stockBackend: Backend = {
   concurrency: 2,
   minIntervalMs: 800,
   async generate(ctx: GenerateContext): Promise<GenerateResult> {
-    if (ctx.override?.skipStock) throw new BackendError('marka/etiket riski: stok aramasına alınmadı', 'nomatch')
+    const custom = ctx.override?.stockQueries?.filter(Boolean) || []
+    if (ctx.override?.skipStock && custom.length === 0) throw new BackendError('marka/etiket riski: stok aramasına alınmadı', 'nomatch')
     if (!process.env.GEMINI_API_KEY) throw new BackendError('GEMINI_API_KEY gerekli (stok hakemi)', 'fatal')
 
     // Sorgular daraltandan genişleyene: "Spicy Lahmacun" → "Acılı Lahmacun" → "Lahmacun"; hakem genel sonuçları eler
     const en = (ctx.item.name_en || '').replace(/\([^)]*\)/g, ' ').replace(/\s+/g, ' ').trim()
     const enWords = en.split(' ').filter(Boolean)
-    const queries = [
+    const queries = (custom.length ? custom : [
       en,
       ctx.item.name,
       enWords.length > 2 ? enWords.slice(-2).join(' ') : '',
       enWords.length > 1 && enWords[enWords.length - 1].length >= 4 ? enWords[enWords.length - 1] : '',
-    ].filter((q, i, a) => q && a.indexOf(q) === i)
+    ]).filter((q, i, a) => q && a.indexOf(q) === i)
     const pool: Candidate[] = []
     const seenUrl = new Set<string>()
     for (const q of queries) {
-      const [px, ov] = await Promise.all([
+      const soft = (e: unknown) => {
+        if (e instanceof BackendError && e.kind === 'rate') throw e
+        return [] as Candidate[]
+      }
+      const [px, ov, wm] = await Promise.all([
         searchPixabay(q).catch((e) => {
           if (e instanceof BackendError && e.kind === 'rate') throw e
           return [] as Candidate[]
         }),
-        searchOpenverse(q).catch((e) => {
-          if (e instanceof BackendError && e.kind === 'rate') throw e
-          return [] as Candidate[]
-        }),
+        searchOpenverse(q).catch(soft),
+        searchWikimedia(q).catch(soft),
       ])
-      for (const c of [...px, ...ov]) {
+      for (const c of interleave([px, wm, ov])) {
         if (seenUrl.has(c.fullUrl) || Math.min(c.width, c.height) < MIN_SIDE) continue
         seenUrl.add(c.fullUrl)
         pool.push(c)
@@ -213,7 +278,7 @@ export const stockBackend: Backend = {
       throw new BackendError(`hakem uygun fotoğraf bulmadı (güven ${verdict.confidence.toFixed(2)}${verdict.reason ? `: ${verdict.reason}` : ''})`, 'nomatch')
     }
 
-    const res = await fetchWithTimeout(pick.fullUrl, { headers: { 'User-Agent': 'qr-menu-catalog-images/1.0' } }, 60_000)
+    const res = await fetchWithTimeout(pick.fullUrl, { headers: { 'User-Agent': UA } }, 60_000)
     if (!res.ok) throw new BackendError(`fotoğraf indirilemedi (HTTP ${res.status})`, 'transient')
     const bytes = Buffer.from(await res.arrayBuffer())
     if (bytes.length < 10_000) throw new BackendError('indirilen fotoğraf çok küçük', 'transient')

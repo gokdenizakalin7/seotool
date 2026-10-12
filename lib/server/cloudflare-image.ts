@@ -32,7 +32,8 @@ export function estimateKleinNeurons(width: number, height: number): number {
 }
 
 function classify(status: number, code?: number): CloudflareErrorKind {
-  if (status === 429 && code === 3036) return 'quota'
+  // 3036: hesap kotası, 4006: günlük ücretsiz 10.000 nöron bitti (00:00 UTC'de sıfırlanır)
+  if (status === 429 && (code === 3036 || code === 4006)) return 'quota'
   if (status === 429 && code === 3040) return 'capacity'
   if (status === 429) return 'rate'
   if (status === 408 || status >= 500) return 'transient'
