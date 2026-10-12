@@ -1,46 +1,28 @@
 import { NextResponse, NextRequest } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-import { requireAuth } from '@/lib/auth-middleware'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+import { supabaseAdmin as supabase } from '@/lib/supabase-admin'
+import { requireSubdomainAccess } from '@/lib/auth-middleware'
 
 export async function GET(request: NextRequest) {
   try {
-    const authCheck = await requireAuth(request)
-    if ('response' in authCheck) return authCheck.response
-
-    const { searchParams } = new URL(request.url)
-    const subdomain = searchParams.get('subdomain')
-
+    const subdomain = new URL(request.url).searchParams.get('subdomain')
     if (!subdomain) {
       return NextResponse.json({ error: 'Subdomain parameter is missing' }, { status: 400 })
     }
 
-    // 1. Get organization id
-    const { data: orgData, error: orgError } = await supabase
-      .from('organizations')
-      .select('id')
-      .eq('subdomain', subdomain)
-      .single()
+    // Yalnızca restoranın üyesi (veya süper admin) okuyabilir
+    const access = await requireSubdomainAccess(request, subdomain, { allowSuspended: true })
+    if ('response' in access) return access.response
 
-    if (orgError || !orgData) {
-      return NextResponse.json({ tables: [] }) 
-    }
-
-    // 2. Load tables
-    const { data: tablesData, error: tablesError } = await supabase
+    const { data, error } = await supabase
       .from('qr_tables')
       .select('id, name, views')
-      .eq('organization_id', orgData.id)
+      .eq('organization_id', access.organizationId)
+      .order('created_at', { ascending: true })
+    if (error) throw error
 
-    if (tablesError || !tablesData) {
-      return NextResponse.json({ tables: [] })
-    }
-
-    return NextResponse.json({ tables: tablesData })
+    return NextResponse.json({ tables: data || [] })
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    console.error('Tables load error:', error)
+    return NextResponse.json({ error: 'Masalar yüklenemedi.' }, { status: 500 })
   }
 }

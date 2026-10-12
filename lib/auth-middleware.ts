@@ -161,8 +161,16 @@ export async function requireOrgAccess(
 ): Promise<{ user: AuthUser; organizationId: string } | Denied> {
   const auth = await requireUser(req)
   if ('response' in auth) return auth
-  const { user } = auth
+  return checkOrgAccess(req, auth.user, organizationId, opts)
+}
 
+/** requireOrgAccess'in doğrulanmış kullanıcıyla çalışan kısmı (token ikinci kez doğrulanmasın) */
+async function checkOrgAccess(
+  req: NextRequest | Request,
+  user: AuthUser,
+  organizationId: string,
+  opts: OrgAccessOptions
+): Promise<{ user: AuthUser; organizationId: string } | Denied> {
   if (user.isSuperAdmin) return { user, organizationId }
 
   const { data } = await supabaseAdmin
@@ -215,16 +223,14 @@ export async function requireSubdomainAccess(
   subdomain: string,
   opts: OrgAccessOptions = {}
 ): Promise<{ user: AuthUser; organizationId: string } | Denied> {
-  const auth = await requireUser(req)
+  // Kimlik doğrulama ve organizasyon sorgusu birbirinden bağımsız: paralel çalışır
+  const [auth, { data: org }] = await Promise.all([
+    requireUser(req),
+    supabaseAdmin.from('organizations').select('id').eq('subdomain', subdomain).maybeSingle(),
+  ])
   if ('response' in auth) return auth
-
-  const { data: org } = await supabaseAdmin
-    .from('organizations')
-    .select('id')
-    .eq('subdomain', subdomain)
-    .maybeSingle()
 
   if (!org) return deny(404, 'Organizasyon bulunamadı.', 'ORG_NOT_FOUND')
 
-  return requireOrgAccess(req, org.id, opts)
+  return checkOrgAccess(req, auth.user, org.id, opts)
 }

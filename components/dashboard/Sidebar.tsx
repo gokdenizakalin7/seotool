@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { QrCode, Menu as MenuIcon, LayoutDashboard, Settings, X, LogOut, Store, Smartphone, ShieldCheck, ChefHat } from 'lucide-react'
-import { clearClientSession } from '@/lib/session'
+import { signOutClient } from '@/lib/session'
+import { confirmLeave } from '@/lib/leave-guard'
 
 export function Sidebar({ 
   isSidebarOpen, 
@@ -33,8 +34,9 @@ export function Sidebar({
     { to: '/dashboard/settings', label: 'Restoran Ayarları', icon: Settings, active: path.startsWith('/dashboard/settings') },
   ]
 
-  const handleLogout = () => {
-    clearClientSession()
+  const handleLogout = async () => {
+    if (!confirmLeave()) return
+    await signOutClient()
     navigate('/login')
   }
 
@@ -124,10 +126,10 @@ export function Sidebar({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuItem onClick={() => navigate('/dashboard/settings')}>
+            <DropdownMenuItem onClick={() => confirmLeave('/dashboard/settings') && navigate('/dashboard/settings')}>
               <Settings className="h-4 w-4 mr-2" /> Restoran Ayarları
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate('/business')}>
+            <DropdownMenuItem onClick={() => confirmLeave('/business') && navigate('/business')}>
               <Store className="h-4 w-4 mr-2" /> Restoran Rehberi
             </DropdownMenuItem>
             <DropdownMenuSeparator />

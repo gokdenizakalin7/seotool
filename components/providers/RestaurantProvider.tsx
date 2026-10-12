@@ -121,7 +121,9 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
         persistLegacy(next)
         return next
       })
-      if (kind === 'logo' && restaurant) {
+      // Marka rengi yalnızca hiç seçilmemişse (varsayılan) logodan alınır; kullanıcının seçtiği renk ezilmez
+      const currentColor = (restaurant?.branding?.primaryColor || '').toLowerCase()
+      if (kind === 'logo' && restaurant && (!currentColor || currentColor === '#e11d48')) {
         const primaryColor = await extractPrimaryBrandColorFromDataUrl(dataUrl)
         try {
           await save({ primaryColor })

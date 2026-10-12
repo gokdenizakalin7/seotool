@@ -9,7 +9,11 @@ import {
   QrCode, 
   Plus,
   ArrowRight,
-  Settings
+  Settings,
+  Pencil,
+  ExternalLink,
+  Globe,
+  X
 } from 'lucide-react'
 import { CheckCircle2, Circle } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
@@ -21,6 +25,26 @@ export function DashboardContent() {
   const { restaurant: currentRestaurant } = useRestaurant()
   const navigate = useNavigate()
   const [hasMenu, setHasMenu] = useState<boolean | null>(null)
+  // Menü var ama yayında değilse müşteri QR'da boş sayfa görür
+  const [hasListedMenu, setHasListedMenu] = useState(false)
+  const checklistKey = currentRestaurant?.id ? `qrchef_checklist_hidden_${currentRestaurant.id}` : ''
+  const [checklistHidden, setChecklistHidden] = useState(false)
+  useEffect(() => {
+    if (!checklistKey) return
+    try {
+      setChecklistHidden(localStorage.getItem(checklistKey) === '1')
+    } catch {
+      // depolama kapalıysa kart görünür kalır
+    }
+  }, [checklistKey])
+  const hideChecklist = () => {
+    setChecklistHidden(true)
+    try {
+      if (checklistKey) localStorage.setItem(checklistKey, '1')
+    } catch {
+      // yalnızca bu oturum için gizlenir
+    }
+  }
   const [hasTables, setHasTables] = useState<boolean | null>(null)
 
   useEffect(() => {
@@ -37,6 +61,7 @@ export function DashboardContent() {
         const td = t.ok ? await t.json() : null
         if (!alive) return
         setHasMenu(!!md?.menus?.length)
+        setHasListedMenu(!!md?.menus?.some((m: { is_listed?: boolean }) => m.is_listed))
         setHasTables(!!td?.tables?.length)
       } catch {
         // kontrol listesi yalnızca bilgi amaçlı
@@ -47,7 +72,7 @@ export function DashboardContent() {
 
   const checklist = buildChecklist(currentRestaurant, { hasMenu: !!hasMenu, hasTables: !!hasTables })
   const doneCount = checklist.filter((c) => c.done).length
-  const showChecklist = hasMenu !== null && doneCount < checklist.length
+  const showChecklist = hasMenu !== null && doneCount < checklist.length && !checklistHidden
   const logoUrl = currentRestaurant?.branding?.logoUrl
 
   return (
@@ -72,12 +97,43 @@ export function DashboardContent() {
           Hoş Geldiniz, {currentRestaurant?.name || 'Değerli İşletmeci'}!
         </h1>
         <p data-reveal className="text-muted-foreground max-w-xl text-lg z-10 leading-relaxed">
-          QR Chef ile restoranınızın dijital menüsünü saniyeler içinde oluşturabilir, masalarınıza özel QR kodları basabilirsiniz.
+          {hasMenu && hasListedMenu
+            ? 'Menünüz yayında. Ürünleri, fiyatları ve görselleri canlı editörde düzenleyin; kaydettiğiniz değişiklikler müşterilerinizin gördüğü menüye yansır.'
+            : hasMenu
+              ? 'Menünüz hazır ama yayında değil: QR kodu okutan müşteriler şu an boş sayfa görüyor. Menü Listesi\'nden yayına alabilirsiniz.'
+              : 'QR Chef ile restoranınızın dijital menüsünü saniyeler içinde oluşturabilir, masalarınıza özel QR kodları basabilirsiniz.'}
         </p>
-        <div data-reveal className="pt-6 z-10">
-          <Button size="lg" className="px-8 font-bold text-md h-12 rounded-2xl" onClick={() => navigate('menus')}>
-            <Plus className="mr-2 h-5 w-5" /> Hemen Yeni Menü Ekle
-          </Button>
+        {/* Menü durumu yüklenmeden buton gösterilmez: yanlış eylem bir an bile görünmesin */}
+        <div data-reveal className="pt-6 z-10 flex min-h-[72px] flex-wrap items-start justify-center gap-3">
+          {hasMenu === true && !hasListedMenu && (
+            <>
+              <Button size="lg" className="px-8 font-bold text-md h-12 rounded-2xl" onClick={() => navigate('menus')}>
+                <Globe className="mr-2 h-5 w-5" /> Menüyü Yayına Al
+              </Button>
+              <Button size="lg" variant="outline" className="px-6 font-bold text-md h-12 rounded-2xl" onClick={() => navigate('menu-editor')}>
+                <Pencil className="mr-2 h-5 w-5" /> Menünü Düzenle
+              </Button>
+            </>
+          )}
+          {hasMenu === true && hasListedMenu && (
+            <>
+              <Button size="lg" className="px-8 font-bold text-md h-12 rounded-2xl" onClick={() => navigate('menu-editor')}>
+                <Pencil className="mr-2 h-5 w-5" /> Menünü Düzenle
+              </Button>
+              {currentRestaurant?.subdomain && (
+                <Button size="lg" variant="outline" className="px-6 font-bold text-md h-12 rounded-2xl" asChild>
+                  <a href={`/menu/${currentRestaurant.subdomain}`} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="mr-2 h-5 w-5" /> Müşteri Gözüyle Gör
+                  </a>
+                </Button>
+              )}
+            </>
+          )}
+          {hasMenu === false && (
+            <Button size="lg" className="px-8 font-bold text-md h-12 rounded-2xl" onClick={() => navigate('menus')}>
+              <Plus className="mr-2 h-5 w-5" /> Hemen Menünü Oluştur
+            </Button>
+          )}
         </div>
       </div>
 
@@ -86,7 +142,18 @@ export function DashboardContent() {
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between gap-3">
               <CardTitle className="text-lg">Kurulumu tamamla</CardTitle>
-              <span className="text-xs font-bold text-muted-foreground">{doneCount} / {checklist.length}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-muted-foreground">{doneCount} / {checklist.length}</span>
+                <button
+                  type="button"
+                  onClick={hideChecklist}
+                  className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                  title="Listeyi gizle"
+                  aria-label="Kurulum listesini gizle"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
             </div>
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-border">
               <div className="h-full bg-primary transition-all" style={{ width: `${(doneCount / checklist.length) * 100}%` }} />
@@ -127,7 +194,7 @@ export function DashboardContent() {
             <CardTitle className="text-xl">Menü Listesi</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground mb-6 leading-relaxed">Mevcut menülerinizi düzenleyin, kategorileri yönetin ve yayına alın.</p>
+            <p className="text-sm text-muted-foreground mb-6 leading-relaxed">Menünüzün yayın durumunu görün, yayına alın veya canlı editöre geçin.</p>
             <div className="text-sm font-bold text-foreground flex items-center">
               Menüleri Yönet <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
             </div>

@@ -13,21 +13,49 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'tables bir dizi olmalı' }, { status: 400 })
     }
 
+    // Masa adı QR adresinin parçası: boş ad olmaz, aynı ad iki kez kullanılmaz (büyük/küçük harf duyarsız)
+    const cleanName = (n: unknown) => String(n ?? '').trim().slice(0, 60)
+    const nameKey = (n: string) => n.toLocaleLowerCase('tr')
+    if (tables.some((t: any) => !cleanName(t?.name))) {
+      return NextResponse.json({ error: 'Masa adı boş olamaz.' }, { status: 400 })
+    }
+    const seen = new Set<string>()
+    for (const t of tables) {
+      const key = nameKey(cleanName(t.name))
+      if (seen.has(key)) {
+        return NextResponse.json({ error: `"${cleanName(t.name)}" adında birden fazla masa var.` }, { status: 400 })
+      }
+      seen.add(key)
+    }
+
     const access = await requireSubdomainAccess(request, subdomain)
     if ('response' in access) return access.response
     const orgId = access.organizationId
 
     // Mevcut masalar
-    const { data: existingTables } = await supabase
+    const { data: existingTables, error: existingErr } = await supabase
       .from('qr_tables')
-      .select('id')
+      .select('id, name')
       .eq('organization_id', orgId)
+    if (existingErr) throw existingErr
 
-    const existingIds = new Set((existingTables || []).map(t => t.id))
-    const incomingIds = new Set(tables.map((t: any) => t.id))
+    const existing = existingTables || []
+    const existingById = new Map(existing.map((t) => [t.id, t]))
+    const existingIdByName = new Map(existing.map((t) => [nameKey(t.name), t.id]))
+
+    // Geçici tbl- kimlikli masa, aynı adla zaten kayıtlıysa (önceki kaydın yanıtı istemciye ulaşmadan
+    // tekrar kaydedildiyse) o kayda eşlenir: silinip yeniden eklenmez, okunma sayısı korunur
+    const explicitIds = new Set(tables.map((t: any) => t.id).filter((id: unknown) => existingById.has(id as string)))
+    const incoming: { id: string | null; name: string }[] = tables.map((t: any) => {
+      const name = cleanName(t.name)
+      if (explicitIds.has(t.id)) return { id: t.id as string, name }
+      const sameName = existingIdByName.get(nameKey(name))
+      return { id: sameName && !explicitIds.has(sameName) ? sameName : null, name }
+    })
+    const keptIds = new Set(incoming.map((t) => t.id).filter(Boolean))
 
     // Silinecek masalar (yalnızca bu organizasyonun masaları)
-    const idsToDelete = [...existingIds].filter(id => !incomingIds.has(id))
+    const idsToDelete = existing.map((t) => t.id).filter((id) => !keptIds.has(id))
     if (idsToDelete.length > 0) {
       const { error } = await supabase
         .from('qr_tables')
@@ -37,33 +65,34 @@ export async function POST(request: Request) {
       if (error) throw error
     }
 
-    const newTables = tables
-      .filter((t: any) => typeof t.id !== 'string' || t.id.startsWith('tbl-'))
-      .map((t: any) => ({
-        organization_id: orgId,
-        name: t.name,
-        views: t.views || 0,
-      }))
-
+    const newTables = incoming
+      .filter((t) => !t.id)
+      .map((t) => ({ organization_id: orgId, name: t.name }))
     if (newTables.length > 0) {
       const { error } = await supabase.from('qr_tables').insert(newTables)
       if (error) throw error
     }
 
-    // Güncelleme: yalnızca bu organizasyonda var olan kimlikler
-    const toUpdate = tables.filter(
-      (t: any) => typeof t.id === 'string' && !t.id.startsWith('tbl-') && existingIds.has(t.id)
-    )
+    // Güncelleme: yalnızca adı değişenler; okunma sayısını sunucu tutar (istemci değeri sayacı ezmesin)
+    const toUpdate = incoming.filter((t) => t.id && existingById.get(t.id)?.name !== t.name)
     for (const table of toUpdate) {
       const { error } = await supabase
         .from('qr_tables')
-        .update({ name: table.name, views: table.views || 0 })
+        .update({ name: table.name })
         .eq('id', table.id)
         .eq('organization_id', orgId)
       if (error) throw error
     }
 
-    return NextResponse.json({ success: true })
+    // Yeni masaların gerçek kimlikleriyle güncel liste: istemci geçici tbl- kimliklerini tutmasın
+    const { data: fresh, error: freshErr } = await supabase
+      .from('qr_tables')
+      .select('id, name, views')
+      .eq('organization_id', orgId)
+      .order('created_at', { ascending: true })
+    if (freshErr) throw freshErr
+
+    return NextResponse.json({ success: true, tables: fresh || [] })
   } catch (error: any) {
     console.error('Tables sync error:', error)
     return NextResponse.json({ error: 'Masalar kaydedilemedi.' }, { status: 500 })

@@ -3,6 +3,8 @@
  * Senkronize localStorage ve Güvenli Çerez (Cookie) yönetimi sağlar.
  */
 
+import { supabase } from '@/lib/supabase'
+
 export function syncClientSessionCookies() {
   // Artik cookie kullanmiyoruz, JWT Authorization basligi ile calisiyoruz.
 }
@@ -38,4 +40,10 @@ export function clearClientSession() {
   document.cookie = 'restaurant_id=; Path=/; Max-Age=0; SameSite=Lax'
   document.cookie = 'user_id=; Path=/; Max-Age=0; SameSite=Lax'
   document.cookie = 'qolay_csrf_token=; Path=/; Max-Age=0; SameSite=Lax'
+}
+
+/** Panelden çıkış: yerel kayıtlar temizlenir ve Supabase oturumu da kapatılır (aksi halde kullanıcı girişli kalır). */
+export async function signOutClient() {
+  clearClientSession()
+  await supabase.auth.signOut().catch(() => undefined)
 }
