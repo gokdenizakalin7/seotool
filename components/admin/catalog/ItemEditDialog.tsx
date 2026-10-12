@@ -20,7 +20,11 @@ import { ConfirmDialog, Field, NativeSelect, Spinner, Switch } from '../shared/u
 import { adminApi, errorMessage, fmtDateTime, slugify } from '../lib/admin-api'
 import { buildTree, flattenTree } from './tree'
 
-type Draft = Omit<AdminCatalogItem, 'id' | 'imageUrl' | 'displayOrder' | 'adminEditedAt' | 'updatedAt' | 'usageCount' | 'orgCount'>
+// Fiyat restorana özeldir; katalogda düzenlenmez (PATCH mevcut değere dokunmaz)
+type Draft = Omit<
+  AdminCatalogItem,
+  'id' | 'imageUrl' | 'displayOrder' | 'adminEditedAt' | 'updatedAt' | 'usageCount' | 'orgCount' | 'priceSuggested'
+>
 
 function toDraft(item: AdminCatalogItem | null, categoryId: string): Draft {
   return {
@@ -30,7 +34,6 @@ function toDraft(item: AdminCatalogItem | null, categoryId: string): Draft {
     nameEn: item?.nameEn || '',
     description: item?.description || '',
     descriptionEn: item?.descriptionEn || '',
-    priceSuggested: item?.priceSuggested || '',
     allergens: item?.allergens || [],
     calories: item?.calories ?? null,
     tags: item?.tags || [],
@@ -254,9 +257,6 @@ export function ItemEditDialog({
                       </option>
                     ))}
                   </NativeSelect>
-                </Field>
-                <Field label="Önerilen fiyat">
-                  <Input value={d.priceSuggested} onChange={(e) => set('priceSuggested', e.target.value)} placeholder="ör. 120 ₺" />
                 </Field>
                 <Field label="Kalori (kcal)">
                   <Input
