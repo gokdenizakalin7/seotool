@@ -139,7 +139,8 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         }
         const me = await res.json()
         const isAdmin = me.role === 'superadmin'
-        if (!isAdmin && me.organization && !me.organization.onboardingCompleted) {
+        // Askıdaki restoran sihirbazda hiçbir şey kaydedemez: panelde askı bandını görsün
+        if (!isAdmin && me.organization && !me.organization.onboardingCompleted && me.organization.status !== 'suspended') {
           navigate('/onboarding', { replace: true })
           return
         }
@@ -204,7 +205,7 @@ export function OnboardingGuard({ children }: { children: React.ReactNode }) {
         const me = await res.json()
         if (me.role === 'superadmin') {
           navigate('/admin', { replace: true })
-        } else if (!me.organization || me.organization.onboardingCompleted) {
+        } else if (!me.organization || me.organization.onboardingCompleted || me.organization.status === 'suspended') {
           navigate('/dashboard', { replace: true })
         } else {
           setOk(true)

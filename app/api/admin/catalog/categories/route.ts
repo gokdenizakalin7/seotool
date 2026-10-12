@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   return adminRoute(request, 'catalog categories', async () => {
     const [categories, items] = await Promise.all([
       loadAllCategories(),
-      fetchAll<{ primary_category_id: string }>(supabaseAdmin, 'catalog_items', 'primary_category_id'),
+      fetchAll<{ primary_category_id: string }>(supabaseAdmin, 'catalog_items', 'primary_category_id', undefined, ['id']),
     ])
     const counts = new Map<string, number>()
     for (const i of items) counts.set(i.primary_category_id, (counts.get(i.primary_category_id) || 0) + 1)

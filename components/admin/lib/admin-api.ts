@@ -145,6 +145,7 @@ export const AUDIT_ACTION_LABELS: Record<string, string> = {
   'template.create': 'Şablon oluşturuldu',
   'template.update': 'Şablon güncellendi',
   'template.delete': 'Şablon silindi',
+  'template.content': 'Şablon içeriği değişti',
   'template.categories': 'Şablon kategorileri değişti',
   'template.items': 'Şablon ürünleri değişti',
   'settings.update': 'Platform ayarları değişti',

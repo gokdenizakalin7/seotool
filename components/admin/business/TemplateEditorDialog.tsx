@@ -78,11 +78,15 @@ export function TemplateEditorDialog({
     return out
   }
 
+  // Kök kategoriler (İçecekler/Yiyecekler) şablona eklenmez: apply_catalog_template onları zaten atlar
+  const isRoot = (id: string) => !categories.find((c) => c.id === id)?.parentId
+  const withAncestors = (id: string) => ancestorIds(categories, id).filter((a) => !isRoot(a))
+
   const toggleCat = (id: string, on: boolean) => {
     setDirty(true)
     setSelCats((prev) => {
       const next = new Set(prev)
-      if (on) ancestorIds(categories, id).forEach((a) => next.add(a))
+      if (on) (isRoot(id) ? [id] : withAncestors(id)).forEach((a) => next.add(a))
       else descendants(id).forEach((d) => next.delete(d))
       return next
     })
@@ -100,7 +104,7 @@ export function TemplateEditorDialog({
       else next.delete(item.id)
       return next
     })
-    if (on) setSelCats((prev) => new Set([...prev, ...ancestorIds(categories, item.categoryId)]))
+    if (on) setSelCats((prev) => new Set([...prev, ...withAncestors(item.categoryId)]))
   }
 
   const setPrice = (itemId: string, priceOverride: string) => {
@@ -138,9 +142,11 @@ export function TemplateEditorDialog({
         )
         ids.forEach((id, idx) => itemOrder.push({ itemId: id, displayOrder: idx + 1, priceOverride: selItems.get(id)!.priceOverride.trim() || null }))
       }
-      await adminApi(`/api/admin/templates/${template.id}/categories`, { method: 'PUT', body: { categories: catOrder } })
-      await adminApi(`/api/admin/templates/${template.id}/items`, { method: 'PUT', body: { items: itemOrder } })
-      toast.success(`Şablon kaydedildi: ${catOrder.length} kategori, ${itemOrder.length} ürün.`)
+      const res = await adminApi<{ categories: number; items: number }>(`/api/admin/templates/${template.id}/content`, {
+        method: 'PUT',
+        body: { categories: catOrder, items: itemOrder },
+      })
+      toast.success(`Şablon kaydedildi: ${res.categories} kategori, ${res.items} ürün.`)
       onSaved()
       onClose()
     } catch (e) {

@@ -14,8 +14,8 @@ export async function GET(request: NextRequest) {
     if (businessType) q = q.eq('business_type', businessType)
     const [{ data, error }, cats, items] = await Promise.all([
       q,
-      fetchAll<{ template_id: string }>(supabaseAdmin, 'menu_template_categories', 'template_id'),
-      fetchAll<{ template_id: string }>(supabaseAdmin, 'menu_template_items', 'template_id'),
+      fetchAll<{ template_id: string }>(supabaseAdmin, 'menu_template_categories', 'template_id', undefined, ['template_id', 'category_id']),
+      fetchAll<{ template_id: string }>(supabaseAdmin, 'menu_template_items', 'template_id', undefined, ['template_id', 'item_id']),
     ])
     if (error) throw error
     const count = (rows: { template_id: string }[]) => {

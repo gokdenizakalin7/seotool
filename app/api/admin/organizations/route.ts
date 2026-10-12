@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { fetchAllRpc } from '@/lib/server/fetch-all'
 import { adminRoute, jsonError, parseBody } from '@/lib/server/admin/http'
 import { createOrganizationSchema } from '@/lib/server/admin/schemas'
 import { isEmailTakenError, isSubdomainTaken, mapOrgOverviewRow } from '@/lib/server/admin/orgs'
 import { logAdminAction } from '@/lib/server/admin/audit'
+import { businessTypeExists } from '@/lib/server/business-types'
 import { foldTurkish } from '@/lib/catalog-match'
 import type { AdminOrgRow } from '@/lib/admin-types'
 
@@ -19,13 +21,15 @@ export async function GET(request: NextRequest) {
     const page = Math.max(1, Number(params.get('page')) || 1)
     const size = Math.min(200, Math.max(1, Number(params.get('size')) || 50))
 
-    const { data, error } = await supabaseAdmin.rpc('admin_organizations_overview')
-    if (error) {
+    let data: any[]
+    try {
+      data = await fetchAllRpc<any>(supabaseAdmin, 'admin_organizations_overview')
+    } catch (error) {
       console.error('admin_organizations_overview:', error)
       return jsonError(500, 'Restoranlar okunamadı. Migration 11 çalıştırıldı mı?', 'DB')
     }
 
-    let rows: AdminOrgRow[] = ((data || []) as any[]).map(mapOrgOverviewRow)
+    let rows: AdminOrgRow[] = data.map(mapOrgOverviewRow)
     const counts = {
       all: rows.length,
       active: rows.filter((r) => r.status === 'active').length,
@@ -60,6 +64,10 @@ export async function POST(request: NextRequest) {
 
     if (input.subdomain && (await isSubdomainTaken(input.subdomain))) {
       return jsonError(409, 'Bu subdomain başka bir restoran tarafından kullanılıyor.', 'SUBDOMAIN_TAKEN')
+    }
+
+    if (input.businessType && !(await businessTypeExists(input.businessType, { includeInactive: true }))) {
+      return jsonError(400, 'Geçersiz işletme türü.', 'VALIDATION')
     }
 
     if (input.templateSlug) {

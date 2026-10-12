@@ -44,7 +44,7 @@ export function mapItem(r: any): AdminCatalogItem {
 }
 
 export async function loadAllCategories() {
-  return fetchAll<any>(supabaseAdmin, 'catalog_categories', CATEGORY_COLUMNS, (q) => q.order('display_order'))
+  return fetchAll<any>(supabaseAdmin, 'catalog_categories', CATEGORY_COLUMNS, (q) => q.order('display_order'), ['id'])
 }
 
 /** Bir kategorinin kendisi + tüm alt kategorileri */

@@ -46,6 +46,25 @@ BEGIN
 END;
 $$;
 
+-- Herkese açık okuma politikaları: migration 01 / mvp sürümü
+DROP POLICY IF EXISTS "menus_public_select" ON menus;
+CREATE POLICY "menus_public_select" ON menus FOR SELECT USING (is_listed = true);
+DROP POLICY IF EXISTS "categories_public_select" ON categories;
+CREATE POLICY "categories_public_select" ON categories FOR SELECT
+    USING (is_active = true AND menu_id IN (SELECT id FROM menus WHERE is_listed = true));
+DROP POLICY IF EXISTS "items_public_select" ON items;
+CREATE POLICY "items_public_select" ON items FOR SELECT
+    USING (
+        is_available = true AND
+        category_id IN (
+            SELECT c.id FROM categories c
+            JOIN menus m ON c.menu_id = m.id
+            WHERE m.is_listed = true AND c.is_active = true
+        )
+    );
+DROP FUNCTION IF EXISTS public.org_is_active(uuid);
+DROP FUNCTION IF EXISTS public.admin_set_template_content(uuid, jsonb, jsonb);
+DROP FUNCTION IF EXISTS public.admin_find_user_by_email(text);
 DROP FUNCTION IF EXISTS public.admin_catalog_usage(uuid[]);
 DROP FUNCTION IF EXISTS public.admin_platform_stats();
 DROP FUNCTION IF EXISTS public.admin_organization_members(uuid);
@@ -103,6 +122,11 @@ DROP TABLE IF EXISTS business_types;
 DROP TABLE IF EXISTS admin_audit_log;
 DROP TABLE IF EXISTS organization_admin_meta;
 
+DROP TRIGGER IF EXISTS trg_org_write_guard ON menus;
+DROP TRIGGER IF EXISTS trg_org_write_guard ON categories;
+DROP TRIGGER IF EXISTS trg_org_write_guard ON items;
+DROP TRIGGER IF EXISTS trg_org_write_guard ON qr_tables;
+DROP FUNCTION IF EXISTS public.org_write_guard();
 DROP TRIGGER IF EXISTS trg_protect_org_status ON organizations;
 DROP FUNCTION IF EXISTS public.protect_org_status_columns();
 DROP INDEX IF EXISTS idx_organizations_status;

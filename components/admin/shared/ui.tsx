@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 import { AlertTriangle, Check, CheckCircle2, Copy, Eye, EyeOff, Loader2, PauseCircle, RefreshCw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
@@ -142,19 +141,31 @@ export function Field({
   error,
   children,
   className,
+  group,
 }: {
   label: string
   hint?: React.ReactNode
   error?: string
   children: React.ReactNode
   className?: string
+  /** Birden çok kontrol içeren alan (çip/ikon listesi, renk seçici): <label> yerine role="group" */
+  group?: boolean
 }) {
-  return (
-    <div className={cn('space-y-1.5', className)}>
-      <Label className="text-xs font-semibold text-foreground">{label}</Label>
+  const body = (
+    <>
+      <span className="block text-xs font-semibold leading-none text-foreground">{label}</span>
       {children}
-      {error ? <p className="text-xs text-red-600">{error}</p> : hint ? <p className="text-xs text-muted-foreground">{hint}</p> : null}
+      {error ? <span className="block text-xs text-red-600">{error}</span> : hint ? <span className="block text-xs text-muted-foreground">{hint}</span> : null}
+    </>
+  )
+  // Tek kontrollü alanlarda <label>: etiket kontrole bağlanır (ekran okuyucu, etikete tıklama).
+  // Gruplarda <label> boşluğa tıklamayı ilk düğmeye aktarırdı.
+  return group ? (
+    <div role="group" aria-label={label} className={cn('space-y-1.5', className)}>
+      {body}
     </div>
+  ) : (
+    <label className={cn('block space-y-1.5', className)}>{body}</label>
   )
 }
 

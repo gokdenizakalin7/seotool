@@ -1,8 +1,38 @@
 import { NextResponse } from 'next/server'
-import type { z } from 'zod'
+import { z } from 'zod'
 import { requireSuperAdmin, type AuthUser } from '@/lib/auth-middleware'
 
 /** Admin uçları için ortak yardımcılar. */
+
+// Doğrulama mesajları Türkçe (admin panelinde kullanıcıya gösterilir)
+z.config(z.locales.tr())
+
+const FIELD_LABELS: Record<string, string> = {
+  businessName: 'İşletme adı',
+  ownerName: 'Ad soyad',
+  email: 'E-posta',
+  password: 'Şifre',
+  phone: 'Telefon',
+  city: 'Şehir',
+  subdomain: 'Menü adresi',
+  businessType: 'İşletme türü',
+  templateSlug: 'Şablon',
+  reason: 'Sebep',
+  name: 'Ad',
+  nameEn: 'İngilizce ad',
+  label: 'Ad',
+  slug: 'Kısa ad (slug)',
+  color: 'Renk',
+  primaryColor: 'Renk',
+  categoryId: 'Kategori',
+  parentId: 'Üst kategori',
+  calories: 'Kalori',
+  tags: 'Etiketler',
+  allergens: 'Alerjenler',
+  role: 'Rol',
+  dataUrl: 'Görsel',
+  defaultTemplateSlug: 'Varsayılan şablon',
+}
 
 export function jsonError(status: number, error: string, code?: string, extra: Record<string, unknown> = {}) {
   return NextResponse.json({ error, ...(code ? { code } : {}), ...extra }, { status })
@@ -34,7 +64,8 @@ export async function parseBody<T extends z.ZodType>(
   const parsed = schema.safeParse(raw)
   if (!parsed.success) {
     const first = parsed.error.issues[0]
-    const where = first?.path?.length ? `${first.path.join('.')}: ` : ''
+    const key = [...(first?.path || [])].reverse().find((p) => typeof p === 'string') as string | undefined
+    const where = key ? `${FIELD_LABELS[key] || key}: ` : ''
     return { response: jsonError(400, `Geçersiz veri. ${where}${first?.message || ''}`.trim(), 'VALIDATION') }
   }
   return { data: parsed.data }

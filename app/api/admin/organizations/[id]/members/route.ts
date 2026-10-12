@@ -20,9 +20,9 @@ async function loadOrg(params: Ctx['params']) {
 }
 
 async function findUserIdByEmail(email: string): Promise<string | null> {
-  const { data } = await supabaseAdmin.rpc('admin_users_overview')
-  const row = (data || []).find((u: any) => (u.email || '').toLowerCase() === email)
-  return row?.id ?? null
+  const { data, error } = await supabaseAdmin.rpc('admin_find_user_by_email', { p_email: email })
+  if (error) throw error
+  return (data as string | null) ?? null
 }
 
 /** POST — mevcut kullanıcıyı ekle ya da yeni kullanıcı (admin'in belirlediği şifreyle) oluşturup ekle */

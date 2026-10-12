@@ -32,9 +32,18 @@ export async function uploadCatalogImage(slug: string, webp: Buffer): Promise<st
   return supabaseAdmin.storage.from(BUCKET).getPublicUrl(path).data.publicUrl
 }
 
-/** Yalnızca Storage'daki katalog görselini siler; repo'daki statik /catalog/ dosyalarına dokunmaz. */
+/**
+ * Yalnızca Storage'daki katalog görselini siler; repo'daki statik /catalog/ dosyalarına dokunmaz.
+ * Hâlâ bir restoran ürünü bu URL'yi kullanıyorsa (bağlantısı kaldırılmış ama görseli kalmış ürünler)
+ * dosya silinmez: canlı menüde kırık görsel oluşmasın. Dosya adları içerik hash'li, artık dosya zararsız.
+ */
 export async function removeCatalogImageFile(url: string | null | undefined): Promise<void> {
   if (!url) return
+  const { count, error: refErr } = await supabaseAdmin
+    .from('items')
+    .select('id', { count: 'exact', head: true })
+    .eq('image_url', url)
+  if (refErr || (count ?? 0) > 0) return
   const i = url.indexOf(PUBLIC_MARKER)
   if (i === -1) return
   const path = url.slice(i + PUBLIC_MARKER.length).split('?')[0]

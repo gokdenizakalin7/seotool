@@ -162,6 +162,11 @@ export function RestaurantsPage() {
                         <div className="min-w-0">
                           <p className="truncate text-sm font-medium">{o.ownerName || '—'}</p>
                           <p className="truncate font-mono text-xs text-muted-foreground">{o.owner.email}</p>
+                          {o.owner.isSuperAdmin && (
+                            <Badge tone="blue" className="mt-1" title="Süper admin hesabına bağlı restoran (kayıt tetikleyicisi oluşturur)">
+                              Sistem yöneticisi
+                            </Badge>
+                          )}
                           {isBanned(o.owner.bannedUntil) && (
                             <Badge tone="red" className="mt-1">
                               Giriş engelli

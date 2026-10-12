@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   return adminRoute(request, 'business types', async () => {
     const [{ data, error }, orgs] = await Promise.all([
       supabaseAdmin.from('business_types').select(BUSINESS_TYPE_COLUMNS).order('display_order'),
-      fetchAll<{ business_type: string | null }>(supabaseAdmin, 'organizations', 'business_type'),
+      fetchAll<{ business_type: string | null }>(supabaseAdmin, 'organizations', 'business_type', undefined, ['id']),
     ])
     if (error) return jsonError(500, 'İşletme türleri okunamadı. Migration 11 çalıştırıldı mı?', 'DB')
     const counts = new Map<string, number>()

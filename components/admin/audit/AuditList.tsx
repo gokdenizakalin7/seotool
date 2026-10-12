@@ -7,6 +7,7 @@ import { AUDIT_ACTION_LABELS, fmtDateTime } from '../lib/admin-api'
 function formatValue(v: unknown): string {
   if (v === null || v === undefined || v === '') return '—'
   if (typeof v === 'boolean') return v ? 'Evet' : 'Hayır'
+  if (Array.isArray(v)) return v.map((x) => (typeof x === 'object' ? JSON.stringify(x) : String(x))).join(', ') || '—'
   if (typeof v === 'object') return JSON.stringify(v)
   const s = String(v)
   return s.length > 80 ? s.slice(0, 80) + '…' : s
@@ -33,14 +34,21 @@ export function AuditList({ entries, showTarget = true }: { entries: AuditLogEnt
             {e.reason && <p className="mt-1 text-xs text-amber-700 dark:text-amber-300">Sebep: {e.reason}</p>}
             {keys.length > 0 && (
               <div className="mt-1.5 space-y-0.5 text-xs text-muted-foreground">
-                {keys.slice(0, 8).map((k) => (
-                  <div key={k} className="font-mono">
-                    <span className="text-foreground/70">{k}</span>:{' '}
-                    {e.before && k in e.before && <span className="line-through opacity-70">{formatValue(e.before[k])}</span>}
-                    {e.before && k in e.before && e.after && k in e.after && ' → '}
-                    {e.after && k in e.after && <span>{formatValue(e.after[k])}</span>}
-                  </div>
-                ))}
+                {keys.slice(0, 8).map((k) => {
+                  const hasBefore = !!e.before && k in e.before
+                  const hasAfter = !!e.after && k in e.after
+                  return (
+                    <div key={k} className="font-mono">
+                      <span className="text-foreground/70">{k}</span>:{' '}
+                      {hasBefore && (
+                        // Yalnızca önceki değer varsa (silinen kayıt) üstü çizilmez
+                        <span className={hasAfter ? 'line-through opacity-70' : ''}>{formatValue(e.before![k])}</span>
+                      )}
+                      {hasBefore && hasAfter && ' → '}
+                      {hasAfter && <span>{formatValue(e.after![k])}</span>}
+                    </div>
+                  )
+                })}
               </div>
             )}
           </li>

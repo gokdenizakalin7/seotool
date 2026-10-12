@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin as supabase } from '@/lib/supabase-admin'
 import { requireOrgAccess, requireUser } from '@/lib/auth-middleware'
+import { businessTypeExists } from '@/lib/server/business-types'
 import { profileToDbColumns, profileUpdateSchema, ORG_PROFILE_COLUMNS, orgRowToRestaurant } from '@/lib/restaurant-profile'
 
 /** Eski istemci biçimini (businessInfo/branding) düz profil alanlarına çevirir. */
@@ -65,6 +66,10 @@ export async function POST(request: Request) {
     const parsed = profileUpdateSchema.safeParse(flat)
     if (!parsed.success) {
       return NextResponse.json({ error: 'Gönderilen bilgiler geçersiz.' }, { status: 400 })
+    }
+
+    if (parsed.data.businessType && !(await businessTypeExists(parsed.data.businessType))) {
+      return NextResponse.json({ error: 'Geçersiz işletme türü.' }, { status: 400 })
     }
 
     const updateData = profileToDbColumns(parsed.data)

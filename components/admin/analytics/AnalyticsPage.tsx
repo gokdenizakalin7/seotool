@@ -26,7 +26,9 @@ function BarSeries({ data, label }: { data: { key: string; label: string; value:
   return (
     <div>
       <div className="mb-2 h-5 text-xs text-muted-foreground">
-        {active ? (
+        {data.every((d) => !d.value) ? (
+          <span>Bu dönemde kayıt yok</span>
+        ) : active ? (
           <span>
             <b className="text-foreground">{active.label}</b> · {n(active.value)} {label}
           </span>
@@ -43,7 +45,7 @@ function BarSeries({ data, label }: { data: { key: string; label: string; value:
             title={`${d.label}: ${n(d.value)}`}
           >
             <div
-              className={`w-full rounded-t-[4px] transition-opacity ${hover === null || hover === i ? 'bg-primary' : 'bg-primary/40'}`}
+              className={`mx-auto w-full max-w-[36px] rounded-t-[4px] transition-opacity ${hover === null || hover === i ? 'bg-primary' : 'bg-primary/40'}`}
               style={{ height: `${(d.value / max) * 100}%`, minHeight: d.value ? 2 : 0 }}
             />
           </div>
@@ -66,10 +68,17 @@ export function AnalyticsPage() {
     () => (s?.views_daily || []).map((d) => ({ key: d.day, label: dayFmt.format(new Date(d.day)), value: Number(d.count) })),
     [s]
   )
-  const weekly = useMemo(
-    () => (s?.signups_weekly || []).map((d) => ({ key: d.week, label: `${dayFmt.format(new Date(d.week))} haftası`, value: Number(d.count) })),
-    [s]
-  )
+  // Son 12 hafta, kayıt olmayan haftalar 0 (SQL yalnızca kayıt olan haftaları döner; hafta başı Pazartesi, UTC)
+  const weekly = useMemo(() => {
+    const byWeek = new Map((s?.signups_weekly || []).map((d) => [String(d.week).slice(0, 10), Number(d.count)]))
+    const now = new Date()
+    const monday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - ((now.getUTCDay() + 6) % 7)))
+    return Array.from({ length: 12 }, (_, i) => {
+      const d = new Date(monday.getTime() - (11 - i) * 7 * 86400_000)
+      const key = d.toISOString().slice(0, 10)
+      return { key, label: `${dayFmt.format(d)} haftası`, value: byWeek.get(key) || 0 }
+    })
+  }, [s])
   const devices = useMemo(() => {
     const entries = Object.entries(s?.views_by_device || {}).map(([k, v]) => [k, Number(v)] as const)
     const total = entries.reduce((a, [, v]) => a + v, 0)
@@ -130,7 +139,7 @@ export function AnalyticsPage() {
 
           <Panel>
             <PanelTitle>Haftalık yeni restoran (son 12 hafta)</PanelTitle>
-            {weekly.length ? <BarSeries data={weekly} label="yeni restoran" /> : <p className="text-sm text-muted-foreground">Kayıt yok.</p>}
+            <BarSeries data={weekly} label="yeni restoran" />
           </Panel>
         </>
       ) : null}

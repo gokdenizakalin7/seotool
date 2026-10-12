@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     const size = Math.min(2000, Math.max(1, Number(p.get('size')) || 60))
     const withUsage = p.get('usage') !== '0'
 
-    const rows = await fetchAll<any>(supabaseAdmin, 'catalog_items', ITEM_COLUMNS, (qb) => qb.order('display_order'))
+    const rows = await fetchAll<any>(supabaseAdmin, 'catalog_items', ITEM_COLUMNS, (qb) => qb.order('display_order'), ['id'])
     let items: AdminCatalogItem[] = rows.map(mapItem)
 
     if (categoryId) {

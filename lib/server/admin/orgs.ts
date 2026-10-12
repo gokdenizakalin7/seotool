@@ -1,4 +1,5 @@
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { isSuperAdminEmail } from '@/lib/auth-middleware'
 import type { AdminMember, AdminOrgRow, AuditLogEntry, MemberRole } from '@/lib/admin-types'
 
 export const BUCKET = 'menu-images'
@@ -24,6 +25,7 @@ export function mapOrgOverviewRow(r: any): AdminOrgRow {
           email: r.owner_email || '',
           lastSignInAt: r.owner_last_sign_in_at || null,
           bannedUntil: r.owner_banned_until || null,
+          isSuperAdmin: isSuperAdminEmail(r.owner_email),
         }
       : null,
     memberCount: r.member_count ?? 0,

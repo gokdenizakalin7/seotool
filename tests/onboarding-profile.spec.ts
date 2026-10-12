@@ -59,7 +59,8 @@ test.describe('profileUpdateSchema', () => {
     expect(r.name).toBe('bKafe/b')
   })
   test('geçersiz işletme türü ve renk reddedilir', () => {
-    expect(profileUpdateSchema.safeParse({ businessType: 'nope' }).success).toBe(false)
+    // Türlerin varlığı sunucuda business_types tablosundan doğrulanır; şema yalnızca biçimi denetler
+    expect(profileUpdateSchema.safeParse({ businessType: 'Nope!' }).success).toBe(false)
     expect(profileUpdateSchema.safeParse({ primaryColor: 'red' }).success).toBe(false)
     expect(profileUpdateSchema.safeParse({ businessType: 'cafe', primaryColor: '#aabbcc' }).success).toBe(true)
   })

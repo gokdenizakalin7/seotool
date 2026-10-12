@@ -24,6 +24,7 @@ export interface AdminOrgRow {
     email: string
     lastSignInAt: string | null
     bannedUntil: string | null
+    isSuperAdmin: boolean
   } | null
   memberCount: number
   menuCount: number

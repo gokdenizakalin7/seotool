@@ -63,15 +63,27 @@ async function main() {
   if (!url || !key) throw new Error('SUPABASE_URL ve SUPABASE_SERVICE_ROLE_KEY gerekli')
   const db = createClient(url, key, { auth: { persistSession: false } })
 
-  // Admin panelinde görseli değiştirilmiş ürünler: image_url statik /catalog/ yolu değil
+  // Görseli admin panelinden yönetilen ürünler korunur: Storage'a yüklenmiş görseller ve
+  // admin'in yüklediği/ürettiği/kaldırdığı (denetim kaydı olan) görseller
   let toWrite = rows
   if (!force) {
     const { data: current, error } = await db.from('catalog_items').select('slug, image_url').like('image_url', '%/menu-images/catalog/%')
     if (error) throw new Error(`catalog_items okunamadı: ${error.message}`)
     const adminImages = new Set((current || []).map((r) => r.slug))
+    const { data: logged, error: logErr } = await db
+      .from('admin_audit_log')
+      .select('target_id')
+      .eq('target_type', 'catalog_item')
+      .like('action', 'catalog_item.image_%')
+    if (logErr) console.warn(`admin_audit_log okunamadı (${logErr.message}); yalnızca Storage görselleri korunuyor`)
+    const loggedIds = [...new Set((logged || []).map((r) => r.target_id).filter(Boolean))]
+    for (let i = 0; i < loggedIds.length; i += 200) {
+      const { data: managed } = await db.from('catalog_items').select('slug').in('id', loggedIds.slice(i, i + 200))
+      for (const r of managed || []) adminImages.add(r.slug)
+    }
     toWrite = rows.filter((r) => !adminImages.has(r.slug))
     if (rows.length !== toWrite.length) {
-      console.log(`${rows.length - toWrite.length} ürünün admin panelinden yüklenen görseli korunuyor (--force ile ezilir)`)
+      console.log(`${rows.length - toWrite.length} ürünün admin panelinden yönetilen görseli korunuyor (--force ile ezilir)`)
     }
   }
 

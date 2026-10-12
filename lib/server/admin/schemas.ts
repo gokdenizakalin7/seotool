@@ -40,6 +40,8 @@ export const createOrganizationSchema = z.object({
 export const updateOrganizationSchema = profileUpdateSchema
   .omit({ onboardingStep: true, completeOnboarding: true })
   .extend({
+    // '' = işletme türünü temizle
+    businessType: businessTypeSlug.or(z.literal('')).optional(),
     subdomain: subdomain.optional(),
     ownerName: clean(80).optional(),
     state: clean(50).optional(),
@@ -162,41 +164,66 @@ export const itemImageSchema = z.union([
 
 const hexColor = z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Renk #RRGGBB biçiminde olmalı')
 
-export const businessTypeCreateSchema = z.object({
-  slug: businessTypeSlug,
+/*
+ * Güncelleme şemaları varsayılansız tabandan türetilir: Zod 4'te .default() alanları .partial() içinde de
+ * uygulanır; aksi halde tek alanlık PATCH (ör. varsayılan şablon seçimi) diğer alanları varsayılana çekerdi.
+ */
+const businessTypeFields = {
   label: clean(60).pipe(z.string().min(2)),
-  icon: clean(16).optional().default(''),
-  hint: clean(160).optional().default(''),
-  color: hexColor.optional().default('#e11d48'),
-  coverImage: z.string().max(2048).optional().default(''),
-  defaultTemplateSlug: z.string().max(80).nullable().optional(),
-  displayOrder: z.number().int().min(0).max(10000).optional(),
-  isActive: z.boolean().optional().default(true),
+  icon: clean(16),
+  hint: clean(160),
+  color: hexColor,
+  coverImage: z.string().max(2048),
+  defaultTemplateSlug: z.string().max(80).nullable(),
+  displayOrder: z.number().int().min(0).max(10000),
+  isActive: z.boolean(),
+}
+
+export const businessTypeCreateSchema = z.object({
+  ...businessTypeFields,
+  slug: businessTypeSlug,
+  icon: businessTypeFields.icon.optional().default(''),
+  hint: businessTypeFields.hint.optional().default(''),
+  color: businessTypeFields.color.optional().default('#e11d48'),
+  coverImage: businessTypeFields.coverImage.optional().default(''),
+  defaultTemplateSlug: businessTypeFields.defaultTemplateSlug.optional(),
+  displayOrder: businessTypeFields.displayOrder.optional(),
+  isActive: businessTypeFields.isActive.optional().default(true),
 })
 
-export const businessTypeUpdateSchema = businessTypeCreateSchema.omit({ slug: true }).partial()
+export const businessTypeUpdateSchema = z.object(businessTypeFields).partial()
+
+const templateFields = {
+  businessType: businessTypeSlug.nullable(),
+  name: clean(100).pipe(z.string().min(2)),
+  tagline: clean(200),
+  venueType: clean(60),
+  icon: clean(16),
+  color: hexColor,
+  coverImage: z.string().max(2048),
+  description: clean(1000),
+  displayOrder: z.number().int().min(0).max(10000),
+  isActive: z.boolean(),
+}
 
 export const templateCreateSchema = z.object({
+  ...templateFields,
   slug: catalogSlug,
-  businessType: businessTypeSlug.nullable().optional(),
-  name: clean(100).pipe(z.string().min(2)),
-  tagline: clean(200).optional().default(''),
-  venueType: clean(60).optional().default(''),
-  icon: clean(16).optional().default(''),
-  color: hexColor.optional().default('#e11d48'),
-  coverImage: z.string().max(2048).optional().default(''),
-  description: clean(1000).optional().default(''),
-  displayOrder: z.number().int().min(0).max(10000).optional(),
-  isActive: z.boolean().optional().default(true),
+  businessType: templateFields.businessType.optional(),
+  tagline: templateFields.tagline.optional().default(''),
+  venueType: templateFields.venueType.optional().default(''),
+  icon: templateFields.icon.optional().default(''),
+  color: templateFields.color.optional().default('#e11d48'),
+  coverImage: templateFields.coverImage.optional().default(''),
+  description: templateFields.description.optional().default(''),
+  displayOrder: templateFields.displayOrder.optional(),
+  isActive: templateFields.isActive.optional().default(true),
 })
 
-export const templateUpdateSchema = templateCreateSchema.omit({ slug: true }).partial()
+export const templateUpdateSchema = z.object(templateFields).partial()
 
-export const templateCategoriesSchema = z.object({
+export const templateContentSchema = z.object({
   categories: z.array(z.object({ categoryId: z.string().uuid(), displayOrder: z.number().int().min(0) })).max(500),
-})
-
-export const templateItemsSchema = z.object({
   items: z
     .array(
       z.object({

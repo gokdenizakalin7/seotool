@@ -137,7 +137,15 @@ export function UserEditDialog({
                 {!user.isSuperAdmin ? (
                   <div className="flex gap-1.5">
                     {banned ? (
-                      <Button variant="outline" size="sm" disabled={busy} onClick={() => patch({ banned: false }, 'Giriş engeli kaldırıldı.')}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={busy}
+                        onClick={async () => {
+                          // Pencere kapanır: liste güncel durumu gösterir (açık pencere eski kaydı tutar)
+                          if (await patch({ banned: false }, 'Giriş engeli kaldırıldı.')) onOpenChange(false)
+                        }}
+                      >
                         <UserCheck className="mr-1 h-3.5 w-3.5" /> Engeli kaldır
                       </Button>
                     ) : (
@@ -175,7 +183,10 @@ export function UserEditDialog({
         confirmLabel="Girişi engelle"
         destructive
         onConfirm={async () => {
-          if (await patch({ banned: true, banReason }, 'Kullanıcının girişi engellendi.')) setBanOpen(false)
+          if (await patch({ banned: true, banReason }, 'Kullanıcının girişi engellendi.')) {
+            setBanOpen(false)
+            onOpenChange(false)
+          }
         }}
       >
         <Field label="Sebep (iç not)">

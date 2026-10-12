@@ -312,7 +312,7 @@ function ProfileTab({ detail, onSaved }: { detail: AdminOrgDetail; onSaved: () =
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {input('wifiName', 'Wi-Fi adı')}
           {input('wifiPassword', 'Wi-Fi şifresi')}
-          <Field label="Ana renk">
+          <Field label="Ana renk" group>
             <div className="flex gap-2">
               <input
                 type="color"

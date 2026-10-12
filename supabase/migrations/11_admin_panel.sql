@@ -46,6 +46,11 @@ BEGIN
         RETURN new;
     END IF;
 
+    -- Askıdaki restoran üyeleri hiçbir alanı değiştiremez (panel salt-okunur)
+    IF old.status = 'suspended' THEN
+        RAISE EXCEPTION 'Hesap askıya alındığı için değişiklik yapılamaz.' USING ERRCODE = 'P0423';
+    END IF;
+
     IF new.status IS DISTINCT FROM old.status
        OR new.status_reason IS DISTINCT FROM old.status_reason
        OR new.status_changed_at IS DISTINCT FROM old.status_changed_at
@@ -60,6 +65,53 @@ DROP TRIGGER IF EXISTS trg_protect_org_status ON organizations;
 CREATE TRIGGER trg_protect_org_status
     BEFORE INSERT OR UPDATE ON organizations
     FOR EACH ROW EXECUTE PROCEDURE public.protect_org_status_columns();
+
+-- Askıdaki restoranın menü verisine doğrudan (anon key + kullanıcı token'ı ile REST) yazmayı da engelle.
+-- Uygulama API'si service role ile yazar ve 423 döner; bu tetikleyiciler RLS üzerinden gelen yazmalar içindir.
+CREATE OR REPLACE FUNCTION public.org_write_guard()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+    v_org uuid;
+    v_menu uuid;
+    v_cat uuid;
+BEGIN
+    IF coalesce(auth.role(), '') = 'service_role' OR coalesce(auth.role(), '') = '' THEN
+        RETURN coalesce(new, old);
+    END IF;
+
+    IF TG_TABLE_NAME IN ('menus', 'qr_tables') THEN
+        v_org := CASE WHEN TG_OP = 'DELETE' THEN old.organization_id ELSE new.organization_id END;
+    ELSIF TG_TABLE_NAME = 'categories' THEN
+        v_menu := CASE WHEN TG_OP = 'DELETE' THEN old.menu_id ELSE new.menu_id END;
+        SELECT organization_id INTO v_org FROM menus WHERE id = v_menu;
+    ELSIF TG_TABLE_NAME = 'items' THEN
+        v_cat := CASE WHEN TG_OP = 'DELETE' THEN old.category_id ELSE new.category_id END;
+        SELECT m.organization_id INTO v_org FROM categories c JOIN menus m ON m.id = c.menu_id WHERE c.id = v_cat;
+    END IF;
+
+    IF v_org IS NOT NULL AND EXISTS (SELECT 1 FROM organizations WHERE id = v_org AND status = 'suspended') THEN
+        RAISE EXCEPTION 'Hesap askıya alındığı için değişiklik yapılamaz.' USING ERRCODE = 'P0423';
+    END IF;
+    RETURN coalesce(new, old);
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_org_write_guard ON menus;
+CREATE TRIGGER trg_org_write_guard BEFORE INSERT OR UPDATE OR DELETE ON menus
+    FOR EACH ROW EXECUTE PROCEDURE public.org_write_guard();
+DROP TRIGGER IF EXISTS trg_org_write_guard ON categories;
+CREATE TRIGGER trg_org_write_guard BEFORE INSERT OR UPDATE OR DELETE ON categories
+    FOR EACH ROW EXECUTE PROCEDURE public.org_write_guard();
+DROP TRIGGER IF EXISTS trg_org_write_guard ON items;
+CREATE TRIGGER trg_org_write_guard BEFORE INSERT OR UPDATE OR DELETE ON items
+    FOR EACH ROW EXECUTE PROCEDURE public.org_write_guard();
+DROP TRIGGER IF EXISTS trg_org_write_guard ON qr_tables;
+CREATE TRIGGER trg_org_write_guard BEFORE INSERT OR UPDATE OR DELETE ON qr_tables
+    FOR EACH ROW EXECUTE PROCEDURE public.org_write_guard();
 
 -- --------------------------------------------
 -- 2. Yalnızca adminin gördüğü restoran notu
@@ -257,6 +309,11 @@ ALTER TABLE menu_views ADD COLUMN IF NOT EXISTS organization_id uuid REFERENCES 
 CREATE INDEX IF NOT EXISTS idx_menu_views_org_created ON menu_views(organization_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_menu_views_created ON menu_views(created_at DESC);
 
+-- Mevcut görüntülemeleri restorana bağla (geçmiş 30 günlük sayımlar boş görünmesin)
+UPDATE menu_views v SET organization_id = m.organization_id
+FROM menus m
+WHERE v.menu_id = m.id AND v.organization_id IS NULL;
+
 -- --------------------------------------------
 -- 9. Admin RPC'leri (yalnızca service role)
 -- --------------------------------------------
@@ -314,7 +371,7 @@ AS $$
         ORDER BY (m.role = 'owner') DESC, m.created_at ASC
         LIMIT 1
     ) owner ON true
-    ORDER BY o.created_at DESC;
+    ORDER BY o.created_at DESC, o.id;
 $$;
 REVOKE ALL ON FUNCTION public.admin_organizations_overview() FROM PUBLIC, anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.admin_organizations_overview() TO service_role;
@@ -350,7 +407,7 @@ AS $$
             WHERE m.user_id = u.id
         ), '[]'::jsonb)
     FROM auth.users u
-    ORDER BY u.created_at DESC;
+    ORDER BY u.created_at DESC, u.id;
 $$;
 REVOKE ALL ON FUNCTION public.admin_users_overview() FROM PUBLIC, anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.admin_users_overview() TO service_role;
@@ -419,15 +476,19 @@ AS $$
         ), '{}'::jsonb),
         'views_daily', coalesce((
             SELECT jsonb_agg(jsonb_build_object('day', day, 'count', c) ORDER BY day) FROM (
-                SELECT g::date AS day,
+                -- Günler UTC (sunucu saat dilimine bağlı kalmasın): d bir tarih, sınırlar UTC gece yarısı
+                SELECT d AS day,
                        (SELECT count(*) FROM menu_views v
-                        WHERE v.created_at >= g AND v.created_at < g + interval '1 day') AS c
-                FROM generate_series((now() - interval '29 days')::date, now()::date, interval '1 day') g
+                        WHERE v.created_at >= (d::timestamp AT TIME ZONE 'UTC')
+                          AND v.created_at < ((d + 1)::timestamp AT TIME ZONE 'UTC')) AS c
+                FROM (
+                    SELECT ((now() AT TIME ZONE 'UTC')::date - n) AS d FROM generate_series(0, 29) n
+                ) days
             ) s
         ), '[]'::jsonb),
         'signups_weekly', coalesce((
             SELECT jsonb_agg(jsonb_build_object('week', week, 'count', c) ORDER BY week) FROM (
-                SELECT date_trunc('week', created_at)::date AS week, count(*) AS c
+                SELECT date_trunc('week', created_at AT TIME ZONE 'UTC')::date AS week, count(*) AS c
                 FROM organizations WHERE created_at > now() - interval '12 weeks'
                 GROUP BY 1
             ) s
@@ -454,6 +515,93 @@ AS $$
 $$;
 REVOKE ALL ON FUNCTION public.admin_catalog_usage(uuid[]) FROM PUBLIC, anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.admin_catalog_usage(uuid[]) TO service_role;
+
+-- E-postaya göre kullanıcı (üye ekleme): listeyi istemciye çekmeden, büyük/küçük harf duyarsız
+CREATE OR REPLACE FUNCTION public.admin_find_user_by_email(p_email text)
+RETURNS uuid
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public, auth
+AS $$
+    SELECT id FROM auth.users WHERE lower(email) = lower(trim(p_email)) LIMIT 1;
+$$;
+REVOKE ALL ON FUNCTION public.admin_find_user_by_email(text) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.admin_find_user_by_email(text) TO service_role;
+
+-- Şablon içeriği tek transaction'da değişir: bir satır hatalıysa (olmayan ürün vb.) eski içerik korunur.
+-- p_categories: [{category_id, display_order}], p_items: [{item_id, display_order, price_override}]
+CREATE OR REPLACE FUNCTION public.admin_set_template_content(p_template_id uuid, p_categories jsonb, p_items jsonb)
+RETURNS jsonb
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+    v_cats  integer;
+    v_items integer;
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM menu_templates WHERE id = p_template_id) THEN
+        RAISE EXCEPTION 'Template % not found', p_template_id USING ERRCODE = 'P0002';
+    END IF;
+
+    DELETE FROM menu_template_categories WHERE template_id = p_template_id;
+    DELETE FROM menu_template_items WHERE template_id = p_template_id;
+
+    INSERT INTO menu_template_categories (template_id, category_id, display_order)
+    SELECT DISTINCT ON ((e->>'category_id')::uuid) p_template_id, (e->>'category_id')::uuid, coalesce((e->>'display_order')::int, 0)
+    FROM jsonb_array_elements(coalesce(p_categories, '[]'::jsonb)) e;
+    GET DIAGNOSTICS v_cats = ROW_COUNT;
+
+    INSERT INTO menu_template_items (template_id, item_id, display_order, price_override)
+    SELECT DISTINCT ON ((e->>'item_id')::uuid) p_template_id, (e->>'item_id')::uuid,
+           coalesce((e->>'display_order')::int, 0), nullif(e->>'price_override', '')
+    FROM jsonb_array_elements(coalesce(p_items, '[]'::jsonb)) e;
+    GET DIAGNOSTICS v_items = ROW_COUNT;
+
+    UPDATE menu_templates SET admin_edited_at = now(), updated_at = now() WHERE id = p_template_id;
+    RETURN jsonb_build_object('categories', v_cats, 'items', v_items);
+END;
+$$;
+REVOKE ALL ON FUNCTION public.admin_set_template_content(uuid, jsonb, jsonb) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.admin_set_template_content(uuid, jsonb, jsonb) TO service_role;
+
+-- --------------------------------------------
+-- 9b. Askıdaki restoranın menüsü anon key ile REST'ten de okunamasın
+--     (herkese açık menü uygulamada service role ile /api/public/* üzerinden okunur)
+-- --------------------------------------------
+CREATE OR REPLACE FUNCTION public.org_is_active(p_org_id uuid)
+RETURNS boolean
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+    SELECT coalesce((SELECT status = 'active' FROM organizations WHERE id = p_org_id), false);
+$$;
+GRANT EXECUTE ON FUNCTION public.org_is_active(uuid) TO anon, authenticated, service_role;
+
+DROP POLICY IF EXISTS "menus_public_select" ON menus;
+CREATE POLICY "menus_public_select" ON menus FOR SELECT
+    USING (is_listed = true AND public.org_is_active(organization_id));
+
+DROP POLICY IF EXISTS "categories_public_select" ON categories;
+CREATE POLICY "categories_public_select" ON categories FOR SELECT
+    USING (
+        is_active = true AND
+        menu_id IN (SELECT id FROM menus WHERE is_listed = true AND public.org_is_active(organization_id))
+    );
+
+DROP POLICY IF EXISTS "items_public_select" ON items;
+CREATE POLICY "items_public_select" ON items FOR SELECT
+    USING (
+        is_available = true AND
+        category_id IN (
+            SELECT c.id FROM categories c
+            JOIN menus m ON c.menu_id = m.id
+            WHERE m.is_listed = true AND c.is_active = true AND public.org_is_active(m.organization_id)
+        )
+    );
 
 -- --------------------------------------------
 -- 10. handle_new_user: admin "yeni üye" eklerken ikinci restoran açmasın

@@ -9,7 +9,7 @@ import { Input as BaseInput, type InputProps } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import { compressImageFile, IMAGE_PRESETS } from '@/lib/image-compression'
-import { catalogThumbUrl, isCatalogImage } from '@/lib/image-url'
+import { catalogThumbUrl, isAnyCatalogImage } from '@/lib/image-url'
 import { generateItemImage } from '@/lib/image-generation-client'
 import type { CatalogMatch } from '@/lib/catalog-match'
 import { ChipAllergenInput } from './ChipAllergenInput'
@@ -165,7 +165,7 @@ export const ScanItemCard = React.memo(function ScanItemCard({
   const linked = !!item.catalog_item_id
   const linkedName = linked && match?.top && match.top.item_id === item.catalog_item_id ? match.top.name : null
   const suggestion = !linked && match?.level === 'suggest' && match.top ? match.top : null
-  const usingCatalogImage = isCatalogImage(item.image_url)
+  const usingCatalogImage = isAnyCatalogImage(item.image_url)
 
   /** Sahibin yüklediği fotoğraf (data:) asla ezilmez; katalog görseli yalnızca boşsa/katalogsa gelir */
   const applyMatch = (m: CatalogMatch) =>

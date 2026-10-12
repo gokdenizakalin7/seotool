@@ -273,7 +273,7 @@ export function ItemEditDialog({
               <Field label="Açıklama (İngilizce)">
                 <Textarea value={d.descriptionEn} onChange={(e) => set('descriptionEn', e.target.value)} rows={2} />
               </Field>
-              <Field label="Alerjenler">
+              <Field label="Alerjenler" group>
                 <div className="flex flex-wrap gap-1.5">
                   {EU_ALLERGENS.map((a) => (
                     <Chip key={a} active={d.allergens.includes(a)} onClick={() => toggleIn('allergens', a)}>
@@ -282,7 +282,7 @@ export function ItemEditDialog({
                   ))}
                 </div>
               </Field>
-              <Field label="Etiketler">
+              <Field label="Etiketler" group>
                 <div className="flex flex-wrap gap-1.5">
                   {CATALOG_TAGS.map((t) => (
                     <Chip key={t.id} active={d.tags.includes(t.id)} onClick={() => toggleIn('tags', t.id)}>

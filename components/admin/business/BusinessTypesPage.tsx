@@ -355,7 +355,7 @@ function BusinessTypeDialog({
           <Input value={f.hint} onChange={(e) => setF({ ...f, hint: e.target.value })} placeholder="ör. Kahvaltı, kahve, tatlı" />
         </Field>
         <div className="grid gap-3 sm:grid-cols-2">
-          <Field label="Renk">
+          <Field label="Renk" group>
             <div className="flex gap-2">
               <input type="color" value={f.color} onChange={(e) => setF({ ...f, color: e.target.value })} className="h-9 w-12 rounded-lg border border-input" />
               <Input value={f.color} onChange={(e) => setF({ ...f, color: e.target.value })} className="font-mono" />
@@ -477,7 +477,7 @@ function TemplateInfoDialog({
           <Field label="Mekan türü (menü adında)">
             <Input value={f.venueType} onChange={(e) => setF({ ...f, venueType: e.target.value })} placeholder="ör. Kafe" />
           </Field>
-          <Field label="Renk">
+          <Field label="Renk" group>
             <div className="flex gap-2">
               <input type="color" value={f.color} onChange={(e) => setF({ ...f, color: e.target.value })} className="h-9 w-12 rounded-lg border border-input" />
               <Input value={f.color} onChange={(e) => setF({ ...f, color: e.target.value })} className="font-mono" />

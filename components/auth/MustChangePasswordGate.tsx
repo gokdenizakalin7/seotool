@@ -83,9 +83,12 @@ export function MustChangePasswordGate() {
           </div>
           {error && <p className="text-sm text-red-600">{error}</p>}
         </div>
-        <Button onClick={submit} disabled={busy || !pw || !pw2} className="w-full">
-          {busy ? 'Kaydediliyor…' : 'Şifremi kaydet'}
-        </Button>
+        {/* Sarmalayıcı şart: [&>button]:hidden yalnızca kapatma (X) düğmesini gizlemeli */}
+        <div>
+          <Button onClick={submit} disabled={busy || !pw || !pw2} className="w-full">
+            {busy ? 'Kaydediliyor…' : 'Şifremi kaydet'}
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   )

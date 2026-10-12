@@ -307,7 +307,7 @@ function CategoryDialog({
             </NativeSelect>
           </Field>
         </div>
-        <Field label="İkon">
+        <Field label="İkon" group>
           <IconPicker value={s.icon} onChange={(icon) => setS({ ...s, icon })} />
         </Field>
         <label className="flex items-center justify-between text-sm">

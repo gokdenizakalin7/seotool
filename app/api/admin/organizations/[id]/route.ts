@@ -6,6 +6,7 @@ import { deleteOrganizationSchema, updateOrganizationSchema } from '@/lib/server
 import { getOrgMembers, getOrgRow, isSubdomainTaken, mapAuditRow, removeStorageFolder } from '@/lib/server/admin/orgs'
 import { diffFields, logAdminAction } from '@/lib/server/admin/audit'
 import { profileToDbColumns } from '@/lib/restaurant-profile'
+import { businessTypeExists } from '@/lib/server/business-types'
 import type { AdminMenuSummary, AdminOrgDetail } from '@/lib/admin-types'
 
 type Ctx = { params: Promise<{ id: string }> }
@@ -78,8 +79,12 @@ export async function PATCH(request: NextRequest, { params }: Ctx) {
 
     const org = await getOrgRow(id)
     if (!org) return jsonError(404, 'Restoran bulunamadı.', 'ORG_NOT_FOUND')
+    if (input.businessType && !(await businessTypeExists(input.businessType, { includeInactive: true }))) {
+      return jsonError(400, 'Geçersiz işletme türü.', 'VALIDATION')
+    }
 
-    const update: Record<string, any> = profileToDbColumns(input)
+    const update: Record<string, any> = profileToDbColumns(input as Parameters<typeof profileToDbColumns>[0])
+    if (input.businessType === '') update.business_type = null
     if (input.subdomain !== undefined && input.subdomain !== org.subdomain) {
       if (await isSubdomainTaken(input.subdomain, id)) {
         return jsonError(409, 'Bu subdomain başka bir restoran tarafından kullanılıyor.', 'SUBDOMAIN_TAKEN')
