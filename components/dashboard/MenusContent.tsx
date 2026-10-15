@@ -13,6 +13,7 @@ import { ScanMenuModal } from '@/components/modals/ScanMenuModal'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
+import { siteUrl } from '@/lib/site-url'
 
 export function MenusContent() {
   const { restaurant: currentRestaurant } = useRestaurant()
@@ -50,7 +51,7 @@ export function MenusContent() {
 
   // Müşteri menüsü yayındaki ilk menüyü gösterir (sunucu created_at ile sıralar)
   const customerMenuId = menus.find((m) => m.is_listed)?.id
-  const openCustomerMenu = () => window.open(`/menu/${subdomain}`, '_blank', 'noopener,noreferrer')
+  const openCustomerMenu = () => window.open(siteUrl(subdomain), '_blank', 'noopener,noreferrer')
 
   const syncWithSupabase = async (updatedMenus: Menu[], previousMenus: Menu[]) => {
     try {

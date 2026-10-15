@@ -14,6 +14,7 @@ import { Restaurant } from '@/lib/types'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import { A4SheetPage, AcrylicTemplate, SHEET_SIZE, StickerTemplate } from '@/components/dashboard/QRPrintTemplates'
 import { downloadBlob, fileSlug, qrSvgToJpeg, serializeQrSvg } from '@/lib/qr-export'
+import { siteUrl, tableQrUrl } from '@/lib/site-url'
 import { 
   QrCode, 
   Download, 
@@ -126,12 +127,9 @@ export function QRCodesContent() {
   const printAreaRef = useRef<HTMLDivElement>(null)
 
   // tid: masa adı değişse de basılı QR o masa için sayılsın; table: menüde masa adı gösterimi (eski QR'lar yalnızca bunu taşır)
-  const getTableLink = (table: Pick<TableItem, 'id' | 'name'>) => {
-    const tid = table.id.startsWith('tbl-') ? '' : `&tid=${encodeURIComponent(table.id)}`
-    return `${window.location.origin}/menu/${subdomain}?table=${encodeURIComponent(table.name)}${tid}`
-  }
-  // Genel QR masaya bağlı değildir: Instagram bio vb. için sade menü adresi
-  const menuLink = `${typeof window !== 'undefined' ? window.location.origin : ''}/menu/${subdomain}`
+  const getTableLink = (table: Pick<TableItem, 'id' | 'name'>) => tableQrUrl(subdomain, table)
+  // Genel QR masaya bağlı değildir: Instagram bio vb. için sade site adresi
+  const menuLink = siteUrl(subdomain)
   const GENERAL_ID = 'gen'
   const printLink = (table: TableItem | null) => (!table || table.id === GENERAL_ID ? menuLink : getTableLink(table))
 
@@ -337,7 +335,7 @@ export function QRCodesContent() {
               asChild
               className="text-xs bg-gray-900 text-white hover:bg-gray-800"
             >
-              <a href={`/menu/${subdomain}`} target="_blank" rel="noreferrer">
+              <a href={siteUrl(subdomain)} target="_blank" rel="noreferrer">
                 <ExternalLink className="h-4 w-4 mr-1.5" /> Menüyü Görüntüle
               </a>
             </Button>

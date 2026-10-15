@@ -48,6 +48,7 @@ import { useAdminQuery } from '../lib/use-admin-query'
 import { startImpersonation } from '../lib/impersonate'
 import { AuditList } from '../audit/AuditList'
 import { UserEditDialog, type EditableUser } from '../users/UserEditDialog'
+import { sitePath } from '@/lib/site-url'
 
 type TabId = 'profile' | 'status' | 'members' | 'menus' | 'tables' | 'history'
 
@@ -94,8 +95,8 @@ export function RestaurantDetailPage() {
         }
         description={
           <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <a href={`/menu/${org.subdomain}`} target="_blank" rel="noreferrer" className="inline-flex items-center font-mono hover:underline">
-              /menu/{org.subdomain} <ExternalLink className="ml-1 h-3 w-3" />
+            <a href={sitePath(org.subdomain)} target="_blank" rel="noreferrer" className="inline-flex items-center font-mono hover:underline">
+              /{org.subdomain} <ExternalLink className="ml-1 h-3 w-3" />
             </a>
             <span>Kayıt: {fmtDate(org.created_at)}</span>
             {!org.onboarding_completed_at && <Badge tone="blue">Kurulum sihirbazında</Badge>}
@@ -214,6 +215,13 @@ const PROFILE_FIELDS = {
   whatsappNumber: 'whatsapp_number',
   googleMapsUrl: 'google_maps_url',
   googleReviewUrl: 'google_review_url',
+  contactEmail: 'contact_email',
+  websiteUrl: 'website_url',
+  facebookUrl: 'facebook_url',
+  tiktokHandle: 'tiktok_handle',
+  xHandle: 'x_handle',
+  youtubeUrl: 'youtube_url',
+  aboutText: 'about_text',
   wifiName: 'wifi_name',
   wifiPassword: 'wifi_password',
   primaryColor: 'primary_color',
@@ -273,7 +281,7 @@ function ProfileTab({ detail, onSaved }: { detail: AdminOrgDetail; onSaved: () =
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {input('name', 'İşletme adı')}
           {input('ownerName', 'Yetkili adı')}
-          <Field label="Menü adresi (subdomain)" hint="Değişirse eski QR kodlar çalışmaz">
+          <Field label="Site adresi (slug)" hint="Değişirse eski adres ve QR kodlar yeni adrese yönlendirilir">
             <Input value={form.subdomain} onChange={(e) => set('subdomain', subdomainInput(e.target.value))} className="font-mono" />
           </Field>
           <Field label="İşletme türü">
@@ -304,7 +312,20 @@ function ProfileTab({ detail, onSaved }: { detail: AdminOrgDetail; onSaved: () =
           {input('zipcode', 'Posta kodu')}
           {input('googleMapsUrl', 'Google Haritalar linki')}
           {input('googleReviewUrl', 'Google yorum linki')}
+          {input('contactEmail', 'İletişim e-postası')}
+          {input('websiteUrl', 'Web sitesi')}
+          {input('facebookUrl', 'Facebook')}
+          {input('tiktokHandle', 'TikTok')}
+          {input('xHandle', 'X (Twitter)')}
+          {input('youtubeUrl', 'YouTube')}
         </div>
+      </Panel>
+
+      <Panel>
+        <PanelTitle>Site: Hakkımızda</PanelTitle>
+        <Field label="Hakkımızda metni" hint="Boş bırakılırsa sitede işletme türü ve menüden otomatik metin gösterilir">
+          <Textarea rows={5} maxLength={2000} value={form.aboutText} onChange={(e) => set('aboutText', e.target.value)} />
+        </Field>
       </Panel>
 
       <Panel>

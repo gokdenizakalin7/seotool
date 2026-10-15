@@ -191,6 +191,8 @@ export const RATE_LIMITS = {
   ALIAS_PER_USER: { limit: 1, windowSeconds: 86400 },
   // AI ürün görseli üretimi: kullanıcı başına 10 dakikada 10 (günlük kota DB'de)
   IMAGE_GENERATE: { limit: 10, windowSeconds: 600 },
+  // "Hakkımızda" metni AI üretimi: kullanıcı başına saatte 10
+  ABOUT_GENERATE: { limit: 10, windowSeconds: 3600 },
   // Genel API rotaları: Dakikada en fazla 100 istek (DDoS & Scraping koruması)
   GENERAL_API: { limit: 100, windowSeconds: 60 }
 }

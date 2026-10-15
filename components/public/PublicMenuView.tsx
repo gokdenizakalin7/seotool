@@ -1,132 +1,30 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { 
-  Search, 
-  Utensils, 
-  Wifi, 
-  Copy, 
-  Check, 
-  AlertCircle, 
-  Flame, 
-  Star, 
-  Globe,
-  Send,
+import Link from 'next/link'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
+import {
+  Search,
+  Utensils,
+  Wifi,
+  Copy,
+  Check,
+  AlertCircle,
+  Flame,
+  Star,
   Sparkles,
-  Moon,
-  Sun,
-  Coffee,
-  Beer,
-  Wine,
-  Leaf
+  CalendarDays,
+  Gift,
+  BadgePercent,
 } from 'lucide-react'
-import { PublicTermsOfServiceModal } from '@/components/modals/PublicTermsOfServiceModal'
-import { PublicPrivacyPolicyModal } from '@/components/modals/PublicPrivacyPolicyModal'
 import { flushSync } from 'react-dom'
-import type { Menu, MenuItem, ProductTag } from '@/lib/types'
+import type { Menu, MenuCategory, MenuItem, ProductTag } from '@/lib/types'
 import { catalogThumbUrl } from '@/lib/image-url'
-
-const FALLBACK_COVER = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&h=600&fit=crop'
-
-// ÇOKLU DİL SÖZLÜĞÜ (TR, EN, AR, RU)
-const TRANSLATIONS = {
-  tr: {
-    searchPlaceholder: 'Yemek, içecek veya tatlı arayın...',
-    all: 'Tümü',
-    wifiTitle: 'Ücretsiz Wi-Fi',
-    copyWifi: 'Şifreyi Kopyala',
-    copied: 'Kopyalandı',
-    rateUs: 'Deneyiminizi Değerlendirin',
-    rateDesc: 'Lezzet ve menümüzden memnun kaldınız mı?',
-    rateHighThanks: 'Harika! Bizi Google Haritalar\'da değerlendirerek destek olmak ister misiniz?',
-    rateLowThanks: 'Geri bildiriminiz için teşekkürler. Deneyiminizi iyileştirmek için çalışacağız.',
-    googleReviewBtn: 'Google\'da Yorum Yaz ⭐',
-    sendFeedback: 'Görüşünü Gönder',
-    allergens: 'Alerjenler',
-    chefChoice: 'Şefin Tavsiyesi',
-    table: 'Masa',
-    noItemsFound: 'Aramanıza uygun ürün bulunamadı.',
-    hours: 'Çalışma Saatleri',
-    instagramShort: 'Instagram',
-    googleReviewShort: 'Yorum Yap',
-    close: 'Kapat',
-    categoriesTitle: 'Ne arzu edersiniz?',
-    itemsCount: 'ürün'
-  },
-  en: {
-    searchPlaceholder: 'Search dishes, drinks or desserts...',
-    all: 'All',
-    wifiTitle: 'Free Wi-Fi',
-    copyWifi: 'Copy Password',
-    copied: 'Copied',
-    rateUs: 'Rate Your Experience',
-    rateDesc: 'How was your dining experience with us today?',
-    rateHighThanks: 'Awesome! Would you like to leave us a quick review on Google Maps?',
-    rateLowThanks: 'Thank you for your feedback. We will work hard to improve our service.',
-    googleReviewBtn: 'Write a Review on Google ⭐',
-    sendFeedback: 'Submit Feedback',
-    allergens: 'Allergens',
-    chefChoice: 'Chef\'s Choice',
-    table: 'Table',
-    noItemsFound: 'No items found matching your search.',
-    hours: 'Opening Hours',
-    instagramShort: 'Instagram',
-    googleReviewShort: 'Write a Review',
-    close: 'Close',
-    categoriesTitle: 'What would you like?',
-    itemsCount: 'items'
-  },
-  ar: {
-    searchPlaceholder: 'ابحث عن أطباق، مشروبات أو حلويات...',
-    all: 'الكل',
-    wifiTitle: 'واي فاي مجاني',
-    copyWifi: 'نسخ كلمة المرور',
-    copied: 'تم النسخ',
-    rateUs: 'قيم تجربتك معنا',
-    rateDesc: 'هل كنت راضياً عن طعامنا وخدمتنا اليوم؟',
-    rateHighThanks: 'رائع! هل تود دعمنا بترك تقييم على خرائط جوجل؟',
-    rateLowThanks: 'شكراً لملاحظاتك، سنعمل على تحسين الخدمة.',
-    googleReviewBtn: 'اكتب تقييماً على جوجل ⭐',
-    sendFeedback: 'إرسال الملاحظات',
-    allergens: 'مسببات الحساسية',
-    chefChoice: 'اختيار الشيف',
-    table: 'طاولة',
-    noItemsFound: 'لم يتم العثور على أطباق مطابقة.',
-    hours: 'ساعات العمل',
-    instagramShort: 'انستغرام',
-    googleReviewShort: 'اكتب تقييماً',
-    close: 'إغلاق',
-    categoriesTitle: 'ماذا تود أن تطلب؟',
-    itemsCount: 'منتجات'
-  },
-  ru: {
-    searchPlaceholder: 'Поиск блюд, напитков или десертов...',
-    all: 'Все',
-    wifiTitle: 'Бесплатный Wi-Fi',
-    copyWifi: 'Скопировать пароль',
-    copied: 'Скопировано',
-    rateUs: 'Оцените наш сервис',
-    rateDesc: 'Понравилось ли вам обслуживание и еда?',
-    rateHighThanks: 'Отлично! Не хотите ли оставить отзыв на Google Maps?',
-    rateLowThanks: 'Спасибо за отзыв. Мы будем работать над улучшением качества.',
-    googleReviewBtn: 'Оставить отзыв в Google ⭐',
-    sendFeedback: 'Отправить отзыв',
-    allergens: 'Аллергены',
-    chefChoice: 'Выбор шефа',
-    table: 'Стол',
-    noItemsFound: 'Блюда не найдены.',
-    hours: 'Часы работы',
-    instagramShort: 'Instagram',
-    googleReviewShort: 'Оставить отзыв',
-    close: 'Закрыть',
-    categoriesTitle: 'Что желаете?',
-    itemsCount: 'позиций'
-  }
-}
+import { CAMPAIGN_CATEGORY_ID } from '@/lib/campaigns'
+import { parsePrice } from '@/lib/price'
+import { formatEventTime } from '@/lib/events'
+import { useSiteLang } from '@/components/public/site/i18n'
+import { brandColor, type SiteNotice, type SiteRestaurant } from '@/components/public/site/types'
 
 const getAllergenIcon = (allergen: string) => {
   const lower = allergen.toLowerCase()
@@ -139,36 +37,44 @@ const getAllergenIcon = (allergen: string) => {
   return '⚠️'
 }
 
+/** Fiyat planı / kampanya indirimi: "%17" */
+function savingsPercent(item: MenuItem): number | null {
+  if (!item.original_price) return null
+  const was = parsePrice(item.original_price)?.amount
+  const now = parsePrice(item.price)?.amount
+  if (!was || now == null || now >= was) return null
+  const pct = Math.round(((was - now) / was) * 100)
+  return pct > 0 ? pct : null
+}
+
 interface PublicMenuViewProps {
-  /** Herkese açık restoran alanları (bkz. lib/server/public-menu.ts); null = bulunamadı */
-  restaurant: any | null
-  /** Müşterinin gördüğü menü (yayındaki ilk menü) */
+  /** Herkese açık restoran alanları (bkz. lib/server/public-menu.ts) */
+  restaurant: SiteRestaurant | null
+  /** Müşterinin gördüğü menü (yayındaki ilk menü; fiyat planı uygulanmış, kampanyalar ilk kategori) */
   menu?: Menu
-  /** Kapak ve logo yoksa işletme türü kapağı ('' = varsayılan kapak) */
-  fallbackCover?: string
   /** Önizlemede editördeki kaydedilmemiş tema rengi */
   primaryColor?: string | null
-  hasImageCredits?: boolean
   /** Panel içi canlı önizleme: kategori kartları atlanır, görüntülenme sayılmaz */
   isPreview?: boolean
   /** Masa QR'ından gelindiyse masa adı / kimliği (masa okunma sayacı) */
   tableName?: string | null
   tableId?: string | null
+  /** Menünün üstündeki duyurular (fiyat planı mesajı, bugünkü etkinlik) */
+  notices?: SiteNotice[]
 }
 
+/** Menü sekmesi: sosyal kartlar, Wi-Fi, arama, kategoriler, ürünler ve ürün detayı. Kapak/sekme/altbilgi SiteShell'dedir. */
 export function PublicMenuView({
   restaurant,
   menu: activeMenu,
-  fallbackCover,
   primaryColor: primaryColorOverride,
-  hasImageCredits = false,
   isPreview = false,
   tableName,
   tableId,
+  notices = [],
 }: PublicMenuViewProps) {
-  // Dil Desteği (tr, en, ar, ru)
-  const [lang, setLang] = useState<'tr' | 'en' | 'ar' | 'ru'>('tr')
-  const t = TRANSLATIONS[lang]
+  const { lang, t } = useSiteLang()
+  const categoryLabel = (cat: Pick<MenuCategory, 'id' | 'name'>) => (cat.id === CAMPAIGN_CATEGORY_ID ? t.campaigns : cat.name)
 
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedTag, setSelectedTag] = useState<string>('all')
@@ -189,46 +95,11 @@ export function PublicMenuView({
     }
   }, [activeCategory])
 
-  // Koyu tema <html class="dark"> ile: ilk değeri sayfadaki satır içi betik (sistem tercihi) boyamadan önce verir,
-  // buton ikonu dark: sınıflarıyla değiştiği için ayrıca state tutulmaz.
-  // Yumuşak tema geçişi: butondan genişleyen dairesel açılma (View Transitions API)
-  const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const root = document.documentElement
-    const next = !root.classList.contains('dark')
-    const apply = () => {
-      root.classList.toggle('dark', next)
-    }
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const start = (document as any).startViewTransition?.bind(document)
-    if (reduce || !start) {
-      root.classList.add('theme-fade')
-      apply()
-      setTimeout(() => root.classList.remove('theme-fade'), 600)
-      return
-    }
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = rect.left + rect.width / 2
-    const y = rect.top + rect.height / 2
-    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))
-    const t = start(apply)
-    t.ready.then(() => {
-      root.animate(
-        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-        { duration: 900, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', pseudoElement: '::view-transition-new(root)' }
-      )
-    }).catch(() => {})
-  }
   const categoryRefs = useRef<{ [key: string]: HTMLElement | null }>({})
   const isManualScrollRef = useRef(false)
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
   const [isItemModalOpen, setIsItemModalOpen] = useState(false)
-  const [isTermsOpen, setIsTermsOpen] = useState(false)
-  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false)
   const [wifiCopied, setWifiCopied] = useState(false)
-
-  // GOOGLE REVIEW & DEĞERLENDİRME STATE'LERİ
-  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false)
-  const [feedbackText, setFeedbackText] = useState('')
 
   // Görüntülenme sayımı menü göründükten sonra ayrı istekle; masa QR'ından gelindiyse masa sayacı da artar
   const restaurantId: string | undefined = restaurant?.id
@@ -247,11 +118,7 @@ export function PublicMenuView({
     }
   }, [isCountable, restaurantId, tableName, tableId])
 
-  const primaryColor =
-    primaryColorOverride ||
-    restaurant?.branding?.primaryColor ||
-    restaurant?.primary_color ||
-    '#e11d48'
+  const primaryColor = brandColor(restaurant, primaryColorOverride)
 
   // SADECE AKTİF OLAN KATEGORİLER
   const activeCategories = (activeMenu?.categories || []).filter(c => c.is_active)
@@ -333,95 +200,44 @@ export function PublicMenuView({
     }
   }
 
-  if (!restaurant) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
-        <AlertCircle className="h-16 w-16 text-gray-400 mb-4" />
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Restoran Bulunamadı</h2>
-        <p className="text-gray-500 text-center max-w-md">Aradığınız menüye ulaşılamıyor veya böyle bir restoran sistemimizde kayıtlı değil.</p>
-      </div>
-    )
-  }
+  if (!restaurant) return null
 
-  if (restaurant.suspended) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6 text-center">
-        {restaurant.logo_url ? (
-          <img src={restaurant.logo_url} alt="" className="h-20 w-20 rounded-2xl object-cover mb-5 shadow-sm" />
-        ) : (
-          <AlertCircle className="h-16 w-16 text-gray-400 mb-4" />
-        )}
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">{restaurant.name}</h2>
-        <p className="text-gray-500 max-w-md">{restaurant.message || 'Bu menü geçici olarak hizmet dışıdır.'}</p>
-      </div>
-    )
-  }
-
-  const hasCustomCover = Boolean(restaurant.cover_url?.trim())
-  const coverUsesLogo = !hasCustomCover && Boolean(restaurant.logo_url?.trim())
-  const heroCoverSrc = hasCustomCover
-    ? restaurant.cover_url!
-    : coverUsesLogo
-      ? restaurant.logo_url!
-      : fallbackCover || FALLBACK_COVER
   const igHandle = (restaurant.instagram_handle || '').replace(/^@+/, '')
   const showSocialCards = Boolean(igHandle || restaurant.google_review_url)
 
   return (
-    <div
-      className="min-h-screen bg-gradient-to-b from-white to-[#F5F5F7] dark:from-[#1c1c1e] dark:to-[#000000] flex flex-col justify-between pb-8 font-sans selection:bg-primary/20 relative"
-      dir={lang === 'ar' ? 'rtl' : 'ltr'}
-    >
-      <div className="relative z-10">
-        {/* Dergi Tarzı Minimalist Kapak */}
-        {(
-          <div className="relative h-40 sm:h-52 w-full bg-[#e9e9ee] dark:bg-[#1c1c1e] overflow-hidden rounded-b-[28px] shadow-[0_12px_32px_rgba(0,0,0,0.08)]">
-            {/* Giriş animasyonları CSS ile: sunucudan gelen HTML, JS yüklenmeden görünür ve canlanır */}
-            <div className="h-full w-full animate-in zoom-in-105 slide-in-from-bottom-2.5 duration-[1200ms] ease-out">
-              <img
-                src={heroCoverSrc}
-                alt={restaurant.name}
-                className={`w-full h-full ${coverUsesLogo ? 'object-contain opacity-60 dark:opacity-35 blur-[1px]' : 'object-cover opacity-90 dark:opacity-45'}`}
-              />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/40 to-white/5 dark:from-black/85 dark:via-black/35 dark:to-black/10 flex flex-col justify-end p-4 sm:p-6">
-              <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-4 delay-200 duration-[600ms] ease-out fill-mode-both">
-                <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-gray-900 dark:text-white leading-tight">
-                  {restaurant.name}
-                </h2>
-              </div>
-            </div>
-
-            {/* Sağ üst şık dil seçici & Gece Modu Butonu */}
-            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex items-center gap-1.5 z-50">
-              {/* Gece Modu Butonu */}
-              <button
-                onClick={toggleTheme}
-                className="flex items-center justify-center w-8 h-8 bg-white/70 dark:bg-black/20 backdrop-blur-xl rounded-full border border-black/10 dark:border-white/10 text-gray-700 dark:text-white/80 hover:text-black dark:hover:text-white transition-colors"
-                aria-label="Toggle Dark Mode"
-              >
-                <span className="relative flex h-4 w-4">
-                  <Moon className="absolute inset-0 h-4 w-4 transition-all duration-300 ease-out dark:rotate-90 dark:scale-50 dark:opacity-0" />
-                  <Sun className="absolute inset-0 h-4 w-4 -rotate-90 scale-50 opacity-0 transition-all duration-300 ease-out dark:rotate-0 dark:scale-100 dark:opacity-100" />
+    <>
+      {notices.length > 0 && (
+        <div className="mx-4 mt-5 space-y-2 sm:mx-auto sm:max-w-2xl">
+          {notices.map((notice) => {
+            const Icon = notice.kind === 'event' ? CalendarDays : BadgePercent
+            const text =
+              notice.kind === 'event' && notice.startsAt
+                ? `${notice.isNow ? t.liveNow : t.today} ${formatEventTime(notice.startsAt, lang)} · ${notice.text}`
+                : notice.text
+            const className =
+              'flex items-center gap-2.5 rounded-2xl border border-gray-200/80 dark:border-white/10 bg-white dark:bg-[#242427] px-3 py-2.5 shadow-sm'
+            const content = (
+              <>
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white" style={{ backgroundColor: primaryColor }}>
+                  <Icon className="h-3.5 w-3.5" />
                 </span>
-              </button>
-
-              <div className="flex items-center bg-white/70 dark:bg-black/20 backdrop-blur-xl px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10">
-                <Globe className="h-4 w-4 text-gray-700 dark:text-white/80 mr-1.5" />
-                <select
-                  value={lang}
-                  onChange={(e) => setLang(e.target.value as 'tr' | 'en' | 'ar' | 'ru')}
-                  className="text-xs bg-transparent font-bold text-gray-900 dark:text-white focus:outline-none cursor-pointer appearance-none uppercase"
-                >
-                  <option value="tr" className="text-black">TR</option>
-                  <option value="en" className="text-black">EN</option>
-                  <option value="ar" className="text-black">AR</option>
-                  <option value="ru" className="text-black">RU</option>
-                </select>
+                <span className="min-w-0 flex-1 text-[13px] font-semibold leading-snug text-gray-800 dark:text-zinc-100">{text}</span>
+                {notice.href && <span className="shrink-0 text-[11px] font-bold text-gray-400 dark:text-zinc-500">{t.seeEvents} →</span>}
+              </>
+            )
+            return notice.href ? (
+              <Link key={notice.id} href={notice.href} className={className}>
+                {content}
+              </Link>
+            ) : (
+              <div key={notice.id} className={className}>
+                {content}
               </div>
-            </div>
-          </div>
-        )}
+            )
+          })}
+        </div>
+      )}
 
         {showSocialCards && (
           <div
@@ -547,7 +363,7 @@ export function PublicMenuView({
                         : 'bg-white/80 dark:bg-[#2c2c2e] text-gray-600 dark:text-zinc-300 border-gray-100/80 dark:border-white/5 hover:bg-white dark:hover:bg-[#3a3a3c]'}
                     `}
                   >
-                    {cat.name}
+                    {categoryLabel(cat)}
                   </button>
                 ))}
               </div>
@@ -582,12 +398,14 @@ export function PublicMenuView({
                           decoding="async"
                           className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                         />
+                      ) : category.id === CAMPAIGN_CATEGORY_ID ? (
+                        <Gift className="absolute right-4 top-4 h-10 w-10 text-white/40" />
                       ) : (
                         <Utensils className="absolute right-4 top-4 h-10 w-10 text-white/40" />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
                       <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-4">
-                        <p className="text-base sm:text-lg font-bold leading-tight text-white capitalize line-clamp-2 drop-shadow-sm">{category.name}</p>
+                        <p className="text-base sm:text-lg font-bold leading-tight text-white capitalize line-clamp-2 drop-shadow-sm">{categoryLabel(category)}</p>
                         <p className="mt-0.5 text-xs font-medium text-white/75">
                           {category.items.length} {t.itemsCount}
                         </p>
@@ -603,7 +421,7 @@ export function PublicMenuView({
             {!activeMenu || filteredCategories.length === 0 ? (
               <div className="text-center py-20 bg-white dark:bg-[#2c2c2e] rounded-[32px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-gray-400 dark:text-zinc-500 text-base font-medium">
                 <Utensils className="h-10 w-10 mx-auto mb-3 opacity-20" />
-                {!activeMenu ? "Menü çok yakında." : t.noItemsFound}
+                {!activeMenu ? t.menuSoon : t.noItemsFound}
               </div>
             ) : (
               filteredCategories.map(category => (
@@ -615,7 +433,10 @@ export function PublicMenuView({
                 >
                   <div className="mb-2 flex items-end justify-between border-b border-gray-200/60 dark:border-white/10 pb-2">
                     <div>
-                      <h3 className="font-bold text-lg sm:text-xl text-gray-900 dark:text-zinc-100 tracking-tight capitalize">{category.name}</h3>
+                      <h3 className="font-bold text-lg sm:text-xl text-gray-900 dark:text-zinc-100 tracking-tight capitalize flex items-center gap-1.5">
+                        {category.id === CAMPAIGN_CATEGORY_ID && <Gift className="h-5 w-5" style={{ color: primaryColor }} />}
+                        {categoryLabel(category)}
+                      </h3>
                       {category.description && (
                         <p className="text-xs text-gray-500 dark:text-zinc-500 mt-0.5 font-medium max-w-lg line-clamp-2">{category.description}</p>
                       )}
@@ -671,9 +492,20 @@ export function PublicMenuView({
                           </div>
                           
                           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mt-2 pt-2 sm:mt-3 sm:pt-3 border-t border-gray-900/5">
-                            <span className="font-black text-lg sm:text-xl shrink-0 text-gray-900 dark:text-white">
-                              {item.price}
-                            </span>
+                            <div className="flex shrink-0 flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                              <span className="font-black text-lg sm:text-xl text-gray-900 dark:text-white">{item.price}</span>
+                              {item.original_price && (
+                                <span className="text-xs font-semibold text-gray-400 dark:text-zinc-500 line-through">{item.original_price}</span>
+                              )}
+                              {savingsPercent(item) && (
+                                <span
+                                  className="rounded-full px-1.5 py-0.5 text-[10px] font-black text-white"
+                                  style={{ backgroundColor: primaryColor }}
+                                >
+                                  %{savingsPercent(item)} {t.savings}
+                                </span>
+                              )}
+                            </div>
 
                             {/* Kalori ve Alerjenler */}
                             <div className="flex flex-wrap items-center gap-1.5 justify-end">
@@ -714,7 +546,6 @@ export function PublicMenuView({
           )}
 
         </main>
-      </div>
 
       {/* Ürün Detay Modalı */}
       <Dialog open={isItemModalOpen} onOpenChange={setIsItemModalOpen}>
@@ -726,7 +557,7 @@ export function PublicMenuView({
                 onClick={() => setIsItemModalOpen(false)}
                 className="absolute top-4 right-4 z-50 w-8 h-8 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/60 transition-colors"
               >
-                <span className="sr-only">Kapat</span>
+                <span className="sr-only">{t.close}</span>
                 <svg width="12" height="12" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
                 </svg>
@@ -757,16 +588,37 @@ export function PublicMenuView({
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-3xl font-black text-gray-900 dark:text-zinc-100 tracking-tight leading-tight pr-4">{selectedItem.name}</h3>
                   {selectedItem.price && (
-                    <span className="text-2xl font-black shrink-0 text-gray-900 dark:text-white">
-                      {selectedItem.price}
-                    </span>
+                    <div className="flex shrink-0 flex-col items-end">
+                      <span className="text-2xl font-black text-gray-900 dark:text-white">{selectedItem.price}</span>
+                      {selectedItem.original_price && (
+                        <span className="text-sm font-semibold text-gray-400 dark:text-zinc-500 line-through">{selectedItem.original_price}</span>
+                      )}
+                    </div>
                   )}
                 </div>
 
-                {selectedItem.description && (
-                  <p className="text-[15px] text-gray-600 dark:text-zinc-400 font-medium leading-relaxed mb-6">
-                    {selectedItem.description}
-                  </p>
+                {selectedItem.bundle && selectedItem.bundle.length > 0 ? (
+                  <div className="mb-6 rounded-2xl border border-gray-100 dark:border-[#3a3a3c] bg-gray-50 dark:bg-[#3a3a3c]/60 p-4">
+                    <h4 className="mb-2 flex items-center text-[11px] font-bold uppercase tracking-wider text-gray-600 dark:text-zinc-400">
+                      <Gift className="mr-1.5 h-3.5 w-3.5" /> {t.bundleContents}
+                    </h4>
+                    <ul className="space-y-1">
+                      {selectedItem.bundle.map((b, i) => (
+                        <li key={i} className="text-[15px] font-semibold text-gray-800 dark:text-zinc-200">
+                          {b.quantity}× {b.name}
+                        </li>
+                      ))}
+                    </ul>
+                    {selectedItem.description && !selectedItem.description.includes('×') && (
+                      <p className="mt-3 text-sm text-gray-600 dark:text-zinc-400 font-medium leading-relaxed">{selectedItem.description}</p>
+                    )}
+                  </div>
+                ) : (
+                  selectedItem.description && (
+                    <p className="text-[15px] text-gray-600 dark:text-zinc-400 font-medium leading-relaxed mb-6">
+                      {selectedItem.description}
+                    </p>
+                  )
                 )}
 
                 <div className="grid grid-cols-2 gap-3 mb-6">
@@ -779,10 +631,10 @@ export function PublicMenuView({
                       <span className="text-lg font-black text-gray-900 dark:text-zinc-100 leading-none">
                         {(selectedItem.calorie_source === 'auto' || selectedItem.calorie_source === 'detailed') ? '~' : ''}{selectedItem.calories}
                       </span>
-                      <span className="text-[10px] font-bold text-gray-500 dark:text-zinc-500 uppercase tracking-wider mt-1">Kalori</span>
+                      <span className="text-[10px] font-bold text-gray-500 dark:text-zinc-500 uppercase tracking-wider mt-1">{t.calories}</span>
                       {(selectedItem.calorie_source === 'auto' || selectedItem.calorie_source === 'detailed') && (
                         <div className="flex items-center text-[9px] text-primary mt-1 font-bold">
-                          <Sparkles className="h-2.5 w-2.5 mr-0.5" /> AI Tahmini
+                          <Sparkles className="h-2.5 w-2.5 mr-0.5" /> {t.aiEstimate}
                         </div>
                       )}
                     </div>
@@ -793,11 +645,11 @@ export function PublicMenuView({
                     <div className="bg-white dark:bg-[#2c2c2e] p-2 rounded-full shadow-sm mb-2">
                       <Utensils className="h-5 w-5 text-blue-500" />
                     </div>
-                    <span className="text-[11px] font-bold text-gray-500 dark:text-zinc-500 uppercase tracking-wider mb-0.5">Stok Durumu</span>
+                    <span className="text-[11px] font-bold text-gray-500 dark:text-zinc-500 uppercase tracking-wider mb-0.5">{t.stock}</span>
                     {selectedItem.is_available ? (
-                      <span className="text-sm font-black text-emerald-600">Mevcut</span>
+                      <span className="text-sm font-black text-emerald-600">{t.available}</span>
                     ) : (
-                      <span className="text-sm font-black text-red-600">Tükendi</span>
+                      <span className="text-sm font-black text-red-600">{t.soldOut}</span>
                     )}
                   </div>
                 </div>
@@ -823,29 +675,6 @@ export function PublicMenuView({
           )}
         </DialogContent>
       </Dialog>
-
-      {/* Footer */}
-      <footer className="bg-white dark:bg-[#2c2c2e] border-t py-4 text-center text-xs text-gray-500 dark:text-zinc-500 space-y-2 mt-auto">
-        <div className="container mx-auto px-4">
-          <p className="flex items-center justify-center gap-1.5">{restaurant.logo_url && <img src={restaurant.logo_url} alt="" className="h-4 w-4 rounded object-contain" />}© {new Date().getFullYear()} {restaurant.name} • Powered by <strong>QR Chef</strong></p>
-          <div className="flex justify-center space-x-4 mt-1.5 text-[11px]">
-            <button onClick={() => setIsTermsOpen(true)} className="hover:underline text-gray-400 dark:text-zinc-500">
-              Kullanım Koşulları
-            </button>
-            <button onClick={() => setIsPrivacyOpen(true)} className="hover:underline text-gray-400 dark:text-zinc-500">
-              Gizlilik Politikası
-            </button>
-            {hasImageCredits && (
-              <a href="/gorsel-kaynaklari" target="_blank" rel="noopener noreferrer" className="hover:underline text-gray-400 dark:text-zinc-500">
-                Görsel kaynakları
-              </a>
-            )}
-          </div>
-        </div>
-      </footer>
-
-      <PublicTermsOfServiceModal isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
-      <PublicPrivacyPolicyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
-    </div>
+    </>
   )
 }

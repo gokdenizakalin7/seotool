@@ -8,7 +8,18 @@ import { AccountBanners } from '@/components/dashboard/AccountBanners'
 import { Sidebar } from '@/components/dashboard/Sidebar'
 import { Header } from '@/components/dashboard/Header'
 import { PanelThemeProvider, PanelBackground } from '@/components/theme/PanelTheme'
-import { DASHBOARD_PAGES, DashboardContent, LiveMenuEditor, MenusContent, QRCodesContent, SettingsContent } from '@/components/lazy-pages'
+import {
+  AboutContent,
+  CampaignsContent,
+  DASHBOARD_PAGES,
+  DashboardContent,
+  EventsContent,
+  LiveMenuEditor,
+  MenusContent,
+  PricePlansContent,
+  QRCodesContent,
+  SettingsContent,
+} from '@/components/lazy-pages'
 import { preloadWhenIdle } from '@/lib/lazy-page'
 
 /**
@@ -91,6 +102,15 @@ export function DashboardLayout() {
               <Route path="/qr-codes" element={<QRCodesContent />} />
               <Route path="settings" element={<SettingsContent />} />
               <Route path="/settings" element={<SettingsContent />} />
+              {/* İşletme sitesi modülleri */}
+              <Route path="price-plans" element={<PricePlansContent />} />
+              <Route path="/price-plans" element={<PricePlansContent />} />
+              <Route path="campaigns" element={<CampaignsContent />} />
+              <Route path="/campaigns" element={<CampaignsContent />} />
+              <Route path="events" element={<EventsContent />} />
+              <Route path="/events" element={<EventsContent />} />
+              <Route path="about" element={<AboutContent />} />
+              <Route path="/about" element={<AboutContent />} />
               <Route path="*" element={<DashboardContent />} />
             </Routes>
             </Suspense>

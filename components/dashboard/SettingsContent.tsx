@@ -20,13 +20,15 @@ import {
   WifiSection,
   draftFromRestaurant,
   draftToPatch,
+  CONTACT_EXTRA_KEYS,
   type ProfileDraft,
+  type SectionKey,
 } from '@/components/onboarding/profile-sections'
 
 type TabId = 'isletme' | 'sosyal' | 'wifi' | 'marka' | 'sifre'
 const TABS: { id: TabId; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
   { id: 'isletme', label: 'İşletme & Adres', icon: Store },
-  { id: 'sosyal', label: 'Sosyal Medya & Google', icon: Share2 },
+  { id: 'sosyal', label: 'Sosyal & İletişim', icon: Share2 },
   { id: 'wifi', label: 'Wi-Fi & Misafir Bilgisi', icon: Wifi },
   { id: 'marka', label: 'Logo & Tema', icon: Palette },
   { id: 'sifre', label: 'Giriş Şifresi', icon: KeyRound },
@@ -113,7 +115,10 @@ export function SettingsContent() {
     }
     setIsSaving(true)
     try {
-      const next = await save(draftToPatch(draft, ['basics', 'brand', 'contact', 'wifi', 'social']))
+      // Site iletişim alanları yalnızca değiştiyse gönderilir (migration 15 uygulanmamışsa diğer ayarlar yine kaydedilsin)
+      const sections: SectionKey[] = ['basics', 'brand', 'contact', 'wifi', 'social']
+      if (CONTACT_EXTRA_KEYS.some((k) => draft[k] !== baseline[k])) sections.push('contactExtra')
+      const next = await save(draftToPatch(draft, sections))
       setDraft(draftFromRestaurant(next))
       toast.success('Ayarlar kaydedildi.')
     } catch (e: any) {
@@ -203,14 +208,15 @@ export function SettingsContent() {
         <Card>
           <CardHeader>
             <CardTitle className="text-lg font-bold flex items-center">
-              <Share2 className="h-5 w-5 mr-2 text-primary" /> Sosyal Medya & Google Yorumları
+              <Share2 className="h-5 w-5 mr-2 text-primary" /> Sosyal Medya & İletişim Bilgileri
             </CardTitle>
             <CardDescription>
-              Müşteriler menüden Instagram profilinizi açabilir, WhatsApp’tan yazabilir ve memnun kaldıklarında Google’da yorum bırakabilir.
+              Sitenizin İletişim sayfası bu bilgilerle oluşur: müşteriler Instagram profilinizi açabilir, WhatsApp’tan yazabilir,
+              e-posta gönderebilir ve memnun kaldıklarında Google’da yorum bırakabilir.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <SocialSection draft={draft} setDraft={setDraft} />
+            <SocialSection draft={draft} setDraft={setDraft} extended />
           </CardContent>
         </Card>
       )}

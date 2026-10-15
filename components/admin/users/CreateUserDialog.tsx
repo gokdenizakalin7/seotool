@@ -288,7 +288,7 @@ export function CreateUserDialog({
                     </Field>
                     <Field
                       label="Menü adresi (subdomain)"
-                      hint={org.subdomain ? `/menu/${org.subdomain}` : 'Boş bırakılırsa işletme adından üretilir'}
+                      hint={org.subdomain ? `/${org.subdomain}` : 'Boş bırakılırsa işletme adından üretilir'}
                     >
                       <Input
                         value={org.subdomain}

@@ -3,17 +3,11 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 import { requireUser, requireOrgAccess } from '@/lib/auth-middleware'
 import { validateBase64Image } from '@/lib/file-validator'
 import { checkRateLimit, RATE_LIMITS } from '@/lib/rate-limiter'
+import { MEDIA_BUCKET, pathFromPublicUrl } from '@/lib/server/storage'
 
-const BUCKET = 'menu-images'
+const BUCKET = MEDIA_BUCKET
 const EXT: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' }
 const MAX_BYTES = 2 * 1024 * 1024 // sıkıştırılmış logo/kapak için yeterli
-
-function pathFromPublicUrl(url?: string | null) {
-  if (!url) return null
-  const marker = `/object/public/${BUCKET}/`
-  const i = url.indexOf(marker)
-  return i === -1 ? null : url.slice(i + marker.length)
-}
 
 export async function POST(request: NextRequest) {
   try {

@@ -55,6 +55,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import { compressImageFile, IMAGE_PRESETS, formatFileSize } from '@/lib/image-compression'
 import { safeJsonParse } from '@/lib/utils'
+import { remapMenuIds } from '@/lib/menu-ids'
+import { siteUrl } from '@/lib/site-url'
 import { catalogThumbUrl } from '@/lib/image-url'
 import { generateItemImage } from '@/lib/image-generation-client'
 import { CatalogPickerPopover } from '@/components/modals/scan-editor/CatalogPickerPopover'
@@ -366,13 +368,13 @@ export function LiveMenuEditor() {
     } catch {
       // yanıt JSON değilse yok say
     }
+    // Menü, kategori ve ürünlerin geçici kimlikleri gerçek kimliklerle değişir (kayıtlar arasında sabit kalırlar)
     if (Object.keys(idMap).length > 0) {
-      setMenu(prev => (prev && idMap[prev.id] ? { ...prev, id: idMap[prev.id] } : prev))
+      setMenu(prev => (prev ? remapMenuIds(prev, idMap) : prev))
     }
     // Başarıyla kaydedilen sürümü "temiz" olarak işaretle
     if (savedMenu) {
-      const finalMenu = idMap[savedMenu.id] ? { ...savedMenu, id: idMap[savedMenu.id] } : savedMenu
-      setLastSavedJson(JSON.stringify(finalMenu))
+      setLastSavedJson(JSON.stringify(remapMenuIds(savedMenu, idMap)))
     }
     return idMap
   }
@@ -467,7 +469,7 @@ export function LiveMenuEditor() {
     if (isApplyingTemplate) return
     if (menu && menu.categories && menu.categories.length > 0) {
       const confirmReplace = window.confirm(
-        `"${tmpl.name ?? 'Bu'}" şablonunu yüklemek istediğinize emin misiniz? Mevcut menü kategorileriniz bu şablonla değiştirilecektir (Daha sonra dilediğiniz gibi düzenleyebilirsiniz).`
+        `"${tmpl.name ?? 'Bu'}" şablonunu yüklemek istediğinize emin misiniz? Mevcut menü kategorileriniz bu şablonla değiştirilecektir (Daha sonra dilediğiniz gibi düzenleyebilirsiniz). Kampanyalardaki ve fiyat planlarındaki ürün bağlantıları kaldırılır.`
       )
       if (!confirmReplace) return
     }
@@ -1029,7 +1031,7 @@ export function LiveMenuEditor() {
             onClick={() => {
               if (
                 menu?.categories?.length &&
-                !window.confirm('Taranan menü mevcut menünüzün yerini alacak: tüm kategori ve ürünleriniz değiştirilecek. Devam etmek istiyor musunuz?')
+                !window.confirm('Taranan menü mevcut menünüzün yerini alacak: tüm kategori ve ürünleriniz değiştirilecek; kampanyalardaki ve fiyat planlarındaki ürün bağlantıları kaldırılır. Devam etmek istiyor musunuz?')
               ) return
               setIsScanMenuModalOpen(true)
             }}
@@ -1040,7 +1042,7 @@ export function LiveMenuEditor() {
           {menu ? (
             <>
               <Button variant="outline" size="sm" asChild>
-                <a href={`/menu/${subdomain}`} target="_blank" rel="noreferrer">
+                <a href={siteUrl(subdomain)} target="_blank" rel="noreferrer">
                   <ExternalLink className="h-4 w-4 mr-1.5" /> Canlı Menü
                 </a>
               </Button>

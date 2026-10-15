@@ -2,7 +2,16 @@ import { NextResponse } from 'next/server'
 import { supabaseAdmin as supabase } from '@/lib/supabase-admin'
 import { requireOrgAccess, requireUser } from '@/lib/auth-middleware'
 import { businessTypeExists } from '@/lib/server/business-types'
-import { profileToDbColumns, profileUpdateSchema, ORG_PROFILE_COLUMNS, orgRowToRestaurant } from '@/lib/restaurant-profile'
+import { isReservedSlug } from '@/lib/site-url'
+import {
+  profileToDbColumns,
+  profileUpdateSchema,
+  ORG_PROFILE_COLUMNS,
+  ORG_PROFILE_COLUMNS_BASE,
+  ORG_SITE_COLUMNS,
+  isMissingSchemaError,
+  orgRowToRestaurant,
+} from '@/lib/restaurant-profile'
 
 /** Eski istemci biçimini (businessInfo/branding) düz profil alanlarına çevirir. */
 function flatten(body: any) {
@@ -20,6 +29,14 @@ function flatten(body: any) {
     googleReviewUrl: body.googleReviewUrl ?? b.googleReviewUrl,
     instagramHandle: body.instagramHandle ?? b.instagramHandle,
     whatsappNumber: body.whatsappNumber ?? b.whatsappNumber,
+    contactEmail: body.contactEmail ?? b.contactEmail,
+    websiteUrl: body.websiteUrl ?? b.websiteUrl,
+    facebookUrl: body.facebookUrl ?? b.facebookUrl,
+    tiktokHandle: body.tiktokHandle ?? b.tiktokHandle,
+    xHandle: body.xHandle ?? b.xHandle,
+    youtubeUrl: body.youtubeUrl ?? b.youtubeUrl,
+    aboutText: body.aboutText ?? body.about?.text,
+    aboutSource: body.aboutSource ?? body.about?.source ?? undefined,
     wifiName: body.wifiName ?? b.wifi_name,
     wifiPassword: body.wifiPassword ?? b.wifi_password,
     primaryColor: body.primaryColor ?? br.primaryColor,
@@ -36,6 +53,7 @@ function slugify(name: string) {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .slice(0, 40)
+    .replace(/-+$/, '')
 }
 
 export async function POST(request: Request) {
@@ -79,13 +97,16 @@ export async function POST(request: Request) {
       const base = slugify(updateData.name) || `restoran-${org.id.slice(0, 8)}`
       let candidate = base
       for (let i = 1; i < 50; i++) {
-        const { data: clash } = await supabase
-          .from('organizations')
-          .select('id')
-          .eq('subdomain', candidate)
-          .neq('id', org.id)
-          .maybeSingle()
-        if (!clash) break
+        // Panel yollarıyla çakışan adlar (login, dashboard…) site adresi olamaz
+        if (!isReservedSlug(candidate)) {
+          const { data: clash } = await supabase
+            .from('organizations')
+            .select('id')
+            .eq('subdomain', candidate)
+            .neq('id', org.id)
+            .maybeSingle()
+          if (!clash) break
+        }
         candidate = `${base}-${i}`
       }
       updateData.subdomain = candidate
@@ -95,12 +116,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Güncellenecek alan yok.' }, { status: 400 })
     }
 
-    const { data, error } = await supabase
-      .from('organizations')
-      .update(updateData)
-      .eq('id', org.id)
-      .select(ORG_PROFILE_COLUMNS)
-      .single()
+    const runUpdate = (columns: string) =>
+      supabase.from('organizations').update(updateData).eq('id', org.id).select(columns).single()
+    let { data, error } = await runUpdate(ORG_PROFILE_COLUMNS)
+    // Migration 15 çalışmadıysa: site alanları gönderilmediyse eski sütunlarla yeniden dene
+    if (error && isMissingSchemaError(error)) {
+      const usesSiteColumns = ORG_SITE_COLUMNS.split(', ').some((col) => col in updateData)
+      if (usesSiteColumns) {
+        return NextResponse.json(
+          { error: 'Bu alanlar için veritabanı güncellemesi (migration 15) henüz uygulanmadı.' },
+          { status: 503 }
+        )
+      }
+      ;({ data, error } = await runUpdate(ORG_PROFILE_COLUMNS_BASE))
+    }
 
     if (error) throw error
 

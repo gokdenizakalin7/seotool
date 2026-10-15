@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom'
 import { authFetch } from '@/lib/api-client'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import { buildChecklist } from '@/lib/restaurant-profile'
+import { siteUrl } from '@/lib/site-url'
 
 export function DashboardContent() {
   const { restaurant: currentRestaurant } = useRestaurant()
@@ -122,7 +123,7 @@ export function DashboardContent() {
               </Button>
               {currentRestaurant?.subdomain && (
                 <Button size="lg" variant="outline" className="px-6 font-bold text-md h-12 rounded-2xl" asChild>
-                  <a href={`/menu/${currentRestaurant.subdomain}`} target="_blank" rel="noopener noreferrer">
+                  <a href={siteUrl(currentRestaurant.subdomain)} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="mr-2 h-5 w-5" /> Müşteri Gözüyle Gör
                   </a>
                 </Button>

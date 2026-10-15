@@ -1,0 +1,52 @@
+import { cache } from 'react'
+import { notFound, redirect } from 'next/navigation'
+import { getPublicRestaurant } from '@/lib/server/public-menu'
+import { findMovedSlug, loadCampaigns, loadEvents, loadPricePlans } from '@/lib/server/site-data'
+import { isValidSiteSlug, sitePath, type SitePage } from '@/lib/site-url'
+import type { SiteRestaurant } from '@/components/public/site/types'
+
+/**
+ * İşletme sitesi (app/[slug]) sayfa yardımcıları. Yükleyiciler React cache() ile sarılı:
+ * layout ve sayfa aynı istekte aynı sorguyu paylaşır.
+ */
+
+export const getSiteRestaurant = getPublicRestaurant as (slug: string) => Promise<(SiteRestaurant & Record<string, any>) | null>
+export const getSitePricePlans = cache(loadPricePlans)
+export const getSiteCampaigns = cache((orgId: string) => loadCampaigns(orgId, { onlyActive: true }))
+export const getSiteEvents = cache((orgId: string) => loadEvents(orgId, { publishedUpcoming: true }))
+
+export type SearchParams = Record<string, string | string[] | undefined>
+
+function toQueryString(query?: SearchParams): string {
+  if (!query) return ''
+  const params = new URLSearchParams()
+  for (const [key, value] of Object.entries(query)) {
+    if (Array.isArray(value)) value.forEach((v) => params.append(key, v))
+    else if (value != null) params.set(key, value)
+  }
+  const qs = params.toString()
+  return qs ? `?${qs}` : ''
+}
+
+/**
+ * Sayfanın işletmesini döndürür. Büyük harfli adres küçük harfe, adı değişmiş işletmenin eski adresi
+ * yeni adresine (sorgu korunarak) yönlendirilir; bulunamazsa 404.
+ */
+export async function requireSite(
+  slug: string,
+  page: SitePage,
+  query?: SearchParams
+): Promise<SiteRestaurant & Record<string, any>> {
+  const lower = slug.toLowerCase()
+  if (lower !== slug && isValidSiteSlug(lower)) redirect(`${sitePath(lower, page)}${toQueryString(query)}`)
+  if (!isValidSiteSlug(slug)) notFound()
+
+  const restaurant = await getSiteRestaurant(slug)
+  if (restaurant) return restaurant
+
+  const moved = await findMovedSlug(slug)
+  if (moved) redirect(`${sitePath(moved, page)}${toQueryString(query)}`)
+  notFound()
+}
+
+export const firstParam = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) || null

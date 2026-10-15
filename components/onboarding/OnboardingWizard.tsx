@@ -11,6 +11,7 @@ import { RestaurantProvider, useRestaurant } from '@/components/providers/Restau
 import { usePublicMenuPreview } from '@/lib/use-public-menu-preview'
 import { useBusinessTypes } from '@/lib/use-business-types'
 import { useCatalogTemplates } from '@/lib/use-catalog-templates'
+import { siteUrl } from '@/lib/site-url'
 import {
   BasicsSection,
   BrandSection,
@@ -126,7 +127,7 @@ function Wizard() {
   // Seçilen işletme tipine ait şablonlar (önerilen en başta)
   const recommended = typeTemplates.find((t) => t.slug === typeInfo?.templateId) ?? typeTemplates[0]
   const otherTemplates = typeTemplates.filter((t) => t.slug !== recommended?.slug)
-  const menuUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/menu/${restaurant.subdomain}`
+  const menuUrl = siteUrl(restaurant.subdomain)
 
   return (
     <div className="relative min-h-screen bg-background text-foreground">

@@ -20,9 +20,24 @@ export const LiveMenuEditor = lazyPage(() => import('@/components/dashboard/Live
 export const MenusContent = lazyPage(() => import('@/components/dashboard/MenusContent').then((m) => m.MenusContent))
 export const QRCodesContent = lazyPage(() => import('@/components/dashboard/QRCodesContent').then((m) => m.QRCodesContent))
 export const SettingsContent = lazyPage(() => import('@/components/dashboard/SettingsContent').then((m) => m.SettingsContent))
+// İşletme sitesi modülleri
+export const PricePlansContent = lazyPage(() => import('@/components/dashboard/site/PricePlansContent').then((m) => m.PricePlansContent))
+export const CampaignsContent = lazyPage(() => import('@/components/dashboard/site/CampaignsContent').then((m) => m.CampaignsContent))
+export const EventsContent = lazyPage(() => import('@/components/dashboard/site/EventsContent').then((m) => m.EventsContent))
+export const AboutContent = lazyPage(() => import('@/components/dashboard/site/AboutContent').then((m) => m.AboutContent))
 
 /** Panel açılınca boşta indirilen sayfalar: menüler arası geçişte paket beklenmez */
-export const DASHBOARD_PAGES = [DashboardContent, LiveMenuEditor, MenusContent, QRCodesContent, SettingsContent]
+export const DASHBOARD_PAGES = [
+  DashboardContent,
+  LiveMenuEditor,
+  MenusContent,
+  QRCodesContent,
+  SettingsContent,
+  PricePlansContent,
+  CampaignsContent,
+  EventsContent,
+  AboutContent,
+]
 
 /**
  * Açılan adresin sayfa paketleri (ClientApp ilk çizimden önce indirir; rotalar ClientApp ve DashboardLayout'takilerle aynı).
@@ -39,7 +54,15 @@ export function pagesForPath(path: string) {
           ? QRCodesContent
           : sub.startsWith('settings')
             ? SettingsContent
-            : DashboardContent
+            : sub.startsWith('price-plans')
+              ? PricePlansContent
+              : sub.startsWith('campaigns')
+                ? CampaignsContent
+                : sub.startsWith('events')
+                  ? EventsContent
+                  : sub.startsWith('about')
+                    ? AboutContent
+                    : DashboardContent
     return [DashboardRoute, page]
   }
   if (path.startsWith('/admin')) return [AdminRoute]

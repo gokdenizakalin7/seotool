@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { PublicMenuView } from '@/components/public/PublicMenuView'
+import { SiteShell } from '@/components/public/site/SiteShell'
 import type { Menu } from '@/lib/types'
 import { useBusinessTypes } from '@/lib/use-business-types'
 
@@ -36,14 +37,14 @@ export function PublicMenuPreview({ hasImageCredits }: { hasImageCredits: boolea
     )
   }
 
+  // Sekme çubuğu olmadan sitenin kapak + menü + altbilgisi (slug verilmez)
   return (
-    <PublicMenuView
-      isPreview
+    <SiteShell
       restaurant={restaurant}
-      menu={menu || undefined}
-      primaryColor={primaryColor}
       fallbackCover={getBusinessType(restaurant.business_type)?.coverImage || ''}
       hasImageCredits={hasImageCredits}
-    />
+    >
+      <PublicMenuView isPreview restaurant={restaurant} menu={menu || undefined} primaryColor={primaryColor} />
+    </SiteShell>
   )
 }

@@ -46,6 +46,10 @@ export interface MenuItem {
   is_featured?: boolean
   /** Master katalog ürününe bağlantı (şablon/eşleştirme ile gelir); görsel yenilemede kullanılır */
   catalog_item_id?: string | null
+  /** Yalnızca müşteri sayfasında: fiyat planı ya da kampanya indirimi varsa üstü çizili eski fiyat */
+  original_price?: string
+  /** Yalnızca müşteri sayfasında: kampanya içeriği ("1× Bira, 1× Patates") */
+  bundle?: { name: string; quantity: number }[]
 }
 
 export interface MenuCategory {
@@ -133,7 +137,19 @@ export interface Restaurant {
     googleMapsUrl?: string
     googleReviewUrl?: string
     workingHours?: string
+    /** İşletmenin iletişim e-postası (giriş e-postası `email` alanındadır) */
+    contactEmail?: string
+    websiteUrl?: string
+    facebookUrl?: string
+    tiktokHandle?: string
+    xHandle?: string
+    youtubeUrl?: string
     hours?: any
+  }
+  /** Sitedeki "Hakkımızda" metni; boşsa otomatik metin gösterilir */
+  about?: {
+    text: string
+    source: 'ai' | 'manual' | 'template' | null
   }
   branding?: {
     primaryColor?: string

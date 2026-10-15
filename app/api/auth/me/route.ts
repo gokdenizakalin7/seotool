@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { requireUser } from '@/lib/auth-middleware'
 import { supabaseAdmin } from '@/lib/supabase-admin'
-import { ORG_PROFILE_COLUMNS, orgRowToRestaurant } from '@/lib/restaurant-profile'
+import { ORG_PROFILE_COLUMNS, ORG_PROFILE_COLUMNS_BASE, isMissingSchemaError, orgRowToRestaurant } from '@/lib/restaurant-profile'
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,13 +10,17 @@ export async function GET(request: NextRequest) {
     const { user } = auth
 
     // Üyelik ve restoran profili tek sorguda: her girişte / panel açılışında Supabase'e bir gidiş-dönüş daha az
-    const joined = await supabaseAdmin
-      .from('organization_members')
-      .select(`organization_id, role, organizations (${ORG_PROFILE_COLUMNS})`)
-      .eq('user_id', user.id)
-      .maybeSingle()
+    const selectMembership = (columns: string) =>
+      supabaseAdmin
+        .from('organization_members')
+        .select(`organization_id, role, organizations (${columns})`)
+        .eq('user_id', user.id)
+        .maybeSingle()
+    let joined = await selectMembership(ORG_PROFILE_COLUMNS)
+    // Migration 15 (site sütunları) henüz çalıştırılmadıysa onsuz devam et
+    if (joined.error && isMissingSchemaError(joined.error)) joined = await selectMembership(ORG_PROFILE_COLUMNS_BASE)
 
-    let memberData: { organization_id: string; role: string } | null = joined.data
+    let memberData = joined.data as { organization_id: string; role: string } | null
     let org: any = (joined.data as any)?.organizations ?? null
     if (joined.error) {
       // Migration 04 henüz çalıştırılmadıysa eski sütunlarla devam et (giriş bozulmasın)

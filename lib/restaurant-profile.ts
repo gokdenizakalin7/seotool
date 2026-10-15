@@ -53,6 +53,66 @@ export function normalizeGoogleUrl(input: string): string {
   }
 }
 
+/** Verilen alan adlarına ait https adresini kabul eder (alt alan adları dahil). Geçersizse ''. */
+export function normalizeUrlForHosts(input: string, hosts: string[]): string {
+  let v = (input || '').trim()
+  if (!v) return ''
+  if (!/^https?:\/\//i.test(v)) v = 'https://' + v
+  try {
+    const u = new URL(v)
+    if (u.protocol !== 'https:' && u.protocol !== 'http:') return ''
+    const host = u.hostname.toLowerCase()
+    if (!hosts.some((h) => host === h || host.endsWith('.' + h))) return ''
+    u.protocol = 'https:'
+    return u.toString().slice(0, 2048)
+  } catch {
+    return ''
+  }
+}
+
+/** İşletmenin kendi web sitesi: yalnızca http(s), https'e çevrilir. Geçersizse ''. */
+export function normalizeWebUrl(input: string): string {
+  let v = (input || '').trim()
+  if (!v) return ''
+  if (!/^https?:\/\//i.test(v)) v = 'https://' + v
+  try {
+    const u = new URL(v)
+    if (u.protocol !== 'https:' && u.protocol !== 'http:') return ''
+    if (!u.hostname.includes('.') || u.username || u.password) return ''
+    u.protocol = 'https:'
+    return u.toString().slice(0, 2048)
+  } catch {
+    return ''
+  }
+}
+
+/** Geçersizse ''. */
+export function normalizeEmail(input: string): string {
+  const v = (input || '').trim().toLowerCase().slice(0, 200)
+  return /^[^\s@<>]+@[^\s@<>]+\.[a-z]{2,}$/i.test(v) ? v : ''
+}
+
+/** @ad, ad veya tiktok.com/@ad → ad. Geçersizse ''. */
+export function normalizeTiktok(input: string): string {
+  let v = (input || '').trim()
+  if (!v) return ''
+  v = v.replace(/^https?:\/\/(www\.|m\.)?tiktok\.com\//i, '').replace(/^tiktok\.com\//i, '')
+  v = v.split(/[/?#]/)[0].replace(/^@+/, '')
+  return /^[A-Za-z0-9._]{2,24}$/.test(v) ? v : ''
+}
+
+/** @ad, ad, x.com/ad veya twitter.com/ad → ad. Geçersizse ''. */
+export function normalizeXHandle(input: string): string {
+  let v = (input || '').trim()
+  if (!v) return ''
+  v = v.replace(/^https?:\/\/(www\.|mobile\.)?(x|twitter)\.com\//i, '').replace(/^(x|twitter)\.com\//i, '')
+  v = v.split(/[/?#]/)[0].replace(/^@+/, '')
+  return /^[A-Za-z0-9_]{1,15}$/.test(v) ? v : ''
+}
+
+export const normalizeFacebookUrl = (input: string) => normalizeUrlForHosts(input, ['facebook.com', 'fb.com', 'fb.me'])
+export const normalizeYoutubeUrl = (input: string) => normalizeUrlForHosts(input, ['youtube.com', 'youtu.be'])
+
 const clean = (max: number) =>
   z
     .string()
@@ -77,6 +137,17 @@ export const profileUpdateSchema = z.object({
   googleReviewUrl: z.string().transform(normalizeGoogleUrl).optional(),
   instagramHandle: z.string().transform(normalizeInstagram).optional(),
   whatsappNumber: z.string().transform(normalizeWhatsapp).optional(),
+  contactEmail: z.string().transform(normalizeEmail).optional(),
+  websiteUrl: z.string().transform(normalizeWebUrl).optional(),
+  facebookUrl: z.string().transform(normalizeFacebookUrl).optional(),
+  tiktokHandle: z.string().transform(normalizeTiktok).optional(),
+  xHandle: z.string().transform(normalizeXHandle).optional(),
+  youtubeUrl: z.string().transform(normalizeYoutubeUrl).optional(),
+  aboutText: z
+    .string()
+    .transform((s) => s.replace(/[<>]/g, '').replace(/\r\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim().slice(0, 2000))
+    .optional(),
+  aboutSource: z.enum(['ai', 'manual', 'template']).optional(),
   wifiName: clean(32).optional(),
   wifiPassword: clean(63).optional(),
   primaryColor: z
@@ -106,6 +177,17 @@ export function profileToDbColumns(p: ProfileUpdate): Record<string, any> {
   set('google_review_url', p.googleReviewUrl)
   set('instagram_handle', p.instagramHandle)
   set('whatsapp_number', p.whatsappNumber)
+  set('contact_email', p.contactEmail)
+  set('website_url', p.websiteUrl)
+  set('facebook_url', p.facebookUrl)
+  set('tiktok_handle', p.tiktokHandle)
+  set('x_handle', p.xHandle)
+  set('youtube_url', p.youtubeUrl)
+  if (p.aboutText !== undefined) {
+    // Boş metin: sitede otomatik metin gösterilir
+    m.about_text = p.aboutText || null
+    m.about_source = p.aboutText ? p.aboutSource || 'manual' : null
+  }
   set('wifi_name', p.wifiName)
   set('wifi_password', p.wifiPassword)
   set('primary_color', p.primaryColor)
@@ -146,6 +228,16 @@ export function orgRowToRestaurant(row: any, extra: { email?: string; role?: str
       googleMapsUrl: row.google_maps_url || '',
       googleReviewUrl: row.google_review_url || '',
       workingHours: row.working_hours || '',
+      contactEmail: row.contact_email || '',
+      websiteUrl: row.website_url || '',
+      facebookUrl: row.facebook_url || '',
+      tiktokHandle: row.tiktok_handle || '',
+      xHandle: row.x_handle || '',
+      youtubeUrl: row.youtube_url || '',
+    },
+    about: {
+      text: row.about_text || '',
+      source: row.about_source || null,
     },
     branding: {
       primaryColor: row.primary_color || '#e11d48',
@@ -157,8 +249,21 @@ export function orgRowToRestaurant(row: any, extra: { email?: string; role?: str
   }
 }
 
-export const ORG_PROFILE_COLUMNS =
+/** Migration 15 öncesi profil sütunları (yeni sütunlar okunamazsa buna düşülür) */
+export const ORG_PROFILE_COLUMNS_BASE =
   'id, name, subdomain, owner_name, status, status_reason, status_changed_at, created_at, currency, business_type, business_phone, address, city, logo_url, cover_url, primary_color, wifi_name, wifi_password, instagram_handle, whatsapp_number, google_maps_url, google_review_url, working_hours, onboarding_step, onboarding_completed_at'
+
+/** Migration 15: işletme sitesi (iletişim, hakkımızda) sütunları */
+export const ORG_SITE_COLUMNS =
+  'contact_email, website_url, facebook_url, tiktok_handle, x_handle, youtube_url, about_text, about_source'
+
+export const ORG_PROFILE_COLUMNS = `${ORG_PROFILE_COLUMNS_BASE}, ${ORG_SITE_COLUMNS}`
+
+/** Henüz çalıştırılmamış migration'a ait sütun/tablo hatası mı (Postgres 42703/42P01, PostgREST PGRST204/205) */
+export function isMissingSchemaError(error: { code?: string; message?: string } | null | undefined): boolean {
+  if (!error) return false
+  return ['42703', '42P01', 'PGRST204', 'PGRST205'].includes(error.code || '') || /does not exist|could not find/i.test(error.message || '')
+}
 
 /* ------------------------------------------------------------------ */
 /* Tamamlama kontrol listesi                                           */

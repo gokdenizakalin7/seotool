@@ -148,7 +148,7 @@ export function CreateRestaurantDialog({
               <Field label="Şehir">
                 <Input value={form.city} onChange={(e) => set('city', e.target.value)} />
               </Field>
-              <Field label="Menü adresi (subdomain)" hint={form.subdomain ? `/menu/${form.subdomain}` : 'Boş bırakılırsa işletme adından üretilir'}>
+              <Field label="Site adresi (slug)" hint={form.subdomain ? `/${form.subdomain}` : 'Boş bırakılırsa işletme adından üretilir'}>
                 <Input
                   value={form.subdomain}
                   onChange={(e) => {

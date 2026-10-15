@@ -13,6 +13,10 @@ export const PANEL_PAGES = [
   { to: '/dashboard/menus', label: 'Menü Listesi' },
   { to: '/dashboard/qr-codes', label: 'QR Kodlar & Masalar' },
   { to: '/dashboard/settings', label: 'Restoran Ayarları' },
+  { to: '/dashboard/campaigns', label: 'Kampanyalar' },
+  { to: '/dashboard/price-plans', label: 'Fiyat Planları' },
+  { to: '/dashboard/events', label: 'Etkinlikler' },
+  { to: '/dashboard/about', label: 'Hakkımızda' },
 ]
 
 type ScrollNavGuard = (to: string) => boolean

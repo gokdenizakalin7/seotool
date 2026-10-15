@@ -1,10 +1,13 @@
-import { PublicMenuView } from '@/components/public/PublicMenuView'
+import { notFound, redirect } from 'next/navigation'
 import { PublicMenuPreview } from '@/components/public/PublicMenuPreview'
-import { getBusinessTypeCover, getPublicMenus, getPublicRestaurant, hasImageCredits } from '@/lib/server/public-menu'
+import { hasImageCredits } from '@/lib/server/public-menu'
+import { findMovedSlug } from '@/lib/server/site-data'
+import { isValidSiteSlug, legacyMenuRedirectPath } from '@/lib/site-url'
 
 /**
- * Müşteri menüsü (QR). Panel SPA'sından ayrı, sunucuda render edilir: HTML menüyle birlikte gelir,
- * tarayıcıya yalnızca menü sayfasının JS'i iner. Menü her istekte okunur; editördeki değişiklik anında yansır.
+ * Eski menü adresi. Basılı QR'lar /menu/<slug>?table=..&tid=.. biçiminde: sorgu korunarak işletme sitesine
+ * (/<slug>) yönlendirilir; görüntülenme ve masa sayacı sitede sayılır. Panel içi canlı önizleme (?preview=1)
+ * burada kalır (panelle aynı köken; X-Frame-Options: SAMEORIGIN).
  */
 export const dynamic = 'force-dynamic'
 
@@ -12,9 +15,9 @@ export const dynamic = 'force-dynamic'
 const THEME_SCRIPT =
   "try{if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark')}catch(e){}"
 
-const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) || null
+export const metadata = { robots: { index: false } }
 
-export default async function MenuPage({
+export default async function LegacyMenuPage({
   params,
   searchParams,
 }: {
@@ -25,7 +28,7 @@ export default async function MenuPage({
   const query = await searchParams
 
   // Panel içi canlı önizleme: yayınlanmamış düzenlemeler üst pencereden postMessage ile gelir
-  if (first(query.preview) === '1') {
+  if ((Array.isArray(query.preview) ? query.preview[0] : query.preview) === '1') {
     return (
       <>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
@@ -34,21 +37,15 @@ export default async function MenuPage({
     )
   }
 
-  const [restaurant, menus] = await Promise.all([getPublicRestaurant(subdomain), getPublicMenus(subdomain)])
-  const isLive = Boolean(restaurant && !restaurant.suspended)
-  const needsTypeCover = isLive && !restaurant.cover_url?.trim() && !restaurant.logo_url?.trim()
+  const search = new URLSearchParams()
+  for (const [key, value] of Object.entries(query)) {
+    if (Array.isArray(value)) value.forEach((v) => search.append(key, v))
+    else if (value != null) search.set(key, value)
+  }
+  const slug = subdomain.toLowerCase()
 
-  return (
-    <>
-      <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
-      <PublicMenuView
-        restaurant={restaurant}
-        menu={isLive ? menus[0] : undefined}
-        fallbackCover={needsTypeCover ? await getBusinessTypeCover(restaurant.business_type) : ''}
-        hasImageCredits={hasImageCredits}
-        tableName={first(query.table) || first(query.masa)}
-        tableId={first(query.tid)}
-      />
-    </>
-  )
+  // Ayrılmış ada sahipken migration 14'te yeniden adlandırılan işletmeler: geçmişten yeni ada
+  const target = isValidSiteSlug(slug) ? slug : await findMovedSlug(slug)
+  if (!target) notFound()
+  redirect(legacyMenuRedirectPath(target, search.toString()))
 }

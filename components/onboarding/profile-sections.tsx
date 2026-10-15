@@ -30,7 +30,17 @@ export interface ProfileDraft {
   instagramHandle: string
   googleReviewUrl: string
   whatsappNumber: string
+  /* İşletme sitesi iletişim sayfası (Ayarlar > Sosyal & İletişim) */
+  contactEmail: string
+  websiteUrl: string
+  facebookUrl: string
+  tiktokHandle: string
+  xHandle: string
+  youtubeUrl: string
 }
+
+/** Yalnızca ayarlar sayfasında düzenlenen site iletişim alanları (sihirbaz göndermez) */
+export const CONTACT_EXTRA_KEYS = ['contactEmail', 'websiteUrl', 'facebookUrl', 'tiktokHandle', 'xHandle', 'youtubeUrl'] as const
 
 export function draftFromRestaurant(r: Restaurant | null): ProfileDraft {
   const b = r?.businessInfo
@@ -49,6 +59,12 @@ export function draftFromRestaurant(r: Restaurant | null): ProfileDraft {
     instagramHandle: b?.instagramHandle || '',
     googleReviewUrl: b?.googleReviewUrl || '',
     whatsappNumber: b?.whatsappNumber || '',
+    contactEmail: b?.contactEmail || '',
+    websiteUrl: b?.websiteUrl || '',
+    facebookUrl: b?.facebookUrl || '',
+    tiktokHandle: b?.tiktokHandle || '',
+    xHandle: b?.xHandle || '',
+    youtubeUrl: b?.youtubeUrl || '',
   }
 }
 
@@ -72,12 +88,18 @@ export function applyDraftToRestaurant(r: Restaurant | null, d: ProfileDraft): R
       instagramHandle: d.instagramHandle.replace(/^@+/, ''),
       googleReviewUrl: d.googleReviewUrl,
       whatsappNumber: d.whatsappNumber,
+      contactEmail: d.contactEmail,
+      websiteUrl: d.websiteUrl,
+      facebookUrl: d.facebookUrl,
+      tiktokHandle: d.tiktokHandle.replace(/^@+/, ''),
+      xHandle: d.xHandle.replace(/^@+/, ''),
+      youtubeUrl: d.youtubeUrl,
     },
     branding: { ...r.branding, primaryColor: d.primaryColor },
   }
 }
 
-type SectionKey = 'basics' | 'brand' | 'contact' | 'wifi' | 'social'
+export type SectionKey = 'basics' | 'brand' | 'contact' | 'wifi' | 'social' | 'contactExtra'
 
 /** Bölüme ait taslak alanlarını API gövdesine çevirir. */
 export function draftToPatch(d: ProfileDraft, sections: SectionKey[]) {
@@ -105,6 +127,9 @@ export function draftToPatch(d: ProfileDraft, sections: SectionKey[]) {
     p.instagramHandle = d.instagramHandle
     p.googleReviewUrl = d.googleReviewUrl
     p.whatsappNumber = d.whatsappNumber
+  }
+  if (sections.includes('contactExtra')) {
+    for (const key of CONTACT_EXTRA_KEYS) p[key] = d[key]
   }
   return p
 }
@@ -362,9 +387,11 @@ export function WifiSection({ draft, setDraft }: SectionProps) {
   )
 }
 
-export function SocialSection({ draft, setDraft }: SectionProps) {
+/** extended: ayarlar sayfasında site iletişim alanları da gösterilir (Facebook, TikTok, X, YouTube, e-posta, web) */
+export function SocialSection({ draft, setDraft, extended = false }: SectionProps & { extended?: boolean }) {
   return (
     <div className="space-y-4">
+      {extended && <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Sosyal medya</p>}
       <div className="grid sm:grid-cols-2 gap-4">
         <Field label="Instagram" hint="@kullaniciadi veya profil linki yazabilirsiniz.">
           <div className="relative">
@@ -388,6 +415,43 @@ export function SocialSection({ draft, setDraft }: SectionProps) {
       >
         <Input value={draft.googleReviewUrl} placeholder="https://g.page/r/.../review" onChange={(e) => setDraft((d) => ({ ...d, googleReviewUrl: e.target.value }))} />
       </Field>
+      {extended && (
+        <>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="Facebook" hint="Sayfanızın bağlantısı">
+              <Input value={draft.facebookUrl} maxLength={300} placeholder="https://facebook.com/kafeadi" onChange={(e) => setDraft((d) => ({ ...d, facebookUrl: e.target.value }))} />
+            </Field>
+            <Field label="TikTok" hint="@kullaniciadi veya profil linki">
+              <div className="relative">
+                <span className="absolute left-3 top-2.5 font-bold text-muted-foreground">@</span>
+                <Input className="pl-7" value={draft.tiktokHandle} maxLength={80} placeholder="kafeadi" onChange={(e) => setDraft((d) => ({ ...d, tiktokHandle: e.target.value.replace(/^@+/, '') }))} />
+              </div>
+            </Field>
+            <Field label="X (Twitter)" hint="@kullaniciadi veya profil linki">
+              <div className="relative">
+                <span className="absolute left-3 top-2.5 font-bold text-muted-foreground">@</span>
+                <Input className="pl-7" value={draft.xHandle} maxLength={80} placeholder="kafeadi" onChange={(e) => setDraft((d) => ({ ...d, xHandle: e.target.value.replace(/^@+/, '') }))} />
+              </div>
+            </Field>
+            <Field label="YouTube" hint="Kanal bağlantısı">
+              <Input value={draft.youtubeUrl} maxLength={300} placeholder="https://youtube.com/@kafeadi" onChange={(e) => setDraft((d) => ({ ...d, youtubeUrl: e.target.value }))} />
+            </Field>
+          </div>
+          <p className="pt-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">İletişim</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="E-posta" hint="Sitenizin İletişim sayfasında görünür.">
+              <Input type="email" value={draft.contactEmail} maxLength={200} placeholder="merhaba@kafeadi.com" onChange={(e) => setDraft((d) => ({ ...d, contactEmail: e.target.value }))} />
+            </Field>
+            <Field label="Web Sitesi" hint="Varsa kendi web siteniz.">
+              <Input value={draft.websiteUrl} maxLength={300} placeholder="https://kafeadi.com" onChange={(e) => setDraft((d) => ({ ...d, websiteUrl: e.target.value }))} />
+            </Field>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Telefon, adres ve harita bağlantısı &quot;İşletme &amp; Adres&quot; sekmesinden gelir. Doldurduğunuz tüm bilgiler sitenizin
+            İletişim sayfasında otomatik görünür; boş bıraktıklarınız gösterilmez.
+          </p>
+        </>
+      )}
     </div>
   )
 }

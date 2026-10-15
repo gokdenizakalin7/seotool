@@ -148,6 +148,7 @@ export function middleware(request: NextRequest) {
     img-src 'self' data: blob: https://images.unsplash.com https://*.googleusercontent.com https://*.unsplash.com https://*.supabase.co;
     font-src 'self' data: https:;
     connect-src 'self' https://generativelanguage.googleapis.com https://*.googleapis.com https://*.supabase.co;
+    frame-src 'self' https://www.google.com https://maps.google.com;
     frame-ancestors 'self';
     base-uri 'self';
     form-action 'self';

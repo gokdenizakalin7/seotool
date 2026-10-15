@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { businessTypeSlug, profileUpdateSchema } from '@/lib/restaurant-profile'
 import { SUBDOMAIN_RE } from './orgs'
+import { isReservedSlug } from '@/lib/site-url'
 
 const clean = (max: number) => z.string().transform((s) => s.replace(/[<>]/g, '').trim().slice(0, max))
 
@@ -16,8 +17,9 @@ export const subdomain = z
   .string()
   .trim()
   .toLowerCase()
-  .regex(SUBDOMAIN_RE, 'Subdomain yalnızca küçük harf, rakam ve tire içerebilir (2-40 karakter)')
+  .regex(SUBDOMAIN_RE, 'Site adresi yalnızca küçük harf, rakam ve tire içerebilir (2-40 karakter)')
   .min(2)
+  .refine((s) => !isReservedSlug(s), 'Bu ad sistem sayfalarına ayrılmış; başka bir site adresi seçin')
 
 export const memberRole = z.enum(['owner', 'admin', 'staff'])
 

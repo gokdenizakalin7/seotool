@@ -25,6 +25,7 @@ import { adminApi, errorMessage, fmtDate, fmtRelative, isBanned, qs } from '../l
 import { useAdminQuery } from '../lib/use-admin-query'
 import { startImpersonation } from '../lib/impersonate'
 import { CreateRestaurantDialog } from './CreateRestaurantDialog'
+import { sitePath } from '@/lib/site-url'
 
 type StatusFilter = 'all' | 'active' | 'suspended'
 
@@ -146,7 +147,7 @@ export function RestaurantsPage() {
                         <div className="min-w-0">
                           <p className="truncate font-semibold text-foreground">{o.name}</p>
                           <a
-                            href={`/menu/${o.subdomain}`}
+                            href={sitePath(o.subdomain)}
                             target="_blank"
                             rel="noreferrer"
                             onClick={(e) => e.stopPropagation()}

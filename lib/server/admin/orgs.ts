@@ -1,4 +1,5 @@
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { SLUG_RE } from '@/lib/site-url'
 import { isSuperAdminEmail } from '@/lib/auth-middleware'
 import type { AdminMember, AdminOrgRow, AuditLogEntry, MemberRole } from '@/lib/admin-types'
 
@@ -87,9 +88,11 @@ export function slugifySubdomain(input: string): string {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .slice(0, 40)
+    .replace(/-+$/, '')
 }
 
-export const SUBDOMAIN_RE = /^[a-z0-9](?:[a-z0-9-]{0,38}[a-z0-9])?$/
+/** Site adresi biçimi (lib/site-url.ts SLUG_RE ile aynı) */
+export const SUBDOMAIN_RE = SLUG_RE
 
 export async function isSubdomainTaken(subdomain: string, exceptOrgId?: string) {
   let q = supabaseAdmin.from('organizations').select('id').eq('subdomain', subdomain)
