@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -27,12 +26,9 @@ import {
 } from 'lucide-react'
 import { PublicTermsOfServiceModal } from '@/components/modals/PublicTermsOfServiceModal'
 import { PublicPrivacyPolicyModal } from '@/components/modals/PublicPrivacyPolicyModal'
-import { motion, AnimatePresence } from 'framer-motion'
 import { flushSync } from 'react-dom'
 import type { Menu, MenuItem, ProductTag } from '@/lib/types'
-import { useBusinessTypes } from '@/lib/use-business-types'
 import { catalogThumbUrl } from '@/lib/image-url'
-import { useImageCredits } from '@/lib/use-image-credits'
 
 const FALLBACK_COVER = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&h=600&fit=crop'
 
@@ -143,25 +139,33 @@ const getAllergenIcon = (allergen: string) => {
   return '⚠️'
 }
 
-export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: string | null }) {
-  const { subdomain: paramSubdomain } = useParams()
-  const location = useLocation()
+interface PublicMenuViewProps {
+  /** Herkese açık restoran alanları (bkz. lib/server/public-menu.ts); null = bulunamadı */
+  restaurant: any | null
+  /** Müşterinin gördüğü menü (yayındaki ilk menü) */
+  menu?: Menu
+  /** Kapak ve logo yoksa işletme türü kapağı ('' = varsayılan kapak) */
+  fallbackCover?: string
+  /** Önizlemede editördeki kaydedilmemiş tema rengi */
+  primaryColor?: string | null
+  hasImageCredits?: boolean
+  /** Panel içi canlı önizleme: kategori kartları atlanır, görüntülenme sayılmaz */
+  isPreview?: boolean
+  /** Masa QR'ından gelindiyse masa adı / kimliği (masa okunma sayacı) */
+  tableName?: string | null
+  tableId?: string | null
+}
 
-  const searchParams = new URLSearchParams(location.search)
-  const tableName = searchParams.get('table') || searchParams.get('masa')
-  const tableId = searchParams.get('tid')
-
-  const isPreview = searchParams.get('preview') === '1'
-  const [previewMenu, setPreviewMenu] = useState<Menu | null>(null)
-  const [previewPrimary, setPreviewPrimary] = useState<string | null>(null)
-
-  const targetSubdomain = restaurantSubdomain || paramSubdomain || ''
-
-  const [restaurant, setRestaurant] = useState<any>(null)
-  const { get: getBusinessType } = useBusinessTypes()
-  const [restaurantError, setRestaurantError] = useState(false)
-  const [isLoadingRestaurant, setIsLoadingRestaurant] = useState(true)
-
+export function PublicMenuView({
+  restaurant,
+  menu: activeMenu,
+  fallbackCover,
+  primaryColor: primaryColorOverride,
+  hasImageCredits = false,
+  isPreview = false,
+  tableName,
+  tableId,
+}: PublicMenuViewProps) {
   // Dil Desteği (tr, en, ar, ru)
   const [lang, setLang] = useState<'tr' | 'en' | 'ar' | 'ru'>('tr')
   const t = TRANSLATIONS[lang]
@@ -185,20 +189,13 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
     }
   }, [activeCategory])
 
-  // DARK MODE LOGIC
-  const [isDarkMode, setIsDarkMode] = useState(false)
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-      setIsDarkMode(isDark)
-    }
-  }, [])
+  // Koyu tema <html class="dark"> ile: ilk değeri sayfadaki satır içi betik (sistem tercihi) boyamadan önce verir,
+  // buton ikonu dark: sınıflarıyla değiştiği için ayrıca state tutulmaz.
   // Yumuşak tema geçişi: butondan genişleyen dairesel açılma (View Transitions API)
   const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const next = !isDarkMode
     const root = document.documentElement
+    const next = !root.classList.contains('dark')
     const apply = () => {
-      flushSync(() => setIsDarkMode(next))
       root.classList.toggle('dark', next)
     }
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -221,100 +218,37 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
       )
     }).catch(() => {})
   }
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [isDarkMode])
   const categoryRefs = useRef<{ [key: string]: HTMLElement | null }>({})
   const isManualScrollRef = useRef(false)
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
   const [isItemModalOpen, setIsItemModalOpen] = useState(false)
   const [isTermsOpen, setIsTermsOpen] = useState(false)
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false)
-  const imageCredits = useImageCredits()
   const [wifiCopied, setWifiCopied] = useState(false)
 
   // GOOGLE REVIEW & DEĞERLENDİRME STATE'LERİ
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false)
   const [feedbackText, setFeedbackText] = useState('')
 
-  const [menus, setMenus] = useState<Menu[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-
-  // Panel içi canlı önizleme: yayınlanmamış düzenlemeler üst pencereden gelir
+  // Görüntülenme sayımı menü göründükten sonra ayrı istekle; masa QR'ından gelindiyse masa sayacı da artar
+  const restaurantId: string | undefined = restaurant?.id
+  const isCountable = !isPreview && Boolean(restaurantId && !restaurant?.suspended && activeMenu)
   useEffect(() => {
-    if (!isPreview) return
-    const onMessage = (e: MessageEvent) => {
-      if (e.origin !== window.location.origin || e.data?.type !== 'qr-preview-data') return
-      setPreviewMenu(e.data.menu || null)
-      setPreviewPrimary(e.data.primaryColor || null)
-      if (e.data.restaurant) {
-        setRestaurant(e.data.restaurant)
-        setRestaurantError(false)
-        setIsLoadingRestaurant(false)
-      }
+    if (!isCountable) return
+    const body = JSON.stringify({ orgId: restaurantId, table: tableName, tid: tableId })
+    const sent = navigator.sendBeacon?.('/api/public/menu-view', new Blob([body], { type: 'application/json' }))
+    if (!sent) {
+      fetch('/api/public/menu-view', {
+        method: 'POST',
+        body,
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json' },
+      }).catch(() => {})
     }
-    window.addEventListener('message', onMessage)
-    window.parent?.postMessage({ type: 'qr-preview-ready' }, window.location.origin)
-    return () => window.removeEventListener('message', onMessage)
-  }, [isPreview])
-
-  useEffect(() => {
-    if (isPreview) return // Önizlemede restoran bilgisi editörden gelir
-    async function loadRestaurant() {
-      try {
-        const res = await fetch(`/api/public/restaurant?subdomain=${targetSubdomain}`)
-        if (res.ok) {
-          const data = await res.json()
-          setRestaurant(data)
-        } else {
-          setRestaurantError(true)
-        }
-      } catch (err) {
-        setRestaurantError(true)
-      } finally {
-        setIsLoadingRestaurant(false)
-      }
-    }
-    loadRestaurant()
-  }, [targetSubdomain, isPreview])
-
-  useEffect(() => {
-    async function loadMenus() {
-      if (!restaurant) return;
-      if (isPreview || restaurant.suspended) { setIsLoading(false); return }
-      try {
-        // Masa QR'ından gelindiyse masa kimliği/adı da gönderilir (masa okunma sayacı)
-        const tableQuery =
-          (tableName ? `&table=${encodeURIComponent(tableName)}` : '') +
-          (tableId ? `&tid=${encodeURIComponent(tableId)}` : '')
-        const res = await fetch(`/api/public/menus?orgId=${restaurant.id}${tableQuery}`)
-        if (res.ok) {
-          const data = await res.json()
-          if (data && data.length > 0) {
-            setMenus(data)
-          }
-        }
-      } catch (err) {
-        console.error("Failed to load real menus", err)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    if (restaurant && !restaurantError) {
-      loadMenus()
-    } else if (restaurantError) {
-      setIsLoading(false)
-    }
-  }, [restaurant, restaurantError, isPreview])
-
-  const activeMenu = isPreview ? (previewMenu || undefined) : menus[0]
+  }, [isCountable, restaurantId, tableName, tableId])
 
   const primaryColor =
-    (isPreview && previewPrimary) ||
+    primaryColorOverride ||
     restaurant?.branding?.primaryColor ||
     restaurant?.primary_color ||
     '#e11d48'
@@ -391,8 +325,6 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
     }
   }
 
-  const businessType = getBusinessType(restaurant?.business_type)
-
   const copyWifi = () => {
     if (restaurant?.wifi_password) {
       navigator.clipboard.writeText(restaurant.wifi_password)
@@ -401,16 +333,7 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
     }
   }
 
-  if (isLoadingRestaurant || isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
-        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4" />
-        <p className="text-gray-500 font-medium">Yükleniyor...</p>
-      </div>
-    )
-  }
-
-  if (restaurantError || !restaurant) {
+  if (!restaurant) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
         <AlertCircle className="h-16 w-16 text-gray-400 mb-4" />
@@ -440,15 +363,12 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
     ? restaurant.cover_url!
     : coverUsesLogo
       ? restaurant.logo_url!
-      : businessType?.coverImage || FALLBACK_COVER
+      : fallbackCover || FALLBACK_COVER
   const igHandle = (restaurant.instagram_handle || '').replace(/^@+/, '')
   const showSocialCards = Boolean(igHandle || restaurant.google_review_url)
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+    <div
       className="min-h-screen bg-gradient-to-b from-white to-[#F5F5F7] dark:from-[#1c1c1e] dark:to-[#000000] flex flex-col justify-between pb-8 font-sans selection:bg-primary/20 relative"
       dir={lang === 'ar' ? 'rtl' : 'ltr'}
     >
@@ -456,25 +376,20 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
         {/* Dergi Tarzı Minimalist Kapak */}
         {(
           <div className="relative h-40 sm:h-52 w-full bg-[#e9e9ee] dark:bg-[#1c1c1e] overflow-hidden rounded-b-[28px] shadow-[0_12px_32px_rgba(0,0,0,0.08)]">
-            <motion.img 
-              initial={{ scale: 1.05, y: 10 }}
-              animate={{ scale: 1, y: 0 }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-              src={heroCoverSrc} 
-              alt={restaurant.name}
-              className={`w-full h-full ${coverUsesLogo ? 'object-contain scale-125 opacity-60 dark:opacity-35 blur-[1px]' : 'object-cover opacity-90 dark:opacity-45'}`}
-            />
+            {/* Giriş animasyonları CSS ile: sunucudan gelen HTML, JS yüklenmeden görünür ve canlanır */}
+            <div className="h-full w-full animate-in zoom-in-105 slide-in-from-bottom-2.5 duration-[1200ms] ease-out">
+              <img
+                src={heroCoverSrc}
+                alt={restaurant.name}
+                className={`w-full h-full ${coverUsesLogo ? 'object-contain opacity-60 dark:opacity-35 blur-[1px]' : 'object-cover opacity-90 dark:opacity-45'}`}
+              />
+            </div>
             <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/40 to-white/5 dark:from-black/85 dark:via-black/35 dark:to-black/10 flex flex-col justify-end p-4 sm:p-6">
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-                className="max-w-2xl"
-              >
+              <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-4 delay-200 duration-[600ms] ease-out fill-mode-both">
                 <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-gray-900 dark:text-white leading-tight">
                   {restaurant.name}
                 </h2>
-              </motion.div>
+              </div>
             </div>
 
             {/* Sağ üst şık dil seçici & Gece Modu Butonu */}
@@ -485,18 +400,10 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
                 className="flex items-center justify-center w-8 h-8 bg-white/70 dark:bg-black/20 backdrop-blur-xl rounded-full border border-black/10 dark:border-white/10 text-gray-700 dark:text-white/80 hover:text-black dark:hover:text-white transition-colors"
                 aria-label="Toggle Dark Mode"
               >
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.span
-                    key={isDarkMode ? 'sun' : 'moon'}
-                    initial={{ rotate: -90, scale: 0.5, opacity: 0 }}
-                    animate={{ rotate: 0, scale: 1, opacity: 1 }}
-                    exit={{ rotate: 90, scale: 0.5, opacity: 0 }}
-                    transition={{ duration: 0.25, ease: 'easeOut' }}
-                    className="flex"
-                  >
-                    {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                  </motion.span>
-                </AnimatePresence>
+                <span className="relative flex h-4 w-4">
+                  <Moon className="absolute inset-0 h-4 w-4 transition-all duration-300 ease-out dark:rotate-90 dark:scale-50 dark:opacity-0" />
+                  <Sun className="absolute inset-0 h-4 w-4 -rotate-90 scale-50 opacity-0 transition-all duration-300 ease-out dark:rotate-0 dark:scale-100 dark:opacity-100" />
+                </span>
               </button>
 
               <div className="flex items-center bg-white/70 dark:bg-black/20 backdrop-blur-xl px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10">
@@ -657,15 +564,15 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
                     category.items.find((i) => i.is_featured && i.image_url)?.image_url ||
                     category.items.find((i) => i.image_url)?.image_url
                   return (
-                    <motion.button
+                    <button
                       key={category.id}
                       type="button"
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.35, delay: Math.min(index, 10) * 0.04, ease: 'easeOut' }}
                       onClick={() => openCategory(category.id)}
-                      className="group relative aspect-[4/5] overflow-hidden rounded-[28px] text-left shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:shadow-none focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/30"
-                      style={cover ? undefined : { background: `linear-gradient(145deg, ${primaryColor}, ${primaryColor}99)` }}
+                      className="group relative aspect-[4/5] overflow-hidden rounded-[28px] text-left shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:shadow-none focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/30 animate-in fade-in slide-in-from-bottom-3 duration-[350ms] ease-out fill-mode-both"
+                      style={{
+                        animationDelay: `${Math.min(index, 10) * 40}ms`,
+                        ...(cover ? {} : { background: `linear-gradient(145deg, ${primaryColor}, ${primaryColor}99)` }),
+                      }}
                     >
                       {cover ? (
                         <img
@@ -685,7 +592,7 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
                           {category.items.length} {t.itemsCount}
                         </p>
                       </div>
-                    </motion.button>
+                    </button>
                   )
                 })}
               </div>
@@ -928,7 +835,7 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
             <button onClick={() => setIsPrivacyOpen(true)} className="hover:underline text-gray-400 dark:text-zinc-500">
               Gizlilik Politikası
             </button>
-            {imageCredits.length > 0 && (
+            {hasImageCredits && (
               <a href="/gorsel-kaynaklari" target="_blank" rel="noopener noreferrer" className="hover:underline text-gray-400 dark:text-zinc-500">
                 Görsel kaynakları
               </a>
@@ -939,6 +846,6 @@ export function PublicMenuView({ restaurantSubdomain }: { restaurantSubdomain?: 
 
       <PublicTermsOfServiceModal isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
       <PublicPrivacyPolicyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
-    </motion.div>
+    </div>
   )
 }

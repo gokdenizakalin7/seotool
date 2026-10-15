@@ -23,7 +23,6 @@ import { LiveMenuEditor } from '@/components/dashboard/LiveMenuEditor'
 import { MenusContent } from '@/components/dashboard/MenusContent'
 import { QRCodesContent } from '@/components/dashboard/QRCodesContent'
 import { SettingsContent } from '@/components/dashboard/SettingsContent'
-import { PublicMenuView } from '@/components/public/PublicMenuView'
 import { ImageCredits } from '@/components/public/ImageCredits'
 
 function DashboardLayout() {
@@ -181,7 +180,7 @@ export function ClientApp() {
           <Route path="/admin/*" element={<AdminGuard><AdminApp /></AdminGuard>} />
           <Route path="/dashboard/*" element={<AuthGuard><RestaurantProvider><DashboardLayout /></RestaurantProvider></AuthGuard>} />
           <Route path="/business" element={<BusinessDirectory />} />
-          <Route path="/menu/:subdomain" element={<PublicMenuView />} />
+          {/* /menu/:subdomain ayrı sunucu rotasıdır (app/menu/[subdomain]); panel paketine girmez */}
           <Route path="/gorsel-kaynaklari" element={<ImageCredits />} />
           <Route path="*" element={<LandingPage />} />
         </Routes>

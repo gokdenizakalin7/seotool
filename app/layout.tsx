@@ -2,15 +2,12 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
+// Önden yüklenmez: müşteri menüsü sistem fontunu kullanır, QR'dan gelen ilk ziyarette menünün JS'iyle yarışmasın
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -26,9 +23,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr">
+    // suppressHydrationWarning: menü sayfasındaki tema betiği <html>'e "dark" sınıfını hidrasyondan önce ekler
+    <html lang="tr" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} antialiased`}
       >
         {children}
         <Toaster position="top-right" richColors />
