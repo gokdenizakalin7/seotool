@@ -1,4 +1,5 @@
 import { authFetch } from '@/lib/api-client'
+import { slugInput } from '@/lib/site-url'
 
 export class AdminApiError extends Error {
   constructor(message: string, public status: number, public code?: string, public data?: any) {
@@ -103,14 +104,7 @@ export function slugify(input: string): string {
 
 /** Yazarken kullanılan subdomain temizleyici: sondaki tireyi silmez (kullanıcı yazmaya devam edebilsin) */
 export function subdomainInput(input: string): string {
-  return input
-    .toLocaleLowerCase('tr')
-    .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
-    .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
-    .replace(/[^a-z0-9-]+/g, '-')
-    .replace(/-{2,}/g, '-')
-    .replace(/^-+/, '')
-    .slice(0, 40)
+  return slugInput(input)
 }
 
 export const AUDIT_ACTION_LABELS: Record<string, string> = {

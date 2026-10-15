@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { supabaseAdmin as supabase } from '@/lib/supabase-admin'
 import { requireOrgAccess, requireUser } from '@/lib/auth-middleware'
 import { businessTypeExists } from '@/lib/server/business-types'
-import { isReservedSlug } from '@/lib/site-url'
+import { isReservedSlug, slugifyBusinessName } from '@/lib/site-url'
 import {
   profileToDbColumns,
   profileUpdateSchema,
@@ -42,19 +42,11 @@ function flatten(body: any) {
     primaryColor: body.primaryColor ?? br.primaryColor,
     onboardingStep: body.onboardingStep,
     completeOnboarding: body.completeOnboarding,
+    siteSlug: body.siteSlug,
   }
 }
 
-function slugify(name: string) {
-  return name
-    .toLowerCase()
-    .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
-    .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 40)
-    .replace(/-+$/, '')
-}
+const slugify = slugifyBusinessName
 
 export async function POST(request: Request) {
   try {
@@ -83,7 +75,7 @@ export async function POST(request: Request) {
     const flat = Object.fromEntries(Object.entries(flatten(body)).filter(([, v]) => v !== undefined && v !== null))
     const parsed = profileUpdateSchema.safeParse(flat)
     if (!parsed.success) {
-      return NextResponse.json({ error: 'Gönderilen bilgiler geçersiz.' }, { status: 400 })
+      return NextResponse.json({ error: parsed.error.issues[0]?.message || 'Gönderilen bilgiler geçersiz.' }, { status: 400 })
     }
 
     if (parsed.data.businessType && !(await businessTypeExists(parsed.data.businessType))) {
@@ -112,6 +104,20 @@ export async function POST(request: Request) {
       updateData.subdomain = candidate
     }
 
+    // İşletme sahibi site adresini kendisi değiştirebilir; eski adres geçmişe yazılır ve yönlendirilir (migration 14)
+    if (parsed.data.siteSlug !== undefined && parsed.data.siteSlug !== org.subdomain) {
+      const { data: clash } = await supabase
+        .from('organizations')
+        .select('id')
+        .eq('subdomain', parsed.data.siteSlug)
+        .neq('id', org.id)
+        .maybeSingle()
+      if (clash) {
+        return NextResponse.json({ error: 'Bu site adresi başka bir işletme tarafından kullanılıyor.', code: 'SLUG_TAKEN' }, { status: 409 })
+      }
+      updateData.subdomain = parsed.data.siteSlug
+    }
+
     if (Object.keys(updateData).length === 0) {
       return NextResponse.json({ error: 'Güncellenecek alan yok.' }, { status: 400 })
     }
@@ -131,7 +137,12 @@ export async function POST(request: Request) {
       ;({ data, error } = await runUpdate(ORG_PROFILE_COLUMNS_BASE))
     }
 
-    if (error) throw error
+    if (error) {
+      if ((error as any).code === '23505') {
+        return NextResponse.json({ error: 'Bu site adresi başka bir işletme tarafından kullanılıyor.', code: 'SLUG_TAKEN' }, { status: 409 })
+      }
+      throw error
+    }
 
     return NextResponse.json({
       success: true,

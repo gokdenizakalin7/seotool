@@ -1,7 +1,10 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-import { ImagePlus, Loader2, Trash2, Check } from 'lucide-react'
+import { ImagePlus, Loader2, Trash2, Check, Globe, Wand2, AlertCircle } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { authFetch } from '@/lib/api-client'
+import { SLUG_RE, isReservedSlug, siteOrigin, slugInput, slugifyBusinessName } from '@/lib/site-url'
 import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -30,6 +33,8 @@ export interface ProfileDraft {
   instagramHandle: string
   googleReviewUrl: string
   whatsappNumber: string
+  /** İşletme sitesi adresi (qolay.com/<siteSlug>); yalnızca ayarlar sayfasında değiştirilir */
+  siteSlug: string
   /* İşletme sitesi iletişim sayfası (Ayarlar > Sosyal & İletişim) */
   contactEmail: string
   websiteUrl: string
@@ -59,6 +64,7 @@ export function draftFromRestaurant(r: Restaurant | null): ProfileDraft {
     instagramHandle: b?.instagramHandle || '',
     googleReviewUrl: b?.googleReviewUrl || '',
     whatsappNumber: b?.whatsappNumber || '',
+    siteSlug: r?.subdomain || '',
     contactEmail: b?.contactEmail || '',
     websiteUrl: b?.websiteUrl || '',
     facebookUrl: b?.facebookUrl || '',
@@ -99,7 +105,7 @@ export function applyDraftToRestaurant(r: Restaurant | null, d: ProfileDraft): R
   }
 }
 
-export type SectionKey = 'basics' | 'brand' | 'contact' | 'wifi' | 'social' | 'contactExtra'
+export type SectionKey = 'basics' | 'brand' | 'contact' | 'wifi' | 'social' | 'contactExtra' | 'siteAddress'
 
 /** Bölüme ait taslak alanlarını API gövdesine çevirir. */
 export function draftToPatch(d: ProfileDraft, sections: SectionKey[]) {
@@ -131,6 +137,7 @@ export function draftToPatch(d: ProfileDraft, sections: SectionKey[]) {
   if (sections.includes('contactExtra')) {
     for (const key of CONTACT_EXTRA_KEYS) p[key] = d[key]
   }
+  if (sections.includes('siteAddress')) p.siteSlug = d.siteSlug
   return p
 }
 
@@ -343,6 +350,110 @@ export function BrandSection({ draft, setDraft }: SectionProps) {
           />
         </div>
       </Field>
+    </div>
+  )
+}
+
+type SlugStatus = 'idle' | 'checking' | 'available' | 'taken' | 'reserved' | 'invalid'
+
+const SLUG_MESSAGES: Record<Exclude<SlugStatus, 'idle' | 'checking'>, string> = {
+  available: 'Bu adres kullanılabilir.',
+  taken: 'Bu adres başka bir işletme tarafından kullanılıyor.',
+  reserved: 'Bu ad sistem sayfalarına ayrılmış; başka bir adres seçin.',
+  invalid: 'En az 2 karakter; yalnızca küçük harf, rakam ve tire. Tireyle başlayıp bitemez.',
+}
+
+/** Site adresi (qolay.com/<slug>): yazarken normalize edilir ve boş olup olmadığı sorulur */
+export function SiteAddressSection({ draft, setDraft, currentSlug }: SectionProps & { currentSlug: string }) {
+  const host = siteOrigin().replace(/^https?:\/\//, '')
+  const [status, setStatus] = useState<SlugStatus>('idle')
+  const slug = draft.siteSlug
+  const changed = slug !== currentSlug
+  const suggestion = slugifyBusinessName(draft.name)
+
+  useEffect(() => {
+    if (!changed) {
+      setStatus('idle')
+      return
+    }
+    const normalized = slug.replace(/-+$/, '')
+    if (normalized.length < 2 || !SLUG_RE.test(normalized)) {
+      setStatus('invalid')
+      return
+    }
+    if (isReservedSlug(normalized)) {
+      setStatus('reserved')
+      return
+    }
+    setStatus('checking')
+    const timer = setTimeout(async () => {
+      try {
+        const res = await authFetch(
+          `/api/organizations/slug-available?subdomain=${encodeURIComponent(currentSlug)}&slug=${encodeURIComponent(normalized)}`
+        )
+        const data = await res.json().catch(() => ({}))
+        if (!res.ok) throw new Error(data.error)
+        setStatus(data.available ? 'available' : (data.reason as SlugStatus) || 'taken')
+      } catch {
+        setStatus('idle')
+      }
+    }, 400)
+    return () => clearTimeout(timer)
+  }, [slug, changed, currentSlug])
+
+  return (
+    <div className="space-y-4">
+      <Field label="Site adresi" hint="Müşterilerinizin QR ile açtığı adres. Küçük harf, rakam ve tire kullanılabilir.">
+        <div className="flex items-center rounded-xl border border-input bg-background/40 pl-3 shadow-sm focus-within:ring-2 focus-within:ring-ring/40">
+          <span className="shrink-0 text-sm text-muted-foreground">{host ? `${host}/` : '/'}</span>
+          <Input
+            value={slug}
+            maxLength={40}
+            spellCheck={false}
+            autoCapitalize="none"
+            className="border-0 bg-transparent pl-0 shadow-none focus-visible:ring-0 font-mono"
+            onChange={(e) => setDraft((d) => ({ ...d, siteSlug: slugInput(e.target.value) }))}
+            onBlur={() => setDraft((d) => ({ ...d, siteSlug: d.siteSlug.replace(/-+$/, '') }))}
+          />
+        </div>
+      </Field>
+
+      <div className="flex flex-wrap items-center gap-2">
+        {suggestion && suggestion !== slug && (
+          <Button type="button" size="sm" variant="outline" onClick={() => setDraft((d) => ({ ...d, siteSlug: suggestion }))}>
+            <Wand2 className="mr-1.5 h-3.5 w-3.5" /> İşletme adından öner: {suggestion}
+          </Button>
+        )}
+        {changed && status === 'checking' && (
+          <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+            <Loader2 className="h-3.5 w-3.5 animate-spin" /> Kontrol ediliyor…
+          </span>
+        )}
+        {changed && status === 'available' && (
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600">
+            <Check className="h-3.5 w-3.5" /> {SLUG_MESSAGES.available}
+          </span>
+        )}
+        {changed && (status === 'taken' || status === 'reserved' || status === 'invalid') && (
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-destructive">
+            <AlertCircle className="h-3.5 w-3.5" /> {SLUG_MESSAGES[status]}
+          </span>
+        )}
+      </div>
+
+      {changed ? (
+        <p className="flex items-start gap-2 rounded-xl bg-amber-50 p-3 text-xs text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">
+          <Globe className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+          <span>
+            Adresi değiştirdiğinizde eski adres (<span className="font-mono">/{currentSlug}</span>) ve basılmış QR kodlarınız otomatik
+            olarak yeni adrese yönlendirilir; yeniden bastırmanız gerekmez.
+          </span>
+        </p>
+      ) : (
+        <p className="text-xs text-muted-foreground">
+          Mevcut adres: <span className="font-mono">{host ? `${host}/` : '/'}{currentSlug}</span>
+        </p>
+      )}
     </div>
   )
 }

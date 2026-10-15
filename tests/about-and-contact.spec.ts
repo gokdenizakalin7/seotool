@@ -51,3 +51,13 @@ test('hakkımızda kaydı: boş metin otomatiğe döner', () => {
   expect(filled).toEqual({ about_text: 'Merhaba b', about_source: 'ai' })
   expect(profileToDbColumns(profileUpdateSchema.parse({ aboutText: '  ' }))).toEqual({ about_text: null, about_source: null })
 })
+
+test('site adresi alanı doğrulaması', () => {
+  expect(profileUpdateSchema.parse({ siteSlug: ' Medusa-Cafe ' }).siteSlug).toBe('medusa-cafe')
+  expect(profileUpdateSchema.safeParse({ siteSlug: 'dashboard' }).success).toBe(false)
+  expect(profileUpdateSchema.safeParse({ siteSlug: 'a' }).success).toBe(false)
+  expect(profileUpdateSchema.safeParse({ siteSlug: 'kafe ada' }).success).toBe(false)
+  expect(profileUpdateSchema.safeParse({ siteSlug: '-kafe' }).success).toBe(false)
+  // DB sütununa route yazar; profileToDbColumns dokunmaz
+  expect(profileToDbColumns(profileUpdateSchema.parse({ siteSlug: 'medusa-cafe' }))).toEqual({})
+})

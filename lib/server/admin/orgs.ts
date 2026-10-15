@@ -1,5 +1,5 @@
 import { supabaseAdmin } from '@/lib/supabase-admin'
-import { SLUG_RE } from '@/lib/site-url'
+import { SLUG_RE, slugifyBusinessName } from '@/lib/site-url'
 import { isSuperAdminEmail } from '@/lib/auth-middleware'
 import type { AdminMember, AdminOrgRow, AuditLogEntry, MemberRole } from '@/lib/admin-types'
 
@@ -79,17 +79,8 @@ export async function getOrgRow(orgId: string) {
   return data
 }
 
-/** Türkçe karakterleri sadeleştirip subdomain biçimine çevirir. */
-export function slugifySubdomain(input: string): string {
-  return input
-    .toLocaleLowerCase('tr')
-    .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
-    .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 40)
-    .replace(/-+$/, '')
-}
+/** Türkçe karakterleri sadeleştirip site adresi biçimine çevirir (lib/site-url.ts ile aynı kural). */
+export const slugifySubdomain = slugifyBusinessName
 
 /** Site adresi biçimi (lib/site-url.ts SLUG_RE ile aynı) */
 export const SUBDOMAIN_RE = SLUG_RE

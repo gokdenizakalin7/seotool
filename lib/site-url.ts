@@ -32,6 +32,26 @@ export function isReservedSlug(slug: string): boolean {
   return RESERVED.has(slug.trim().toLowerCase())
 }
 
+/**
+ * Yazarken normalize: küçük harf, Türkçe harf sadeleştirme, boşluk → tire; sondaki tire korunur
+ * (kullanıcı yazmaya devam edebilsin). Kaydetmeden önce slugifyBusinessName ile kırpılır.
+ */
+export function slugInput(input: string): string {
+  return (input || '')
+    .toLocaleLowerCase('tr')
+    .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
+    .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
+    .replace(/[^a-z0-9-]+/g, '-')
+    .replace(/-{2,}/g, '-')
+    .replace(/^-+/, '')
+    .slice(0, 40)
+}
+
+/** İşletme adından site adresi: "Köşe Kafe" → "kose-kafe" (40 karakter, tireyle başlayıp bitmez) */
+export function slugifyBusinessName(input: string): string {
+  return slugInput(input).replace(/-+$/, '')
+}
+
 /** Site adresinde kullanılabilir mi (biçim + ayrılmış adlar) */
 export function isValidSiteSlug(slug: string): boolean {
   return SLUG_RE.test(slug) && !isReservedSlug(slug)

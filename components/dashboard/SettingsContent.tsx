@@ -11,11 +11,13 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { supabase } from '@/lib/supabase'
+import { SLUG_RE, isReservedSlug } from '@/lib/site-url'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import {
   BasicsSection,
   BrandSection,
   ContactSection,
+  SiteAddressSection,
   SocialSection,
   WifiSection,
   draftFromRestaurant,
@@ -118,6 +120,18 @@ export function SettingsContent() {
       // Site iletişim alanları yalnızca değiştiyse gönderilir (migration 15 uygulanmamışsa diğer ayarlar yine kaydedilsin)
       const sections: SectionKey[] = ['basics', 'brand', 'contact', 'wifi', 'social']
       if (CONTACT_EXTRA_KEYS.some((k) => draft[k] !== baseline[k])) sections.push('contactExtra')
+      if (draft.siteSlug !== baseline.siteSlug) {
+        const slug = draft.siteSlug.replace(/-+$/, '')
+        if (slug.length < 2 || !SLUG_RE.test(slug)) {
+          toast.error('Site adresi en az 2 karakter olmalı; yalnızca küçük harf, rakam ve tire.')
+          return
+        }
+        if (isReservedSlug(slug)) {
+          toast.error('Bu ad sistem sayfalarına ayrılmış; başka bir site adresi seçin.')
+          return
+        }
+        sections.push('siteAddress')
+      }
       const next = await save(draftToPatch(draft, sections))
       setDraft(draftFromRestaurant(next))
       toast.success('Ayarlar kaydedildi.')
@@ -190,6 +204,15 @@ export function SettingsContent() {
             </CardHeader>
             <CardContent>
               <BasicsSection draft={draft} setDraft={setDraft} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg font-bold">Site Adresi</CardTitle>
+              <CardDescription>QR kodunuzun açtığı adres; işletme adınızı yazabilirsiniz</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SiteAddressSection draft={draft} setDraft={setDraft} currentSlug={restaurant.subdomain} />
             </CardContent>
           </Card>
           <Card>

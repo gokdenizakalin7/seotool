@@ -1,7 +1,17 @@
 import { test, expect } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
-import { RESERVED_SLUGS, isReservedSlug, isValidSiteSlug, legacyMenuRedirectPath, sitePath, siteUrl, tableQrUrl } from '../lib/site-url'
+import {
+  RESERVED_SLUGS,
+  isReservedSlug,
+  isValidSiteSlug,
+  legacyMenuRedirectPath,
+  sitePath,
+  siteUrl,
+  slugInput,
+  slugifyBusinessName,
+  tableQrUrl,
+} from '../lib/site-url'
 
 test('ayrılmış adlar migration 14 ile aynı', () => {
   const sql = readFileSync(path.join(__dirname, '../supabase/migrations/14_stable_ids_and_slugs.sql'), 'utf8')
@@ -32,4 +42,16 @@ test('site adresleri ve masa QR', () => {
 test('eski /menu adresi sorguyu korur', () => {
   expect(legacyMenuRedirectPath('kafe-ada', 'table=Masa%201&tid=abc')).toBe('/kafe-ada?table=Masa%201&tid=abc')
   expect(legacyMenuRedirectPath('kafe-ada', '')).toBe('/kafe-ada')
+})
+
+test('işletme adından site adresi', () => {
+  expect(slugifyBusinessName('Medusa Cafe')).toBe('medusa-cafe')
+  expect(slugifyBusinessName('Köşe Kafe')).toBe('kose-kafe')
+  expect(slugifyBusinessName('İSTANBUL Çay -- Evi!')).toBe('istanbul-cay-evi')
+  expect(slugifyBusinessName('  ---  ')).toBe('')
+  expect(slugifyBusinessName('a'.repeat(50)).length).toBe(40)
+  expect(isValidSiteSlug(slugifyBusinessName('Medusa Cafe'))).toBe(true)
+  // Yazarken sondaki tire korunur, kaydederken kırpılır
+  expect(slugInput('medusa-')).toBe('medusa-')
+  expect(slugifyBusinessName('medusa-')).toBe('medusa')
 })

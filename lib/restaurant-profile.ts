@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import type { Restaurant } from '@/lib/types'
+import { SLUG_RE, isReservedSlug } from '@/lib/site-url'
 
 /* ------------------------------------------------------------------ */
 /* Temizleyiciler (istemci ve sunucu ortak)                            */
@@ -156,6 +157,15 @@ export const profileUpdateSchema = z.object({
     .optional(),
   onboardingStep: clean(30).optional(),
   completeOnboarding: z.boolean().optional(),
+  /** İşletme sitesi adresi (qolay.com/<siteSlug>); sahibi değiştirebilir, eski adres yönlendirilir. DB'ye route yazar. */
+  siteSlug: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .min(2, 'Site adresi en az 2 karakter olmalı')
+    .regex(SLUG_RE, 'Site adresi yalnızca küçük harf, rakam ve tire içerebilir; tireyle başlayıp bitemez')
+    .refine((s) => !isReservedSlug(s), 'Bu ad sistem sayfalarına ayrılmış; başka bir site adresi seçin')
+    .optional(),
 })
 
 export type ProfileUpdate = z.infer<typeof profileUpdateSchema>
