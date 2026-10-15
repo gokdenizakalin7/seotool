@@ -6,9 +6,31 @@
 export const PROMPT_VERSION = 1
 
 export const STYLE_SUFFIX =
-  'professional food photography, 45-degree angle, soft natural daylight, shallow depth of field, ' +
-  'neutral light background, clean minimal styling, photorealistic, no text, no letters, no logos, ' +
-  'no labels, no watermark, no people, no hands'
+  'Professional food and beverage photography for a restaurant menu, photorealistic, ' +
+  'shot from a slightly elevated three-quarter angle with an 85mm lens at f/2.8, ' +
+  'soft natural window light with gentle shadows, true-to-life colors and textures, appetizing and fresh, ' +
+  'a close-up where the drink or dish fills most of the frame, centered and fully visible. ' +
+  'Plain unbranded tableware and glassware, no text, logos or labels anywhere, no people or hands'
+
+/**
+ * Ürüne özel tarif (override.subject) varken kategori yalnız sahneyi verir; kap/sunum tarifte.
+ * Böylece kategori stili tarifle çakışıp ikinci bir bardak/tabak çizdirmez. Sahnesi olmayan kategoride stil kullanılır.
+ */
+const TEA_SCENE = 'Set on a warm walnut wooden table in soft morning light, cozy Turkish café atmosphere, softly blurred warm background'
+const COFFEE_SCENE = 'Set on a light oak café counter in soft window light, softly blurred specialty coffee shop background in warm neutral tones'
+const COLD_CAFE_SCENE = 'Set on a light oak café counter in bright natural daylight, fresh summery mood, softly blurred light background'
+const FRESH_SCENE = 'Set on a pale marble surface in bright natural daylight, fresh and airy mood, softly blurred light background'
+export const SCENE_BY_CATEGORY: Record<string, string> = {
+  caylar: TEA_SCENE,
+  'turk-kahvesi':
+    'Set on a dark walnut wooden table with a small embroidered linen cloth, warm soft light, traditional Turkish coffee house mood, softly blurred background',
+  kahveler: COFFEE_SCENE,
+  'diger-sicak-icecekler': 'Set on a warm wooden table in soft cozy winter light, softly blurred warm background',
+  'soguk-kahveler': COLD_CAFE_SCENE,
+  'soguk-caylar': COLD_CAFE_SCENE,
+  'ayran-ve-sutlu-icecekler': 'Set on a light wooden table in bright natural daylight, fresh clean mood, softly blurred light background',
+  'soguk-icecekler': FRESH_SCENE,
+}
 
 /** Kategori slug'ı → sunum/tabak tarifi */
 export const STYLE_BY_CATEGORY: Record<string, string> = {
@@ -154,6 +176,14 @@ export function styleForCategoryChain(leafToRoot: string[]): string {
   return STYLE_BY_CATEGORY.yiyecekler
 }
 
+export function sceneForCategoryChain(leafToRoot: string[]): string | null {
+  for (const slug of leafToRoot) {
+    const s = SCENE_BY_CATEGORY[slug]
+    if (s) return s
+  }
+  return null
+}
+
 export function stripBrandTokens(s: string): string {
   return s.replace(BRAND_TOKEN_RE, '').replace(/\s{2,}/g, ' ').trim()
 }
@@ -167,6 +197,12 @@ function trimTo(s: string, max: number): string {
 
 /** Katalog ürünü: name_en + description_en + kategori stili (+ override). */
 export function buildCatalogPrompt(item: PromptItem, categoryChainLeafToRoot: string[], override?: PromptOverride): BuiltPrompt {
+  const scene = override?.subject ? sceneForCategoryChain(categoryChainLeafToRoot) : null
+  if (scene) {
+    // Tarif + sahne + fotoğraf stili, düz cümleler halinde (FLUX virgül listesinden çok cümleyi iyi izler)
+    const prompt = `${override!.subject!.replace(/[.\s]+$/, '')}. ${scene}. ${STYLE_SUFFIX}.`
+    return { prompt, seed: stableSeed(`${item.slug || item.name}:${PROMPT_VERSION}`), promptVersion: PROMPT_VERSION, style: scene }
+  }
   const style = styleForCategoryChain(categoryChainLeafToRoot)
   const subject = override?.subject
     ? override.subject

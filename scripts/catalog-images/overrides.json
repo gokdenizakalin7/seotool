@@ -65,7 +65,7 @@
     "sameAs": "efes-pilsen-50cl"
   },
   "guinness-draught-44cl": {
-    "subject": "a pint glass of dark stout beer with a creamy head",
+    "subject": "exactly one pint glass of very dark, almost black stout beer with a thick creamy beige head, a single glass only, no other drinks",
     "skipStock": true,
     "note": "marka"
   },
@@ -266,67 +266,67 @@
     "note": "marka"
   },
   "red-bull": {
-    "subject": "a tall glass of sparkling golden energy drink with ice, plain unlabeled slim can beside it",
+    "subject": "A tall highball glass of sparkling golden energy drink over ice cubes with lively bubbles and a lemon slice, served on its own",
     "skipStock": true,
     "note": "marka"
   },
   "red-bull-sugarfree": {
-    "subject": "a tall glass of sparkling golden energy drink with ice, plain unlabeled slim can beside it",
+    "subject": "A tall highball glass of sparkling pale golden energy drink over ice cubes with lively bubbles and a lime slice, served on its own",
     "skipStock": true,
     "note": "marka"
   },
   "monster-energy": {
-    "subject": "a tall glass of sparkling green energy drink with ice, plain unlabeled black can",
+    "subject": "A tall highball glass of sparkling pale green-yellow energy drink over ice cubes with lively bubbles, served on its own",
     "skipStock": true,
     "note": "marka"
   },
   "burn": {
-    "subject": "a tall glass of sparkling golden energy drink with ice, plain unlabeled slim can beside it",
+    "subject": "A tall highball glass of sparkling golden-amber energy drink over ice cubes with lively bubbles and a lime wedge, served on its own",
     "skipStock": true,
     "note": "marka"
   },
   "kola": {
-    "subject": "a tall glass of cola with ice and a lemon slice, condensation, plain unlabeled glass bottle beside it",
+    "subject": "A tall highball glass of dark cola over ice cubes with fizzing bubbles and a lemon slice, condensation on the glass, served on its own",
     "skipStock": true,
     "note": "marka"
   },
   "kola-light": {
-    "subject": "a tall glass of cola with ice, condensation, plain unlabeled silver can beside it",
+    "subject": "A tall highball glass of dark cola over ice cubes with fizzing bubbles, condensation on the glass, served on its own",
     "skipStock": true,
     "note": "marka"
   },
   "kola-zero": {
-    "subject": "a tall glass of cola with ice, condensation, plain unlabeled silver can beside it",
+    "subject": "A tall highball glass of dark cola over ice cubes with fizzing bubbles and a lime wedge, condensation on the glass, served on its own",
     "skipStock": true,
     "note": "marka"
   },
   "fanta": {
-    "subject": "a tall glass of orange fizzy soda with ice and an orange slice, plain unlabeled bottle",
+    "subject": "A tall highball glass of bright orange fizzy soda over ice cubes with lively bubbles and an orange slice on the rim, served on its own",
     "skipStock": true,
     "note": "marka"
   },
   "sprite": {
-    "subject": "a tall glass of clear lemon-lime soda with ice and a lime wedge, plain unlabeled bottle",
+    "subject": "A tall highball glass of clear sparkling lemon-lime soda over ice cubes with lively bubbles, lime and lemon slices inside, served on its own",
     "skipStock": true,
     "note": "marka"
   },
   "ice-tea-seftali": {
-    "subject": "a tall glass of iced peach tea with ice and peach slices, plain unlabeled bottle",
+    "subject": "A tall glass of golden-amber peach iced tea over ice with fresh peach slices",
     "skipStock": true,
     "note": "marka çağrışımı"
   },
   "ice-tea-limon": {
-    "subject": "a tall glass of iced lemon tea with ice and lemon slices",
+    "subject": "A tall glass of amber lemon iced tea over ice with lemon slices",
     "skipStock": true,
     "note": "marka çağrışımı"
   },
   "ice-tea-mango": {
-    "subject": "a tall glass of iced mango tea with ice and mango pieces",
+    "subject": "A tall glass of golden-amber mango iced tea over ice with mango cubes",
     "skipStock": true,
     "note": "marka çağrışımı"
   },
   "ice-tea-karpuz": {
-    "subject": "a tall glass of iced watermelon tea with ice and watermelon pieces",
+    "subject": "A tall glass of pinkish-amber watermelon iced tea over ice with small watermelon pieces and a mint sprig",
     "skipStock": true,
     "note": "marka çağrışımı"
   },
@@ -416,42 +416,53 @@
     "stockQueries": [
       "glass of cola with ice",
       "cola glass"
-    ]
+    ],
+    "subject": "A tall highball glass of dark cola over ice cubes with fizzing bubbles and a lemon slice, condensation on the glass, served on its own"
   },
   "double-espresso": {
     "stockQueries": [
       "double espresso",
       "espresso cup"
     ],
-    "judgeNote": "Any espresso served in a small cup is acceptable."
+    "judgeNote": "Any espresso served in a small cup is acceptable.",
+    "subject": "A white ceramic espresso cup holding a double shot of espresso with a thick hazelnut-colored crema, on a saucer with a small spoon",
+    "note": "görsel tarifi"
   },
   "espresso-macchiato": {
     "stockQueries": [
       "espresso macchiato",
       "macchiato coffee"
     ],
-    "judgeNote": "An espresso with a small spot of milk foam in a small cup or glass is acceptable."
+    "judgeNote": "An espresso with a small spot of milk foam in a small cup or glass is acceptable.",
+    "subject": "A small white espresso cup with a shot of espresso marked in the center with a small spoonful of white milk foam, on a saucer",
+    "note": "görsel tarifi"
   },
   "elma-suyu": {
     "stockQueries": [
       "apple juice glass",
       "apple juice"
     ],
-    "judgeNote": "A glass of apple juice is acceptable; no carton is needed."
+    "judgeNote": "A glass of apple juice is acceptable; no carton is needed.",
+    "subject": "A clear glass of bright golden apple juice with condensation, a fresh red apple beside the glass, served on its own",
+    "note": "görsel tarifi"
   },
   "karisik-meyve-suyu": {
     "stockQueries": [
       "mixed fruit juice glass",
       "fruit juice glass"
     ],
-    "judgeNote": "A glass of fruit juice is acceptable; no carton is needed."
+    "judgeNote": "A glass of fruit juice is acceptable; no carton is needed.",
+    "subject": "A clear glass of orange-golden mixed fruit nectar with condensation, an apple, an orange half and a peach beside the glass, served on its own",
+    "note": "görsel tarifi"
   },
   "kayisi-suyu": {
     "stockQueries": [
       "apricot juice",
       "apricot nectar glass"
     ],
-    "judgeNote": "A glass of orange-yellow apricot juice is acceptable; no carton is needed."
+    "judgeNote": "A glass of orange-yellow apricot juice is acceptable; no carton is needed.",
+    "subject": "A clear glass of thick deep orange apricot nectar with condensation, fresh apricots, one halved, beside the glass, served on its own",
+    "note": "görsel tarifi"
   },
   "kusburnu-nektari": {
     "stockQueries": [
@@ -459,7 +470,9 @@
       "rosehip drink glass",
       "kuşburnu"
     ],
-    "judgeNote": "A glass of red rosehip drink is acceptable; no carton is needed."
+    "judgeNote": "A glass of red rosehip drink is acceptable; no carton is needed.",
+    "subject": "A clear glass of deep orange-red rosehip nectar with condensation, fresh rosehips beside the glass, served on its own",
+    "note": "görsel tarifi"
   },
   "eriste": {
     "stockQueries": [
@@ -482,7 +495,9 @@
       "black tea porcelain cup",
       "tea cup saucer"
     ],
-    "judgeNote": "Any black tea in a porcelain cup with saucer is acceptable."
+    "judgeNote": "Any black tea in a porcelain cup with saucer is acceptable.",
+    "subject": "A white porcelain teacup of clear deep amber Turkish black tea on a saucer with a small spoon and sugar cubes",
+    "note": "görsel tarifi"
   },
   "findik-lahmacun": {
     "stockQueries": [
@@ -570,7 +585,9 @@
       "iced latte glass",
       "iced milk tea"
     ],
-    "judgeNote": "Any iced milky tea or coffee drink in a clear glass with ice is acceptable."
+    "judgeNote": "Any iced milky tea or coffee drink in a clear glass with ice is acceptable.",
+    "subject": "A tall glass of iced chai latte, creamy light tan over ice, dusted with cinnamon, a cinnamon stick and star anise beside it",
+    "note": "görsel tarifi"
   },
   "izmir-kofte": {
     "stockQueries": [
@@ -751,5 +768,737 @@
     "skipStock": true,
     "note": "marka; sabit bira bardağı",
     "sameAs": "efes-pilsen-50cl"
+  },
+  "blue-lagoon-alkolsuz": {
+    "subject": "A tall highball glass filled with a vivid electric-blue lemon soda over clear ice cubes, fine bubbles rising, a thin lemon wheel on the rim and a clear straw",
+    "note": "görsel tarifi"
+  },
+  "cilekli-mojito-alkolsuz": {
+    "subject": "A tall highball glass of strawberry mojito mocktail: crushed ice with muddled red strawberry pieces and fresh mint leaves visible through the glass, pale pink sparkling soda, garnished with a mint sprig, a halved strawberry and a lime wedge",
+    "note": "görsel tarifi"
+  },
+  "ginger-lemon-fizz": {
+    "subject": "A tall highball glass of pale golden sparkling ginger lemonade over ice cubes, lively bubbles, a lemon wheel and a few thin slices of fresh ginger root inside, a small piece of ginger root and a lemon half beside the glass",
+    "note": "görsel tarifi"
+  },
+  "karpuz-mojito-alkolsuz": {
+    "subject": "A tall highball glass of watermelon mojito mocktail: bright coral-red watermelon juice over crushed ice with fresh mint leaves and lime pieces, sparkling, garnished with a small triangle of watermelon and a mint sprig",
+    "note": "görsel tarifi"
+  },
+  "mango-tango": {
+    "subject": "A tall glass of thick sunny orange-yellow mango and orange mocktail over ice, a light fizzy top, garnished with a mango slice and a lime wheel on the rim",
+    "note": "görsel tarifi"
+  },
+  "nar-spritz-alkolsuz": {
+    "subject": "A large stemmed balloon glass of deep ruby-red pomegranate spritz over plenty of ice, sparkling bubbles, an orange slice and a few glossy pomegranate seeds floating, pomegranate seeds scattered beside the glass",
+    "note": "görsel tarifi"
+  },
+  "sirinler-kokteyli": {
+    "subject": "A tall fun glass of bright sky-blue lemonade soda over ice, sweet and playful, topped with a lemon wheel, a colorful striped paper straw and a maraschino cherry",
+    "note": "görsel tarifi"
+  },
+  "sunrise-mocktail": {
+    "subject": "A tall highball glass with a layered sunrise gradient: bright orange juice on top fading into deep red grenadine at the bottom, ice cubes, an orange slice and a red cherry on the rim",
+    "note": "görsel tarifi"
+  },
+  "virgin-mojito": {
+    "subject": "A tall highball glass of classic virgin mojito: crushed ice packed with fresh green mint leaves and lime wedges, clear sparkling soda, a little brown sugar at the bottom, garnished with a generous mint sprig and a lime wheel",
+    "note": "görsel tarifi"
+  },
+  "virgin-pina-colada": {
+    "subject": "A curved hurricane glass of creamy pale yellow blended pineapple and coconut drink, thick and frosty, garnished with a pineapple wedge and a red cherry on the rim",
+    "note": "görsel tarifi"
+  },
+  "acik-ayran": {
+    "subject": "A tall clear glass of freshly whipped white ayran yogurt drink with a thick fluffy layer of white foam on top, condensation on the glass",
+    "note": "görsel tarifi"
+  },
+  "ayran": {
+    "subject": "A clear glass of cold white ayran yogurt drink with a light frothy top, condensation on the glass",
+    "note": "görsel tarifi"
+  },
+  "badem-sutu": {
+    "subject": "A clear glass of creamy off-white almond milk, a small bowl of whole raw almonds beside it",
+    "note": "görsel tarifi"
+  },
+  "cikolatali-sut": {
+    "subject": "A tall glass of cold light-brown chocolate milk with chocolate sauce streaks on the inside of the glass and a paper straw",
+    "note": "görsel tarifi"
+  },
+  "kefir": {
+    "subject": "A clear glass of thick white kefir, slightly bubbly surface, creamy and smooth",
+    "note": "görsel tarifi"
+  },
+  "soguk-kakao": {
+    "subject": "A tall glass of iced cocoa milk over ice cubes, light chocolate brown, topped with a swirl of whipped cream and grated dark chocolate",
+    "note": "görsel tarifi"
+  },
+  "sut": {
+    "subject": "A clear glass of fresh cold white milk, smooth and creamy",
+    "note": "görsel tarifi"
+  },
+  "yayik-ayrani": {
+    "subject": "A traditional hammered copper mug filled with thick churned ayran topped with a tall layer of dense white foam overflowing the rim",
+    "note": "görsel tarifi"
+  },
+  "adacayi": {
+    "subject": "A clear glass teacup on a saucer filled with pale golden-green sage tea, a few dried sage leaves inside, a lemon wedge on the saucer and a small sprig of sage beside it",
+    "note": "görsel tarifi"
+  },
+  "ekinezya-cayi": {
+    "subject": "A clear glass teacup of light amber echinacea herbal tea with gentle steam, a few dried purple echinacea flowers beside the cup",
+    "note": "görsel tarifi"
+  },
+  "hibiskus-cayi": {
+    "subject": "A clear glass teacup of deep ruby-red hibiscus tea, glowing in the light, dried hibiscus petals scattered beside the cup",
+    "note": "görsel tarifi"
+  },
+  "ihlamur": {
+    "subject": "A clear glass teacup of pale golden linden blossom tea with dried linden flowers and bracts floating, a small bowl of honey with a dipper and a lemon slice beside it",
+    "note": "görsel tarifi"
+  },
+  "karisik-bitki-cayi": {
+    "subject": "A clear glass teacup of light golden herbal tea, a small heap of mixed dried herbs, chamomile flowers, mint leaves and fennel seeds beside it, a little honey dish",
+    "note": "görsel tarifi"
+  },
+  "kis-cayi": {
+    "subject": "A clear glass mug of deep reddish-amber winter tea with a cinnamon stick, a slice of fresh ginger and a few whole cloves, dried rosehips and a star anise around the mug, gentle steam",
+    "note": "görsel tarifi"
+  },
+  "kusburnu-cayi": {
+    "subject": "A clear glass teacup of deep red rosehip tea, a handful of dried rosehips beside the cup",
+    "note": "görsel tarifi"
+  },
+  "limonlu-adacayi": {
+    "subject": "A clear glass teacup of pale golden sage tea with a fresh lemon slice floating and a sage leaf, a lemon half beside it",
+    "note": "görsel tarifi"
+  },
+  "melisa-cayi": {
+    "subject": "A clear glass teacup of pale green-gold lemon balm tea with a few fresh lemon balm leaves, a small sprig beside the cup",
+    "note": "görsel tarifi"
+  },
+  "nane-limon": {
+    "subject": "A clear glass teacup of pale yellow hot mint and lemon tea with fresh mint leaves and a lemon slice inside, gentle steam, a small dish of honey beside it",
+    "note": "görsel tarifi"
+  },
+  "papatya-cayi": {
+    "subject": "A clear glass teacup of light golden chamomile tea with a few chamomile flowers floating, dried chamomile blossoms scattered beside the cup",
+    "note": "görsel tarifi"
+  },
+  "rezene-cayi": {
+    "subject": "A clear glass teacup of pale yellow fennel tea, a small spoonful of fennel seeds beside the cup",
+    "note": "görsel tarifi"
+  },
+  "yesil-cayli-nane": {
+    "subject": "A small decorated Moroccan tea glass of light green mint green tea with fresh mint leaves, a silver Moroccan teapot softly behind it",
+    "note": "görsel tarifi"
+  },
+  "zencefil-limon": {
+    "subject": "A clear glass teacup of pale golden ginger and lemon tea with thin slices of fresh ginger and a lemon slice inside, a piece of ginger root and a small dish of honey beside it",
+    "note": "görsel tarifi"
+  },
+  "brown-sugar-boba": {
+    "subject": "A tall clear plastic bubble tea cup with dark brown sugar syrup streaks flowing down the inside, cold white milk, a layer of glossy dark tapioca pearls at the bottom and a wide straw",
+    "note": "görsel tarifi"
+  },
+  "cilekli-bubble-tea": {
+    "subject": "A tall clear bubble tea cup of pink strawberry fruit tea over ice with red strawberry popping boba at the bottom, fresh strawberry slices, and a wide straw",
+    "note": "görsel tarifi"
+  },
+  "karpuz-bubble-tea": {
+    "subject": "A tall clear bubble tea cup of bright pink watermelon green tea over ice with dark tapioca pearls at the bottom, a small watermelon wedge on the rim and a wide straw",
+    "note": "görsel tarifi"
+  },
+  "klasik-sutlu-bubble-tea": {
+    "subject": "A tall clear bubble tea cup of creamy beige milk tea over ice with a layer of glossy dark tapioca pearls at the bottom and a wide straw",
+    "note": "görsel tarifi"
+  },
+  "mango-bubble-tea": {
+    "subject": "A tall clear bubble tea cup of bright orange-yellow mango tea over ice with golden mango popping boba at the bottom, mango cubes and a wide straw",
+    "note": "görsel tarifi"
+  },
+  "matcha-bubble-tea": {
+    "subject": "A tall clear bubble tea cup of pale green matcha milk tea over ice with dark tapioca pearls at the bottom and a wide straw",
+    "note": "görsel tarifi"
+  },
+  "taro-bubble-tea": {
+    "subject": "A tall clear bubble tea cup of creamy lavender-purple taro milk tea over ice with dark tapioca pearls at the bottom and a wide straw",
+    "note": "görsel tarifi"
+  },
+  "thai-tea": {
+    "subject": "A tall glass of vivid orange Thai iced tea over ice with a swirl of creamy condensed milk on top cascading down into the orange tea",
+    "note": "görsel tarifi"
+  },
+  "balli-sut": {
+    "subject": "A clear glass mug of hot white milk with gentle steam, a honey dipper resting on a small dish of golden honey beside it",
+    "note": "görsel tarifi"
+  },
+  "beyaz-sicak-cikolata": {
+    "subject": "A white ceramic mug of creamy ivory white hot chocolate topped with whipped cream and white chocolate shavings, a vanilla pod beside it",
+    "note": "görsel tarifi"
+  },
+  "cilekli-sicak-cikolata": {
+    "subject": "A glass mug of pale pink strawberry white hot chocolate topped with whipped cream and a fresh strawberry, a few strawberries beside the mug",
+    "note": "görsel tarifi"
+  },
+  "salep": {
+    "subject": "A traditional ceramic cup of thick creamy white salep generously dusted with ground cinnamon on top, a cinnamon stick beside the cup, gentle steam",
+    "note": "görsel tarifi"
+  },
+  "sicak-cikolata": {
+    "subject": "A ceramic mug of rich dark hot chocolate topped with a swirl of whipped cream and chocolate shavings, a few small marshmallows and a piece of dark chocolate beside it",
+    "note": "görsel tarifi"
+  },
+  "sicak-elma-suyu": {
+    "subject": "A clear glass mug of warm amber apple cider with a cinnamon stick and an apple slice, a few whole cloves and a red apple beside it, gentle steam",
+    "note": "görsel tarifi"
+  },
+  "sicak-sut": {
+    "subject": "A clear glass of hot steamed white milk with a thin layer of foam on top and gentle steam",
+    "note": "görsel tarifi"
+  },
+  "sutlu-kakao": {
+    "subject": "A ceramic mug of hot light-brown cocoa milk with a smooth frothy top dusted with cocoa powder",
+    "note": "görsel tarifi"
+  },
+  "tarcinli-sut": {
+    "subject": "A clear glass mug of hot milk with a light foam top dusted with ground cinnamon, two cinnamon sticks beside it",
+    "note": "görsel tarifi"
+  },
+  "affogato": {
+    "subject": "A small clear glass with a round scoop of vanilla ice cream being drowned in hot dark espresso, the espresso pooling around the melting ice cream, a small spoon beside it",
+    "note": "görsel tarifi"
+  },
+  "americano": {
+    "subject": "A white ceramic cup of black americano coffee with a thin golden crema on top, on a matching saucer with a small spoon",
+    "note": "görsel tarifi"
+  },
+  "caffe-latte": {
+    "subject": "A wide white ceramic cup of caffe latte with a glossy rosetta latte art in the milk foam, on a saucer",
+    "note": "görsel tarifi"
+  },
+  "cappuccino": {
+    "subject": "A white ceramic cappuccino cup with a thick dome of velvety milk foam lightly dusted with cocoa powder, on a saucer",
+    "note": "görsel tarifi"
+  },
+  "cortado": {
+    "subject": "A small clear Gibraltar glass of cortado, espresso cut with warm milk, caramel brown with a thin smooth top, on a small saucer",
+    "note": "görsel tarifi"
+  },
+  "espresso": {
+    "subject": "A small white ceramic espresso cup with a single shot of espresso topped with a rich tiger-striped golden crema, on a saucer with a small spoon",
+    "note": "görsel tarifi"
+  },
+  "espresso-con-panna": {
+    "subject": "A small glass espresso cup with a shot of dark espresso topped with a generous dollop of whipped cream, on a saucer",
+    "note": "görsel tarifi"
+  },
+  "flat-white": {
+    "subject": "A small white ceramic cup of flat white with a thin, glossy layer of microfoam and a small heart latte art, on a saucer",
+    "note": "görsel tarifi"
+  },
+  "kafeinsiz-latte": {
+    "subject": "A wide white ceramic cup of latte with a tulip latte art in the milk foam, on a saucer",
+    "note": "görsel tarifi"
+  },
+  "latte-macchiato": {
+    "subject": "A tall clear glass of latte macchiato with three distinct layers: white steamed milk at the bottom, a band of light brown espresso in the middle and white milk foam on top, a long spoon beside it",
+    "note": "görsel tarifi"
+  },
+  "lungo": {
+    "subject": "A white ceramic cup of lungo coffee, a longer black coffee with a light golden crema, on a saucer",
+    "note": "görsel tarifi"
+  },
+  "mocha": {
+    "subject": "A white ceramic mug of caffe mocha topped with whipped cream and a drizzle of chocolate sauce, a little cocoa dusting",
+    "note": "görsel tarifi"
+  },
+  "ristretto": {
+    "subject": "A tiny white espresso cup with a very short, dark ristretto shot under a thick reddish-brown crema, on a saucer",
+    "note": "görsel tarifi"
+  },
+  "white-mocha": {
+    "subject": "A white ceramic mug of white chocolate mocha topped with whipped cream and white chocolate shavings",
+    "note": "görsel tarifi"
+  },
+  "aeropress": {
+    "subject": "An AeroPress coffee maker standing on a glass carafe of freshly brewed dark coffee, with a ceramic cup of black coffee beside it",
+    "note": "görsel tarifi"
+  },
+  "batch-brew": {
+    "subject": "A white ceramic mug of black filter coffee, a glass coffee server of brewed coffee softly behind it",
+    "note": "görsel tarifi"
+  },
+  "chemex": {
+    "subject": "A glass Chemex coffee maker with its wooden collar, filled with clear amber-brown brewed coffee, a ceramic cup of black coffee beside it",
+    "note": "görsel tarifi"
+  },
+  "filtre-kahve": {
+    "subject": "A white ceramic mug of hot black filter coffee with gentle steam, a small pitcher of milk beside it",
+    "note": "görsel tarifi"
+  },
+  "french-press": {
+    "subject": "A glass French press with the plunger pressed down holding dark brewed coffee, a ceramic cup of black coffee beside it",
+    "note": "görsel tarifi"
+  },
+  "gunun-kahvesi": {
+    "subject": "A ceramic cup of black filter coffee beside a small dish of whole roasted coffee beans",
+    "note": "görsel tarifi"
+  },
+  "kafeinsiz-filtre-kahve": {
+    "subject": "A white ceramic mug of black filter coffee with gentle steam, a small dish of roasted coffee beans beside it",
+    "note": "görsel tarifi"
+  },
+  "v60": {
+    "subject": "A white ceramic V60 pour-over dripper with a paper filter sitting on a glass server of clear amber coffee, a ceramic cup beside it",
+    "note": "görsel tarifi"
+  },
+  "churchill": {
+    "subject": "A tall highball glass of sparkling clear soda water with freshly squeezed lemon, ice cubes and a lemon wheel, a small pinch of salt on a dish beside it",
+    "note": "görsel tarifi"
+  },
+  "gazoz": {
+    "subject": "A tall highball glass of clear, lightly yellow lemon soda over ice with lively bubbles and a lemon wedge, served on its own",
+    "note": "görsel tarifi"
+  },
+  "limonlu-soda": {
+    "subject": "A tall glass of sparkling mineral water with lots of bubbles, a fresh lemon slice and ice cubes",
+    "note": "görsel tarifi"
+  },
+  "meyveli-soda": {
+    "subject": "A tall glass of sparkling water lightly tinted with fruit flavor over ice, fresh apple slices and a lemon wedge inside, lively bubbles",
+    "note": "görsel tarifi"
+  },
+  "soda": {
+    "subject": "A clear tumbler of plain sparkling mineral water full of fine bubbles, a lemon slice on the rim",
+    "note": "görsel tarifi"
+  },
+  "tonik": {
+    "subject": "A tall highball glass of clear sparkling tonic water over ice cubes with lively bubbles and a lemon wheel",
+    "note": "görsel tarifi"
+  },
+  "acili-salgam": {
+    "subject": "A tall glass of deep purple-red fermented turnip juice with a thin slice of pickled turnip and a small red hot pepper on the rim, a few red chili peppers beside the glass",
+    "note": "görsel tarifi"
+  },
+  "bogurtlenli-limonata": {
+    "subject": "A tall glass of purple blackberry lemonade over ice, fresh blackberries and lemon slices inside, a mint sprig and blackberries on top",
+    "note": "görsel tarifi"
+  },
+  "boza": {
+    "subject": "A traditional glass of thick, creamy pale beige boza dusted with ground cinnamon, a small bowl of roasted yellow chickpeas beside it",
+    "note": "görsel tarifi"
+  },
+  "cilekli-limonata": {
+    "subject": "A tall glass of pink strawberry lemonade over ice with sliced strawberries and lemon wheels inside, a mint sprig on top",
+    "note": "görsel tarifi"
+  },
+  "demirhindi-serbeti": {
+    "subject": "A tall glass of dark amber-brown tamarind sherbet over ice, a few tamarind pods beside the glass",
+    "note": "görsel tarifi"
+  },
+  "ev-yapimi-limonata": {
+    "subject": "A tall glass of cloudy pale yellow homemade lemonade over ice with lemon wheels and fresh mint, a glass carafe of lemonade and lemon halves softly behind it",
+    "note": "görsel tarifi"
+  },
+  "gul-serbeti": {
+    "subject": "An elegant clear glass of pale pink rose sherbet over ice with a fresh rose petal floating and rose petals scattered beside the glass",
+    "note": "görsel tarifi"
+  },
+  "naneli-limonata": {
+    "subject": "A tall glass of pale green blended mint lemonade, slightly frosty and opaque, over ice with a lemon wheel and a fresh mint sprig",
+    "note": "görsel tarifi"
+  },
+  "osmanli-serbeti": {
+    "subject": "A tall glass of deep ruby-red spiced Ottoman sherbet over ice with a cinnamon stick, a few cloves and dried rosehips beside the glass",
+    "note": "görsel tarifi"
+  },
+  "salgam-suyu": {
+    "subject": "A tall glass of deep purple-red fermented carrot and turnip juice with a slice of pickled carrot on the rim, condensation on the glass",
+    "note": "görsel tarifi"
+  },
+  "ahududu-cayi": {
+    "subject": "A clear glass teacup of bright red raspberry fruit tea, fresh raspberries and dried rosehips beside the cup",
+    "note": "görsel tarifi"
+  },
+  "bogurtlen-cayi": {
+    "subject": "A clear glass teacup of deep purple blackberry fruit tea, fresh blackberries and dried hibiscus beside the cup",
+    "note": "görsel tarifi"
+  },
+  "elma-cayi": {
+    "subject": "A small clear Turkish tea glass with an hourglass shape, curvy and narrow-waisted with a flared rim, filled with warm golden-amber apple tea, on a small saucer, dried apple slices and a cinnamon stick beside it",
+    "note": "görsel tarifi"
+  },
+  "nar-cayi": {
+    "subject": "A clear glass teacup of deep red pomegranate tea, a halved pomegranate with glossy seeds beside the cup",
+    "note": "görsel tarifi"
+  },
+  "orman-meyveli-cay": {
+    "subject": "A clear glass teacup of dark berry-red fruit tea, fresh blackberries, raspberries and blackcurrants scattered beside the cup",
+    "note": "görsel tarifi"
+  },
+  "portakal-tarcin-cayi": {
+    "subject": "A clear glass teacup of warm orange-amber tea with an orange slice and a cinnamon stick, dried orange peel beside the cup",
+    "note": "görsel tarifi"
+  },
+  "seftali-cayi": {
+    "subject": "A clear glass teacup of soft golden-peach fruit tea, a ripe peach and dried peach pieces beside the cup",
+    "note": "görsel tarifi"
+  },
+  "visne-cayi": {
+    "subject": "A clear glass teacup of bright red sour cherry tea, a few fresh sour cherries with stems beside the cup",
+    "note": "görsel tarifi"
+  },
+  "mango-suyu": {
+    "subject": "A clear glass of thick golden-orange mango nectar with condensation, a ripe mango and mango cubes beside the glass, served on its own",
+    "note": "görsel tarifi"
+  },
+  "portakal-suyu": {
+    "subject": "A clear glass of bright orange juice with condensation, a halved orange beside the glass, served on its own",
+    "note": "görsel tarifi"
+  },
+  "seftali-suyu": {
+    "subject": "A clear glass of pale orange peach nectar with condensation, a ripe peach and a peach slice beside the glass, served on its own",
+    "note": "görsel tarifi"
+  },
+  "visne-suyu": {
+    "subject": "A clear glass of deep red sour cherry nectar with condensation, fresh sour cherries beside the glass, served on its own",
+    "note": "görsel tarifi"
+  },
+  "almond-latte": {
+    "subject": "A wide ceramic cup of almond milk latte with leaf latte art, a few whole almonds beside the cup",
+    "note": "görsel tarifi"
+  },
+  "caramel-macchiato": {
+    "subject": "A tall clear glass of hot caramel macchiato with visible layers of white milk and espresso, topped with milk foam and a crosshatch caramel drizzle",
+    "note": "görsel tarifi"
+  },
+  "cinnamon-latte": {
+    "subject": "A ceramic cup of cinnamon latte with milk foam dusted with ground cinnamon, two cinnamon sticks beside the cup",
+    "note": "görsel tarifi"
+  },
+  "dirty-chai": {
+    "subject": "A ceramic cup of dirty chai latte, warm tan color with milk foam and a small espresso swirl on top, a cinnamon stick and star anise beside the cup",
+    "note": "görsel tarifi"
+  },
+  "hazelnut-latte": {
+    "subject": "A ceramic cup of hazelnut latte with heart latte art, a few whole hazelnuts beside the cup",
+    "note": "görsel tarifi"
+  },
+  "honey-latte": {
+    "subject": "A ceramic cup of honey latte with rosetta latte art and a thin honey drizzle on the foam, a honey dipper beside the cup",
+    "note": "görsel tarifi"
+  },
+  "lotus-latte": {
+    "subject": "A tall glass mug of caramel-colored latte topped with whipped cream and crushed caramelized biscuit crumbs, a caramelized biscuit beside it",
+    "note": "görsel tarifi"
+  },
+  "oat-latte": {
+    "subject": "A ceramic cup of oat milk latte with tulip latte art, a small dish of rolled oats beside the cup",
+    "note": "görsel tarifi"
+  },
+  "pumpkin-spice-latte": {
+    "subject": "A ceramic mug of orange-tinted pumpkin spice latte topped with whipped cream dusted with cinnamon and nutmeg, a small pumpkin and cinnamon sticks beside it",
+    "note": "görsel tarifi"
+  },
+  "salted-caramel-latte": {
+    "subject": "A glass mug of salted caramel latte topped with whipped cream, caramel drizzle and a few flakes of sea salt",
+    "note": "görsel tarifi"
+  },
+  "spanish-latte": {
+    "subject": "A clear glass of creamy Spanish latte with a visible layer of condensed milk at the bottom, espresso and smooth milk foam on top",
+    "note": "görsel tarifi"
+  },
+  "tiramisu-latte": {
+    "subject": "A glass mug of tiramisu latte topped with a creamy mascarpone foam and a dusting of cocoa powder, a ladyfinger biscuit beside it",
+    "note": "görsel tarifi"
+  },
+  "toffee-nut-latte": {
+    "subject": "A ceramic mug of toffee nut latte topped with whipped cream, toffee drizzle and crushed hazelnuts",
+    "note": "görsel tarifi"
+  },
+  "vanilla-latte": {
+    "subject": "A ceramic cup of vanilla latte with rosetta latte art, a vanilla pod beside the cup",
+    "note": "görsel tarifi"
+  },
+  "buyuk-demlik-cay": {
+    "subject": "A large Turkish double teapot, a porcelain teapot stacked on a big copper kettle, surrounded by four small clear Turkish tea glasses, each hourglass-shaped, curvy and narrow-waisted with a flared rim, filled with deep red-amber tea on small saucers, and a bowl of sugar cubes",
+    "note": "görsel tarifi"
+  },
+  "cay-bardak": {
+    "subject": "A single small clear Turkish tea glass with an hourglass shape, curvy and narrow-waisted with a flared rim, filled with clear deep red-amber black tea, on a small round saucer with a tiny teaspoon and two sugar cubes",
+    "note": "görsel tarifi"
+  },
+  "demlik-cay": {
+    "subject": "A Turkish double teapot, a small porcelain teapot stacked on a larger steel kettle, with two small clear Turkish tea glasses, each hourglass-shaped, curvy and narrow-waisted with a flared rim, filled with deep red-amber tea on small saucers, and a small bowl of sugar cubes",
+    "note": "görsel tarifi"
+  },
+  "earl-grey": {
+    "subject": "A white porcelain teacup of amber Earl Grey tea on a saucer with a lemon slice, a few dried bergamot-scented loose tea leaves beside it",
+    "note": "görsel tarifi"
+  },
+  "kacak-cay": {
+    "subject": "A single small clear Turkish tea glass with an hourglass shape, curvy and narrow-waisted with a flared rim, filled with very dark mahogany black tea, on a small saucer with two sugar cubes beside it",
+    "note": "görsel tarifi"
+  },
+  "sutlu-cay": {
+    "subject": "A porcelain cup of creamy light-brown milk tea on a saucer, a small milk jug beside it",
+    "note": "görsel tarifi"
+  },
+  "avokado-smoothie": {
+    "subject": "A tall glass of thick pale green avocado and banana smoothie, a halved avocado and a banana beside the glass",
+    "note": "görsel tarifi"
+  },
+  "cikolatali-milkshake": {
+    "subject": "A tall milkshake glass of thick chocolate milkshake topped with a tall swirl of whipped cream and chocolate sauce drizzle running down the inside of the glass, a straw",
+    "note": "görsel tarifi"
+  },
+  "cilekli-milkshake": {
+    "subject": "A tall milkshake glass of thick pink strawberry milkshake topped with whipped cream and a fresh strawberry, a straw, a few strawberries beside the glass",
+    "note": "görsel tarifi"
+  },
+  "cilekli-smoothie": {
+    "subject": "A tall glass of thick bright pink strawberry banana smoothie, a strawberry on the rim, fresh strawberries and a banana beside it",
+    "note": "görsel tarifi"
+  },
+  "fistik-ezmeli-milkshake": {
+    "subject": "A tall milkshake glass of thick tan peanut butter milkshake topped with whipped cream and chopped peanuts, a straw",
+    "note": "görsel tarifi"
+  },
+  "karamel-milkshake": {
+    "subject": "A tall milkshake glass of thick light caramel milkshake topped with whipped cream and glossy caramel drizzle, caramel streaks inside the glass, a straw",
+    "note": "görsel tarifi"
+  },
+  "lotus-milkshake": {
+    "subject": "A tall milkshake glass of thick beige caramel biscuit milkshake topped with whipped cream and crushed caramelized biscuit crumbs, a whole biscuit on top",
+    "note": "görsel tarifi"
+  },
+  "mango-smoothie": {
+    "subject": "A tall glass of thick bright orange mango smoothie, a mango slice on the rim, fresh mango cubes beside the glass",
+    "note": "görsel tarifi"
+  },
+  "muzlu-smoothie": {
+    "subject": "A tall glass of creamy pale yellow banana smoothie, banana slices on top, a banana and a honey dipper beside it",
+    "note": "görsel tarifi"
+  },
+  "oreo-milkshake": {
+    "subject": "A tall milkshake glass of thick cookies and cream milkshake, white with dark cookie crumbs, topped with whipped cream and a chocolate sandwich cookie, a straw",
+    "note": "görsel tarifi"
+  },
+  "orman-meyveli-smoothie": {
+    "subject": "A tall glass of thick purple mixed berry smoothie topped with fresh blackberries, raspberries and blueberries, berries scattered beside the glass",
+    "note": "görsel tarifi"
+  },
+  "protein-smoothie": {
+    "subject": "A tall glass of thick creamy beige banana peanut butter oat smoothie, a banana, a small bowl of oats and a spoon of peanut butter beside it",
+    "note": "görsel tarifi"
+  },
+  "vanilyali-milkshake": {
+    "subject": "A tall milkshake glass of thick creamy white vanilla milkshake topped with whipped cream, a vanilla pod beside it, a straw",
+    "note": "görsel tarifi"
+  },
+  "yesil-smoothie": {
+    "subject": "A tall glass of thick vibrant green spinach and apple smoothie, a slice of green apple on the rim, fresh spinach leaves, cucumber and a green apple beside it",
+    "note": "görsel tarifi"
+  },
+  "ev-yapimi-buzlu-cay": {
+    "subject": "A tall glass of amber iced black tea over ice cubes with lemon slices and fresh mint leaves",
+    "note": "görsel tarifi"
+  },
+  "iced-matcha-latte": {
+    "subject": "A tall glass of iced matcha latte with a vivid green matcha layer swirling into white milk over ice cubes",
+    "note": "görsel tarifi"
+  },
+  "soguk-demleme-cay": {
+    "subject": "A tall glass of clear golden cold-brewed tea over ice, a glass carafe of cold brew tea with loose tea leaves softly behind it",
+    "note": "görsel tarifi"
+  },
+  "cold-brew": {
+    "subject": "A tall glass of dark, clear cold brew coffee over large ice cubes, condensation on the glass",
+    "note": "görsel tarifi"
+  },
+  "cold-brew-tonic": {
+    "subject": "A tall glass with sparkling tonic water and ice on the bottom and dark cold brew coffee floating on top, creating a two-tone layer, a lemon slice inside",
+    "note": "görsel tarifi"
+  },
+  "espresso-tonic": {
+    "subject": "A tall glass of espresso tonic: clear sparkling tonic over ice with a dark espresso layer floating on top and cascading down, an orange peel twist",
+    "note": "görsel tarifi"
+  },
+  "frappe": {
+    "subject": "A tall glass of frothy light-brown blended iced coffee frappe with a thick foam top and a straw",
+    "note": "görsel tarifi"
+  },
+  "frozen-kahve": {
+    "subject": "A tall glass of slushy blended frozen coffee with chocolate sauce streaks, topped with whipped cream and a chocolate drizzle, a straw",
+    "note": "görsel tarifi"
+  },
+  "iced-americano": {
+    "subject": "A tall glass of black iced americano over ice cubes, dark and clear with a light crema, condensation on the glass",
+    "note": "görsel tarifi"
+  },
+  "iced-caramel-macchiato": {
+    "subject": "A tall clear glass of iced caramel macchiato: cold white milk over ice with espresso cascading down from the top, a crosshatch caramel drizzle on top",
+    "note": "görsel tarifi"
+  },
+  "iced-flat-white": {
+    "subject": "A short rocks glass of iced flat white, espresso and a little cold milk over ice, deep caramel brown",
+    "note": "görsel tarifi"
+  },
+  "iced-latte": {
+    "subject": "A tall glass of iced latte with espresso swirling into cold white milk over ice cubes",
+    "note": "görsel tarifi"
+  },
+  "iced-mocha": {
+    "subject": "A tall glass of iced mocha, chocolate-brown coffee milk over ice with chocolate sauce inside the glass, topped with whipped cream",
+    "note": "görsel tarifi"
+  },
+  "iced-oat-latte": {
+    "subject": "A tall glass of iced oat milk latte with espresso blending into creamy oat milk over ice",
+    "note": "görsel tarifi"
+  },
+  "iced-spanish-latte": {
+    "subject": "A tall glass of iced Spanish latte with a layer of condensed milk at the bottom, cold milk and ice in the middle and espresso poured on top",
+    "note": "görsel tarifi"
+  },
+  "iced-vanilla-latte": {
+    "subject": "A tall glass of iced vanilla latte, creamy light coffee color over ice, a vanilla pod beside it",
+    "note": "görsel tarifi"
+  },
+  "soguk-turk-kahvesi": {
+    "subject": "A tall glass of frothy iced Turkish coffee with milk, light brown with a thick foam top, a small copper cezve beside it",
+    "note": "görsel tarifi"
+  },
+  "maden-suyu": {
+    "subject": "A clear tumbler of sparkling mineral water full of fine bubbles over a few ice cubes, a lemon slice beside it, served on its own",
+    "note": "görsel tarifi"
+  },
+  "premium-su": {
+    "subject": "An elegant clear stemmed water glass of still water beside a tall plain clear glass carafe of water",
+    "note": "görsel tarifi"
+  },
+  "su-1-l": {
+    "subject": "A plain clear glass carafe of still water with two clear glasses of water beside it",
+    "note": "görsel tarifi"
+  },
+  "su-33-cl": {
+    "subject": "A clear glass of still water with a few ice cubes, served on its own",
+    "note": "görsel tarifi"
+  },
+  "su-50-cl": {
+    "subject": "A tall clear glass of still water with ice cubes and condensation, served on its own",
+    "note": "görsel tarifi"
+  },
+  "taze-ananas-suyu": {
+    "subject": "A tall glass of frothy pale yellow fresh pineapple juice over ice, a pineapple wedge on the rim and a fresh pineapple beside it",
+    "note": "görsel tarifi"
+  },
+  "taze-elma-suyu": {
+    "subject": "A clear glass of cloudy golden fresh-pressed apple juice, fresh green and red apples beside the glass",
+    "note": "görsel tarifi"
+  },
+  "taze-greyfurt-suyu": {
+    "subject": "A clear glass of pink grapefruit juice, a halved pink grapefruit beside the glass",
+    "note": "görsel tarifi"
+  },
+  "taze-havuc-suyu": {
+    "subject": "A clear glass of vivid orange fresh carrot juice, fresh carrots with green tops beside the glass",
+    "note": "görsel tarifi"
+  },
+  "taze-karisik-meyve-suyu": {
+    "subject": "A clear glass of bright orange fresh mixed juice, an orange half, an apple and a carrot beside the glass",
+    "note": "görsel tarifi"
+  },
+  "taze-karpuz-suyu": {
+    "subject": "A tall glass of bright pink-red fresh watermelon juice over ice, a watermelon wedge on the rim and watermelon slices beside it",
+    "note": "görsel tarifi"
+  },
+  "taze-kavun-suyu": {
+    "subject": "A tall glass of pale orange fresh melon juice over ice, a slice of ripe orange melon beside the glass",
+    "note": "görsel tarifi"
+  },
+  "taze-nar-suyu": {
+    "subject": "A clear glass of deep ruby-red fresh pomegranate juice, a halved pomegranate with glossy seeds beside the glass",
+    "note": "görsel tarifi"
+  },
+  "taze-portakal-havuc-suyu": {
+    "subject": "A clear glass of vivid orange fresh orange and carrot juice, an orange half and fresh carrots beside the glass",
+    "note": "görsel tarifi"
+  },
+  "taze-portakal-suyu": {
+    "subject": "A clear glass of freshly squeezed orange juice with a little pulp, orange halves and a citrus squeezer beside the glass",
+    "note": "görsel tarifi"
+  },
+  "damla-sakizli-turk-kahvesi": {
+    "subject": "A small porcelain Turkish coffee cup on a saucer filled with dark Turkish coffee under a thick, dense dark tan foam with tiny bubbles, a glass of water and a piece of Turkish delight beside it, a few small pieces of mastic resin on the saucer",
+    "note": "görsel tarifi"
+  },
+  "dibek-kahvesi": {
+    "subject": "A small porcelain Turkish coffee cup on a saucer with lighter brown dibek coffee under a velvety foam, a small stone mortar and a glass of water beside it",
+    "note": "görsel tarifi"
+  },
+  "duble-turk-kahvesi": {
+    "subject": "A larger porcelain cup of Turkish coffee on a saucer with a thick, dense dark tan foam with tiny bubbles, a glass of water and two pieces of Turkish delight beside it",
+    "note": "görsel tarifi"
+  },
+  "kafeinsiz-turk-kahvesi": {
+    "subject": "A small porcelain Turkish coffee cup on a saucer filled with Turkish coffee under a thick, dense dark tan foam with tiny bubbles, a glass of water and a piece of Turkish delight beside it",
+    "note": "görsel tarifi"
+  },
+  "menengic-kahvesi": {
+    "subject": "A small porcelain cup of creamy light-brown menengic coffee with a smooth foam, a small copper cezve and a few roasted terebinth berries beside it",
+    "note": "görsel tarifi"
+  },
+  "osmanli-kahvesi": {
+    "subject": "An ornate gilded porcelain Turkish coffee cup on a decorative saucer with dark coffee under a thick, dense dark tan foam, a few cardamom pods and a cinnamon stick beside it, a glass of water and Turkish delight",
+    "note": "görsel tarifi"
+  },
+  "sutlu-turk-kahvesi": {
+    "subject": "A small porcelain Turkish coffee cup on a saucer with light caramel-colored milky Turkish coffee under a thick creamy foam, a glass of water and Turkish delight beside it",
+    "note": "görsel tarifi"
+  },
+  "turk-kahvesi": {
+    "subject": "A small porcelain Turkish coffee cup on a saucer filled with dark Turkish coffee under a thick, dense dark tan foam with tiny bubbles, a small copper cezve, a glass of water and a cube of Turkish delight beside it",
+    "note": "görsel tarifi"
+  },
+  "beyaz-cay": {
+    "subject": "A clear glass teacup of very pale golden white tea, a few silvery-white tea buds beside the cup",
+    "note": "görsel tarifi"
+  },
+  "chai-tea-latte": {
+    "subject": "A ceramic cup of chai tea latte, creamy tan color with milk foam dusted with cinnamon, a cinnamon stick and star anise beside it",
+    "note": "görsel tarifi"
+  },
+  "london-fog": {
+    "subject": "A ceramic cup of London Fog, a pale lavender-gray Earl Grey milk tea with a thick milk foam top, a small sprig of dried lavender beside it",
+    "note": "görsel tarifi"
+  },
+  "masala-chai": {
+    "subject": "A small glass cup of milky caramel-brown masala chai, cardamom pods, a cinnamon stick, cloves and a piece of ginger beside it",
+    "note": "görsel tarifi"
+  },
+  "matcha-latte": {
+    "subject": "A ceramic cup of vivid green matcha latte with leaf latte art in the milk foam, a bamboo matcha whisk beside the cup",
+    "note": "görsel tarifi"
+  },
+  "mate-cayi": {
+    "subject": "A traditional round gourd cup of yerba mate filled with green mate leaves and a metal bombilla straw",
+    "note": "görsel tarifi"
+  },
+  "oolong-cay": {
+    "subject": "A small clear glass teacup of amber oolong tea, a small heap of rolled dark green oolong tea leaves beside the cup",
+    "note": "görsel tarifi"
+  },
+  "rooibos-cayi": {
+    "subject": "A clear glass teacup of reddish-amber rooibos tea, a small heap of red rooibos needles beside the cup",
+    "note": "görsel tarifi"
+  },
+  "yasemin-cayi": {
+    "subject": "A clear glass teacup of pale golden jasmine green tea with a few jasmine blossoms floating, jasmine flowers beside the cup",
+    "note": "görsel tarifi"
+  },
+  "yesil-cay": {
+    "subject": "A clear glass teacup of light green-yellow green tea, a small heap of loose green tea leaves beside the cup",
+    "note": "görsel tarifi"
   }
 }

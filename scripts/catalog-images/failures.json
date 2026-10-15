@@ -230,13 +230,6 @@
     "attempts": 1,
     "at": "2026-10-10T10:58:26.455Z"
   },
-  "salep": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: The candidate photo contains prominent text, branding on the cups, and does not feature the drink itself as the main subject, violating multiple rules.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T10:58:31.564Z"
-  },
   "salgam-suyu": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates satisfy all the rules. Candidate 0, 3, 4, and 5 are images of pickle shops, not the drink itself. Candidate 1, 6, and 7 contain people, hands, or branding/cluttered street stall environments that do not meet the professional menu photo criteria.)",
     "kind": "nomatch",
@@ -264,13 +257,6 @@
     "backend": "stock",
     "attempts": 1,
     "at": "2026-10-10T11:01:28.611Z"
-  },
-  "sambuca-shot": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidate photos meet the criteria. Candidate 0, 1, 3, and 5 contain people. Candidate 2 is a close-up of a bottle label, not the drink itself. Candidate 4 is a blurry, dark, and unappealing shot of empty glasses. Candidate 6 is a photo of a house.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 3,
-    "at": "2026-10-10T11:01:42.669Z"
   },
   "sebzeli-lahmacun": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: All candidates fail the criteria. Candidate 0 includes a glass of water and a checkered tablecloth, and the dish is not the sole focus. Candidates 1, 2, and 3 contain a watermark/branding text ('Cahide Jibek'). Candidate 4 contains a person.)",
@@ -341,13 +327,6 @@
     "backend": "stock",
     "attempts": 2,
     "at": "2026-10-10T11:04:53.240Z"
-  },
-  "shot-tabagi-6li": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidate photos show a platter of six shots. The candidates are either fruit, abstract water drops, jewelry, or photos of a sloth being fed at a zoo.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T11:05:07.683Z"
   },
   "sicak-bazlama": {
     "error": "hakem uygun fotoğraf bulmadı (güven 0.90: None of the candidates accurately represent 'Bazlama', which is a flat, round, griddle-baked Turkish bread. Candidate 0 is a loaf of bread, Candidate 1 is a loaf, Candidate 2 is a loaf in a tin, Candidate 3 is a rustic loaf, Candidate 4 is a soda bread-style loaf, Candidate 5 is sliced bread in a basket, and Candidate 6 is a pile of various loaves. None of these are the correct flatbread item.)",
@@ -839,13 +818,6 @@
     "attempts": 1,
     "at": "2026-10-10T11:40:34.969Z"
   },
-  "tekila-shot": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates satisfy all the rules. Candidate 0 contains a fork and table setting. Candidate 1 shows a tray and other items. Candidate 2 is an illustration/digital art with people. Candidate 3 shows multiple glasses and a person in the background. Candidate 4 includes a person. Candidate 5 shows a beer bottle and other clutter. Candidate 6 shows a bar mat and other glasses. Candidate 7 shows people drinking.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T11:41:12.631Z"
-  },
   "tekirdag-kofte": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the provided candidate photos depict the requested food item (Tekirdağ Köfte). All candidates show kittens.)",
     "kind": "nomatch",
@@ -859,13 +831,6 @@
     "backend": "stock",
     "attempts": 1,
     "at": "2026-10-10T11:41:39.150Z"
-  },
-  "tequila-boom-shot": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the provided candidates show a 'Tequila Boom' drink. The candidates are a bar scene, a toy, a concert, a digital art piece, a portrait, a satellite view, and a lightning strike.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T11:42:19.604Z"
   },
   "tek-top-dondurma": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates are acceptable. Candidate 0 is a giant statue and includes a person. Candidate 1 is a sign. Candidate 2 includes a person. Candidate 3 includes branding and a hand. Candidate 4 includes people. Candidate 5 is an empty, messy cup. Candidate 6 includes a person. Candidate 7 includes a hand and is not a finished dish.)",
@@ -887,13 +852,6 @@
     "backend": "stock",
     "attempts": 1,
     "at": "2026-10-10T11:44:23.917Z"
-  },
-  "tequila-sunrise": {
-    "error": "Gemini hakem hatası: Gemini gemma-4-31b-it: HTTP 500",
-    "kind": "transient",
-    "backend": "stock",
-    "attempts": 5,
-    "at": "2026-10-10T11:45:08.765Z"
   },
   "toffee-nut-latte": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: Candidate 0 contains a visible brand logo. Candidate 1 contains a visible brand logo and text. Candidate 2 contains a visible brand logo and text. Candidate 3 is a collage of building exteriors, not the drink. Candidate 4 contains a visible brand logo embossed on the cup.)",
@@ -1126,13 +1084,6 @@
     "attempts": 1,
     "at": "2026-10-10T11:51:25.959Z"
   },
-  "virgin-mojito": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: Candidate 0 contains a person. Candidate 1 contains a hand and is a messy table scene. Candidate 2 contains a person and is not a close-up of the drink. Candidate 3 is a decent shot but is slightly dark and lacks professional lighting. Candidate 4 is a good shot but includes background clutter (balloons, restaurant interior) that makes it look like a casual snapshot rather than a professional menu photo. Candidate 5 is a casual snapshot with distracting background elements and a messy straw.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T11:51:34.328Z"
-  },
   "vezir-parmagi": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: The candidate photo is of a diamond ring, not the requested dessert 'Vezir Parmağı'.)",
     "kind": "nomatch",
@@ -1288,11 +1239,11 @@
     "at": "2026-10-10T11:57:38.648Z"
   },
   "kayisi-suyu": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates show a glass of apricot juice. Candidate 0 shows whole apricots, 1, 3, 6, 9 show flowers, 2 shows pomegranate juice, 4 shows tomatoes, 5 shows a smoothie with raspberries, 7 shows a person, 8 shows carrot juice, 10 shows a market stall, and 11 shows green juice.)",
-    "kind": "nomatch",
-    "backend": "stock",
+    "error": "Cloudflare: AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (3b4b8957-781d-4c04-9035-41a0bea3b40a) (kod 4006)",
+    "kind": "quota",
+    "backend": "cloudflare",
     "attempts": 1,
-    "at": "2026-10-12T12:06:17.478Z"
+    "at": "2026-10-15T07:23:38.578Z"
   },
   "kelle-sogus": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates are acceptable. Candidates 0, 1, 2, 3, 4, 5, 6, 7, 8, and 9 are not the requested dish. Candidate 10 is a low-quality, poorly lit photo of sliced meat that does not meet the appetizing standard. Candidate 11 shows hands holding the dish, violating rule 4.)",
@@ -1314,5 +1265,12 @@
     "backend": "stock",
     "attempts": 1,
     "at": "2026-10-12T12:07:14.040Z"
+  },
+  "karpuz-mojito-alkolsuz": {
+    "error": "Cloudflare: AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (5c61a64c-48ae-417c-84f5-e7391deecbf2) (kod 4006)",
+    "kind": "quota",
+    "backend": "cloudflare",
+    "attempts": 1,
+    "at": "2026-10-15T07:23:39.390Z"
   }
 }
