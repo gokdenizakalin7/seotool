@@ -12,6 +12,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Restaurant } from '@/lib/types'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
+import { A4SheetPage, AcrylicTemplate, SHEET_SIZE, StickerTemplate } from '@/components/dashboard/QRPrintTemplates'
+import { downloadBlob, fileSlug, qrSvgToJpeg, serializeQrSvg } from '@/lib/qr-export'
 import { 
   QrCode, 
   Download, 
@@ -29,12 +31,13 @@ import {
 
 type PrintTemplate = 'acrylic' | 'sticker' | 'general_a4' | 'tables_a4'
 
-/**
- * A4 kes-kullan sayfası: 5x5 cm standart QR etiket ölçüsü, kenar boşluğu 5 mm → 4 sütun x 5 satır = 20 adet.
- * Ölçüler mm: yazıcıda gerçek boyutta çıkar.
- */
-const SHEET = { cols: 4, rows: 5, cardMm: 50 }
-const SHEET_SIZE = SHEET.cols * SHEET.rows
+// İndirilen dosya adları: {subdomain}-{şablon}[-{masa}][-sayfa-N]
+const TEMPLATE_FILE: Record<PrintTemplate, string> = {
+  acrylic: 'masa-standi',
+  sticker: 'sticker',
+  general_a4: 'a4-genel',
+  tables_a4: 'a4-masalar',
+}
 
 function chunk<T>(items: T[], size: number): T[][] {
   const out: T[][] = []
@@ -119,6 +122,7 @@ export function QRCodesContent() {
   const [selectedTemplate, setSelectedTemplate] = useState<PrintTemplate>('acrylic')
   const [activePrintTable, setActivePrintTable] = useState<TableItem | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<TableItem | null>(null)
+  const [exporting, setExporting] = useState<null | 'print' | 'jpeg' | 'svg'>(null)
   const printAreaRef = useRef<HTMLDivElement>(null)
 
   // tid: masa adı değişse de basılı QR o masa için sayılsın; table: menüde masa adı gösterimi (eski QR'lar yalnızca bunu taşır)
@@ -182,41 +186,75 @@ export function QRCodesContent() {
     setIsPrintModalOpen(true)
   }
 
+  /** Önizlemedeki şablon sayfaları (A4'te birden çok olabilir); yazdırma ve indirme bunlardan üretilir */
+  const templatePages = () => Array.from(printAreaRef.current?.querySelectorAll<SVGSVGElement>('svg[data-qr-page]') ?? [])
+
   /** Yalnızca seçili şablonu ayrı pencerede yazdırır (panelin tamamı basılmasın). */
-  const handlePrint = () => {
-    const area = printAreaRef.current
-    if (!area) return
+  const handlePrint = async () => {
+    const svgs = templatePages()
+    if (!svgs.length) return
+    // Açılır pencere engeline takılmasın diye pencere tıklamayla aynı anda açılır, içerik hazırlanınca yazılır
     const w = window.open('', '_blank', 'width=900,height=1000')
     if (!w) {
       toast.error('Yazdırma penceresi açılamadı. Tarayıcının açılır pencere engelini kaldırın.')
       return
     }
-    const styles = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'))
-      .map((n) => (n instanceof HTMLLinkElement ? `<link rel="stylesheet" href="${n.href}">` : n.outerHTML))
-      .join('')
-    const title = `${currentRestaurant?.name || 'QR'} - QR baskı`
-    // A4 sayfaları kendi kenar boşluğunu taşır (mm); yazıcı boşluğu eklenmesin, her sayfa ayrı kâğıda
-    const pageCss = isSheet
-      ? `@page{size:A4;margin:0}.qr-print-root{display:block;padding:0}.qr-sheets{gap:0!important}` +
-        `.qr-sheet{box-shadow:none!important;border:none!important;border-radius:0!important;break-after:page}.qr-sheet:last-child{break-after:auto}`
-      : `@page{margin:10mm}.qr-print-root{display:flex;justify-content:center;padding:16px}`
-    w.document.write(
-      `<!doctype html><html><head><meta charset="utf-8"><title>${title.replace(/</g, '&lt;')}</title>${styles}` +
-        `<style>html,body{background:#fff!important;margin:0}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}` +
-        `.qr-print-root>*{box-shadow:none!important}${pageCss}</style>` +
-        `</head><body><div class="qr-print-root">${area.innerHTML}</div></body></html>`
-    )
-    w.document.close()
-    let printed = false
-    const doPrint = () => {
-      if (printed) return
-      printed = true
-      w.focus()
-      w.print()
+    setExporting('print')
+    try {
+      const pages = await Promise.all(svgs.map(serializeQrSvg))
+      const title = `${currentRestaurant?.name || 'QR'} - QR baskı`
+      // A4 sayfaları kendi kenar boşluğunu taşır (mm); yazıcı boşluğu eklenmesin, her sayfa ayrı kâğıda.
+      // 296 mm: tam A4 yüksekliği bazı yazıcılarda boş ikinci sayfa açar (alt 1 mm boş alan kırpılır)
+      const pageCss = isSheet
+        ? `@page{size:A4;margin:0}body>svg{display:block;width:210mm;height:296mm;break-after:page}body>svg:last-child{break-after:auto}`
+        : `@page{margin:10mm}body{display:flex;justify-content:center;padding-top:16px}`
+      w.document.write(
+        `<!doctype html><html><head><meta charset="utf-8"><title>${title.replace(/</g, '&lt;')}</title>` +
+          `<style>html,body{background:#fff;margin:0}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}${pageCss}</style>` +
+          `</head><body>${pages.map((p) => p.replace(/^<\?xml[^>]*>\s*/, '')).join('')}</body></html>`
+      )
+      w.document.close()
+      let printed = false
+      const doPrint = () => {
+        if (printed) return
+        printed = true
+        w.focus()
+        w.print()
+      }
+      // Gömülü font ve logo yüklenince yazdır; load gecikirse yine de aç
+      w.addEventListener('load', doPrint)
+      setTimeout(doPrint, 1500)
+    } catch (err) {
+      console.error(err)
+      w.close()
+      toast.error('Baskı hazırlanamadı.')
+    } finally {
+      setExporting(null)
     }
-    // Stiller ve logo yüklenince yazdır; load gecikirse yine de aç
-    w.addEventListener('load', doPrint)
-    setTimeout(doPrint, 1500)
+  }
+
+  /** Seçili şablonu vektör SVG ya da 300 DPI JPEG olarak indirir; A4'te her sayfa ayrı dosya */
+  const handleDownload = async (format: 'jpeg' | 'svg') => {
+    const svgs = templatePages()
+    if (!svgs.length) return
+    setExporting(format)
+    try {
+      const table = !isSheet && activePrintTable && activePrintTable.id !== GENERAL_ID ? `-${fileSlug(activePrintTable.name)}` : ''
+      const base = `${subdomain || 'qr'}-${TEMPLATE_FILE[selectedTemplate]}${table}`
+      for (let i = 0; i < svgs.length; i++) {
+        const text = await serializeQrSvg(svgs[i])
+        const blob = format === 'svg' ? new Blob([text], { type: 'image/svg+xml' }) : await qrSvgToJpeg(text, svgs[i])
+        const page = svgs.length > 1 ? `-sayfa-${i + 1}` : ''
+        downloadBlob(blob, `${base}${page}.${format === 'svg' ? 'svg' : 'jpg'}`)
+        // Art arda indirmeler tarayıcıda birbirini ezmesin
+        if (i < svgs.length - 1) await new Promise((r) => setTimeout(r, 400))
+      }
+    } catch (err) {
+      console.error(err)
+      toast.error('Dosya oluşturulamadı.')
+    } finally {
+      setExporting(null)
+    }
   }
 
   return (
@@ -468,11 +506,17 @@ export function QRCodesContent() {
                   Baskıya Hazır QR Şablonu
                 </DialogTitle>
                 <DialogDescription className="text-xs">
-                  Şablonu seçin ve doğrudan yazıcınızdan veya PDF olarak kaliteli çıktısını alın.
+                  Şablonu seçin; yazıcınızdan basın, PDF olarak kaydedin ya da JPEG veya SVG olarak indirin.
                 </DialogDescription>
               </div>
-              <div className="flex items-center space-x-2">
-                <Button onClick={handlePrint} disabled={printDisabled} className="bg-primary text-white text-xs h-8">
+              <div className="flex flex-wrap items-center justify-end gap-2">
+                <Button variant="outline" onClick={() => handleDownload('jpeg')} disabled={printDisabled || !!exporting} className="text-xs h-8">
+                  <Download className="h-3.5 w-3.5 mr-1" /> {exporting === 'jpeg' ? 'Hazırlanıyor…' : 'JPEG indir'}
+                </Button>
+                <Button variant="outline" onClick={() => handleDownload('svg')} disabled={printDisabled || !!exporting} className="text-xs h-8">
+                  <Download className="h-3.5 w-3.5 mr-1" /> {exporting === 'svg' ? 'Hazırlanıyor…' : 'SVG indir'}
+                </Button>
+                <Button onClick={handlePrint} disabled={printDisabled || !!exporting} className="bg-primary text-white text-xs h-8">
                   <Printer className="h-3.5 w-3.5 mr-1" /> Yazdır / PDF olarak kaydet
                 </Button>
               </div>
@@ -519,82 +563,48 @@ export function QRCodesContent() {
             ))}
           </div>
 
-          {/* BASKI ALANI (YAZICIYA GİDEN ŞABLONLAR) */}
-          {/* A4 sayfaları gerçek mm ölçüsünde çizilir; önizlemede küçültülür (kapsayıcı stili baskıya taşınmaz) */}
+          {/* BASKI ALANI: şablonlar SVG; önizleme, yazdırma, JPEG ve SVG aynı çizimden çıkar */}
+          {/* A4 sayfaları gerçek mm ölçüsünde çizilir; önizlemede küçültülür (kapsayıcı stili dışa aktarılmaz) */}
           <div
             ref={printAreaRef}
             className={`flex-1 flex justify-center ${isSheet ? 'items-start' : 'items-center'} py-4 bg-muted rounded-xl p-4 overflow-y-auto`}
             style={isSheet ? { zoom: 0.8 } : undefined}
           >
-            
-            {/* 1. DİKEY AKRİLİK STAND ŞABLONU (10x15cm / A6) */}
+            {/* 1. DİKEY AKRİLİK STAND ŞABLONU */}
             {selectedTemplate === 'acrylic' && (
-              <div 
-                className="keep-light bg-white w-[320px] rounded-2xl shadow-xl border-4 p-5 flex flex-col items-center justify-between text-center space-y-4 text-gray-900 relative"
-                style={{ borderColor: primaryColor }}
-              >
-                {/* Yalnızca işletme adı: masa/konum bilgisi basılmaz */}
-                <h3 className="font-black text-base tracking-tight text-gray-900 uppercase">
-                  {currentRestaurant?.name}
-                </h3>
-
-                {/* QR Kod Çerçevesi */}
-                <div className="keep-light bg-white p-3 rounded-2xl border-2 border-gray-200 shadow-md flex items-center justify-center w-[176px] h-[176px]">
-                  <QRCodeSVG 
-                    value={printLink(activePrintTable)}
-                    size={152}
-                    level={qrLevel}
-                    imageSettings={logoImage(152)}
-                    includeMargin={false}
-                  />
-                </div>
-
-                {/* Okutma Yönergesi */}
-                <div className="space-y-0.5">
-                  <p className="font-extrabold text-xs text-gray-900">
-                    Menüyü İncelemek İçin Okutun
-                  </p>
-                  <p className="text-[10px] text-gray-500">
-                    Telefonunuzun kamerasını QR koda tutmanız yeterlidir.
-                  </p>
-                </div>
-
-                <span className="text-[9px] text-gray-500">Powered by QR Chef</span>
-              </div>
+              <AcrylicTemplate
+                restaurantName={currentRestaurant?.name || ''}
+                link={printLink(activePrintTable)}
+                color={primaryColor}
+                qrLevel={qrLevel}
+                logoImage={logoImage}
+                className="rounded-2xl shadow-xl"
+              />
             )}
 
-            {/* 2. MASA STICKER ŞABLONU (Dairesel / Kare) */}
+            {/* 2. MASA STICKER ŞABLONU */}
             {selectedTemplate === 'sticker' && (
-              <div 
-                className="keep-light bg-white w-[280px] h-[280px] rounded-3xl shadow-xl border-4 p-4 flex flex-col items-center justify-between text-center text-gray-900"
-                style={{ borderColor: primaryColor }}
-              >
-                <span className="w-full truncate px-2 font-extrabold text-sm">{currentRestaurant?.name}</span>
-
-                <div className="keep-light bg-white p-2 rounded-xl border shadow-xs flex items-center justify-center w-36 h-36">
-                  <QRCodeSVG 
-                    value={printLink(activePrintTable)}
-                    size={128}
-                    level={qrLevel}
-                    imageSettings={logoImage(128)}
-                    includeMargin={false}
-                  />
-                </div>
-
-                <p className="font-bold text-[11px] text-gray-700">
-                  📱 Kameranızı QR Koda Doğrultun
-                </p>
-              </div>
+              <StickerTemplate
+                restaurantName={currentRestaurant?.name || ''}
+                link={printLink(activePrintTable)}
+                color={primaryColor}
+                qrLevel={qrLevel}
+                logoImage={logoImage}
+                className="rounded-3xl shadow-xl"
+              />
             )}
 
             {/* 3. A4 GENEL QR SAYFASI: restoranın genel QR'ı, kesip her yerde kullanmak için */}
             {selectedTemplate === 'general_a4' && (
-              <A4Sheets
-                pages={[Array.from({ length: SHEET_SIZE }, (_, i) => ({ key: String(i), link: menuLink, label: null }))]}
-                restaurantName={currentRestaurant?.name || ''}
-                qrLevel={qrLevel}
-                logoImage={logoImage}
-              />
+              <div className="flex flex-col items-center gap-4">
+                <A4SheetPage
+                  cards={Array.from({ length: SHEET_SIZE }, (_, i) => ({ key: String(i), link: menuLink, label: null }))}
+                  restaurantName={currentRestaurant?.name || ''}
+                  qrLevel={qrLevel}
+                  logoImage={logoImage}
+                  className="shadow-lg"
+                />
+              </div>
             )}
 
             {/* 4. A4 MASA BAZLI QR SAYFASI: her masaya kendi QR'ı (masa sayacı), 20 masada bir yeni sayfa */}
@@ -602,23 +612,28 @@ export function QRCodesContent() {
               tables.length === 0 ? (
                 <p className="py-8 text-center text-sm text-muted-foreground">Yazdırılacak masa yok. Önce masa ekleyin.</p>
               ) : (
-                <A4Sheets
-                  pages={chunk(tables.map((t) => ({ key: t.id, link: getTableLink(t), label: t.name })), SHEET_SIZE)}
-                  restaurantName={currentRestaurant?.name || ''}
-                  qrLevel={qrLevel}
-                  logoImage={logoImage}
-                  accentColor={primaryColor}
-                />
+                <div className="flex flex-col items-center gap-4">
+                  {chunk(tables.map((t) => ({ key: t.id, link: getTableLink(t), label: t.name })), SHEET_SIZE).map((cards, i) => (
+                    <A4SheetPage
+                      key={i}
+                      cards={cards}
+                      restaurantName={currentRestaurant?.name || ''}
+                      qrLevel={qrLevel}
+                      logoImage={logoImage}
+                      accentColor={primaryColor}
+                      className="shadow-lg"
+                    />
+                  ))}
+                </div>
               )
             )}
-
           </div>
 
           <div className="pt-3 border-t flex justify-end space-x-2 print:hidden">
             <Button variant="outline" size="sm" onClick={() => setIsPrintModalOpen(false)}>
               Kapat
             </Button>
-            <Button size="sm" onClick={handlePrint} disabled={printDisabled} className="bg-primary text-white">
+            <Button size="sm" onClick={handlePrint} disabled={printDisabled || !!exporting} className="bg-primary text-white">
               <Printer className="h-3.5 w-3.5 mr-1" /> Yazdır
             </Button>
           </div>
@@ -644,85 +659,6 @@ export function QRCodesContent() {
           </div>
         </DialogContent>
       </Dialog>
-    </div>
-  )
-}
-
-type SheetCard = { key: string; link: string; label: string | null }
-
-/** A4 kes-kullan sayfaları: 5x5 cm kartlar, kesik çizgili kesim kılavuzu; label varsa (masa adı) işletme adının altında. */
-function A4Sheets({
-  pages,
-  restaurantName,
-  qrLevel,
-  logoImage,
-  accentColor,
-}: {
-  pages: SheetCard[][]
-  restaurantName: string
-  qrLevel: 'H' | 'M'
-  logoImage: (size: number) => { src: string; height: number; width: number; excavate: boolean } | undefined
-  accentColor?: string
-}) {
-  const { cols, cardMm } = SHEET
-  return (
-    <div className="qr-sheets flex flex-col items-center gap-4">
-      {pages.map((cards, pageIndex) => (
-        <div
-          key={pageIndex}
-          className="qr-sheet keep-light bg-white text-gray-900 shadow-lg"
-          style={{
-            width: '210mm',
-            height: '296mm',
-            boxSizing: 'border-box',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, ${cardMm}mm)`, gridAutoRows: `${cardMm}mm` }}>
-            {cards.map((card) => (
-              <div
-                key={card.key}
-                style={{
-                  border: '0.2mm dashed #b5b5b5',
-                  boxSizing: 'border-box',
-                  padding: '2.5mm',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '1mm',
-                  overflow: 'hidden',
-                }}
-              >
-                <span
-                  className="block w-full truncate text-center font-extrabold uppercase"
-                  style={{ fontSize: '2.8mm', lineHeight: 1.15 }}
-                >
-                  {restaurantName}
-                </span>
-                {card.label && (
-                  <span
-                    className="block max-w-full truncate rounded font-bold text-white"
-                    style={{ fontSize: '2.6mm', lineHeight: 1.2, padding: '0.3mm 1.5mm', backgroundColor: accentColor || '#111827' }}
-                  >
-                    {card.label}
-                  </span>
-                )}
-                <QRCodeSVG
-                  value={card.link}
-                  size={144}
-                  level={qrLevel}
-                  imageSettings={logoImage(144)}
-                  includeMargin={false}
-                  style={{ width: card.label ? '33mm' : '38mm', height: card.label ? '33mm' : '38mm' }}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
     </div>
   )
 }
