@@ -1,46 +1,10 @@
 [
   {
-    "slug": "acik-ayran",
-    "name": "Açık Ayran",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/11932978@N00/4986050208",
-    "creator": "tomislavmedak",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "adacayi",
-    "name": "Adaçayı",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/53326337@N00/5110284517",
-    "creator": "quinn.anya",
-    "license": "CC BY-SA 2.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-  },
-  {
     "slug": "adana-kebap",
     "name": "Adana Kebap",
     "source": "Openverse",
     "source_url": "https://www.flickr.com/photos/48524258@N00/40525832951",
     "creator": "rjw1",
-    "license": "CC BY-SA 2.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-  },
-  {
-    "slug": "aeropress",
-    "name": "Aeropress",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/73084860@N00/24364494806",
-    "creator": "Nico Kaiser",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "affogato",
-    "name": "Affogato",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/69668444@N03/8055969157",
-    "creator": "Migle Seikyte",
     "license": "CC BY-SA 2.0",
     "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
   },
@@ -63,15 +27,6 @@
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
   {
-    "slug": "ahududu-cayi",
-    "name": "Ahududu Çayı",
-    "source": "Openverse",
-    "source_url": "https://www.rawpixel.com/image/3303702/free-photo-image-coffee-tea-cup",
-    "creator": null,
-    "license": "CC CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
-  },
-  {
     "slug": "akdeniz-salata",
     "name": "Akdeniz Salatası",
     "source": "Openverse",
@@ -86,24 +41,6 @@
     "source": "Openverse",
     "source_url": "https://www.flickr.com/photos/21458229@N00/3915298975",
     "creator": "lejoe",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "almond-latte",
-    "name": "Almond Latte",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/10559879@N00/3566017727",
-    "creator": "avlxyz",
-    "license": "CC BY-SA 2.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-  },
-  {
-    "slug": "americano",
-    "name": "Americano",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/8550448@N07/2819582675",
-    "creator": "modomatic",
     "license": "CC BY 2.0",
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
@@ -144,24 +81,6 @@
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
   {
-    "slug": "avokado-smoothie",
-    "name": "Avokado Smoothie",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/14764065@N02/4992779598",
-    "creator": "tristankenney",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "ayran",
-    "name": "Ayran",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/11932978@N00/4986050208",
-    "creator": "tomislavmedak",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
     "slug": "babagannus",
     "name": "Babagannuş",
     "source": "Openverse",
@@ -176,15 +95,6 @@
     "source": "Openverse",
     "source_url": "https://www.flickr.com/photos/60879087@N02/5605239684",
     "creator": "HealthAliciousNess",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "badem-sutu",
-    "name": "Badem Sütü",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/71430589@N02/8596721996",
-    "creator": "AmazingAlmonds",
     "license": "CC BY 2.0",
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
@@ -342,24 +252,6 @@
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
   {
-    "slug": "caffe-latte",
-    "name": "Caffè Latte",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/91049143@N00/13748606594",
-    "creator": "bryan...",
-    "license": "CC BY-SA 2.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-  },
-  {
-    "slug": "cappuccino",
-    "name": "Cappuccino",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/57104631@N00/4437445488",
-    "creator": "Bryan Pocius",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
     "slug": "caprese-salata",
     "name": "Caprese Salata",
     "source": "Openverse",
@@ -383,15 +275,6 @@
     "source": "Openverse",
     "source_url": "https://www.flickr.com/photos/85153112@N03/7800078384",
     "creator": "MicheleColetteFrazier",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "chemex",
-    "name": "Chemex",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/15216811@N06/14968888908",
-    "creator": "Nicola since 1972",
     "license": "CC BY 2.0",
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
@@ -459,15 +342,6 @@
     "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
   },
   {
-    "slug": "cinnamon-latte",
-    "name": "Cinnamon Latte",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/141324643@N05/40792838441",
-    "creator": "Theo Crazzolara",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
     "slug": "cinnamon-roll",
     "name": "Cinnamon Roll",
     "source": "Openverse",
@@ -482,24 +356,6 @@
     "source": "Openverse",
     "source_url": "https://www.flickr.com/photos/35034346243@N01/9449332492",
     "creator": "stu_spivack",
-    "license": "CC BY-SA 2.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-  },
-  {
-    "slug": "cold-brew",
-    "name": "Cold Brew",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/53197929@N00/6151592831",
-    "creator": "skinnydiver",
-    "license": "CC BY-SA 2.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-  },
-  {
-    "slug": "cortado",
-    "name": "Cortado",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/44124427152@N01/6881212973",
-    "creator": "Salim Virji",
     "license": "CC BY-SA 2.0",
     "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
   },
@@ -520,15 +376,6 @@
     "creator": "Beckmann's Old World Bakery",
     "license": "CC BY 2.0",
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "cay-bardak",
-    "name": "Çay",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/15087210@N00/3468680402",
-    "creator": "henribergius",
-    "license": "CC BY-SA 2.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
   },
   {
     "slug": "cirpilmis-yumurta",
@@ -585,15 +432,6 @@
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
   {
-    "slug": "cikolatali-milkshake",
-    "name": "Çikolatalı Milkshake",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/62558987@N07/11740923773",
-    "creator": "kurmanstaff",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
     "slug": "cikolatali-mousse",
     "name": "Çikolatalı Mousse",
     "source": "Openverse",
@@ -621,15 +459,6 @@
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
   {
-    "slug": "cikolatali-sut",
-    "name": "Çikolatalı Süt",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/32653260@N00/4169031076",
-    "creator": "jlz",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
     "slug": "nargile-cilek",
     "name": "Çilek",
     "source": "Openverse",
@@ -653,42 +482,6 @@
     "source": "Openverse",
     "source_url": "https://www.flickr.com/photos/72949902@N00/5076899310",
     "creator": "TheCulinaryGeek",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "cilekli-limonata",
-    "name": "Çilekli Limonata",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/47489771@N00/473324332",
-    "creator": "miss karen",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "cilekli-milkshake",
-    "name": "Çilekli Milkshake",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/91188380@N05/16031156131",
-    "creator": "elsie.hui",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "cilekli-sicak-cikolata",
-    "name": "Çilekli Sıcak Çikolata",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/41720539@N03/8479717321",
-    "creator": "missmeng",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "cilekli-smoothie",
-    "name": "Çilekli Smoothie",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/150788323@N04/33909113164",
-    "creator": "EasyHealthySmoothie",
     "license": "CC BY 2.0",
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
@@ -747,15 +540,6 @@
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
   {
-    "slug": "damla-sakizli-turk-kahvesi",
-    "name": "Damla Sakızlı Türk Kahvesi",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/25834786@N03/4376748878",
-    "creator": "secretlondon123",
-    "license": "CC BY-SA 2.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-  },
-  {
     "slug": "dana-bonfile",
     "name": "Dana Bonfile",
     "source": "Openverse",
@@ -770,15 +554,6 @@
     "source": "Openverse",
     "source_url": "https://www.flickr.com/photos/33398244@N00/13226310563",
     "creator": "patrickkuhl",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "demirhindi-serbeti",
-    "name": "Demirhindi Şerbeti",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/66761763@N00/41282902",
-    "creator": "elif ayse",
     "license": "CC BY 2.0",
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
@@ -837,15 +612,6 @@
     "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
-    "slug": "double-espresso",
-    "name": "Double Espresso",
-    "source": "Wikimedia Commons",
-    "source_url": "https://commons.wikimedia.org/wiki/File:Doppio.jpg",
-    "creator": "Osman Bas",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0"
-  },
-  {
     "slug": "pizza-dort-peynirli",
     "name": "Dört Peynirli Pizza",
     "source": "Openverse",
@@ -855,24 +621,6 @@
     "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
   },
   {
-    "slug": "earl-grey",
-    "name": "Earl Grey",
-    "source": "Wikimedia Commons",
-    "source_url": "https://commons.wikimedia.org/wiki/File:Frisch_aufgebr%C3%BChter_EarlGrey_Tee.jpg",
-    "creator": "soultea.de /André Helbig",
-    "license": "CC BY-SA 3.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
-  },
-  {
-    "slug": "elma-suyu",
-    "name": "Elma Suyu",
-    "source": "Pixabay",
-    "source_url": "https://pixabay.com/photos/juice-apple-glass-drink-1584170/",
-    "creator": "Bru-nO",
-    "license": "Pixabay Content License",
-    "license_url": "https://pixabay.com/service/license-summary/"
-  },
-  {
     "slug": "eriste",
     "name": "Erişte",
     "source": "Wikimedia Commons",
@@ -880,24 +628,6 @@
     "creator": "E4024",
     "license": "CC BY-SA 4.0",
     "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
-  },
-  {
-    "slug": "espresso",
-    "name": "Espresso",
-    "source": "Wikimedia Commons",
-    "source_url": "https://commons.wikimedia.org/wiki/File:Espresso_BW_1.jpg",
-    "creator": "Berthold Werner",
-    "license": "Public domain",
-    "license_url": null
-  },
-  {
-    "slug": "espresso-macchiato",
-    "name": "Espresso Macchiato",
-    "source": "Wikimedia Commons",
-    "source_url": "https://commons.wikimedia.org/wiki/File:Espresso_BW_1.jpg",
-    "creator": "Berthold Werner",
-    "license": "Public domain",
-    "license_url": null
   },
   {
     "slug": "ezogelin-corbasi",
@@ -916,15 +646,6 @@
     "creator": "Rumana22",
     "license": "CC BY-SA 4.0",
     "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
-  },
-  {
-    "slug": "fincan-cay",
-    "name": "Fincan Çay",
-    "source": "Pixabay",
-    "source_url": "https://pixabay.com/photos/tea-teacup-cup-of-tea-drink-1170552/",
-    "creator": "Cheerfully_lost",
-    "license": "Pixabay Content License",
-    "license_url": "https://pixabay.com/service/license-summary/"
   },
   {
     "slug": "halka-tatli",
@@ -970,24 +691,6 @@
     "creator": "Miomir Magdevski",
     "license": "CC BY-SA 4.0",
     "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
-  },
-  {
-    "slug": "iced-chai-latte",
-    "name": "Iced Chai Latte",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/28531775@N06/4855087737",
-    "creator": "snowpea&bokchoi",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "iced-matcha-latte",
-    "name": "Iced Matcha Latte",
-    "source": "Pixabay",
-    "source_url": "https://pixabay.com/photos/green-tea-matcha-table-eat-cup-1718738/",
-    "creator": "Aeko2324",
-    "license": "Pixabay Content License",
-    "license_url": "https://pixabay.com/service/license-summary/"
   },
   {
     "slug": "islak-hamburger",
@@ -1062,24 +765,6 @@
     "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
-    "slug": "kafeinsiz-latte",
-    "name": "Kafeinsiz Latte",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/10559879@N00/3430350863",
-    "creator": "avlxyz",
-    "license": "CC BY-SA 2.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-  },
-  {
-    "slug": "kafeinsiz-turk-kahvesi",
-    "name": "Kafeinsiz Türk Kahvesi",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/97844767@N00/14245350315",
-    "creator": "WordRidden",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
     "slug": "kagit-kebabi",
     "name": "Kağıt Kebabı",
     "source": "Wikimedia Commons",
@@ -1125,15 +810,6 @@
     "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
-    "slug": "karamel-milkshake",
-    "name": "Karamel Milkshake",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/57853375@N08/5409809821",
-    "creator": "joshwept",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
     "slug": "karamelli-dondurma",
     "name": "Karamelli Dondurma",
     "source": "Openverse",
@@ -1157,15 +833,6 @@
     "source": "Openverse",
     "source_url": "https://www.flickr.com/photos/45032885@N04/4415406430",
     "creator": "s58y",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "karisik-meyve-suyu",
-    "name": "Karışık Meyve Suyu",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/33772123@N03/3444207913",
-    "creator": "Matthias Rhomberg",
     "license": "CC BY 2.0",
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
@@ -1204,15 +871,6 @@
     "creator": "timsackton",
     "license": "CC BY-SA 2.0",
     "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-  },
-  {
-    "slug": "karpuz-bubble-tea",
-    "name": "Karpuz Bubble Tea",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/15109233@N00/7529699768",
-    "creator": "DeepBluC",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
   {
     "slug": "nargile-karpuz-nane",
@@ -1546,15 +1204,6 @@
     "creator": "Engin_Akyurt",
     "license": "Pixabay Content License",
     "license_url": "https://pixabay.com/service/license-summary/"
-  },
-  {
-    "slug": "latte-macchiato",
-    "name": "Latte Macchiato",
-    "source": "Wikimedia Commons",
-    "source_url": "https://commons.wikimedia.org/wiki/File:Latte_macchiato.jpg",
-    "creator": "coffeefellow",
-    "license": "CC BY-SA 2.5",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.5"
   },
   {
     "slug": "lazanya",
@@ -2340,15 +1989,6 @@
     "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
   },
   {
-    "slug": "sex-on-the-beach",
-    "name": "Sex on the Beach",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/34883952@N02/4217128164",
-    "creator": "StuartWebster",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
     "slug": "sicak-cikolata",
     "name": "Sıcak Çikolata",
     "source": "Openverse",
@@ -2997,15 +2637,6 @@
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
   {
-    "slug": "turk-kahvesi",
-    "name": "Türk Kahvesi",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/97844767@N00/14245350315",
-    "creator": "WordRidden",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
     "slug": "un-helvasi",
     "name": "Un Helvası",
     "source": "Openverse",
@@ -3092,15 +2723,6 @@
     "source": "Openverse",
     "source_url": "https://www.flickr.com/photos/67975030@N00/6809530420",
     "creator": "Bernt Rostad",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "whiskey-sour",
-    "name": "Whiskey Sour",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/49215102@N00/3437186488",
-    "creator": "goodiesfirst",
     "license": "CC BY 2.0",
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
