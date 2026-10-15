@@ -4,9 +4,10 @@ import { checkRateLimit, getClientIp, RATE_LIMITS } from './lib/rate-limiter'
 import { logSecurityEvent } from './lib/security-logger'
 
 /**
- * Enterprise Next.js Root Güvenlik ve Kalkan Middleware (Castle Shield)
+ * Enterprise Next.js Root Güvenlik ve Kalkan Proxy (Castle Shield)
  * Tüm gelen HTTP trafiğini inceler, saldırı tarayıcılarını engeller,
  * rate limit uygular ve güvenlik başlıklarını (HSTS, CSP, X-Frame-Options) enjekte eder.
+ * Next 16 proxy her zaman Node.js runtime'ında çalışır (runtime ayarı verilemez).
  */
 
 // Saldırganların ve otomatik botların taradığı yasaklı dosya / yol kalıpları
@@ -28,7 +29,7 @@ const BLOCKED_PATH_PATTERNS = [
   /\.config$/i
 ]
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const ip = getClientIp(request)
 
@@ -173,11 +174,11 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * Aşağıdaki yollar dışındaki tüm rotalarda middleware çalıştırılır:
+     * Aşağıdaki yollar dışındaki tüm rotalarda proxy çalıştırılır:
      * - _next/static (statik dosyalar)
      * - _next/image (görsel optimizasyon)
      * - favicon.ico (ikon)
-     * - catalog/ (katalog ürün görselleri; her görsel isteğinde middleware çalışmasın)
+     * - catalog/ (katalog ürün görselleri; her görsel isteğinde proxy çalışmasın)
      */
     '/((?!_next/static|_next/image|favicon.ico|catalog/).*)'
   ]
