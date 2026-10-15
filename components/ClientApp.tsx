@@ -1,110 +1,26 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
-import { BrowserRouter, Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
-import { PageTransition, useSmoothScroll, useRevealOnScroll } from '@/components/dashboard/ScrollNavigation'
+import React, { Suspense, useState, useEffect } from 'react'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
-import { LandingPage } from '@/components/landing/LandingPage'
-import { BusinessDirectory } from '@/components/landing/BusinessDirectory'
-import { Login } from '@/components/auth/Login'
-import { Signup } from '@/components/auth/Signup'
-import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard'
-import { RestaurantProvider, useRestaurant } from '@/components/providers/RestaurantProvider'
-import { AdminApp } from '@/components/admin/AdminApp'
-import { MustChangePasswordGate } from '@/components/auth/MustChangePasswordGate'
-import { AccountBanners } from '@/components/dashboard/AccountBanners'
-import { AdminGuard, AuthGuard, OnboardingGuard } from '@/components/auth/RouteGuards'
+import {
+  AdminRoute,
+  BusinessDirectory,
+  DashboardRoute,
+  ImageCredits,
+  LandingPage,
+  Login,
+  OnboardingRoute,
+  Signup,
+  pagesForPath,
+} from '@/components/lazy-pages'
 
-import { Sidebar } from '@/components/dashboard/Sidebar'
-import { PanelThemeProvider, PanelBackground } from '@/components/theme/PanelTheme'
-import { Header } from '@/components/dashboard/Header'
-import { DashboardContent } from '@/components/dashboard/DashboardContent'
-import { LiveMenuEditor } from '@/components/dashboard/LiveMenuEditor'
-import { MenusContent } from '@/components/dashboard/MenusContent'
-import { QRCodesContent } from '@/components/dashboard/QRCodesContent'
-import { SettingsContent } from '@/components/dashboard/SettingsContent'
-import { ImageCredits } from '@/components/public/ImageCredits'
-
-function DashboardLayout() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const location = useLocation()
-  const mainRef = useRef<HTMLElement>(null)
-  useSmoothScroll(mainRef)
-  useRevealOnScroll(mainRef)
-  const { restaurant: currentRestaurant, role: userRole, email, isLoading } = useRestaurant()
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSidebarOpen(window.innerWidth >= 1024)
-    }
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
-
-  const userInfo = {
-    name: currentRestaurant?.name || 'Yükleniyor...',
-    email: email || '...',
-    logoUrl: currentRestaurant?.branding?.logoUrl || ''
-  }
-
+function FullPageSpinner() {
   return (
-    <PanelThemeProvider>
-    <div className="relative flex h-screen overflow-hidden bg-background text-foreground">
-      <PanelBackground />
-      <Sidebar 
-        isSidebarOpen={isSidebarOpen} 
-        setIsSidebarOpen={setIsSidebarOpen} 
-        userInfo={userInfo}
-        userRole={userRole}
-      />
-
-      <div className="relative z-10 flex min-w-0 flex-1 flex-col overflow-hidden">
-        <Header 
-          setIsSidebarOpen={setIsSidebarOpen} 
-          restaurantName={currentRestaurant?.name}
-          subdomain={currentRestaurant?.subdomain}
-          logoUrl={currentRestaurant?.branding?.logoUrl}
-        />
-        <AccountBanners />
-
-        <main ref={mainRef} className="flex-1 overflow-y-auto overflow-x-hidden p-4 lg:p-6">
-          <PageTransition mainRef={mainRef}>
-            {isLoading ? (
-              <div className="flex h-64 items-center justify-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-              </div>
-            ) : (
-            <Routes location={location}>
-              <Route index element={<DashboardContent />} />
-              <Route path="" element={<DashboardContent />} />
-              <Route path="/" element={<DashboardContent />} />
-              <Route path="menu-editor" element={<LiveMenuEditor />} />
-              <Route path="/menu-editor" element={<LiveMenuEditor />} />
-              <Route path="menus" element={<MenusContent />} />
-              <Route path="/menus" element={<MenusContent />} />
-              {/* Eski menü görüntüleme/düzenleme adresleri tek editöre yönlenir */}
-              <Route path="menus/:id" element={<MenuEditorRedirect />} />
-              <Route path="menus/:id/edit" element={<MenuEditorRedirect />} />
-              <Route path="qr-codes" element={<QRCodesContent />} />
-              <Route path="/qr-codes" element={<QRCodesContent />} />
-              <Route path="settings" element={<SettingsContent />} />
-              <Route path="/settings" element={<SettingsContent />} />
-              <Route path="*" element={<DashboardContent />} />
-            </Routes>
-            )}
-          </PageTransition>
-        </main>
-      </div>
+    <div className="flex h-screen w-full items-center justify-center bg-gray-50">
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
     </div>
-    </PanelThemeProvider>
   )
-}
-
-/** /dashboard/menus/:id(/edit) → canlı editörde o menü */
-function MenuEditorRedirect() {
-  const { id } = useParams()
-  return <Navigate to={`/dashboard/menu-editor${id ? `?menu=${encodeURIComponent(id)}` : ''}`} replace />
 }
 
 class AppErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean; error: Error | null }> {
@@ -155,35 +71,35 @@ export function ClientApp() {
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
-    setIsClient(true)
+    // Açılan sayfanın paketi ilk çizimden önce iner (spinner zaten görünür): Suspense beklemesi olmaz
+    const pages = pagesForPath(window.location.pathname)
+    Promise.all(pages.map((page) => page.preload()))
+      .catch(() => {}) // yüklenemezse sayfa açılırken yeniden denenir (gerekirse bir kez yenilenir)
+      .finally(() => setIsClient(true))
   }, [])
 
-  if (!isClient) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center bg-gray-50">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-      </div>
-    )
-  }
+  if (!isClient) return <FullPageSpinner />
 
   return (
     <AppErrorBoundary>
       <BrowserRouter>
-        <MustChangePasswordGate />
+        {/* Her sayfa ayrı paket (components/lazy-pages.ts): paket inene kadar tam ekran spinner */}
+        <Suspense fallback={<FullPageSpinner />}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/onboarding" element={<OnboardingGuard><OnboardingWizard /></OnboardingGuard>} />
+          <Route path="/onboarding" element={<OnboardingRoute />} />
           {/* Eski aktivasyon linkleri: şifreyi artık admin belirliyor */}
           <Route path="/activate" element={<Navigate to="/login" replace />} />
-          <Route path="/admin/*" element={<AdminGuard><AdminApp /></AdminGuard>} />
-          <Route path="/dashboard/*" element={<AuthGuard><RestaurantProvider><DashboardLayout /></RestaurantProvider></AuthGuard>} />
+          <Route path="/admin/*" element={<AdminRoute />} />
+          <Route path="/dashboard/*" element={<DashboardRoute />} />
           <Route path="/business" element={<BusinessDirectory />} />
           {/* /menu/:subdomain ayrı sunucu rotasıdır (app/menu/[subdomain]); panel paketine girmez */}
           <Route path="/gorsel-kaynaklari" element={<ImageCredits />} />
           <Route path="*" element={<LandingPage />} />
         </Routes>
+        </Suspense>
       </BrowserRouter>
     </AppErrorBoundary>
   )

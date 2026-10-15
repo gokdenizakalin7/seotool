@@ -21,6 +21,19 @@ function isCacheable(url: string, options: RequestInit) {
   return method === 'GET' && CACHEABLE_PREFIXES.some(p => url.startsWith(p))
 }
 
+/**
+ * Elde zaten olan bir GET yanıtını önbelleğe koyar (ör. girişte alınan /api/auth/me):
+ * hemen ardından açılan sayfa aynı isteği yeniden göndermez.
+ */
+export function primeApiCache(url: string, data: unknown) {
+  if (!isCacheable(url, {})) return
+  const body = JSON.stringify(data)
+  responseCache.set(url, {
+    expires: Date.now() + GET_CACHE_TTL_MS,
+    promise: Promise.resolve(new Response(body, { status: 200, headers: { 'Content-Type': 'application/json' } })),
+  })
+}
+
 /** Çıkış / oturum değişiminde veya veri yazıldığında önbelleği temizler. */
 export function clearApiCache() {
   responseCache.clear()

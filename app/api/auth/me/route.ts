@@ -9,23 +9,26 @@ export async function GET(request: NextRequest) {
     if ('response' in auth) return auth.response
     const { user } = auth
 
-    const { data: memberData } = await supabaseAdmin
+    // Üyelik ve restoran profili tek sorguda: her girişte / panel açılışında Supabase'e bir gidiş-dönüş daha az
+    const joined = await supabaseAdmin
       .from('organization_members')
-      .select('organization_id, role')
+      .select(`organization_id, role, organizations (${ORG_PROFILE_COLUMNS})`)
       .eq('user_id', user.id)
       .maybeSingle()
 
-    let org: any = null
-    if (memberData) {
-      const { data, error } = await supabaseAdmin
-        .from('organizations')
-        .select(ORG_PROFILE_COLUMNS)
-        .eq('id', memberData.organization_id)
+    let memberData: { organization_id: string; role: string } | null = joined.data
+    let org: any = (joined.data as any)?.organizations ?? null
+    if (joined.error) {
+      // Migration 04 henüz çalıştırılmadıysa eski sütunlarla devam et (giriş bozulmasın)
+      console.error('me: profil sütunları okunamadı, migration 04 çalıştırıldı mı?', joined.error.message)
+      const member = await supabaseAdmin
+        .from('organization_members')
+        .select('organization_id, role')
+        .eq('user_id', user.id)
         .maybeSingle()
-      org = data
-      if (error) {
-        // Migration 04 henüz çalıştırılmadıysa eski sütunlarla devam et (giriş bozulmasın)
-        console.error('me: profil sütunları okunamadı, migration 04 çalıştırıldı mı?', error.message)
+      memberData = member.data
+      org = null
+      if (memberData) {
         const legacy = await supabaseAdmin
           .from('organizations')
           .select('id, name, subdomain, currency, business_phone, address, city, logo_url, cover_url, primary_color, wifi_name, wifi_password')

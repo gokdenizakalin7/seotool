@@ -337,7 +337,8 @@ const variants = {
     opacity: 0,
     y: dir * -50,
     scale: 0.99,
-    transition: { duration: 0.22, ease: [0.4, 0, 1, 1] as const },
+    // Kısa çıkış: yeni sayfa (ve veri isteği) bu animasyon bitince başlar
+    transition: { duration: 0.12, ease: [0.4, 0, 1, 1] as const },
   }),
 }
 
@@ -373,7 +374,7 @@ export function PageTransition({
         initial="enter"
         animate="center"
         exit="exit"
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
       >
         {children}
       </motion.div>

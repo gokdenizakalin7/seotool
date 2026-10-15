@@ -1,12 +1,15 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { QrCode, Loader2, ArrowRight, Lock, Mail, ChefHat } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { setClientSession } from '@/lib/session'
 import { supabase } from '@/lib/supabase'
 import { clearImpersonation } from '@/lib/impersonation'
+import { primeApiCache } from '@/lib/api-client'
+import { preloadWhenIdle } from '@/lib/lazy-page'
+import { DashboardContent, DashboardRoute } from '@/components/lazy-pages'
 
 export function Login() {
   const [email, setEmail] = useState('')
@@ -14,6 +17,9 @@ export function Login() {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
+
+  // Kullanıcı bilgilerini yazarken panel paketleri iner: girişten sonra panel beklemeden açılır
+  useEffect(() => preloadWhenIdle([DashboardRoute, DashboardContent]), [])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -73,7 +79,10 @@ export function Login() {
       if (meData.role === 'superadmin') {
         setClientSession({ role: meData.role, userId: meData.id })
         localStorage.setItem('user_role', meData.role)
-        window.location.href = '/admin'
+        // Panel ve kalkanlar aynı yanıtı yeniden istemesin (sayfa yenilenmeden geçiliyor; oturum
+        // kaydı önbelleği temizlediği için setClientSession'dan sonra)
+        primeApiCache('/api/auth/me', meData)
+        navigate('/admin', { replace: true })
         return
       }
 
@@ -90,7 +99,8 @@ export function Login() {
         localStorage.removeItem('is_admin')
         
         setClientSession({ role: meData.role, restaurant: org, userId: meData.id })
-        window.location.href = org.onboardingCompleted === false ? '/onboarding' : '/dashboard'
+        primeApiCache('/api/auth/me', meData)
+        navigate(org.onboardingCompleted === false ? '/onboarding' : '/dashboard', { replace: true })
       } else {
         setError('Hesabınıza atanmış bir restoran bulunamadı. Lütfen yönetici ile iletişime geçin.')
         await supabase.auth.signOut()
