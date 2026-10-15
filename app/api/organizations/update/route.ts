@@ -104,8 +104,11 @@ export async function POST(request: Request) {
       updateData.subdomain = candidate
     }
 
-    // İşletme sahibi site adresini kendisi değiştirebilir; eski adres geçmişe yazılır ve yönlendirilir (migration 14)
+    // Site adresini yalnızca sistem yöneticisi değiştirebilir; eski adres geçmişe yazılır ve yönlendirilir (migration 14)
     if (parsed.data.siteSlug !== undefined && parsed.data.siteSlug !== org.subdomain) {
+      if (!auth.user.isSuperAdmin) {
+        return NextResponse.json({ error: 'Site adresini yalnızca sistem yöneticisi değiştirebilir.', code: 'FORBIDDEN' }, { status: 403 })
+      }
       const { data: clash } = await supabase
         .from('organizations')
         .select('id')

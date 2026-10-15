@@ -41,7 +41,8 @@ export function SettingsContent() {
   const initialTab = (searchParams.get('tab') as TabId) || 'isletme'
   const [activeTab, setActiveTab] = useState<TabId>(TABS.some((t) => t.id === initialTab) ? initialTab : 'isletme')
 
-  const { restaurant, save } = useRestaurant()
+  const { restaurant, save, role } = useRestaurant()
+  const canEditSlug = role === 'superadmin'
   const [draft, setDraft] = useState<ProfileDraft>(() => draftFromRestaurant(restaurant))
   const [isSaving, setIsSaving] = useState(false)
   const [loadedFor, setLoadedFor] = useState<string | null>(restaurant?.id ?? null)
@@ -120,7 +121,7 @@ export function SettingsContent() {
       // Site iletişim alanları yalnızca değiştiyse gönderilir (migration 15 uygulanmamışsa diğer ayarlar yine kaydedilsin)
       const sections: SectionKey[] = ['basics', 'brand', 'contact', 'wifi', 'social']
       if (CONTACT_EXTRA_KEYS.some((k) => draft[k] !== baseline[k])) sections.push('contactExtra')
-      if (draft.siteSlug !== baseline.siteSlug) {
+      if (canEditSlug && draft.siteSlug !== baseline.siteSlug) {
         const slug = draft.siteSlug.replace(/-+$/, '')
         if (slug.length < 2 || !SLUG_RE.test(slug)) {
           toast.error('Site adresi en az 2 karakter olmalı; yalnızca küçük harf, rakam ve tire.')
@@ -209,10 +210,12 @@ export function SettingsContent() {
           <Card>
             <CardHeader>
               <CardTitle className="text-lg font-bold">Site Adresi</CardTitle>
-              <CardDescription>QR kodunuzun açtığı adres; işletme adınızı yazabilirsiniz</CardDescription>
+              <CardDescription>
+                {canEditSlug ? 'QR kodun açtığı adres (yalnızca sistem yöneticisi değiştirebilir)' : 'QR kodunuzun açtığı adres'}
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <SiteAddressSection draft={draft} setDraft={setDraft} currentSlug={restaurant.subdomain} />
+              <SiteAddressSection draft={draft} setDraft={setDraft} currentSlug={restaurant.subdomain} editable={canEditSlug} />
             </CardContent>
           </Card>
           <Card>

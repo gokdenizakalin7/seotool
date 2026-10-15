@@ -363,8 +363,16 @@ const SLUG_MESSAGES: Record<Exclude<SlugStatus, 'idle' | 'checking'>, string> = 
   invalid: 'En az 2 karakter; yalnızca küçük harf, rakam ve tire. Tireyle başlayıp bitemez.',
 }
 
-/** Site adresi (qolay.com/<slug>): yazarken normalize edilir ve boş olup olmadığı sorulur */
-export function SiteAddressSection({ draft, setDraft, currentSlug }: SectionProps & { currentSlug: string }) {
+/**
+ * Site adresi (qolay.com/<slug>). İşletme için salt okunur; yalnızca sistem yöneticisi (panele girmişken)
+ * değiştirebilir: yazarken normalize edilir ve boş olup olmadığı sorulur.
+ */
+export function SiteAddressSection({
+  draft,
+  setDraft,
+  currentSlug,
+  editable = false,
+}: SectionProps & { currentSlug: string; editable?: boolean }) {
   const host = siteOrigin().replace(/^https?:\/\//, '')
   const [status, setStatus] = useState<SlugStatus>('idle')
   const slug = draft.siteSlug
@@ -372,7 +380,7 @@ export function SiteAddressSection({ draft, setDraft, currentSlug }: SectionProp
   const suggestion = slugifyBusinessName(draft.name)
 
   useEffect(() => {
-    if (!changed) {
+    if (!changed || !editable) {
       setStatus('idle')
       return
     }
@@ -399,11 +407,26 @@ export function SiteAddressSection({ draft, setDraft, currentSlug }: SectionProp
       }
     }, 400)
     return () => clearTimeout(timer)
-  }, [slug, changed, currentSlug])
+  }, [slug, changed, currentSlug, editable])
+
+  if (!editable) {
+    return (
+      <div className="space-y-2">
+        <p className="text-sm">
+          <span className="text-muted-foreground">Müşterilerinizin QR ile açtığı adres: </span>
+          <span className="font-mono font-semibold">{host ? `${host}/` : '/'}{currentSlug}</span>
+        </p>
+        <p className="text-xs text-muted-foreground">
+          Adres değişikliğini yalnızca sistem yöneticisi yapabilir; isterseniz destekle iletişime geçin. Değişiklikte eski adres
+          ve basılı QR kodlar yeni adrese yönlendirilir.
+        </p>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-4">
-      <Field label="Site adresi" hint="Müşterilerinizin QR ile açtığı adres. Küçük harf, rakam ve tire kullanılabilir.">
+      <Field label="Site adresi" hint="Müşterilerin QR ile açtığı adres. Küçük harf, rakam ve tire kullanılabilir.">
         <div className="flex items-center rounded-xl border border-input bg-background/40 pl-3 shadow-sm focus-within:ring-2 focus-within:ring-ring/40">
           <span className="shrink-0 text-sm text-muted-foreground">{host ? `${host}/` : '/'}</span>
           <Input
