@@ -20,6 +20,8 @@ const TEA_SCENE = 'Set on a warm walnut wooden table in soft morning light, cozy
 const COFFEE_SCENE = 'Set on a light oak café counter in soft window light, softly blurred specialty coffee shop background in warm neutral tones'
 const COLD_CAFE_SCENE = 'Set on a light oak café counter in bright natural daylight, fresh summery mood, softly blurred light background'
 const FRESH_SCENE = 'Set on a pale marble surface in bright natural daylight, fresh and airy mood, softly blurred light background'
+const RESTAURANT_SCENE = 'Set on a dark wooden restaurant table with a linen napkin, warm soft restaurant light, softly blurred background'
+const PATISSERIE_SCENE = 'Set on a pale marble café table in soft daylight, a small fork beside the plate, softly blurred patisserie background'
 export const SCENE_BY_CATEGORY: Record<string, string> = {
   caylar: TEA_SCENE,
   'turk-kahvesi':
@@ -30,6 +32,17 @@ export const SCENE_BY_CATEGORY: Record<string, string> = {
   'soguk-caylar': COLD_CAFE_SCENE,
   'ayran-ve-sutlu-icecekler': 'Set on a light wooden table in bright natural daylight, fresh clean mood, softly blurred light background',
   'soguk-icecekler': FRESH_SCENE,
+  kahvalti:
+    'Set on a rustic wooden breakfast table in soft morning light, a Turkish tea glass softly out of focus in the background, cozy Turkish breakfast mood',
+  salatalar: 'Set on a pale wooden table in bright natural daylight, fresh and light mood, softly blurred light background',
+  atistirmaliklar: 'Set on a dark wooden pub table in warm ambient light, softly blurred cozy café-bar background',
+  'cerez-ve-kuruyemis': 'Set on a dark wooden pub table in warm ambient light, softly blurred cozy café-bar background',
+  baslangiclar: RESTAURANT_SCENE,
+  makarnalar: 'Set on a rustic wooden trattoria table with a linen napkin, warm soft light, softly blurred restaurant background',
+  'ana-yemekler': RESTAURANT_SCENE,
+  tatlilar: PATISSERIE_SCENE,
+  'firin-ve-pastane': PATISSERIE_SCENE,
+  yiyecekler: RESTAURANT_SCENE,
 }
 
 /** Kategori slug'ı → sunum/tabak tarifi */

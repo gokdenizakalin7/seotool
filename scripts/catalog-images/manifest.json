@@ -327,6 +327,17 @@
       },
       "generatedAt": "2026-10-09T18:20:37.765Z"
     },
+    "aperatif-tabagi": {
+      "hash": "703879a6b37a162a",
+      "bytes": 25192,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 740976599,
+      "generatedAt": "2026-10-15T20:05:13.683Z"
+    },
     "aperol": {
       "hash": "fa94b2600e741210",
       "bytes": 8028,
@@ -713,6 +724,17 @@
       "promptVersion": 1,
       "seed": 1029872544,
       "generatedAt": "2026-10-14T18:12:23.757Z"
+    },
+    "barbeku-soslu-tavuk": {
+      "hash": "30c97c58fae91c32",
+      "bytes": 20890,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 574965906,
+      "generatedAt": "2026-10-15T20:04:48.943Z"
     },
     "barbun-tava": {
       "hash": "9062c7f61d4c6f92",
@@ -1310,6 +1332,17 @@
       "seed": 1625299460,
       "generatedAt": "2026-10-12T10:12:20.083Z"
     },
+    "cafe-de-paris-soslu-penne": {
+      "hash": "23f01536abc8c799",
+      "bytes": 21950,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 590036318,
+      "generatedAt": "2026-10-15T20:05:24.473Z"
+    },
     "caffe-latte": {
       "hash": "d208a1e4e8b8e803",
       "bytes": 10952,
@@ -1421,6 +1454,17 @@
       "promptVersion": 1,
       "seed": 1240265209,
       "generatedAt": "2026-10-12T12:40:19.016Z"
+    },
+    "caramel-latte": {
+      "hash": "e15f082d80ac9d8b",
+      "bytes": 12612,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1752309596,
+      "generatedAt": "2026-10-15T20:05:57.207Z"
     },
     "caramel-macchiato": {
       "hash": "bb0866d1d74faca0",
@@ -3770,6 +3814,17 @@
       "seed": 263627509,
       "generatedAt": "2026-10-12T10:47:54.692Z"
     },
+    "fistik-ruyasi": {
+      "hash": "1e88568dfd8d37c1",
+      "bytes": 17808,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1331525613,
+      "generatedAt": "2026-10-15T20:05:55.792Z"
+    },
     "fistikli-baklava": {
       "hash": "4a85ded2b980650e",
       "bytes": 21944,
@@ -4514,6 +4569,17 @@
       "seed": 1298028380,
       "generatedAt": "2026-10-14T18:31:48.564Z"
     },
+    "iced-caramel-latte": {
+      "hash": "20ed2c64213db77b",
+      "bytes": 12660,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 449604498,
+      "generatedAt": "2026-10-15T20:06:25.220Z"
+    },
     "iced-caramel-macchiato": {
       "hash": "4d3248c13a7bc402",
       "bytes": 12476,
@@ -4612,6 +4678,17 @@
       "promptVersion": 1,
       "seed": 847424496,
       "generatedAt": "2026-10-14T18:34:14.570Z"
+    },
+    "iced-white-mocha": {
+      "hash": "0a97a4cb0e857178",
+      "bytes": 14014,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 691973307,
+      "generatedAt": "2026-10-15T20:06:23.649Z"
     },
     "icli-kofte": {
       "hash": "b2ba9fa91fa3c8a6",
@@ -5661,14 +5738,15 @@
       "generatedAt": "2026-10-14T18:37:21.606Z"
     },
     "karpuz-mojito-alkolsuz": {
-      "hash": "d52628a7443ef681",
-      "bytes": 17992,
-      "thumbBytes": 4174,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "15fa722ab71c8a5e",
+      "bytes": 8010,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 553051366,
-      "generatedAt": "2026-10-12T10:51:50.195Z"
+      "generatedAt": "2026-10-15T18:30:20.301Z"
     },
     "karpuz-peynir": {
       "hash": "e2f2e3f8a428048d",
@@ -5783,6 +5861,17 @@
       "promptVersion": 1,
       "seed": 956927985,
       "generatedAt": "2026-10-12T10:52:08.360Z"
+    },
+    "kasarli-menemen": {
+      "hash": "eb4b3137da374358",
+      "bytes": 33694,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1983806736,
+      "generatedAt": "2026-10-15T20:06:55.021Z"
     },
     "kasarli-omlet": {
       "hash": "1f666048430b94c6",
@@ -5955,6 +6044,39 @@
       "seed": 272161019,
       "generatedAt": "2026-10-12T10:52:30.499Z"
     },
+    "kavurmali-menemen": {
+      "hash": "0e76928680713e8e",
+      "bytes": 28356,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 97655330,
+      "generatedAt": "2026-10-15T20:06:46.069Z"
+    },
+    "kavurmali-omlet": {
+      "hash": "4ca7f7061f3b1a07",
+      "bytes": 21572,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1112446222,
+      "generatedAt": "2026-10-15T20:07:04.241Z"
+    },
+    "kavurmali-tost": {
+      "hash": "76eb0c30dab624f9",
+      "bytes": 23770,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 849564010,
+      "generatedAt": "2026-10-15T20:07:25.493Z"
+    },
     "kavurmali-yumurta": {
       "hash": "d9da2c4882ba49be",
       "bytes": 29326,
@@ -5976,14 +6098,15 @@
       "generatedAt": "2026-10-12T10:52:34.859Z"
     },
     "kayisi-suyu": {
-      "hash": "36ce0d84a34bddda",
-      "bytes": 14360,
-      "thumbBytes": 4484,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "482ec6dafb7722b2",
+      "bytes": 9366,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 1694357370,
-      "generatedAt": "2026-10-12T10:52:35.645Z"
+      "generatedAt": "2026-10-15T18:30:13.411Z"
     },
     "kaymakli-dondurma": {
       "hash": "a66c738024d0d00c",
@@ -6061,14 +6184,26 @@
       "generatedAt": "2026-10-12T10:52:46.972Z"
     },
     "kefir": {
-      "hash": "ae2fcae707ca0670",
-      "bytes": 10912,
-      "thumbBytes": 2738,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "34af78befbf3d8ec",
+      "bytes": 6062,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 263487656,
-      "generatedAt": "2026-10-12T10:52:45.483Z"
+      "generatedAt": "2026-10-15T18:30:59.147Z"
+    },
+    "kekikli-tavuk": {
+      "hash": "3b27632d9f07ec6c",
+      "bytes": 24502,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 583861062,
+      "generatedAt": "2026-10-15T20:07:31.122Z"
     },
     "kelle-paca-corbasi": {
       "hash": "44890a2ec18b4a78",
@@ -6131,21 +6266,15 @@
       "generatedAt": "2026-10-12T10:52:54.761Z"
     },
     "kis-cayi": {
-      "hash": "901be089b449fa87",
-      "bytes": 17216,
-      "thumbBytes": 4752,
-      "backend": "stock",
-      "model": "openverse+gemini-judge",
+      "hash": "6733e2045600799d",
+      "bytes": 17344,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 155078491,
-      "credit": {
-        "source": "openverse",
-        "source_url": "https://www.flickr.com/photos/48326903@N06/31868169113",
-        "creator": "Ka `",
-        "license": "CC BY 2.0",
-        "license_url": "https://creativecommons.org/licenses/by/2.0/"
-      },
-      "generatedAt": "2026-10-10T01:27:37.714Z"
+      "generatedAt": "2026-10-15T18:30:45.548Z"
     },
     "kisir": {
       "hash": "76abf2a16020bc56",
@@ -6323,14 +6452,15 @@
       "generatedAt": "2026-10-12T10:53:12.347Z"
     },
     "klasik-sutlu-bubble-tea": {
-      "hash": "558e0bd7586a6ae5",
-      "bytes": 7116,
-      "thumbBytes": 2200,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "aafac704eb0d93d1",
+      "bytes": 5536,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 1152251343,
-      "generatedAt": "2026-10-12T10:53:13.303Z"
+      "generatedAt": "2026-10-15T18:31:13.042Z"
     },
     "kofte-burger": {
       "hash": "83526cc39be3beb6",
@@ -6505,51 +6635,48 @@
       "generatedAt": "2026-10-12T10:53:32.145Z"
     },
     "kola": {
-      "hash": "2e1f36d60d99ec55",
-      "bytes": 16142,
-      "thumbBytes": 3880,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "f17f1a3cfd5acba8",
+      "bytes": 12520,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 2095125238,
-      "generatedAt": "2026-10-12T10:53:33.837Z"
+      "generatedAt": "2026-10-15T18:32:09.580Z"
     },
     "kola-light": {
-      "hash": "13542cdf25cbf709",
-      "bytes": 14800,
-      "thumbBytes": 3376,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "0a309479d6eb6b49",
+      "bytes": 13622,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 106601001,
-      "generatedAt": "2026-10-12T10:53:34.989Z"
+      "generatedAt": "2026-10-15T18:32:04.167Z"
     },
     "kola-turka": {
-      "hash": "b3734787cb644cb8",
-      "bytes": 25924,
-      "thumbBytes": 7020,
-      "backend": "stock",
-      "model": "wikimedia+gemini-judge",
+      "hash": "b69c520e39c84b5c",
+      "bytes": 14072,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 277978416,
-      "credit": {
-        "source": "wikimedia",
-        "source_url": "https://commons.wikimedia.org/wiki/File:Glass_of_Cola.jpg",
-        "creator": "Cocktailmarler",
-        "license": "CC BY-SA 4.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
-      "generatedAt": "2026-10-12T12:00:49.542Z"
+      "generatedAt": "2026-10-15T18:32:39.747Z"
     },
     "kola-zero": {
-      "hash": "2c262bad0ce303f4",
-      "bytes": 15368,
-      "thumbBytes": 3750,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "6e3e8c157accc67c",
+      "bytes": 15444,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 888944512,
-      "generatedAt": "2026-10-12T10:53:39.062Z"
+      "generatedAt": "2026-10-15T18:32:48.918Z"
     },
     "korean-fried-chicken": {
       "hash": "61f66a750e059458",
@@ -6567,6 +6694,17 @@
         "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
       },
       "generatedAt": "2026-10-10T01:29:07.578Z"
+    },
+    "kori-soslu-tavuklu-penne": {
+      "hash": "90396c60732fc7c1",
+      "bytes": 25166,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1891535541,
+      "generatedAt": "2026-10-15T20:08:00.666Z"
     },
     "korili-tavuk": {
       "hash": "fe58747e8f03fecb",
@@ -6940,24 +7078,26 @@
       "generatedAt": "2026-10-12T10:54:09.068Z"
     },
     "kusburnu-cayi": {
-      "hash": "fe3882deb7763532",
-      "bytes": 15300,
-      "thumbBytes": 4488,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "a6cd40eb4872cac1",
+      "bytes": 14558,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 1756229182,
-      "generatedAt": "2026-10-12T10:54:09.853Z"
+      "generatedAt": "2026-10-15T18:33:16.830Z"
     },
     "kusburnu-nektari": {
-      "hash": "f6920908f980f4a4",
-      "bytes": 9982,
-      "thumbBytes": 3108,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "3486f9091f00adcb",
+      "bytes": 10598,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 1010939779,
-      "generatedAt": "2026-10-12T10:54:11.238Z"
+      "generatedAt": "2026-10-15T18:33:05.283Z"
     },
     "kuzu-incik": {
       "hash": "771bb4b2776c1d69",
@@ -7102,15 +7242,15 @@
       "generatedAt": "2026-10-12T10:54:19.432Z"
     },
     "latte-macchiato": {
-      "hash": "994d3bb8dbd950bf",
-      "bytes": 10838,
+      "hash": "c10b33601c30e30f",
+      "bytes": 9440,
       "thumbBytes": 0,
       "single": true,
       "backend": "cloudflare",
       "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 1052342219,
-      "generatedAt": "2026-10-14T18:04:21.559Z"
+      "generatedAt": "2026-10-15T18:33:39.478Z"
     },
     "lavas": {
       "hash": "039d680c013a5370",
@@ -7206,14 +7346,15 @@
       "generatedAt": "2026-10-12T12:45:20.307Z"
     },
     "limonlu-adacayi": {
-      "hash": "0100537dc47feb8a",
-      "bytes": 20086,
-      "thumbBytes": 5420,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "57d793ed8ada21f1",
+      "bytes": 16316,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 725885214,
-      "generatedAt": "2026-10-12T10:54:28.589Z"
+      "generatedAt": "2026-10-15T18:33:52.677Z"
     },
     "limonlu-cheesecake": {
       "hash": "f0ce7b6989dc65a8",
@@ -7260,14 +7401,15 @@
       "generatedAt": "2026-10-12T10:54:31.675Z"
     },
     "limonlu-soda": {
-      "hash": "849b4fbd425e3614",
-      "bytes": 9996,
-      "thumbBytes": 2508,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "3e9cb9cbbee73040",
+      "bytes": 13308,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 757637123,
-      "generatedAt": "2026-10-12T10:54:30.783Z"
+      "generatedAt": "2026-10-15T18:34:33.567Z"
     },
     "limonlu-sorbe": {
       "hash": "382d7d8218859431",
@@ -7317,21 +7459,15 @@
       "generatedAt": "2026-10-12T10:54:36.066Z"
     },
     "london-fog": {
-      "hash": "a7e9355f96ebb9ff",
-      "bytes": 27234,
-      "thumbBytes": 6424,
-      "backend": "stock",
-      "model": "openverse+gemini-judge",
+      "hash": "68cafdb0cb97c1ff",
+      "bytes": 13276,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 391330471,
-      "credit": {
-        "source": "openverse",
-        "source_url": "https://www.flickr.com/photos/56183874@N08/6287147411",
-        "creator": "Stephan Rosger",
-        "license": "CC BY 2.0",
-        "license_url": "https://creativecommons.org/licenses/by/2.0/"
-      },
-      "generatedAt": "2026-10-10T01:33:24.951Z"
+      "generatedAt": "2026-10-15T18:34:26.074Z"
     },
     "long-island-iced-tea": {
       "hash": "7a0c6c8d16171f27",
@@ -7365,24 +7501,26 @@
       "generatedAt": "2026-10-12T10:54:38.907Z"
     },
     "lotus-latte": {
-      "hash": "e82431cc1771f4e0",
-      "bytes": 17534,
-      "thumbBytes": 4414,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "f9096f062e3c3c4c",
+      "bytes": 14286,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 1221213895,
-      "generatedAt": "2026-10-12T10:54:40.473Z"
+      "generatedAt": "2026-10-15T18:34:53.416Z"
     },
     "lotus-milkshake": {
-      "hash": "7663a8787acc00af",
-      "bytes": 15210,
-      "thumbBytes": 4170,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "a2b5ad9cca10efe7",
+      "bytes": 8286,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 1365000395,
-      "generatedAt": "2026-10-12T10:54:42.205Z"
+      "generatedAt": "2026-10-15T18:35:20.419Z"
     },
     "lotus-pancake": {
       "hash": "072c56763a3fb459",
@@ -7425,21 +7563,15 @@
       "generatedAt": "2026-10-12T10:54:47.496Z"
     },
     "lungo": {
-      "hash": "4376c5af2643bd78",
-      "bytes": 21316,
-      "thumbBytes": 5874,
-      "backend": "stock",
-      "model": "pixabay+gemini-judge",
+      "hash": "034f18d01f65a0de",
+      "bytes": 9394,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 1702630003,
-      "credit": {
-        "source": "pixabay",
-        "source_url": "https://pixabay.com/photos/coffee-drink-cappuccino-italian-3129357/",
-        "creator": "ClickerHappy",
-        "license": "Pixabay Content License",
-        "license_url": "https://pixabay.com/service/license-summary/"
-      },
-      "generatedAt": "2026-10-12T12:01:39.093Z"
+      "generatedAt": "2026-10-15T18:35:13.558Z"
     },
     "mac-and-cheese": {
       "hash": "961b5bd02ae3c82a",
@@ -7470,14 +7602,15 @@
       "generatedAt": "2026-10-12T12:45:37.073Z"
     },
     "maden-suyu": {
-      "hash": "b48de07fd0959a80",
-      "bytes": 10822,
-      "thumbBytes": 2348,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "e7a78b5eeb7964da",
+      "bytes": 8224,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 41476598,
-      "generatedAt": "2026-10-12T10:54:51.701Z"
+      "generatedAt": "2026-10-15T18:35:46.120Z"
     },
     "magnolia": {
       "hash": "852d7db64e6f648f",
@@ -7518,31 +7651,26 @@
       "generatedAt": "2026-10-10T01:34:16.222Z"
     },
     "mango-bubble-tea": {
-      "hash": "751cb57e5feb77ee",
-      "bytes": 7842,
-      "thumbBytes": 2402,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "125b562582f5b9fb",
+      "bytes": 8788,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 310196029,
-      "generatedAt": "2026-10-12T10:54:54.391Z"
+      "generatedAt": "2026-10-15T18:35:55.750Z"
     },
     "mango-smoothie": {
-      "hash": "3d6ec41f3ea60a18",
-      "bytes": 26700,
-      "thumbBytes": 7980,
-      "backend": "stock",
-      "model": "openverse+gemini-judge",
+      "hash": "c70fa17cce6d86f9",
+      "bytes": 8808,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 959096070,
-      "credit": {
-        "source": "openverse",
-        "source_url": "https://www.flickr.com/photos/150788323@N04/33908826224",
-        "creator": "EasyHealthySmoothie",
-        "license": "CC BY 2.0",
-        "license_url": "https://creativecommons.org/licenses/by/2.0/"
-      },
-      "generatedAt": "2026-10-10T01:34:33.315Z"
+      "generatedAt": "2026-10-15T18:36:14.761Z"
     },
     "mango-sorbe": {
       "hash": "58b713da8e188ba1",
@@ -7555,31 +7683,26 @@
       "generatedAt": "2026-10-12T10:54:55.852Z"
     },
     "mango-suyu": {
-      "hash": "f9b38394aeb4a977",
-      "bytes": 27208,
-      "thumbBytes": 8202,
-      "backend": "stock",
-      "model": "openverse+gemini-judge",
+      "hash": "174f25abca674e2d",
+      "bytes": 11504,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 519330503,
-      "credit": {
-        "source": "openverse",
-        "source_url": "https://www.flickr.com/photos/40998509@N02/8397119665",
-        "creator": "GinkgoTelegraph",
-        "license": "CC BY-SA 2.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-      },
-      "generatedAt": "2026-10-10T01:34:40.155Z"
+      "generatedAt": "2026-10-15T18:36:39.400Z"
     },
     "mango-tango": {
-      "hash": "fcbfb9faa8b56820",
-      "bytes": 13956,
-      "thumbBytes": 3584,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "75f8035fbfdd6495",
+      "bytes": 7346,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 186806952,
-      "generatedAt": "2026-10-12T10:54:57.467Z"
+      "generatedAt": "2026-10-15T18:37:06.132Z"
     },
     "mantar-corbasi": {
       "hash": "840a14b953fd76c7",
@@ -7746,65 +7869,48 @@
       "generatedAt": "2026-10-12T12:46:08.252Z"
     },
     "masala-chai": {
-      "hash": "520aba801f0bda24",
-      "bytes": 30304,
-      "thumbBytes": 8186,
-      "backend": "stock",
-      "model": "openverse+gemini-judge",
+      "hash": "e16193f6c57f77b1",
+      "bytes": 14974,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 1730934607,
-      "credit": {
-        "source": "openverse",
-        "source_url": "https://www.flickr.com/photos/21222022@N03/4700888947",
-        "creator": "karaemurphy",
-        "license": "CC BY 2.0",
-        "license_url": "https://creativecommons.org/licenses/by/2.0/"
-      },
-      "generatedAt": "2026-10-10T01:35:18.088Z"
+      "generatedAt": "2026-10-15T18:36:57.814Z"
     },
     "matcha-bubble-tea": {
-      "hash": "b0d40de6726b77e7",
-      "bytes": 13478,
-      "thumbBytes": 3402,
-      "backend": "stock",
-      "model": "openverse+gemini-judge",
+      "hash": "aea45a0ff4bcfa8a",
+      "bytes": 5420,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 782957884,
-      "credit": {
-        "source": "openverse",
-        "source_url": "https://www.flickr.com/photos/23178876@N03/7660765558",
-        "creator": "cyclonebill",
-        "license": "CC BY-SA 2.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-      },
-      "generatedAt": "2026-10-10T01:35:49.995Z"
+      "generatedAt": "2026-10-15T18:37:16.147Z"
     },
     "matcha-latte": {
-      "hash": "e6c55d7cef642f16",
-      "bytes": 47270,
-      "thumbBytes": 8974,
-      "backend": "stock",
-      "model": "openverse+gemini-judge",
+      "hash": "666df2a30481475e",
+      "bytes": 17050,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 2058427536,
-      "credit": {
-        "source": "openverse",
-        "source_url": "https://www.flickr.com/photos/10559879@N00/3122544172",
-        "creator": "avlxyz",
-        "license": "CC BY-SA 2.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-      },
-      "generatedAt": "2026-10-10T01:35:59.892Z"
+      "generatedAt": "2026-10-15T18:37:35.329Z"
     },
     "mate-cayi": {
-      "hash": "26311dd47d2a503b",
-      "bytes": 16812,
-      "thumbBytes": 4804,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "a6ac5dcccdd5a659",
+      "bytes": 15390,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 925020993,
-      "generatedAt": "2026-10-12T10:55:09.874Z"
+      "generatedAt": "2026-10-15T18:38:28.037Z"
     },
     "mekik": {
       "hash": "caf4b911a2cece61",
@@ -7816,22 +7922,27 @@
       "seed": 399214594,
       "generatedAt": "2026-10-12T10:55:10.714Z"
     },
+    "meksika-soslu-tavuk": {
+      "hash": "c0f85c545f8d21ef",
+      "bytes": 21822,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 233043319,
+      "generatedAt": "2026-10-15T20:07:57.707Z"
+    },
     "melisa-cayi": {
-      "hash": "7239b10451340949",
-      "bytes": 52088,
-      "thumbBytes": 14346,
-      "backend": "stock",
-      "model": "openverse+gemini-judge",
+      "hash": "688485b27e786b4e",
+      "bytes": 17920,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 56490568,
-      "credit": {
-        "source": "openverse",
-        "source_url": "https://www.flickr.com/photos/89060048@N03/16723546768",
-        "creator": "City Foodsters",
-        "license": "CC BY 2.0",
-        "license_url": "https://creativecommons.org/licenses/by/2.0/"
-      },
-      "generatedAt": "2026-10-10T01:36:10.993Z"
+      "generatedAt": "2026-10-15T18:38:04.990Z"
     },
     "menemen": {
       "hash": "ce9865b7d69e88b6",
@@ -7854,21 +7965,15 @@
       "generatedAt": "2026-10-12T10:55:14.182Z"
     },
     "menengic-kahvesi": {
-      "hash": "36a4b4fdba1c738d",
-      "bytes": 26094,
-      "thumbBytes": 6290,
-      "backend": "stock",
-      "model": "wikimedia+gemini-judge",
+      "hash": "6cf1c218dcbfa594",
+      "bytes": 14758,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 1050168788,
-      "credit": {
-        "source": "wikimedia",
-        "source_url": "https://commons.wikimedia.org/wiki/File:Qehweya_kurd%C3%AE_Amed_2012.JPG",
-        "creator": "MikaelF",
-        "license": "CC BY-SA 3.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
-      "generatedAt": "2026-10-12T12:01:48.715Z"
+      "generatedAt": "2026-10-15T18:38:27.456Z"
     },
     "mercimek-corbasi": {
       "hash": "57846b77c0f92ba8",
@@ -8040,14 +8145,15 @@
       "generatedAt": "2026-10-12T10:55:24.158Z"
     },
     "meyveli-soda": {
-      "hash": "69f7ca2af53e59d3",
-      "bytes": 11096,
-      "thumbBytes": 2614,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "fc99e9d44a69f18d",
+      "bytes": 10370,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 584395608,
-      "generatedAt": "2026-10-12T10:55:28.614Z"
+      "generatedAt": "2026-10-15T18:39:29.393Z"
     },
     "mezgit-tava": {
       "hash": "c52d2405d12cf41b",
@@ -8206,21 +8312,15 @@
       "generatedAt": "2026-10-12T10:55:38.286Z"
     },
     "mocha": {
-      "hash": "744cb4ba5670e67d",
-      "bytes": 21562,
-      "thumbBytes": 5810,
-      "backend": "stock",
-      "model": "openverse+gemini-judge",
+      "hash": "1366e5af4edd6f55",
+      "bytes": 11212,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 795597357,
-      "credit": {
-        "source": "openverse",
-        "source_url": "https://www.flickr.com/photos/96748294@N06/13014814655",
-        "creator": "Nickay3111",
-        "license": "CC BY-SA 2.0",
-        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-      },
-      "generatedAt": "2026-10-10T01:38:03.325Z"
+      "generatedAt": "2026-10-15T18:38:55.448Z"
     },
     "mojito": {
       "hash": "2bcf91e10b37a932",
@@ -8245,14 +8345,15 @@
       "generatedAt": "2026-10-12T12:46:43.510Z"
     },
     "monster-energy": {
-      "hash": "408a798d09a3bebd",
-      "bytes": 10084,
-      "thumbBytes": 2896,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "1ff4d9ab26f681c4",
+      "bytes": 10376,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 2130203542,
-      "generatedAt": "2026-10-12T10:55:40.548Z"
+      "generatedAt": "2026-10-15T18:39:27.047Z"
     },
     "moscow-mule": {
       "hash": "0d23b21fbb4a9bbb",
@@ -8387,21 +8488,15 @@
       "generatedAt": "2026-10-12T10:55:52.406Z"
     },
     "muzlu-smoothie": {
-      "hash": "a54aca1c258fa697",
-      "bytes": 8842,
-      "thumbBytes": 2496,
-      "backend": "stock",
-      "model": "openverse+gemini-judge",
+      "hash": "7e4eec2250f8f60d",
+      "bytes": 6890,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 383349795,
-      "credit": {
-        "source": "openverse",
-        "source_url": "https://www.flickr.com/photos/58367355@N00/394857344",
-        "creator": "jules:stonesoup",
-        "license": "CC BY 2.0",
-        "license_url": "https://creativecommons.org/licenses/by/2.0/"
-      },
-      "generatedAt": "2026-10-10T01:38:59.887Z"
+      "generatedAt": "2026-10-15T18:40:10.633Z"
     },
     "nachos": {
       "hash": "d6801819f05aba17",
@@ -8421,14 +8516,15 @@
       "generatedAt": "2026-10-10T01:39:03.599Z"
     },
     "nane-limon": {
-      "hash": "8f7c08fd1ae842e5",
-      "bytes": 22550,
-      "thumbBytes": 5884,
-      "backend": "pollinations",
-      "model": "tongyi-mai/z-image-turbo",
+      "hash": "e0b651beac5acc9b",
+      "bytes": 16742,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
       "promptVersion": 1,
       "seed": 1004523842,
-      "generatedAt": "2026-10-12T10:55:53.073Z"
+      "generatedAt": "2026-10-15T18:40:02.898Z"
     },
     "naneli-limonata": {
       "hash": "93c9c28201021ebf",
@@ -8895,6 +8991,17 @@
       "seed": 994611490,
       "generatedAt": "2026-10-12T12:47:00.110Z"
     },
+    "nescafe": {
+      "hash": "38c1031fbba9ad9c",
+      "bytes": 15780,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 558593997,
+      "generatedAt": "2026-10-15T20:08:21.483Z"
+    },
     "nohut-koftesi": {
       "hash": "0dcc8d60c19aed4f",
       "bytes": 32898,
@@ -9020,6 +9127,17 @@
         "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
       },
       "generatedAt": "2026-10-10T04:13:00.874Z"
+    },
+    "oralet": {
+      "hash": "467f331cdb84b9ff",
+      "bytes": 13200,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1803237662,
+      "generatedAt": "2026-10-15T20:08:32.315Z"
     },
     "oreo-milkshake": {
       "hash": "d51f4e116f3995c4",
@@ -9947,6 +10065,39 @@
       },
       "generatedAt": "2026-10-10T09:55:57.366Z"
     },
+    "portakal-suyu": {
+      "hash": "0289af531af3c72a",
+      "bytes": 11436,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 909126790,
+      "generatedAt": "2026-10-15T18:52:34.287Z"
+    },
+    "portakal-tarcin-cayi": {
+      "hash": "aadc4b2ecd16c141",
+      "bytes": 19270,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1048216192,
+      "generatedAt": "2026-10-15T18:52:39.843Z"
+    },
+    "premium-su": {
+      "hash": "ebaef2a62f8b3eb9",
+      "bytes": 11354,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1563317489,
+      "generatedAt": "2026-10-15T18:41:09.507Z"
+    },
     "profiterol": {
       "hash": "8ca8106fcff2ed33",
       "bytes": 19720,
@@ -9974,6 +10125,28 @@
       "promptVersion": 1,
       "seed": 344403723,
       "generatedAt": "2026-10-12T12:47:56.487Z"
+    },
+    "protein-smoothie": {
+      "hash": "864b982187076abf",
+      "bytes": 13774,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1429559470,
+      "generatedAt": "2026-10-15T18:41:34.065Z"
+    },
+    "pumpkin-spice-latte": {
+      "hash": "70d835037e0a49c6",
+      "bytes": 14936,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1103944554,
+      "generatedAt": "2026-10-15T18:41:34.247Z"
     },
     "quesadilla": {
       "hash": "452939d119afeb10",
@@ -10019,6 +10192,28 @@
         "license_url": "https://creativecommons.org/licenses/by/2.0/"
       },
       "generatedAt": "2026-10-10T10:55:11.170Z"
+    },
+    "red-bull": {
+      "hash": "f62244217e71952c",
+      "bytes": 14234,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 287866460,
+      "generatedAt": "2026-10-15T18:42:17.307Z"
+    },
+    "red-bull-sugarfree": {
+      "hash": "74a0b023b141438e",
+      "bytes": 10374,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1282022974,
+      "generatedAt": "2026-10-15T18:41:55.052Z"
     },
     "red-velvet": {
       "hash": "855372532229347b",
@@ -10071,6 +10266,17 @@
       },
       "generatedAt": "2026-10-10T10:56:14.465Z"
     },
+    "ristretto": {
+      "hash": "c279ae05c36bba35",
+      "bytes": 12756,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1237324099,
+      "generatedAt": "2026-10-15T18:43:14.272Z"
+    },
     "rooibos-cayi": {
       "hash": "64a2aa80e686fc6c",
       "bytes": 6710,
@@ -10122,6 +10328,17 @@
       },
       "generatedAt": "2026-10-10T10:57:53.681Z"
     },
+    "sade-omlet": {
+      "hash": "1097c4e6b58116a8",
+      "bytes": 19004,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1216675731,
+      "generatedAt": "2026-10-15T20:08:40.085Z"
+    },
     "sahanda-yumurta": {
       "hash": "2e57135d53a1a91a",
       "bytes": 20486,
@@ -10166,6 +10383,17 @@
       "promptVersion": 1,
       "seed": 1686864052,
       "generatedAt": "2026-10-14T18:07:22.414Z"
+    },
+    "salgam-suyu": {
+      "hash": "f5774b3428b24466",
+      "bytes": 9004,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1405511703,
+      "generatedAt": "2026-10-15T18:43:14.097Z"
     },
     "salted-caramel-latte": {
       "hash": "e13aad8e34ae343b",
@@ -10285,6 +10513,17 @@
       },
       "generatedAt": "2026-10-10T11:01:51.160Z"
     },
+    "seftali-cayi": {
+      "hash": "1435fc0111351d1a",
+      "bytes": 19866,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1529694452,
+      "generatedAt": "2026-10-15T18:44:21.156Z"
+    },
     "seftali-suyu": {
       "hash": "80323f5188135d38",
       "bytes": 32452,
@@ -10352,6 +10591,17 @@
       },
       "generatedAt": "2026-10-10T11:05:38.590Z"
     },
+    "sicak-elma-suyu": {
+      "hash": "caace359c0892057",
+      "bytes": 20228,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 2095452754,
+      "generatedAt": "2026-10-15T18:43:40.088Z"
+    },
     "sicak-sut": {
       "hash": "2089e5958dc1c719",
       "bytes": 12498,
@@ -10403,6 +10653,17 @@
       },
       "generatedAt": "2026-10-10T11:06:39.677Z"
     },
+    "sirinler-kokteyli": {
+      "hash": "df50d4d0abd2c634",
+      "bytes": 10918,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1874833098,
+      "generatedAt": "2026-10-15T18:44:16.371Z"
+    },
     "smirnoff-votka": {
       "hash": "aff24d3ff3a6fff4",
       "bytes": 6622,
@@ -10413,6 +10674,17 @@
       "promptVersion": 1,
       "seed": 451086793,
       "generatedAt": "2026-10-13T13:01:43.019Z"
+    },
+    "soda": {
+      "hash": "446dd16f292a0fea",
+      "bytes": 12850,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1381386165,
+      "generatedAt": "2026-10-15T18:44:48.630Z"
     },
     "sogan-halkasi": {
       "hash": "6080c9bb8f07bdaf",
@@ -10464,6 +10736,17 @@
         "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
       },
       "generatedAt": "2026-10-10T11:12:16.469Z"
+    },
+    "soguk-kakao": {
+      "hash": "c7d4c9472e49ad22",
+      "bytes": 10328,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1378737169,
+      "generatedAt": "2026-10-15T18:44:58.020Z"
     },
     "soguk-turk-kahvesi": {
       "hash": "920c3c7a6ebd540b",
@@ -10618,6 +10901,17 @@
       },
       "generatedAt": "2026-10-10T11:15:50.654Z"
     },
+    "soya-soslu-tavuk": {
+      "hash": "1b7a18c71487a337",
+      "bytes": 18762,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 875879800,
+      "generatedAt": "2026-10-15T20:08:57.508Z"
+    },
     "spaghetti-bolognese": {
       "hash": "e183dc76fbc3fb0a",
       "bytes": 39942,
@@ -10703,6 +10997,17 @@
       },
       "generatedAt": "2026-10-10T11:18:21.274Z"
     },
+    "sprite": {
+      "hash": "bf7ddd3aab434027",
+      "bytes": 10912,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 153378394,
+      "generatedAt": "2026-10-15T18:46:06.934Z"
+    },
     "striploin-steak": {
       "hash": "118235181b4cadbf",
       "bytes": 115788,
@@ -10719,6 +11024,39 @@
         "license_url": "https://creativecommons.org/licenses/by/2.0/"
       },
       "generatedAt": "2026-10-10T11:19:49.063Z"
+    },
+    "su-1-l": {
+      "hash": "50177a5da139823b",
+      "bytes": 10858,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1558290835,
+      "generatedAt": "2026-10-15T18:45:50.254Z"
+    },
+    "su-33-cl": {
+      "hash": "edd6c96b40151b4e",
+      "bytes": 10940,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1832060008,
+      "generatedAt": "2026-10-15T18:46:21.378Z"
+    },
+    "su-50-cl": {
+      "hash": "e74b4fcfa3a0adc4",
+      "bytes": 12724,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1429911459,
+      "generatedAt": "2026-10-15T18:46:41.133Z"
     },
     "sucuk-ekmek": {
       "hash": "ae658b1f1e5e966c",
@@ -10753,6 +11091,28 @@
         "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
       },
       "generatedAt": "2026-10-10T11:22:49.932Z"
+    },
+    "sucuklu-menemen": {
+      "hash": "0d5986d2032aa8a2",
+      "bytes": 33054,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 79049109,
+      "generatedAt": "2026-10-15T20:09:12.085Z"
+    },
+    "sucuklu-omlet": {
+      "hash": "946fe1bfa464b0f0",
+      "bytes": 23740,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1351853724,
+      "generatedAt": "2026-10-15T20:09:34.543Z"
     },
     "sufle": {
       "hash": "fe3896272122246b",
@@ -10805,6 +11165,17 @@
       },
       "generatedAt": "2026-10-10T11:25:07.721Z"
     },
+    "sut": {
+      "hash": "9b83f314d6c40ce0",
+      "bytes": 9838,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 2117587758,
+      "generatedAt": "2026-10-15T18:46:41.916Z"
+    },
     "sutlac": {
       "hash": "bdc5197e0b6289a9",
       "bytes": 92360,
@@ -10856,6 +11227,28 @@
       },
       "generatedAt": "2026-10-10T11:25:55.013Z"
     },
+    "sutlu-nescafe": {
+      "hash": "65e60d16e55bf8e4",
+      "bytes": 11530,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 187118295,
+      "generatedAt": "2026-10-15T20:09:41.503Z"
+    },
+    "sutlu-turk-kahvesi": {
+      "hash": "0794f7827ac50972",
+      "bytes": 16564,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1429623575,
+      "generatedAt": "2026-10-15T18:47:14.934Z"
+    },
     "suzme-mercimek-corbasi": {
       "hash": "57846b77c0f92ba8",
       "bytes": 34640,
@@ -10889,6 +11282,17 @@
         "license_url": "https://creativecommons.org/licenses/by/2.0/"
       },
       "generatedAt": "2026-10-10T11:26:47.712Z"
+    },
+    "sweet-chili-tavuk": {
+      "hash": "c172d3c7f65dbcf8",
+      "bytes": 22260,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1865463504,
+      "generatedAt": "2026-10-15T20:09:58.786Z"
     },
     "t-bone-steak": {
       "hash": "8f15aa51d54064a7",
@@ -11002,6 +11406,17 @@
         "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
       },
       "generatedAt": "2026-10-10T11:30:41.359Z"
+    },
+    "tarcinli-sut": {
+      "hash": "1314d39f7869d6a9",
+      "bytes": 15782,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1651366101,
+      "generatedAt": "2026-10-15T18:47:25.179Z"
     },
     "taro-bubble-tea": {
       "hash": "159b5d03a4a674c8",
@@ -11275,6 +11690,17 @@
       },
       "generatedAt": "2026-10-10T11:38:27.670Z"
     },
+    "taze-greyfurt-suyu": {
+      "hash": "ded7bc6a976e388d",
+      "bytes": 13066,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 552226727,
+      "generatedAt": "2026-10-15T18:47:40.897Z"
+    },
     "taze-havuc-suyu": {
       "hash": "0ace0fb5c91e9778",
       "bytes": 34898,
@@ -11308,6 +11734,50 @@
         "license_url": "https://creativecommons.org/licenses/by/2.0/"
       },
       "generatedAt": "2026-10-10T11:39:27.883Z"
+    },
+    "taze-karpuz-suyu": {
+      "hash": "99454959f4ce66d2",
+      "bytes": 11056,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 112736649,
+      "generatedAt": "2026-10-15T18:47:44.538Z"
+    },
+    "taze-kavun-suyu": {
+      "hash": "a859ae6b04638753",
+      "bytes": 9980,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1089214865,
+      "generatedAt": "2026-10-15T18:48:30.640Z"
+    },
+    "taze-nar-suyu": {
+      "hash": "195d0385b40ba143",
+      "bytes": 15506,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 688290717,
+      "generatedAt": "2026-10-15T18:48:18.191Z"
+    },
+    "taze-portakal-havuc-suyu": {
+      "hash": "57373f84f0a9367a",
+      "bytes": 14504,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 796167858,
+      "generatedAt": "2026-10-15T18:48:54.723Z"
     },
     "taze-portakal-suyu": {
       "hash": "bef165db95d7d2bc",
@@ -11488,6 +11958,17 @@
       },
       "generatedAt": "2026-10-10T11:45:30.446Z"
     },
+    "toffee-nut-latte": {
+      "hash": "fb6f8d8e066ce874",
+      "bytes": 12250,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 791285254,
+      "generatedAt": "2026-10-15T18:49:03.267Z"
+    },
     "tom-yum-corbasi": {
       "hash": "a6e10b0a17c59ba1",
       "bytes": 63972,
@@ -11539,6 +12020,17 @@
       },
       "generatedAt": "2026-10-10T11:46:04.148Z"
     },
+    "ton-balikli-salata": {
+      "hash": "caf95cb1d1d6d558",
+      "bytes": 20216,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 2098735744,
+      "generatedAt": "2026-10-15T20:10:19.160Z"
+    },
     "ton-balikli-sandvic": {
       "hash": "4c9e2feed922ead7",
       "bytes": 27562,
@@ -11555,6 +12047,17 @@
         "license_url": "https://creativecommons.org/licenses/by/2.0/"
       },
       "generatedAt": "2026-10-10T11:46:44.569Z"
+    },
+    "tonik": {
+      "hash": "5bffd32c9e267fbd",
+      "bytes": 12392,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 2075033315,
+      "generatedAt": "2026-10-15T18:49:30.401Z"
     },
     "tortilla-cips-salsa": {
       "hash": "d049d25b6d5ec6fb",
@@ -11611,6 +12114,17 @@
         "license_url": "https://creativecommons.org/licenses/by/2.0/"
       },
       "generatedAt": "2026-10-10T11:47:46.758Z"
+    },
+    "tuzlu-yer-fistigi": {
+      "hash": "04c42b68813755aa",
+      "bytes": 19650,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1014721284,
+      "generatedAt": "2026-10-15T20:10:26.473Z"
     },
     "uc-peynirli-tost": {
       "hash": "aee8213fe40dee98",
@@ -11679,6 +12193,17 @@
         "license_url": "https://creativecommons.org/licenses/by/2.0/"
       },
       "generatedAt": "2026-10-10T11:48:34.665Z"
+    },
+    "vanilla-latte": {
+      "hash": "4cf12478c2443f20",
+      "bytes": 12154,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1273129171,
+      "generatedAt": "2026-10-15T18:49:25.264Z"
     },
     "vanilyali-milkshake": {
       "hash": "8ea58bd68e45ba9a",
@@ -11759,6 +12284,17 @@
       "seed": 1907187174,
       "generatedAt": "2026-10-14T18:08:12.401Z"
     },
+    "virgin-pina-colada": {
+      "hash": "eff1f63903e7ba51",
+      "bytes": 8312,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1760923940,
+      "generatedAt": "2026-10-15T18:49:53.952Z"
+    },
     "visne-cayi": {
       "hash": "e0debe6398c1b48d",
       "bytes": 25454,
@@ -11775,6 +12311,17 @@
         "license_url": "https://creativecommons.org/licenses/by/2.0/"
       },
       "generatedAt": "2026-10-10T11:51:47.104Z"
+    },
+    "visne-suyu": {
+      "hash": "f15f3dfedd8fd4bf",
+      "bytes": 13264,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1590216905,
+      "generatedAt": "2026-10-15T18:50:07.154Z"
     },
     "whiskey-sour": {
       "hash": "2967a5143e9e91d8",
@@ -11882,6 +12429,17 @@
         "license_url": "https://creativecommons.org/licenses/by/2.0/"
       },
       "generatedAt": "2026-10-10T11:53:31.066Z"
+    },
+    "yayik-ayrani": {
+      "hash": "c5e9172a41ec001f",
+      "bytes": 12498,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 576048575,
+      "generatedAt": "2026-10-15T18:51:03.764Z"
     },
     "yeni-raki-20cl": {
       "hash": "52131119e582892d",
@@ -12063,6 +12621,17 @@
       },
       "generatedAt": "2026-10-10T11:55:03.614Z"
     },
+    "zencefil-limon": {
+      "hash": "8b1884992073669a",
+      "bytes": 19590,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1032664439,
+      "generatedAt": "2026-10-15T18:50:39.714Z"
+    },
     "zeytin-porsiyon": {
       "hash": "1a818aaef51206aa",
       "bytes": 17608,
@@ -12187,7 +12756,8 @@
     "neurons": {
       "2026-10-12": 3126.000000000005,
       "2026-10-13": 573.1,
-      "2026-10-14": 2787.3500000000026
+      "2026-10-14": 2787.3500000000026,
+      "2026-10-15": 6825.099999999992
     }
   }
 }
