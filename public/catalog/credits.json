@@ -945,15 +945,6 @@
     "license_url": "https://pixabay.com/service/license-summary/"
   },
   {
-    "slug": "kis-cayi",
-    "name": "Kış Çayı",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/48326903@N06/31868169113",
-    "creator": "Ka `",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
     "slug": "kiymali-gozleme",
     "name": "Kıymalı Gözleme",
     "source": "Openverse",
@@ -1033,15 +1024,6 @@
     "creator": "William Neuheisel from DC, US",
     "license": "CC BY 2.0",
     "license_url": "https://creativecommons.org/licenses/by/2.0"
-  },
-  {
-    "slug": "kola-turka",
-    "name": "Kola Turka",
-    "source": "Wikimedia Commons",
-    "source_url": "https://commons.wikimedia.org/wiki/File:Glass_of_Cola.jpg",
-    "creator": "Cocktailmarler",
-    "license": "CC BY-SA 4.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
     "slug": "korean-fried-chicken",
@@ -1260,24 +1242,6 @@
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
   {
-    "slug": "london-fog",
-    "name": "London Fog",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/56183874@N08/6287147411",
-    "creator": "Stephan Rosger",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "lungo",
-    "name": "Lungo",
-    "source": "Pixabay",
-    "source_url": "https://pixabay.com/photos/coffee-drink-cappuccino-italian-3129357/",
-    "creator": "ClickerHappy",
-    "license": "Pixabay Content License",
-    "license_url": "https://pixabay.com/service/license-summary/"
-  },
-  {
     "slug": "mac-and-cheese",
     "name": "Mac & Cheese",
     "source": "Openverse",
@@ -1303,24 +1267,6 @@
     "creator": "robert and fabienne",
     "license": "CC BY 2.0",
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "mango-smoothie",
-    "name": "Mango Smoothie",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/150788323@N04/33908826224",
-    "creator": "EasyHealthySmoothie",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "mango-suyu",
-    "name": "Mango Suyu",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/40998509@N02/8397119665",
-    "creator": "GinkgoTelegraph",
-    "license": "CC BY-SA 2.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
   },
   {
     "slug": "mantar-corbasi",
@@ -1393,51 +1339,6 @@
     "creator": "stu_spivack",
     "license": "CC BY-SA 2.0",
     "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-  },
-  {
-    "slug": "masala-chai",
-    "name": "Masala Chai",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/21222022@N03/4700888947",
-    "creator": "karaemurphy",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "matcha-bubble-tea",
-    "name": "Matcha Bubble Tea",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/23178876@N03/7660765558",
-    "creator": "cyclonebill",
-    "license": "CC BY-SA 2.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-  },
-  {
-    "slug": "matcha-latte",
-    "name": "Matcha Latte",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/10559879@N00/3122544172",
-    "creator": "avlxyz",
-    "license": "CC BY-SA 2.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-  },
-  {
-    "slug": "melisa-cayi",
-    "name": "Melisa Çayı",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/89060048@N03/16723546768",
-    "creator": "City Foodsters",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "menengic-kahvesi",
-    "name": "Menengiç Kahvesi",
-    "source": "Wikimedia Commons",
-    "source_url": "https://commons.wikimedia.org/wiki/File:Qehweya_kurd%C3%AE_Amed_2012.JPG",
-    "creator": "MikaelF",
-    "license": "CC BY-SA 3.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
     "slug": "mercimek-corbasi",
@@ -1557,15 +1458,6 @@
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
   {
-    "slug": "mocha",
-    "name": "Mocha",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/96748294@N06/13014814655",
-    "creator": "Nickay3111",
-    "license": "CC BY-SA 2.0",
-    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
-  },
-  {
     "slug": "mozzarella-sticks",
     "name": "Mozzarella Sticks",
     "source": "Openverse",
@@ -1589,15 +1481,6 @@
     "source": "Openverse",
     "source_url": "https://www.flickr.com/photos/49326400@N00/6870386851",
     "creator": "mosespreciado",
-    "license": "CC BY 2.0",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/"
-  },
-  {
-    "slug": "muzlu-smoothie",
-    "name": "Muzlu Smoothie",
-    "source": "Openverse",
-    "source_url": "https://www.flickr.com/photos/58367355@N00/394857344",
-    "creator": "jules:stonesoup",
     "license": "CC BY 2.0",
     "license_url": "https://creativecommons.org/licenses/by/2.0/"
   },
