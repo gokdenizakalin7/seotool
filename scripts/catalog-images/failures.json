@@ -20,13 +20,6 @@
     "attempts": 1,
     "at": "2026-10-10T09:17:08.373Z"
   },
-  "piyaz": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates are suitable. Candidate 0 is an amateur snapshot of a bento box containing multiple items, has large text overlay ('Bento #306'), and visible branding on the cutlery. Candidate 1 is a photo of a plant, not the dish.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T09:18:45.253Z"
-  },
   "pirinc-pilavi": {
     "error": "Pollinations Pollen bitti / yetki yok (HTTP 402)",
     "kind": "quota",
@@ -41,68 +34,12 @@
     "attempts": 1,
     "at": "2026-10-10T09:19:52.431Z"
   },
-  "pizza-bbq-chicken": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 0.90: None of the candidates satisfy all the strict criteria. Candidate 0 is well-lit and professional but contains diced tomatoes, which are not in the description and atypical for a BBQ chicken pizza, and the sauce appears to be a standard tomato base rather than BBQ sauce. Candidate 1 includes unlisted ingredients like mushrooms and peppers. Candidate 2 is in a delivery box (packaging) and contains a plastic pizza saver. Candidate 3 shows a table spread with hands and other dishes. Candidate 4 has visible text in the background and poor lighting. Candidate 5 is blurry and low quality. Candidate 6 shows a person's torso and arms in the background.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T09:52:44.480Z"
-  },
-  "pizza-karisik": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates are suitable. Candidate 0 is a vegetable pizza with kitchen tools visible. Candidate 1 is a close-up of a pizza that does not match the requested ingredients (sucuk, salami, etc.). Candidate 2 shows a pizza with branding/cup in the background and is not a standard 'mixed pizza'. Candidate 3 is a collage of cooking steps. Candidate 4 is a salad, not a pizza.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T09:53:52.474Z"
-  },
-  "pizza-kiymali": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates are suitable for a professional menu. Most show raw ingredients, kitchen preparation, or people. Candidate 5 is the closest to a finished dish, but it is not a pizza, it is a messy, unappetizing preparation in a baking dish with a distracting, branded napkin featuring a cartoon character.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T09:54:26.299Z"
-  },
   "pizza-menu": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates meet the criteria. Candidate 0 is a toy. Candidate 1 is a pizza but lacks the required soft drink and has a visible knife. Candidate 2 is a restaurant exterior. Candidate 3 is a pasta dish, not a pizza. Candidates 4 and 5 are identical, show only pizza in a box (no drink), and are not appetizing. Candidate 6 is a pineapple pizza. Candidate 7 is a gas station sign.)",
     "kind": "nomatch",
     "backend": "stock",
     "attempts": 1,
     "at": "2026-10-10T09:55:00.807Z"
-  },
-  "pizza-napoli": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates show a Napoli pizza with the specified ingredients (tomato sauce, mozzarella, anchovies, capers, and black olives) as the main subject in a professional, clean, and text-free manner. Candidate 5 is a pizza but contains ingredients not listed (mushrooms, peppers) and is not a Napoli pizza. Other candidates are either boxes, kitchen scenes, or different types of pizza.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T09:55:20.406Z"
-  },
-  "pizza-pastirmali": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates are suitable. Candidate 0 is a generic pizza with olives and peppers. Candidate 1 is a pepperoni pizza. Candidate 2 and 4 are pizzas with ham and parsley. Candidate 3 is a pepperoni pizza. Candidate 5 is a pizza with tomatoes and feta/cheese, not pastirma. Candidate 6 has a visible brand logo on the plate. Candidate 7 is a vegetable pizza. None of the images represent a Pastirma pizza.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T09:55:22.348Z"
-  },
-  "pizza-sucuklu": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates are suitable. Candidate 0 is a supreme pizza with olives and peppers, not Sucuk. Candidate 1 is a pepperoni pizza. Candidate 2 is a ham and onion pizza with parsley. Candidate 3 is a pepperoni and sausage pizza. Candidate 4 is a ham and onion pizza. Candidate 5 is a pizza with tomato slices and feta/white cheese, not Sucuk. Candidate 6 has branding on the plate and is a chicken/green onion pizza. Candidate 7 is a vegetable pizza.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T09:55:41.096Z"
-  },
-  "pizza-tonno": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 0.95: None of the candidates are acceptable. Candidates 0, 1, and 2 show a pizza topped with tomato slices and dark greens (likely seaweed or spinach), which does not match the description of a tuna pizza with red onion and sweetcorn. Furthermore, the presence of chopsticks is inappropriate for a pizza dish. Candidate 3 shows a single slice of raw tuna on a decorative plate, which is not a 'Tuna Pizza' as described.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T09:55:51.401Z"
-  },
-  "pizza-vejetaryen": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 0.95: None of the candidate photos satisfy all the strict criteria. Candidate 0 and 2 contain people or body parts in the background. Candidate 1 shows a messy, half-eaten meal. Candidate 3 and 4 do not match the specific topping description (Candidate 3 has broccoli and asparagus; Candidate 4 is mostly cheese and mushrooms). Candidate 5 appears to be an unbaked pizza.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T10:03:01.555Z"
   },
   "ramazan-pidesi": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: The candidate photo shows a sandwich, not a Ramadan Pide.)",
@@ -124,20 +61,6 @@
     "backend": "stock",
     "attempts": 1,
     "at": "2026-10-10T10:56:32.528Z"
-  },
-  "roka-salatasi": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 0.90: None of the candidates accurately represent the requested 'Rocket Salad' (Roka Salatası). Candidate 0 contains red onion and bell pepper. Candidates 1-5 contain chickpeas, carrots, and mango. Candidate 6 contains blueberries. Candidate 7 contains meat/bacon, which is not in the description.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T10:56:48.647Z"
-  },
-  "rus-salatasi": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 0.95: Candidate 0 is a messy, low-quality snapshot. Candidate 1 is a plate of eggs with a small side of salad. Candidate 2 is a salad with tuna and other ingredients not in the description. Candidate 3 is a laboratory sample. Candidate 4 is a table spread where the salad is a minor side dish. Candidate 5 is a shrimp cocktail/layered salad, not the requested Russian salad.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T10:57:04.723Z"
   },
   "sac-kavurma": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: The candidate photo contains a prominent watermark/text ('Cahide Jibek') in the bottom left corner, which violates rule 3.)",
@@ -174,26 +97,12 @@
     "attempts": 1,
     "at": "2026-10-10T10:58:01.793Z"
   },
-  "saksuka": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 0.00)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T10:58:26.455Z"
-  },
   "salmon-roll": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates are acceptable. Candidate 0 shows two different types of rolls, not just the salmon roll. Candidates 1 and 2 are deep-fried rolls, not the standard salmon roll described. Candidate 3 is a salmon salad, not a roll. Candidate 4 is blurry and poorly composed. Candidate 5 shows a kitchen prep area with a knife and towel. Candidate 6 shows hand rolls, not the requested 8-piece salmon roll. Candidate 7 shows spring rolls, not sushi.)",
     "kind": "nomatch",
     "backend": "stock",
     "attempts": 1,
     "at": "2026-10-10T10:58:49.097Z"
-  },
-  "sardalya-izgara": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates meet all criteria. Candidate 0 and 4 show people and cooking environments. Candidate 1, 2, 3, and 5 do not show the sardines wrapped in vine leaves as specified in the description. Candidate 6 is a single fillet and does not represent the dish accurately.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T10:59:47.541Z"
   },
   "sarma-beyti": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the provided candidates show a Beyti Wrap. Candidate 0 is a group photo with food on a table, Candidate 1 is a gift, Candidate 2 is abstract art, Candidate 3 is a stir-fry dish, Candidate 4 is a macro shot of texture, Candidate 5 is a person on a beach, and Candidate 6 is bacon-wrapped chicken.)",
@@ -251,13 +160,6 @@
     "attempts": 1,
     "at": "2026-10-10T11:04:19.754Z"
   },
-  "sezar-salata": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 0.90: Candidate 0, 1, 3, 4, 5, 6 contain visible body parts (hands/arms) or are poorly lit/unappetizing. Candidate 2 is a burger, not a Caesar salad. Candidate 7 is a lifestyle shot with other dishes and background clutter, not a focused menu photo.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T11:04:52.626Z"
-  },
   "serpme-kahvalti-2-kisilik-menu": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates show a Turkish breakfast spread. Candidate 0 and 1 are toast/sandwich dishes, and the others are unrelated subjects (people, origami, buildings).)",
     "kind": "nomatch",
@@ -307,13 +209,6 @@
     "attempts": 1,
     "at": "2026-10-10T11:08:51.337Z"
   },
-  "smash-burger": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: All candidates fail the requirement to be free of branding or text. Every single candidate features branded paper liners with 'Smashburger' text and logos, which violates rule 3.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T11:09:24.394Z"
-  },
   "sobiyet": {
     "error": "hakem uygun fotoğraf bulmadı (güven 0.00)",
     "kind": "nomatch",
@@ -342,13 +237,6 @@
     "attempts": 1,
     "at": "2026-10-10T11:12:45.523Z"
   },
-  "sosis-tava": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates show the requested dish 'Pan-Fried Sausages' (Sosis Tava). Candidate 0 is pasta, Candidate 1 is a mixed meat platter with sauerkraut, Candidate 2 is a salad, and the others are irrelevant images (menu, restaurant interior, or branding).)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T11:14:28.508Z"
-  },
   "sosisli-menu": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates satisfy the requirements. Candidate 0 is a menu text, Candidate 1 is a low-quality, messy photo of a single hot dog without the full combo, Candidate 2 contains branding and people, and Candidate 3 is a photo of grass.)",
     "kind": "nomatch",
@@ -369,13 +257,6 @@
     "backend": "stock",
     "attempts": 1,
     "at": "2026-10-10T11:17:19.432Z"
-  },
-  "spicy-burger": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates are acceptable. Candidates 0, 1, 3, 4, 5, and 6 show a burger with guacamole, which is not mentioned in the description (the description specifies jalapeños, hot sauce, and cheddar). Candidate 2 and 7 are messy, amateur-style photos that do not meet the quality standards for a menu.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 3,
-    "at": "2026-10-10T11:18:22.643Z"
   },
   "steakhouse-et-tabagi": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates are acceptable. Candidate 0 contains a person. Candidate 1 is a stew-like dish, not a steak platter. Candidate 2 is a seafood platter. Candidate 3 is a dessert (baklava). Candidate 4 is a mixed grill platter that includes chicken and other items not matching the description of tenderloin, entrecôte, and lokum medallions, and it is also a low-quality, dark, amateur-style photo.)",
@@ -531,13 +412,6 @@
     "attempts": 1,
     "at": "2026-10-10T11:30:27.773Z"
   },
-  "tarama": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: Neither candidate photo depicts the requested food item (Tarama). Both are completely unrelated images.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T11:30:35.934Z"
-  },
   "tarhana-corbasi": {
     "error": "hakem uygun fotoğraf bulmadı (güven 0.00)",
     "kind": "nomatch",
@@ -692,13 +566,6 @@
     "attempts": 1,
     "at": "2026-10-10T11:45:56.693Z"
   },
-  "topik": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the provided candidates are photos of the food item 'Topik'. Candidate 0 is a photo of graffiti, Candidate 1 is a child in water, Candidate 2 is a group of people, Candidate 3 is a BMX rider, and Candidate 4 is a lecture hall.)",
-    "kind": "nomatch",
-    "backend": "stock",
-    "attempts": 1,
-    "at": "2026-10-10T11:46:23.470Z"
-  },
   "tost-cay-menusu": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the provided candidates show a 'Toastie + Tea Combo'. Candidate 0 is space, 1 is cupcakes, 2 and 4 are restaurant interiors, 3 is a dessert, 5 is a sign, and 6 is spring rolls.)",
     "kind": "nomatch",
@@ -728,11 +595,11 @@
     "at": "2026-10-10T11:46:55.675Z"
   },
   "truffle-burger": {
-    "error": "hakem uygun fotoğraf bulmadı (güven 1.00: None of the candidates accurately represent the 'Truffle Burger' as described. Several candidates (1, 4, 6) show a burger with shrimp, which is not in the description. Other candidates (0, 2, 3, 5) show a burger with a fried egg, which is also not in the description. Candidate 7 is poorly lit and blurry.)",
-    "kind": "nomatch",
-    "backend": "stock",
+    "error": "Cloudflare: AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (4b74edf0-799e-4e05-82e1-15aaed497e6d) (kod 4006)",
+    "kind": "quota",
+    "backend": "cloudflare",
     "attempts": 1,
-    "at": "2026-10-10T11:47:04.507Z"
+    "at": "2026-10-15T20:30:26.673Z"
   },
   "tulum-peyniri": {
     "error": "hakem uygun fotoğraf bulmadı (güven 1.00: Candidate 0 is a market display with text/labels. Candidate 1 is dark, blurry, and not clearly the dish. Candidate 2 is a full table spread, not the specific dish. Candidate 3 is not Tulum cheese. Candidate 4 is a black and white photo of a market stall with people and text.)",

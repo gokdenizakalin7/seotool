@@ -428,6 +428,17 @@
       "seed": 1138663747,
       "generatedAt": "2026-10-12T10:10:54.503Z"
     },
+    "avokadolu-salata": {
+      "hash": "cc8ff70caf376a54",
+      "bytes": 16756,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1467520441,
+      "generatedAt": "2026-10-15T20:25:33.562Z"
+    },
     "ay-coregi": {
       "hash": "dcf47cb48badb36f",
       "bytes": 24456,
@@ -2360,6 +2371,17 @@
       "promptVersion": 1,
       "seed": 646685566,
       "generatedAt": "2026-10-12T10:13:25.412Z"
+    },
+    "citir-tavuklu-salata": {
+      "hash": "c2a8ffe8a0c06b74",
+      "bytes": 20340,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 154245141,
+      "generatedAt": "2026-10-15T20:25:21.727Z"
     },
     "club-sandwich": {
       "hash": "81b69208cd059122",
@@ -6513,6 +6535,17 @@
       "seed": 1526235328,
       "generatedAt": "2026-10-12T10:53:21.690Z"
     },
+    "kofte-salata": {
+      "hash": "075961019186aede",
+      "bytes": 22516,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 793068331,
+      "generatedAt": "2026-10-15T20:25:54.674Z"
+    },
     "kofte-sandvic": {
       "hash": "3f40e01c0cb040e4",
       "bytes": 31240,
@@ -9923,6 +9956,28 @@
       "seed": 1820317982,
       "generatedAt": "2026-10-12T12:47:41.465Z"
     },
+    "piyaz": {
+      "hash": "91bccb745835541c",
+      "bytes": 16946,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 817481192,
+      "generatedAt": "2026-10-15T20:25:51.509Z"
+    },
+    "pizza-bbq-chicken": {
+      "hash": "27e9f8c415555927",
+      "bytes": 26796,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1071777081,
+      "generatedAt": "2026-10-15T20:26:15.780Z"
+    },
     "pizza-diavola": {
       "hash": "cb8249114685b261",
       "bytes": 113868,
@@ -9973,6 +10028,28 @@
         "license_url": "https://creativecommons.org/licenses/by/2.0/"
       },
       "generatedAt": "2026-10-10T09:53:20.650Z"
+    },
+    "pizza-karisik": {
+      "hash": "de5d43d7376d5438",
+      "bytes": 25476,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1144271335,
+      "generatedAt": "2026-10-15T20:26:39.147Z"
+    },
+    "pizza-kiymali": {
+      "hash": "856dd001ed65b5a1",
+      "bytes": 26516,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 2086493900,
+      "generatedAt": "2026-10-15T20:26:58.990Z"
     },
     "pizza-mantarli": {
       "hash": "4e1ecda96169d6dc",
@@ -10025,6 +10102,28 @@
       },
       "generatedAt": "2026-10-10T09:54:53.077Z"
     },
+    "pizza-napoli": {
+      "hash": "ca8c2064702d5c4a",
+      "bytes": 28968,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1789259415,
+      "generatedAt": "2026-10-15T20:27:09.867Z"
+    },
+    "pizza-pastirmali": {
+      "hash": "20d87df6fda3c33e",
+      "bytes": 28760,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1108212688,
+      "generatedAt": "2026-10-15T20:27:22.637Z"
+    },
     "pizza-pepperoni": {
       "hash": "dea5be3726cfefa3",
       "bytes": 36204,
@@ -10059,6 +10158,28 @@
       },
       "generatedAt": "2026-10-10T09:55:38.976Z"
     },
+    "pizza-sucuklu": {
+      "hash": "2b042a8cbaa7c080",
+      "bytes": 37200,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 713693703,
+      "generatedAt": "2026-10-15T20:27:34.904Z"
+    },
+    "pizza-tonno": {
+      "hash": "0efef305e6b5053c",
+      "bytes": 30104,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1948484827,
+      "generatedAt": "2026-10-15T20:27:49.085Z"
+    },
     "pizza-truf-mantarli": {
       "hash": "2c9e284b3637bf75",
       "bytes": 46088,
@@ -10075,6 +10196,17 @@
         "license_url": "https://creativecommons.org/licenses/by-sa/2.0/"
       },
       "generatedAt": "2026-10-10T09:55:57.366Z"
+    },
+    "pizza-vejetaryen": {
+      "hash": "cb74719d59ef10ab",
+      "bytes": 23428,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1290206225,
+      "generatedAt": "2026-10-15T20:28:08.047Z"
     },
     "portakal-suyu": {
       "hash": "0289af531af3c72a",
@@ -10288,6 +10420,17 @@
       "seed": 1237324099,
       "generatedAt": "2026-10-15T18:43:14.272Z"
     },
+    "roka-salatasi": {
+      "hash": "466c8896496eeffa",
+      "bytes": 20952,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 699546972,
+      "generatedAt": "2026-10-15T20:28:06.422Z"
+    },
     "rooibos-cayi": {
       "hash": "64a2aa80e686fc6c",
       "bytes": 6710,
@@ -10304,6 +10447,17 @@
         "license_url": "https://creativecommons.org/licenses/by/2.0/"
       },
       "generatedAt": "2026-10-10T10:56:52.170Z"
+    },
+    "rus-salatasi": {
+      "hash": "f3cab1ba2c7a8143",
+      "bytes": 13254,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 408099761,
+      "generatedAt": "2026-10-15T20:28:35.214Z"
     },
     "sac-kavurma-durum": {
       "hash": "77d594ded0ad48a2",
@@ -10383,6 +10537,17 @@
         "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
       },
       "generatedAt": "2026-10-10T10:58:23.357Z"
+    },
+    "saksuka": {
+      "hash": "bd31218c0e07cdd6",
+      "bytes": 17166,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1131405300,
+      "generatedAt": "2026-10-15T20:28:32.909Z"
     },
     "salep": {
       "hash": "e342052d281513f2",
@@ -10472,6 +10637,17 @@
       "promptVersion": 1,
       "seed": 1531075675,
       "generatedAt": "2026-10-13T13:00:53.968Z"
+    },
+    "sardalya-izgara": {
+      "hash": "6317c1d4923546cb",
+      "bytes": 20464,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 98861088,
+      "generatedAt": "2026-10-15T20:28:55.117Z"
     },
     "sarimsakli-ekmek": {
       "hash": "4e5e8c445465804a",
@@ -10574,6 +10750,17 @@
       "seed": 1973791807,
       "generatedAt": "2026-10-13T13:01:41.327Z"
     },
+    "sezar-salata": {
+      "hash": "cebb05a5da6220eb",
+      "bytes": 18984,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 139972552,
+      "generatedAt": "2026-10-15T20:29:04.532Z"
+    },
     "shot-tabagi-6li": {
       "hash": "0698baa991790293",
       "bytes": 8642,
@@ -10674,6 +10861,17 @@
       "promptVersion": 1,
       "seed": 1874833098,
       "generatedAt": "2026-10-15T18:44:16.371Z"
+    },
+    "smash-burger": {
+      "hash": "72aafa72cbe62c33",
+      "bytes": 23172,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 873009991,
+      "generatedAt": "2026-10-15T20:29:29.833Z"
     },
     "smirnoff-votka": {
       "hash": "aff24d3ff3a6fff4",
@@ -10878,6 +11076,17 @@
       },
       "generatedAt": "2026-10-10T11:14:28.260Z"
     },
+    "sosis-tava": {
+      "hash": "1c7e9c2c8f1a5dd4",
+      "bytes": 22996,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1045263205,
+      "generatedAt": "2026-10-15T20:29:40.085Z"
+    },
     "sosisli-patates": {
       "hash": "f8564f424bda5bd7",
       "bytes": 42132,
@@ -10990,6 +11199,17 @@
         "license_url": "https://creativecommons.org/licenses/by/2.0/"
       },
       "generatedAt": "2026-10-10T11:16:42.185Z"
+    },
+    "spicy-burger": {
+      "hash": "d386d5b740e8bf0c",
+      "bytes": 26224,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 369491753,
+      "generatedAt": "2026-10-15T20:29:55.187Z"
     },
     "spring-roll": {
       "hash": "2756814e240c6c81",
@@ -11400,6 +11620,17 @@
       "promptVersion": 1,
       "seed": 140947721,
       "generatedAt": "2026-10-12T12:38:02.462Z"
+    },
+    "tarama": {
+      "hash": "641220bb9b67b7f6",
+      "bytes": 17976,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 81230189,
+      "generatedAt": "2026-10-15T20:30:28.639Z"
     },
     "tarcinli-kurabiye": {
       "hash": "5f8e7f842f4f8217",
@@ -12069,6 +12300,17 @@
       "promptVersion": 1,
       "seed": 2075033315,
       "generatedAt": "2026-10-15T18:49:30.401Z"
+    },
+    "topik": {
+      "hash": "3ee16be67d11433a",
+      "bytes": 19850,
+      "thumbBytes": 0,
+      "single": true,
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-2-klein-4b",
+      "promptVersion": 1,
+      "seed": 1224528490,
+      "generatedAt": "2026-10-15T20:30:26.003Z"
     },
     "tortilla-cips-salsa": {
       "hash": "d049d25b6d5ec6fb",
@@ -12768,7 +13010,7 @@
       "2026-10-12": 3126.000000000005,
       "2026-10-13": 573.1,
       "2026-10-14": 2787.3500000000026,
-      "2026-10-15": 6929.299999999992
+      "2026-10-15": 9221.699999999997
     }
   }
 }
