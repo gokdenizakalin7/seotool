@@ -7,6 +7,8 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export interface PlatformSettings {
   signup_enabled: boolean
+  /** /signup kayıtları sistem yöneticisi onaylayana kadar 'pending' kalır (site yayınlanmaz) */
+  signup_requires_approval: boolean
   image_gen_org_daily_cap: number
   image_gen_daily_cap: number
   suspended_menu_message: string
@@ -14,6 +16,7 @@ export interface PlatformSettings {
 
 export const DEFAULT_SETTINGS: PlatformSettings = {
   signup_enabled: true,
+  signup_requires_approval: true,
   image_gen_org_daily_cap: Number(process.env.IMAGE_GEN_ORG_DAILY_CAP) || 20,
   image_gen_daily_cap: Number(process.env.IMAGE_GEN_DAILY_CAP) || 150,
   suspended_menu_message: 'Bu menü geçici olarak hizmet dışıdır.',

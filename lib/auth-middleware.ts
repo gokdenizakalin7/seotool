@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from './supabase-admin'
 import { logSecurityEvent } from './security-logger'
 import { getClientIp } from './rate-limiter'
+import { isReadOnlyStatus } from './org-status'
 
 /**
  * Sunucu taraflı kimlik doğrulama ve çoklu kiracı (IDOR) yetkilendirme modülü.
@@ -139,15 +140,18 @@ export interface OrgAccessOptions {
   allowSuspended?: boolean
 }
 
-/** Org askıdaysa sebebini döner. Migration 11 çalışmadıysa (sütun yok) askıda sayılmaz. */
-export async function getOrgSuspension(organizationId: string): Promise<{ reason: string } | null> {
+/**
+ * Org askıdaysa ya da başvurusu reddedildiyse (panel salt-okunur) sebebini döner.
+ * Migration 11 çalışmadıysa (sütun yok) askıda sayılmaz. Onay bekleyen (pending) işletme yazabilir.
+ */
+export async function getOrgSuspension(organizationId: string): Promise<{ reason: string; status: string } | null> {
   const { data, error } = await supabaseAdmin
     .from('organizations')
     .select('status, status_reason')
     .eq('id', organizationId)
     .maybeSingle()
-  if (error || !data || data.status !== 'suspended') return null
-  return { reason: data.status_reason || '' }
+  if (error || !data || !isReadOnlyStatus(data.status)) return null
+  return { reason: data.status_reason || '', status: data.status }
 }
 
 /**
@@ -201,7 +205,10 @@ async function checkOrgAccess(
       return {
         response: NextResponse.json(
           {
-            error: 'Hesabınız askıya alındığı için değişiklik yapılamaz.',
+            error:
+              suspended.status === 'rejected'
+                ? 'Başvurunuz onaylanmadığı için değişiklik yapılamaz.'
+                : 'Hesabınız askıya alındığı için değişiklik yapılamaz.',
             code: 'ORG_SUSPENDED',
             reason: suspended.reason,
           },

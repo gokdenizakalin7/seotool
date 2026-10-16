@@ -9,6 +9,7 @@ import {
   DashboardRoute,
   ImageCredits,
   LandingPage,
+  LegalPage,
   Login,
   OnboardingRoute,
   Signup,
@@ -97,6 +98,8 @@ export function ClientApp() {
           <Route path="/business" element={<BusinessDirectory />} />
           {/* /menu/:subdomain ayrı sunucu rotasıdır (app/menu/[subdomain]); panel paketine girmez */}
           <Route path="/gorsel-kaynaklari" element={<ImageCredits />} />
+          <Route path="/kosullar" element={<LegalPage kind="terms" />} />
+          <Route path="/gizlilik" element={<LegalPage kind="privacy" />} />
           <Route path="*" element={<LandingPage />} />
         </Routes>
         </Suspense>

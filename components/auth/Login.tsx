@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { QrCode, Loader2, ArrowRight, Lock, Mail, ChefHat } from 'lucide-react'
+import { QrCode, Loader2, ArrowRight, Lock, Mail, ChefHat, Eye, EyeOff } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { setClientSession } from '@/lib/session'
 import { supabase } from '@/lib/supabase'
@@ -14,6 +14,7 @@ import { DashboardContent, DashboardRoute } from '@/components/lazy-pages'
 export function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
@@ -181,11 +182,20 @@ export function Login() {
                     id="password"
                     placeholder="••••••••"
                     required
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-black/20 border border-white/10 text-white placeholder-white/30 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all shadow-inner"
+                    className="w-full bg-black/20 border border-white/10 text-white placeholder-white/30 rounded-2xl py-4 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all shadow-inner"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    aria-label={showPassword ? 'Şifreyi gizle' : 'Şifreyi göster'}
+                    title={showPassword ? 'Şifreyi gizle' : 'Şifreyi göster'}
+                    className="absolute inset-y-0 right-0 flex items-center pr-4 text-white/40 hover:text-white transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
                 </div>
               </div>
             </div>

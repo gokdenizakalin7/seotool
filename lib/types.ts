@@ -1,4 +1,4 @@
-export type AccountStatus = 'active' | 'suspended'
+export type AccountStatus = 'active' | 'suspended' | 'pending' | 'rejected'
 
 export type ProductTag =
   | 'hot'

@@ -41,8 +41,8 @@ export function OverviewPage() {
             label="Restoranlar"
             icon={Building2}
             value={n(s.organizations)}
-            hint={`${n(s.organizations_active)} aktif · ${n(s.organizations_suspended)} askıda`}
-            tone={s.organizations_suspended ? 'warn' : 'good'}
+            hint={`${n(s.organizations_active)} aktif · ${n(s.organizations_pending)} başvuru · ${n(s.organizations_suspended)} askıda`}
+            tone={s.organizations_pending || s.organizations_suspended ? 'warn' : 'good'}
           />
           <StatCard
             label="Kullanıcılar"

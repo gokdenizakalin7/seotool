@@ -47,6 +47,20 @@ export const getPublicRestaurant = cache(async (subdomain: string): Promise<any 
         message: await getSetting('suspended_menu_message'),
       }
     }
+    // Başvurusu reddedilen işletmenin sitesi yok
+    if (status === 'rejected') return null
+    // Onay bekleyen başvuru: site yayınlanmaz; işletme adı ve logosu da gösterilmez (yalnızca adres bilinir)
+    if (status === 'pending') {
+      return {
+        id: rest.id,
+        name: '',
+        logo_url: '',
+        primary_color: rest.primary_color,
+        suspended: true,
+        pending: true,
+        message: 'Bu adres henüz yayında değil. İşletme başvurusu onaylandığında menü burada açılacak.',
+      }
+    }
     return rest
   } catch (err) {
     console.error('getPublicRestaurant:', err)

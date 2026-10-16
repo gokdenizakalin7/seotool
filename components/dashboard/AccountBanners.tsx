@@ -3,32 +3,35 @@
 import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import { ArrowLeft, PauseCircle, ShieldCheck } from 'lucide-react'
+import { ArrowLeft, Clock, PauseCircle, ShieldCheck, XCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import { clearImpersonation } from '@/lib/impersonation'
+import { ORG_STATUS_LABELS } from '@/lib/org-status'
 
 /**
  * Restoran paneli üst bantları:
  *  - Süper admin "Panele Gir" ile başka restoranı görüntülüyorsa
- *  - Restoran askıya alınmışsa (sebebiyle; panel salt-okunur, kaydetme 423 döner)
+ *  - Kayıt başvurusu onay bekliyorsa (site yayında değil; panel kullanılabilir)
+ *  - Başvuru reddedildiyse ya da restoran askıya alındıysa (sebebiyle; panel salt-okunur, kaydetme 423 döner)
  */
 export function AccountBanners() {
   const navigate = useNavigate()
-  const { restaurant, impersonating, isSuspended } = useRestaurant()
+  const { restaurant, impersonating, isSuspended, isPending } = useRestaurant()
   const lastToast = useRef(0)
 
   useEffect(() => {
     const onSuspended = () => {
       if (Date.now() - lastToast.current < 4000) return
       lastToast.current = Date.now()
-      toast.error('Hesabınız askıya alındığı için değişiklik kaydedilemedi.')
+      toast.error('Hesabınız değişikliğe kapalı olduğu için kaydedilemedi.')
     }
     window.addEventListener('org-suspended', onSuspended)
     return () => window.removeEventListener('org-suspended', onSuspended)
   }, [])
 
   if (!restaurant) return null
+  const status = restaurant.status
 
   return (
     <>
@@ -38,7 +41,7 @@ export function AccountBanners() {
             <ShieldCheck className="h-4 w-4 shrink-0" />
             <span>
               <b>{restaurant.name}</b> restoranını sistem yöneticisi olarak görüntülüyorsunuz. Yaptığınız değişiklikler bu restorana kaydedilir.
-              {restaurant.status === 'suspended' && ' (Restoran askıda)'}
+              {status !== 'active' && ` (${ORG_STATUS_LABELS[status]})`}
             </span>
           </span>
           <Button
@@ -54,7 +57,29 @@ export function AccountBanners() {
           </Button>
         </div>
       )}
-      {isSuspended && (
+      {isPending && !impersonating && (
+        <div className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-sm text-amber-900 dark:text-amber-100 lg:px-6">
+          <p className="flex items-center gap-2 font-semibold">
+            <Clock className="h-4 w-4 shrink-0" /> Başvurunuz inceleniyor
+          </p>
+          <p className="mt-0.5 text-xs">
+            İşletme siteniz ve QR menünüz, başvurunuz sistem yöneticisi tarafından onaylanana kadar yayına girmez. Bu sırada
+            kurulumu tamamlayıp menünüzü hazırlayabilirsiniz; onaylandığında siteniz otomatik olarak açılır.
+          </p>
+        </div>
+      )}
+      {isSuspended && status === 'rejected' && (
+        <div className="border-b border-red-500/30 bg-red-500/10 px-4 py-2.5 text-sm text-red-800 dark:text-red-200 lg:px-6">
+          <p className="flex items-center gap-2 font-semibold">
+            <XCircle className="h-4 w-4 shrink-0" /> Başvurunuz onaylanmadı
+          </p>
+          <p className="mt-0.5 text-xs">
+            Sebep: {restaurant.statusReason || 'belirtilmemiş'}. İşletme siteniz yayınlanmıyor ve panelde değişiklik yapılamıyor.
+            Bilgi için bizimle iletişime geçin.
+          </p>
+        </div>
+      )}
+      {isSuspended && status === 'suspended' && (
         <div className="border-b border-red-500/30 bg-red-500/10 px-4 py-2.5 text-sm text-red-800 dark:text-red-200 lg:px-6">
           <p className="flex items-center gap-2 font-semibold">
             <PauseCircle className="h-4 w-4 shrink-0" /> Hesabınız askıya alındı

@@ -5,6 +5,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import {
   ArrowLeft,
+  CheckCircle2,
+  Clock,
   ExternalLink,
   ImagePlus,
   LogIn,
@@ -17,6 +19,7 @@ import {
   UserPlus,
   Utensils,
   X,
+  XCircle,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -25,7 +28,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { authFetch } from '@/lib/api-client'
 import { compressImageFile, IMAGE_PRESETS } from '@/lib/image-compression'
-import { MEMBER_ROLE_LABELS, type AdminBusinessType, type AdminMember, type AdminOrgDetail, type MemberRole } from '@/lib/admin-types'
+import { MEMBER_ROLE_LABELS, type AdminBusinessType, type AdminMember, type AdminOrgDetail, type MemberRole, type OrgStatus } from '@/lib/admin-types'
+import { normalizeOrgStatus } from '@/lib/org-status'
 import {
   Badge,
   ConfirmDialog,
@@ -38,6 +42,7 @@ import {
   Panel,
   PanelTitle,
   PasswordField,
+  RejectDialog,
   Spinner,
   SuspendDialog,
   Switch,
@@ -58,6 +63,7 @@ export function RestaurantDetailPage() {
   const [tab, setTab] = useState<TabId>('profile')
   const detail = useAdminQuery<AdminOrgDetail>(`/api/admin/organizations/${id}`)
   const [suspendOpen, setSuspendOpen] = useState(false)
+  const [rejectOpen, setRejectOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [deleteUsers, setDeleteUsers] = useState(true)
 
@@ -67,13 +73,25 @@ export function RestaurantDetailPage() {
 
   const d = detail.data
   const org = d.org
-  const status: 'active' | 'suspended' = org.status === 'suspended' ? 'suspended' : 'active'
+  const status = normalizeOrgStatus(org.status)
+  const isApplication = status === 'pending' || status === 'rejected'
 
-  const setStatus = async (next: 'active' | 'suspended', reason = '') => {
+  const setStatus = async (next: OrgStatus, reason = '') => {
     try {
       await adminApi(`/api/admin/organizations/${id}/status`, { method: 'PATCH', body: { status: next, reason } })
-      toast.success(next === 'suspended' ? 'Restoran askıya alındı.' : 'Restoran aktifleştirildi.')
+      toast.success(
+        next === 'suspended'
+          ? 'Restoran askıya alındı.'
+          : next === 'rejected'
+            ? 'Başvuru reddedildi.'
+            : next === 'pending'
+              ? 'Başvuru yeniden incelemeye alındı.'
+              : isApplication
+                ? 'Başvuru onaylandı; site yayında.'
+                : 'Restoran aktifleştirildi.'
+      )
       setSuspendOpen(false)
+      setRejectOpen(false)
       detail.reload()
     } catch (e) {
       toast.error(errorMessage(e))
@@ -107,13 +125,24 @@ export function RestaurantDetailPage() {
             <Button variant="outline" onClick={() => startImpersonation(id, navigate).catch((e) => toast.error(errorMessage(e)))}>
               <LogIn className="mr-1.5 h-4 w-4" /> Panele Gir
             </Button>
-            {status === 'active' ? (
+            {status === 'active' && (
               <Button variant="outline" className="text-red-600" onClick={() => setSuspendOpen(true)}>
                 <PauseCircle className="mr-1.5 h-4 w-4" /> Askıya al
               </Button>
-            ) : (
+            )}
+            {status === 'suspended' && (
               <Button variant="outline" className="text-green-600" onClick={() => setStatus('active')}>
                 <PlayCircle className="mr-1.5 h-4 w-4" /> Aktifleştir
+              </Button>
+            )}
+            {isApplication && (
+              <Button variant="outline" className="text-green-600" onClick={() => setStatus('active')}>
+                <CheckCircle2 className="mr-1.5 h-4 w-4" /> Başvuruyu onayla
+              </Button>
+            )}
+            {status === 'pending' && (
+              <Button variant="outline" className="text-red-600" onClick={() => setRejectOpen(true)}>
+                <XCircle className="mr-1.5 h-4 w-4" /> Reddet
               </Button>
             )}
             <Button variant="ghost" size="icon" className="text-red-600 hover:bg-red-500/10" title="Restoranı sil" onClick={() => setDeleteOpen(true)}>
@@ -123,6 +152,34 @@ export function RestaurantDetailPage() {
         }
       />
 
+      {status === 'pending' && (
+        <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-900 dark:text-amber-100">
+          <p className="font-semibold">
+            <Clock className="mr-1.5 inline h-4 w-4" />
+            Kayıt başvurusu onay bekliyor
+          </p>
+          <p className="mt-0.5 text-xs opacity-80">
+            Başvuru: {fmtDateTime(org.created_at)} · Site yayında değil; sahibi paneli kullanabilir. Tüm başvuru bilgileri için{' '}
+            <Link to="/admin/applications" className="underline">
+              Başvurular
+            </Link>{' '}
+            sayfasına bakın.
+          </p>
+        </div>
+      )}
+      {status === 'rejected' && (
+        <div className="rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-800 dark:text-red-200">
+          <p className="font-semibold">
+            <XCircle className="mr-1.5 inline h-4 w-4" />
+            Başvuru reddedildi — {org.status_reason || 'sebep girilmemiş'}
+          </p>
+          <p className="mt-0.5 text-xs opacity-80">
+            {fmtDateTime(org.status_changed_at)}
+            {d.statusChangedByEmail && ` · ${d.statusChangedByEmail}`} · Site yok, panel salt-okunur. &quot;Başvuruyu onayla&quot; ile
+            aktifleştirebilirsiniz.
+          </p>
+        </div>
+      )}
       {status === 'suspended' && (
         <div className="rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-800 dark:text-red-200">
           <p className="font-semibold">
@@ -161,6 +218,7 @@ export function RestaurantDetailPage() {
       )}
 
       <SuspendDialog open={suspendOpen} onOpenChange={setSuspendOpen} orgName={org.name} onSubmit={(r) => setStatus('suspended', r)} />
+      <RejectDialog open={rejectOpen} onOpenChange={setRejectOpen} orgName={org.name} onSubmit={(r) => setStatus('rejected', r)} />
 
       <ConfirmDialog
         open={deleteOpen}
@@ -475,7 +533,7 @@ function StatusTab({
   onSaved,
 }: {
   detail: AdminOrgDetail
-  status: 'active' | 'suspended'
+  status: OrgStatus
   onSuspend: () => void
   onActivate: () => void
   onSaved: () => void
@@ -483,7 +541,8 @@ function StatusTab({
   const [note, setNote] = useState(detail.adminNote)
   const [busy, setBusy] = useState(false)
   useEffect(() => setNote(detail.adminNote), [detail.adminNote])
-  const history = detail.audit.filter((a) => a.action === 'organization.suspend' || a.action === 'organization.activate')
+  const STATUS_ACTIONS = ['organization.suspend', 'organization.activate', 'organization.approve', 'organization.reject', 'organization.pending']
+  const history = detail.audit.filter((a) => STATUS_ACTIONS.includes(a.action))
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
@@ -493,16 +552,22 @@ function StatusTab({
         <p className="mt-3 text-sm text-muted-foreground">
           {status === 'active'
             ? 'Restoran aktif: müşteri menüsü yayında, restoran sahibi paneli kullanabilir.'
-            : 'Restoran askıda: müşteri menüsü "hizmet dışı" mesajı gösterir; sahibi sebebi görür ancak değişiklik yapamaz.'}
+            : status === 'pending'
+              ? 'Kayıt başvurusu onay bekliyor: site yayında değil; sahibi kurulumu tamamlayıp menüsünü hazırlayabilir.'
+              : status === 'rejected'
+                ? 'Başvuru reddedildi: site yayınlanmıyor; sahibi sebebi görür ancak değişiklik yapamaz.'
+                : 'Restoran askıda: müşteri menüsü "hizmet dışı" mesajı gösterir; sahibi sebebi görür ancak değişiklik yapamaz.'}
         </p>
-        <div className="mt-4">
-          {status === 'active' ? (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {status === 'active' && (
             <Button variant="outline" className="text-red-600" onClick={onSuspend}>
               <PauseCircle className="mr-1.5 h-4 w-4" /> Askıya al
             </Button>
-          ) : (
+          )}
+          {status !== 'active' && (
             <Button variant="outline" className="text-green-600" onClick={onActivate}>
-              <PlayCircle className="mr-1.5 h-4 w-4" /> Aktifleştir
+              {status === 'suspended' ? <PlayCircle className="mr-1.5 h-4 w-4" /> : <CheckCircle2 className="mr-1.5 h-4 w-4" />}
+              {status === 'suspended' ? 'Aktifleştir' : 'Başvuruyu onayla'}
             </Button>
           )}
         </div>

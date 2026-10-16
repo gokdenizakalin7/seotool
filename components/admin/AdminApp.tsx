@@ -8,6 +8,7 @@ import {
   Building2,
   FolderTree,
   History,
+  Inbox,
   LayoutDashboard,
   LogOut,
   Menu as MenuIcon,
@@ -23,9 +24,11 @@ import { PanelBackground, PanelThemeProvider, ThemeToggle } from '@/components/t
 import { clearClientSession } from '@/lib/session'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
+import { adminApi } from './lib/admin-api'
 import { OverviewPage } from './overview/OverviewPage'
 import { RestaurantsPage } from './restaurants/RestaurantsPage'
 import { RestaurantDetailPage } from './restaurants/RestaurantDetailPage'
+import { ApplicationsPage } from './applications/ApplicationsPage'
 import { UsersPage } from './users/UsersPage'
 import { CategoriesPage } from './catalog/CategoriesPage'
 import { ItemsPage } from './catalog/ItemsPage'
@@ -45,6 +48,7 @@ const NAV: { group: string; items: { to: string; label: string; icon: React.Elem
   {
     group: 'Hesaplar',
     items: [
+      { to: '/admin/applications', label: 'Başvurular', icon: Inbox },
       { to: '/admin/restaurants', label: 'Restoranlar', icon: Building2 },
       { to: '/admin/users', label: 'Kullanıcılar', icon: Users },
     ],
@@ -79,8 +83,20 @@ function AdminShell() {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const path = location.pathname.replace(/\/$/, '') || '/admin'
+  // Onay bekleyen başvuru sayısı: menüde rozet (her sayfa geçişinde tazelenir)
+  const [pendingCount, setPendingCount] = useState(0)
 
   useEffect(() => setOpen(false), [location.pathname])
+
+  useEffect(() => {
+    let alive = true
+    adminApi<{ counts: { pending: number } }>('/api/admin/applications?summary=1')
+      .then((d) => alive && setPendingCount(d.counts?.pending ?? 0))
+      .catch(() => undefined)
+    return () => {
+      alive = false
+    }
+  }, [location.pathname])
 
   const handleLogout = async () => {
     clearClientSession()
@@ -124,6 +140,17 @@ function AdminShell() {
                     )}
                     <item.icon className="relative z-10 mr-3 h-4 w-4" />
                     <span className="relative z-10">{item.label}</span>
+                    {item.to === '/admin/applications' && pendingCount > 0 && (
+                      <span
+                        className={cn(
+                          'relative z-10 ml-auto rounded-full px-2 py-0.5 text-[11px] font-bold tabular-nums',
+                          active ? 'bg-primary-foreground/20 text-primary-foreground' : 'bg-amber-500 text-white'
+                        )}
+                        title={`${pendingCount} başvuru onay bekliyor`}
+                      >
+                        {pendingCount}
+                      </span>
+                    )}
                   </Link>
                 )
               })}
@@ -176,6 +203,7 @@ function AdminShell() {
           <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:py-8">
             <Routes>
               <Route index element={<OverviewPage />} />
+              <Route path="applications" element={<ApplicationsPage />} />
               <Route path="restaurants" element={<RestaurantsPage />} />
               <Route path="restaurants/:id" element={<RestaurantDetailPage />} />
               <Route path="users" element={<UsersPage />} />

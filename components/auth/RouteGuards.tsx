@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { ShieldAlert, Lock, ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { authFetch } from '@/lib/api-client'
+import { isReadOnlyStatus } from '@/lib/org-status'
 
 /**
  * Admin Rota Kalkanı (AdminGuard)
@@ -140,7 +141,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         const me = await res.json()
         const isAdmin = me.role === 'superadmin'
         // Askıdaki restoran sihirbazda hiçbir şey kaydedemez: panelde askı bandını görsün
-        if (!isAdmin && me.organization && !me.organization.onboardingCompleted && me.organization.status !== 'suspended') {
+        if (!isAdmin && me.organization && !me.organization.onboardingCompleted && !isReadOnlyStatus(me.organization.status)) {
           navigate('/onboarding', { replace: true })
           return
         }
@@ -205,7 +206,7 @@ export function OnboardingGuard({ children }: { children: React.ReactNode }) {
         const me = await res.json()
         if (me.role === 'superadmin') {
           navigate('/admin', { replace: true })
-        } else if (!me.organization || me.organization.onboardingCompleted || me.organization.status === 'suspended') {
+        } else if (!me.organization || me.organization.onboardingCompleted || isReadOnlyStatus(me.organization.status)) {
           navigate('/dashboard', { replace: true })
         } else {
           setOk(true)

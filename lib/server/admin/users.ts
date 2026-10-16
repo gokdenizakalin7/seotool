@@ -1,4 +1,5 @@
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { normalizeOrgStatus } from '@/lib/org-status'
 import { isSuperAdminEmail, SYSTEM_ADMIN_ROLE } from '@/lib/auth-middleware'
 import type { AdminUserRow } from '@/lib/admin-types'
 import { isEmailTakenError } from './orgs'
@@ -20,7 +21,7 @@ export function mapUserRow(r: any): AdminUserRow {
       name: m.name,
       subdomain: m.subdomain,
       role: m.role,
-      status: m.status === 'suspended' ? 'suspended' : 'active',
+      status: normalizeOrgStatus(m.status),
     })),
   }
 }
