@@ -33,7 +33,7 @@ export interface ProfileDraft {
   instagramHandle: string
   googleReviewUrl: string
   whatsappNumber: string
-  /** İşletme sitesi adresi (qolay.com/<siteSlug>); yalnızca ayarlar sayfasında değiştirilir */
+  /** İşletme sitesi adresi (qr-chef.com.tr/<siteSlug>); yalnızca ayarlar sayfasında değiştirilir */
   siteSlug: string
   /* İşletme sitesi iletişim sayfası (Ayarlar > Sosyal & İletişim) */
   contactEmail: string
@@ -364,7 +364,7 @@ const SLUG_MESSAGES: Record<Exclude<SlugStatus, 'idle' | 'checking'>, string> = 
 }
 
 /**
- * Site adresi (qolay.com/<slug>). İşletme için salt okunur; yalnızca sistem yöneticisi (panele girmişken)
+ * Site adresi (qr-chef.com.tr/<slug>). İşletme için salt okunur; yalnızca sistem yöneticisi (panele girmişken)
  * değiştirebilir: yazarken normalize edilir ve boş olup olmadığı sorulur.
  */
 export function SiteAddressSection({

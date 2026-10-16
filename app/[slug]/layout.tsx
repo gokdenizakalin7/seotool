@@ -7,7 +7,7 @@ import { eventOccurrences } from '@/lib/events'
 import { isValidSiteSlug, siteOrigin, sitePath } from '@/lib/site-url'
 
 /**
- * İşletme sitesi: qolay.com/<slug> (Menü), /etkinlikler, /hakkimizda, /iletisim.
+ * İşletme sitesi: qr-chef.com.tr/<slug> (Menü), /etkinlikler, /hakkimizda, /iletisim.
  * Her istekte okunur; panelde yapılan değişiklik anında yansır, fiyat planı istek anına göre seçilir.
  * Panel (SPA) yolları statik klasörlerle (app/dashboard, app/signup…) bu rotadan önce eşleşir.
  */

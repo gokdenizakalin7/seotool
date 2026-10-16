@@ -157,7 +157,7 @@ export const profileUpdateSchema = z.object({
     .optional(),
   onboardingStep: clean(30).optional(),
   completeOnboarding: z.boolean().optional(),
-  /** İşletme sitesi adresi (qolay.com/<siteSlug>); sahibi değiştirebilir, eski adres yönlendirilir. DB'ye route yazar. */
+  /** İşletme sitesi adresi (qr-chef.com.tr/<siteSlug>); sahibi değiştirebilir, eski adres yönlendirilir. DB'ye route yazar. */
   siteSlug: z
     .string()
     .trim()

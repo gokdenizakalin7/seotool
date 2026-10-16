@@ -1,5 +1,5 @@
 /**
- * İşletme sitesi adresleri: qolay.com/<slug>[/etkinlikler | /hakkimizda | /iletisim]
+ * İşletme sitesi adresleri: qr-chef.com.tr/<slug>[/etkinlikler | /hakkimizda | /iletisim]
  *
  * Sunucuda ve tarayıcıda çalışır (Node API'si yok). NEXT_PUBLIC_SITE_URL derleme anında gömülür;
  * tanımlı değilse tarayıcıda window.location.origin kullanılır (QR'lar panelin açık olduğu alan adını kodlar).

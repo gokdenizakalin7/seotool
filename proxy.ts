@@ -53,8 +53,9 @@ export function proxy(request: NextRequest) {
   // 2. CORS POLİTİKASI & PREFLIGHT (/api/*)
   const origin = request.headers.get('origin')
   const allowedOrigins = [
-    'https://qolay.com',
-    'https://www.qolay.com',
+    'https://qr-chef.com.tr',
+    'https://www.qr-chef.com.tr',
+    'https://qr-chef.vercel.app',
     'http://localhost:3000',
     'http://127.0.0.1:3000'
   ]
@@ -66,7 +67,7 @@ export function proxy(request: NextRequest) {
     } else {
       try {
         const originUrl = new URL(origin)
-        if (originUrl.hostname.endsWith('.qolay.com')) {
+        if (originUrl.hostname.endsWith('.qr-chef.com.tr')) {
           isAllowedOrigin = true
         }
       } catch (e) {
