@@ -7,9 +7,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Menu as MenuIcon, Settings, LogOut, QrCode } from 'lucide-react'
 import { signOutClient } from '@/lib/session'
-import { confirmLeave } from '@/lib/leave-guard'
+import { leaveTo } from '@/lib/leave-guard'
 import { ThemeToggle } from '@/components/theme/PanelTheme'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
+import { TourMenu } from '@/components/tour/TourMenu'
 
 export function Header({ 
   setIsSidebarOpen, 
@@ -25,11 +26,11 @@ export function Header({
   const navigate = useNavigate()
   const { email } = useRestaurant()
 
-  const handleLogout = async () => {
-    if (!confirmLeave()) return
-    await signOutClient()
-    navigate('/login')
-  }
+  const handleLogout = () =>
+    leaveTo(async () => {
+      await signOutClient()
+      navigate('/login')
+    })
 
   return (
     <header className="flex h-16 items-center justify-between border-b border-border/60 bg-card/60 px-4 backdrop-blur-xl dark:border-white/10 dark:bg-black/30 lg:px-6">
@@ -44,11 +45,12 @@ export function Header({
       </div>
 
       <div className="flex items-center space-x-3">
+        <TourMenu />
         <ThemeToggle />
         <Button 
           variant="outline" 
           size="sm" 
-          onClick={() => confirmLeave('/dashboard/qr-codes') && navigate('/dashboard/qr-codes')}
+          onClick={() => leaveTo(() => navigate('/dashboard/qr-codes'), '/dashboard/qr-codes')}
           className="hidden sm:flex"
         >
           <QrCode className="h-4 w-4 mr-1.5" /> QR Kodlar
@@ -73,7 +75,7 @@ export function Header({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => confirmLeave('/dashboard/settings') && navigate('/dashboard/settings')}>
+            <DropdownMenuItem onClick={() => leaveTo(() => navigate('/dashboard/settings'), '/dashboard/settings')}>
               <Settings className="h-4 w-4 mr-2" /> Ayarlar
             </DropdownMenuItem>
             <DropdownMenuSeparator />

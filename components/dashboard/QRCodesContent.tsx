@@ -256,7 +256,7 @@ export function QRCodesContent() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-tour-page="qr-codes" data-tour-ready={isLoading ? 'false' : 'true'}>
       {/* Üst Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border shadow-sm">
         <div>
@@ -277,14 +277,14 @@ export function QRCodesContent() {
           >
             <Layers className="h-4 w-4 mr-1.5 text-primary" /> A4 QR Baskısı
           </Button>
-          <Button size="sm" onClick={() => setIsAddTableOpen(true)} disabled={!canEdit} className="text-xs bg-primary text-white">
+          <Button size="sm" onClick={() => setIsAddTableOpen(true)} disabled={!canEdit} data-tour="qr-add-table" className="text-xs bg-primary text-white">
             <Plus className="h-4 w-4 mr-1" /> Yeni Masa Ekle
           </Button>
         </div>
       </div>
 
       {/* Ana Genel Mekan QR Kartı */}
-      <Card className="border-2 border-primary/20 shadow-sm overflow-hidden">
+      <Card data-tour="qr-general" className="border-2 border-primary/20 shadow-sm overflow-hidden">
         <div className="p-5 flex flex-col lg:flex-row items-center justify-between gap-6">
           <div className="flex flex-col sm:flex-row items-center gap-4 min-w-0">
             <div className="keep-light bg-white p-3 border-2 border-gray-200 rounded-2xl shadow-xs shrink-0 flex items-center justify-center w-32 h-32">
