@@ -14,11 +14,11 @@ import {
   Menu as MenuIcon,
   Package,
   Settings,
-  ShieldCheck,
   Store,
   Users,
   X,
 } from 'lucide-react'
+import { QrChefMark, QrChefWordmark } from '@/components/brand/qr-chef-logo'
 import { Button } from '@/components/ui/button'
 import { PanelBackground, PanelThemeProvider, ThemeToggle } from '@/components/theme/PanelTheme'
 import { clearClientSession } from '@/lib/session'
@@ -109,10 +109,12 @@ function AdminShell() {
       <div>
         <div className="flex h-16 items-center gap-3 px-5">
           <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-border/60 bg-primary/10 shadow-lg dark:border-white/20 dark:bg-white/10">
-            <ShieldCheck className="h-5 w-5 text-foreground" />
+            <QrChefMark size={28} className="text-foreground" />
           </div>
           <div className="leading-tight">
-            <span className="block text-base font-extrabold tracking-tight text-foreground">QR Chef</span>
+            <span className="block text-base font-extrabold tracking-tight text-foreground">
+              <QrChefWordmark />
+            </span>
             <span className="block text-[11px] font-medium text-muted-foreground">Sistem Yöneticisi</span>
           </div>
         </div>

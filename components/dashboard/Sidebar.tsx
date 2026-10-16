@@ -6,7 +6,8 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { QrCode, Menu as MenuIcon, LayoutDashboard, Settings, X, LogOut, Store, Smartphone, ShieldCheck, ChefHat, Gift, BadgePercent, CalendarDays, Info, ExternalLink } from 'lucide-react'
+import { QrCode, Menu as MenuIcon, LayoutDashboard, Settings, X, LogOut, Smartphone, ShieldCheck, Gift, BadgePercent, CalendarDays, Info, ExternalLink } from 'lucide-react'
+import { QrChefMark, QrChefWordmark } from '@/components/brand/qr-chef-logo'
 import { siteUrl } from '@/lib/site-url'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import { signOutClient } from '@/lib/session'
@@ -89,14 +90,13 @@ export function Sidebar({
       <div className="min-h-0 overflow-y-auto">
         <div className="flex h-20 items-center justify-between px-5">
           <Link to="/dashboard" className="flex items-center gap-3">
-            <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-border/60 bg-primary/10 shadow-lg backdrop-blur-xl dark:border-white/20 dark:bg-white/10">
-              <QrCode className="h-6 w-6 text-foreground" />
-              <div className="absolute -right-2 -top-2 rounded-full border border-border/60 bg-card p-0.5 dark:border-white/10 dark:bg-black/60">
-                <ChefHat className="h-4 w-4 text-foreground" />
-              </div>
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border/60 bg-primary/10 shadow-lg backdrop-blur-xl dark:border-white/20 dark:bg-white/10">
+              <QrChefMark size={32} className="text-foreground" />
             </div>
             <div className="leading-tight">
-              <span className="block text-lg font-extrabold tracking-tight text-foreground">QR Chef</span>
+              <span className="block text-lg font-extrabold tracking-tight text-foreground">
+                <QrChefWordmark />
+              </span>
               <span className="block text-[11px] font-medium text-muted-foreground">Restoran Yönetim Paneli</span>
             </div>
           </Link>
@@ -157,9 +157,6 @@ export function Sidebar({
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuItem onClick={() => confirmLeave('/dashboard/settings') && navigate('/dashboard/settings')}>
               <Settings className="h-4 w-4 mr-2" /> Restoran Ayarları
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => confirmLeave('/business') && navigate('/business')}>
-              <Store className="h-4 w-4 mr-2" /> Restoran Rehberi
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout} className="text-red-600">

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Menu as MenuIcon, Settings, LogOut, ExternalLink, QrCode } from 'lucide-react'
+import { Menu as MenuIcon, Settings, LogOut, QrCode } from 'lucide-react'
 import { signOutClient } from '@/lib/session'
 import { confirmLeave } from '@/lib/leave-guard'
 import { ThemeToggle } from '@/components/theme/PanelTheme'
@@ -75,9 +75,6 @@ export function Header({
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => confirmLeave('/dashboard/settings') && navigate('/dashboard/settings')}>
               <Settings className="h-4 w-4 mr-2" /> Ayarlar
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => confirmLeave('/business') && navigate('/business')}>
-              <ExternalLink className="h-4 w-4 mr-2" /> Restoran Rehberi
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout} className="text-red-600">

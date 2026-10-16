@@ -6,7 +6,6 @@ import { lazyPage } from '@/lib/lazy-page'
  */
 
 export const LandingPage = lazyPage(() => import('@/components/landing/LandingPage').then((m) => m.LandingPage))
-export const BusinessDirectory = lazyPage(() => import('@/components/landing/BusinessDirectory').then((m) => m.BusinessDirectory))
 export const Login = lazyPage(() => import('@/components/auth/Login').then((m) => m.Login))
 export const Signup = lazyPage(() => import('@/components/auth/Signup').then((m) => m.Signup))
 export const OnboardingRoute = lazyPage(() => import('@/components/onboarding/OnboardingRoute').then((m) => m.OnboardingRoute))
@@ -70,7 +69,6 @@ export function pagesForPath(path: string) {
   if (path === '/login' || path === '/activate') return [Login]
   if (path === '/signup') return [Signup]
   if (path === '/onboarding') return [OnboardingRoute]
-  if (path === '/business') return [BusinessDirectory]
   if (path === '/gorsel-kaynaklari') return [ImageCredits]
   if (path === '/kosullar' || path === '/gizlilik') return [LegalPage]
   return [LandingPage]

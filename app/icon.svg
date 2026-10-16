@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <rect width="256" height="256" rx="56" fill="#0a0c10"/>
+  <g transform="translate(28 28)">
+    <path d="M32 78a30 30 0 1 0 60 0a30 30 0 1 0-60 0ZM46 66h22v22H46Z" fill="#ffffff" fill-rule="evenodd"/>
+    <path d="M32 78A30 30 0 0 1 62 48A40 40 0 0 1 138 48A30 30 0 0 1 168 78V114H150V160A50 14 0 0 1 50 160V114H32Z" fill="none" stroke="#a1a1aa" stroke-width="16" stroke-linejoin="round"/>
+    <path d="M100 174A50 14 0 0 1 100 146" fill="none" stroke="#ffffff" stroke-width="16"/>
+    <path d="M100 146A50 14 0 0 1 100 174" fill="none" stroke="#a1a1aa" stroke-width="16"/>
+  </g>
+</svg>

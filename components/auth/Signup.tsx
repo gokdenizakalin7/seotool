@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { QrCode, Loader2, ArrowRight, Lock, Mail, ChefHat, User, Store, Phone, Eye, EyeOff, Clock } from 'lucide-react'
+import { Loader2, ArrowRight, Lock, Mail, User, Store, Phone, Eye, EyeOff, Clock } from 'lucide-react'
+import { QrChefMark } from '@/components/brand/qr-chef-logo'
 import { motion, AnimatePresence } from 'framer-motion'
 import { supabase } from '@/lib/supabase'
 import { clearApiCache } from '@/lib/api-client'
@@ -156,10 +157,7 @@ export function Signup() {
       >
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center justify-center relative w-20 h-20 rounded-[24px] bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl mb-5">
-            <QrCode className="h-10 w-10 text-white" />
-            <div className="absolute -top-3 -right-3 bg-black/50 backdrop-blur-md rounded-full p-1 border border-white/10">
-              <ChefHat className="h-6 w-6 text-white" />
-            </div>
+            <QrChefMark size={56} secondary="rgba(255,255,255,0.6)" className="text-white" />
           </Link>
           <h1 className="text-3xl font-extrabold text-white tracking-tight mb-1">Ücretsiz Hesap Oluştur</h1>
           <p className="text-white/60 font-medium">Dakikalar içinde dijital menünüzü hazırlayın</p>

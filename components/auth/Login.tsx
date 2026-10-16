@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { QrCode, Loader2, ArrowRight, Lock, Mail, ChefHat, Eye, EyeOff } from 'lucide-react'
+import { Loader2, ArrowRight, Lock, Mail, Eye, EyeOff } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { QrChefMark, QrChefWordmark } from '@/components/brand/qr-chef-logo'
 import { setClientSession } from '@/lib/session'
 import { supabase } from '@/lib/supabase'
 import { clearImpersonation } from '@/lib/impersonation'
@@ -141,12 +142,11 @@ export function Login() {
             transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 20 }}
             className="relative inline-flex items-center justify-center w-24 h-24 rounded-[28px] bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl mb-6"
           >
-            <QrCode className="h-12 w-12 text-white" />
-            <div className="absolute -top-4 -right-3 bg-black/50 backdrop-blur-md rounded-full p-1 border border-white/10">
-              <ChefHat className="h-8 w-8 text-white" />
-            </div>
+            <QrChefMark size={68} secondary="rgba(255,255,255,0.6)" className="text-white" />
           </motion.div>
-          <h1 className="text-4xl font-extrabold text-white tracking-tight mb-2">QR Chef</h1>
+          <h1 className="text-4xl font-extrabold text-white tracking-tight mb-2">
+            <QrChefWordmark chefClassName="text-white/60" />
+          </h1>
           <p className="text-white/60 font-medium text-lg">Restoran Yönetim Paneli</p>
         </div>
 

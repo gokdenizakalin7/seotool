@@ -8,6 +8,8 @@ import { TermsOfServiceModal } from '@/components/modals/TermsOfServiceModal'
 import { PrivacyPolicyModal } from '@/components/modals/PrivacyPolicyModal'
 import { ContactModal } from '@/components/modals/ContactModal'
 import { motion, AnimatePresence } from 'framer-motion'
+import { QrChefMark, QrChefWordmark } from '@/components/brand/qr-chef-logo'
+import { SiteShowcase } from '@/components/landing/SiteShowcase'
 
 const BACKGROUND_IMAGES = [
   'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop', // Luxury bar/restaurant
@@ -59,21 +61,10 @@ export function LandingPage() {
         {/* Glassmorphism Header */}
         <header className="px-6 lg:px-12 h-20 flex items-center fixed w-full bg-black/20 backdrop-blur-xl border-b border-white/10 z-50">
           <Link className="flex items-center justify-center font-extrabold text-2xl text-white tracking-tight" to="/">
-            <div className="relative flex items-center justify-center w-10 h-10 mr-3 bg-white/10 rounded-xl border border-white/20 group-hover:bg-white/20 transition-colors">
-              <QrCode className="h-6 w-6 text-white" />
-              <div className="absolute -top-3 -right-2 bg-black rounded-full p-0.5">
-                <ChefHat className="h-5 w-5 text-white" />
-              </div>
-            </div>
-            <span>QR Chef</span>
+            <QrChefMark size={40} secondary="rgba(255,255,255,0.6)" className="mr-3" />
+            <QrChefWordmark chefClassName="text-white/60" />
           </Link>
           <nav className="ml-auto flex gap-6 sm:gap-8 items-center">
-            <Link 
-              to="/business" 
-              className="text-sm font-semibold text-white/70 hover:text-white transition-colors"
-            >
-              Restoranlar
-            </Link>
             <Link
               to="/login"
               className="text-sm font-semibold text-white/70 hover:text-white transition-colors"
@@ -117,7 +108,7 @@ export function LandingPage() {
                     </Link>
                   </Button>
                   <Button variant="outline" size="lg" className="h-14 px-8 rounded-full border-white/20 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:text-white font-bold text-lg transition-all" asChild>
-                    <Link to="/business">Restoranları İncele</Link>
+                    <Link to="/login">Giriş Yap</Link>
                   </Button>
                 </div>
               </motion.div>
@@ -168,6 +159,9 @@ export function LandingPage() {
               </div>
             </div>
           </section>
+
+          {/* İşletme sitesi tanıtımı: kaydırdıkça canlanan modül bölümleri */}
+          <SiteShowcase />
         </main>
 
         <footer className="w-full py-8 px-6 border-t border-white/10 bg-black/40 backdrop-blur-md">

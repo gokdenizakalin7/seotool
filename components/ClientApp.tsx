@@ -5,7 +5,6 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import {
   AdminRoute,
-  BusinessDirectory,
   DashboardRoute,
   ImageCredits,
   LandingPage,
@@ -93,9 +92,10 @@ export function ClientApp() {
           <Route path="/onboarding" element={<OnboardingRoute />} />
           {/* Eski aktivasyon linkleri: şifreyi artık admin belirliyor */}
           <Route path="/activate" element={<Navigate to="/login" replace />} />
+          {/* Restoran rehberi kaldırıldı; eski bağlantılar ana sayfaya */}
+          <Route path="/business" element={<Navigate to="/" replace />} />
           <Route path="/admin/*" element={<AdminRoute />} />
           <Route path="/dashboard/*" element={<DashboardRoute />} />
-          <Route path="/business" element={<BusinessDirectory />} />
           {/* /menu/:subdomain ayrı sunucu rotasıdır (app/menu/[subdomain]); panel paketine girmez */}
           <Route path="/gorsel-kaynaklari" element={<ImageCredits />} />
           <Route path="/kosullar" element={<LegalPage kind="terms" />} />

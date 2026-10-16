@@ -3,7 +3,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, ArrowRight, Camera, Check, ChefHat, Clock, Loader2, Plus, QrCode, Sparkles } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Camera, Check, Clock, Loader2, Plus, Sparkles } from 'lucide-react'
+import { QrChefMark, QrChefWordmark } from '@/components/brand/qr-chef-logo'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { PanelThemeProvider, PanelBackground, ThemeToggle } from '@/components/theme/PanelTheme'
@@ -138,11 +139,10 @@ function Wizard() {
         {/* Üst bar */}
         <header className="flex items-center justify-between gap-3 pb-4">
           <div className="flex items-center gap-2 font-extrabold text-xl">
-            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card/60">
-              <QrCode className="h-5 w-5" />
-              <ChefHat className="absolute -right-2 -top-2 h-5 w-5 rounded-full bg-background p-0.5" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card/60">
+              <QrChefMark size={28} />
             </div>
-            QR Chef
+            <QrChefWordmark />
           </div>
           <div className="flex items-center gap-3">
             {stepIdx >= 1 && !isLast && (
