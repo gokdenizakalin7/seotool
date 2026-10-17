@@ -34,6 +34,7 @@ export interface MenuItem {
   calories?: number
   calorie_source?: 'auto' | 'manual' | 'detailed'
   allergens?: string[]
+  ingredients?: string[]
   macros?: {
     protein: number
     carbs: number
