@@ -98,7 +98,11 @@ export function DashboardContent() {
           Hoş Geldiniz, {currentRestaurant?.name || 'Değerli İşletmeci'}!
         </h1>
         <p data-reveal className="text-muted-foreground max-w-xl text-lg z-10 leading-relaxed">
-          {hasMenu && hasListedMenu
+          {currentRestaurant?.status === 'pending'
+            ? 'Başvurunuz inceleniyor. Siteniz ve QR menünüz onaylandığında yayına girer; bu sırada menünüzü hazırlayıp QR kodlarınızı planlayabilirsiniz.'
+            : currentRestaurant?.status === 'rejected'
+              ? 'Başvurunuz onaylanmadı. Siteniz yayınlanmıyor; ayrıntı için üstteki bilgi bandına bakın veya bizimle iletişime geçin.'
+              : hasMenu && hasListedMenu
             ? 'Menünüz yayında. Ürünleri, fiyatları ve görselleri canlı editörde düzenleyin; kaydettiğiniz değişiklikler müşterilerinizin gördüğü menüye yansır.'
             : hasMenu
               ? 'Menünüz hazır ama yayında değil: QR kodu okutan müşteriler şu an boş sayfa görüyor. Menü Listesi\'nden yayına alabilirsiniz.'

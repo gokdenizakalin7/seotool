@@ -1,4 +1,5 @@
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { normalizeOrgStatus } from '@/lib/org-status'
 import { SLUG_RE, slugifyBusinessName } from '@/lib/site-url'
 import { isSuperAdminEmail } from '@/lib/auth-middleware'
 import type { AdminMember, AdminOrgRow, AuditLogEntry, MemberRole } from '@/lib/admin-types'
@@ -15,7 +16,7 @@ export function mapOrgOverviewRow(r: any): AdminOrgRow {
     city: r.city || '',
     businessType: r.business_type || null,
     logoUrl: r.logo_url || '',
-    status: r.status === 'suspended' ? 'suspended' : 'active',
+    status: normalizeOrgStatus(r.status),
     statusReason: r.status_reason || '',
     statusChangedAt: r.status_changed_at || null,
     createdAt: r.created_at,

@@ -10,7 +10,8 @@ type Ctx = { params: Promise<{ id: string }> }
 
 /**
  * PATCH /api/admin/organizations/[id]/status { status, reason }
- * Askıya alınan restoranın müşteri menüsü kapanır, paneli salt-okunur olur. Sebep zorunlu.
+ * active: onay/aktifleştirme (site yayına girer) · suspended: askı (site "hizmet dışı", panel salt-okunur, sebep zorunlu)
+ * rejected: başvuru reddi (site yok, panel salt-okunur, sebep zorunlu) · pending: yeniden incelemeye al
  */
 export async function PATCH(request: NextRequest, { params }: Ctx) {
   return adminRoute(request, 'organization status', async (actor) => {
@@ -24,7 +25,7 @@ export async function PATCH(request: NextRequest, { params }: Ctx) {
     const org = await getOrgRow(id)
     if (!org) return jsonError(404, 'Restoran bulunamadı.', 'ORG_NOT_FOUND')
 
-    const nextReason = status === 'suspended' ? reason : null
+    const nextReason = status === 'suspended' || status === 'rejected' ? reason : null
     if (org.status === status && (org.status_reason || null) === nextReason) {
       return NextResponse.json({ organization: org, changed: false })
     }
@@ -44,7 +45,16 @@ export async function PATCH(request: NextRequest, { params }: Ctx) {
 
     await logAdminAction({
       actor,
-      action: status === 'suspended' ? 'organization.suspend' : 'organization.activate',
+      action:
+        status === 'suspended'
+          ? 'organization.suspend'
+          : status === 'rejected'
+            ? 'organization.reject'
+            : status === 'pending'
+              ? 'organization.pending'
+              : org.status === 'pending' || org.status === 'rejected'
+                ? 'organization.approve'
+                : 'organization.activate',
       targetType: 'organization',
       targetId: id,
       targetLabel: org.name,

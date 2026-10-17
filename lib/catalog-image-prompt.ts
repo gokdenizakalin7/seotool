@@ -21,6 +21,8 @@ const COFFEE_SCENE = 'Set on a light oak café counter in soft window light, sof
 const COLD_CAFE_SCENE = 'Set on a light oak café counter in bright natural daylight, fresh summery mood, softly blurred light background'
 const FRESH_SCENE = 'Set on a pale marble surface in bright natural daylight, fresh and airy mood, softly blurred light background'
 const RESTAURANT_SCENE = 'Set on a dark wooden restaurant table with a linen napkin, warm soft restaurant light, softly blurred background'
+const MEYHANE_SCENE =
+  'Set on a white linen tablecloth in a traditional Turkish meyhane, a glass of milky rakı and other small meze plates softly out of focus in the background, warm evening light'
 const PATISSERIE_SCENE = 'Set on a pale marble café table in soft daylight, a small fork beside the plate, softly blurred patisserie background'
 export const SCENE_BY_CATEGORY: Record<string, string> = {
   caylar: TEA_SCENE,
@@ -37,6 +39,10 @@ export const SCENE_BY_CATEGORY: Record<string, string> = {
   salatalar: 'Set on a pale wooden table in bright natural daylight, fresh and light mood, softly blurred light background',
   atistirmaliklar: 'Set on a dark wooden pub table in warm ambient light, softly blurred cozy café-bar background',
   'cerez-ve-kuruyemis': 'Set on a dark wooden pub table in warm ambient light, softly blurred cozy café-bar background',
+  'soguk-mezeler': MEYHANE_SCENE,
+  'sicak-mezeler': MEYHANE_SCENE,
+  'balik-ve-deniz-urunleri':
+    'Set on a white linen tablecloth at a seaside fish restaurant in soft evening light, a lemon half and a glass of rakı softly out of focus, softly blurred background',
   baslangiclar: RESTAURANT_SCENE,
   makarnalar: 'Set on a rustic wooden trattoria table with a linen napkin, warm soft light, softly blurred restaurant background',
   'ana-yemekler': RESTAURANT_SCENE,

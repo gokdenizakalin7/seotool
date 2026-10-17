@@ -1,13 +1,13 @@
 'use client'
 
 import React, { useState } from 'react'
-import { AlertTriangle, Check, CheckCircle2, Copy, Eye, EyeOff, Loader2, PauseCircle, RefreshCw } from 'lucide-react'
+import { AlertTriangle, Check, CheckCircle2, Clock, Copy, Eye, EyeOff, Loader2, PauseCircle, RefreshCw, XCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
-import { SUSPEND_REASON_PRESETS } from '@/lib/admin-types'
+import { SUSPEND_REASON_PRESETS, type OrgStatus } from '@/lib/admin-types'
 import { fmtDateTime, generatePassword } from '../lib/admin-api'
 
 /* ------------------------------------------------------------------ */
@@ -331,14 +331,14 @@ export function Badge({
   )
 }
 
-/** Restoran hesap durumu; askıdaysa sebep ve tarih rozetin altında ve ipucunda görünür */
+/** Restoran hesap durumu; askıda / reddedildiyse sebep ve tarih rozetin altında ve ipucunda görünür */
 export function OrgStatusBadge({
   status,
   reason,
   changedAt,
   showReason = true,
 }: {
-  status: 'active' | 'suspended'
+  status: OrgStatus
   reason?: string
   changedAt?: string | null
   showReason?: boolean
@@ -350,11 +350,19 @@ export function OrgStatusBadge({
       </Badge>
     )
   }
-  const tip = `Askıya alındı${changedAt ? ` (${fmtDateTime(changedAt)})` : ''}: ${reason || 'sebep girilmemiş'}`
+  if (status === 'pending') {
+    return (
+      <Badge tone="amber" title={`Başvuru ${changedAt ? fmtDateTime(changedAt) : ''} tarihinden beri onay bekliyor`}>
+        <Clock className="h-3 w-3" /> Onay bekliyor
+      </Badge>
+    )
+  }
+  const rejected = status === 'rejected'
+  const tip = `${rejected ? 'Başvuru reddedildi' : 'Askıya alındı'}${changedAt ? ` (${fmtDateTime(changedAt)})` : ''}: ${reason || 'sebep girilmemiş'}`
   return (
     <div className="space-y-1">
       <Badge tone="red" title={tip}>
-        <PauseCircle className="h-3 w-3" /> Askıda
+        {rejected ? <XCircle className="h-3 w-3" /> : <PauseCircle className="h-3 w-3" />} {rejected ? 'Reddedildi' : 'Askıda'}
       </Badge>
       {showReason && (
         <p className="max-w-[220px] truncate text-[11px] text-red-700/80 dark:text-red-300/80" title={tip}>
@@ -502,6 +510,81 @@ export function SuspendDialog({
           >
             {busy && <Spinner className="mr-1.5" />}
             Askıya al
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+const REJECT_REASON_PRESETS = [
+  'İşletme bilgileri doğrulanamadı',
+  'Eksik veya hatalı başvuru bilgileri',
+  'Hizmet kapsamı dışında bir işletme',
+  'Yinelenen başvuru',
+]
+
+/** Başvuru reddi: hazır sebepler + serbest metin (işletme sahibi panelde görür) */
+export function RejectDialog({
+  open,
+  onOpenChange,
+  orgName,
+  onSubmit,
+}: {
+  open: boolean
+  onOpenChange: (v: boolean) => void
+  orgName: string
+  onSubmit: (reason: string) => Promise<void>
+}) {
+  const [reason, setReason] = useState('')
+  const [busy, setBusy] = useState(false)
+  return (
+    <Dialog open={open} onOpenChange={(v) => !busy && onOpenChange(v)}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>&quot;{orgName}&quot; başvurusu reddedilsin mi?</DialogTitle>
+          <DialogDescription>
+            İşletme sitesi yayınlanmaz, panel salt-okunur olur ve başvuru sahibi sebebi görür. Daha sonra &quot;Onayla&quot; ile
+            aktifleştirebilirsiniz.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex flex-wrap gap-1.5">
+          {REJECT_REASON_PRESETS.map((p) => (
+            <button
+              key={p}
+              type="button"
+              onClick={() => setReason(p)}
+              className={cn(
+                'rounded-full border px-3 py-1 text-xs font-medium transition-colors',
+                reason === p ? 'border-primary bg-primary text-primary-foreground' : 'border-border hover:bg-accent'
+              )}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
+        <Field label="Sebep (başvuru sahibi bu metni görür)">
+          <Textarea value={reason} onChange={(e) => setReason(e.target.value)} rows={3} maxLength={500} />
+        </Field>
+        <div className="flex justify-end gap-2">
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={busy}>
+            Vazgeç
+          </Button>
+          <Button
+            variant="destructive"
+            disabled={reason.trim().length < 3 || busy}
+            onClick={async () => {
+              setBusy(true)
+              try {
+                await onSubmit(reason.trim())
+                setReason('')
+              } finally {
+                setBusy(false)
+              }
+            }}
+          >
+            {busy && <Spinner className="mr-1.5" />}
+            Reddet
           </Button>
         </div>
       </DialogContent>

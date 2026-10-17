@@ -1005,7 +1005,7 @@ export function LiveMenuEditor() {
     : DEFAULT_CATALOG_FALLBACK
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-tour-page="menu-editor" data-tour-ready={isLoading ? 'false' : 'true'}>
       {/* Üst Bar */}
       <div className="glass-card flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 p-4">
         <div className="min-w-0">
@@ -1021,6 +1021,7 @@ export function LiveMenuEditor() {
             variant="outline" 
             size="sm" 
             onClick={() => setIsTemplateModalOpen(true)}
+            data-tour="editor-templates"
             className="border-primary/40 text-primary hover:bg-primary/5 font-semibold"
           >
             <Sparkles className="h-4 w-4 mr-1.5 text-primary" /> Hazır Menü Paketleri
@@ -1035,6 +1036,7 @@ export function LiveMenuEditor() {
               ) return
               setIsScanMenuModalOpen(true)
             }}
+            data-tour="editor-scan"
             className="scan-attention border-violet-500/40 bg-violet-500/10 text-violet-700 hover:bg-violet-500/20 hover:text-violet-800 dark:border-violet-400/40 dark:bg-violet-400/10 dark:text-violet-200 dark:hover:bg-violet-400/20 dark:hover:text-violet-100 font-semibold"
           >
             <Camera className="h-4 w-4 mr-1.5" /> Kendi Menünü Tara
@@ -1048,6 +1050,7 @@ export function LiveMenuEditor() {
               </Button>
               <Button
                 onClick={handleSaveAll}
+                data-tour="editor-save"
                 className={isDirty ? 'bg-amber-500 hover:bg-amber-600 text-white animate-pulse' : 'bg-primary text-white'}
               >
                 {savedSuccess ? <Check className="h-4 w-4 mr-1.5 text-green-300" /> : <Save className="h-4 w-4 mr-1.5" />}
@@ -1112,6 +1115,7 @@ export function LiveMenuEditor() {
         <motion.div 
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
+          data-tour="editor-empty"
           className="bg-white rounded-2xl border-2 border-dashed border-amber-300 p-8 sm:p-12 text-center shadow-sm max-w-4xl mx-auto space-y-6"
         >
           <div className="mx-auto w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 shadow-inner">
@@ -1238,7 +1242,7 @@ export function LiveMenuEditor() {
 
           {/* Kategoriler Listesi */}
           <div className="space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center justify-between gap-3" data-tour="editor-categories">
               <div className="min-w-0">
                 <h2 className="text-lg font-bold text-gray-900">Menü Kategorileri</h2>
                 <p className="text-xs text-gray-500">Kategorileri açıp kapatabilir, sıralayabilir ve ürün ekleyebilirsiniz.</p>

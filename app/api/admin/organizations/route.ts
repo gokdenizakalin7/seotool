@@ -11,7 +11,7 @@ import { foldTurkish } from '@/lib/catalog-match'
 import type { AdminOrgRow } from '@/lib/admin-types'
 
 /**
- * GET /api/admin/organizations?q=&status=active|suspended&page=1&size=50
+ * GET /api/admin/organizations?q=&status=active|suspended|pending|rejected&page=1&size=50
  * Restoran listesi: sahip e-postası, durum + sebep, sayımlar.
  */
 export async function GET(request: NextRequest) {
@@ -35,9 +35,13 @@ export async function GET(request: NextRequest) {
       all: rows.length,
       active: rows.filter((r) => r.status === 'active').length,
       suspended: rows.filter((r) => r.status === 'suspended').length,
+      pending: rows.filter((r) => r.status === 'pending').length,
+      rejected: rows.filter((r) => r.status === 'rejected').length,
     }
 
-    if (status === 'active' || status === 'suspended') rows = rows.filter((r) => r.status === status)
+    if (status === 'active' || status === 'suspended' || status === 'pending' || status === 'rejected') {
+      rows = rows.filter((r) => r.status === status)
+    }
     if (q) {
       rows = rows.filter((r) =>
         [r.name, r.subdomain, r.ownerName, r.owner?.email, r.phone, r.city]

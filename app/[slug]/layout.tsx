@@ -54,7 +54,7 @@ export default async function SiteLayout({ children, params }: { children: React
         ) : (
           <AlertCircle className="h-16 w-16 text-gray-400 mb-4" />
         )}
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">{restaurant.name}</h1>
+        {restaurant.name && <h1 className="text-2xl font-bold text-gray-800 mb-2">{restaurant.name}</h1>}
         <p className="text-gray-500 max-w-md">{restaurant.message || 'Bu menü geçici olarak hizmet dışıdır.'}</p>
       </div>
     )

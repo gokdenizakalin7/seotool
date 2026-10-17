@@ -27,6 +27,11 @@ export function setScrollNavGuard(guard: ScrollNavGuard | null) {
   scrollNavGuard = guard
 }
 
+/** Bir sayfa (ör. kaydedilmemiş menü değişikliği olan editör) ayrılmayı engelliyor mu? Rehber sayfa değiştirmeden önce bakar. */
+export function hasScrollNavGuard() {
+  return scrollNavGuard !== null
+}
+
 let lenisInstance: Lenis | null = null
 
 /** getartcraft.com/apps ile aynı: Lenis, lerp 0.12 */
@@ -81,6 +86,31 @@ function scrollMainTo(main: HTMLElement, where: 'top' | 'bottom') {
   }
   run()
   if (where === 'bottom') requestAnimationFrame(() => requestAnimationFrame(run))
+}
+
+/**
+ * Öğeyi ana kaydırma alanında görünür kılar (Lenis açıksa onunla, yumuşak). Zaten görünüyorsa dokunmaz.
+ * Kaydırma yapıldıysa true döner. (Panel rehberi kullanır.)
+ */
+export function scrollMainToElement(el: HTMLElement): boolean {
+  const main = el.closest('main')
+  if (!main) return false
+  const mr = main.getBoundingClientRect()
+  const r = el.getBoundingClientRect()
+  const margin = 88
+  if (r.top >= mr.top + margin && r.bottom <= mr.bottom - margin) return false
+  // Alana sığmayan öğe üstten hizalanır, sığan ortalanır
+  const offsetTop = r.height > mr.height - margin * 2 ? margin : (mr.height - r.height) / 2
+  const max = main.scrollHeight - main.clientHeight
+  const target = Math.max(0, Math.min(main.scrollTop + (r.top - mr.top) - offsetTop, max))
+  if (Math.abs(target - main.scrollTop) < 2) return false
+  if (lenisInstance) {
+    lenisInstance.resize()
+    lenisInstance.scrollTo(target, { duration: 0.5, force: true })
+  } else {
+    main.scrollTo({ top: target, behavior: 'smooth' })
+  }
+  return true
 }
 
 const REVEAL_FROM = { opacity: '0', transform: 'translateY(28px)', filter: 'blur(8px)' }

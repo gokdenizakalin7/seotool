@@ -507,7 +507,12 @@ export function PublicMenuView({
                               )}
                             </div>
 
-                            {/* Kalori ve Alerjenler */}
+                            {/* Bileşenler, Kalori ve Alerjenler */}
+                            {item.ingredients && item.ingredients.length > 0 && (
+                              <div className="flex items-center gap-1 text-[9px] sm:text-[10px] text-gray-500 dark:text-zinc-400">
+                                <span className="font-medium">{item.ingredients.join(', ')}</span>
+                              </div>
+                            )}
                             <div className="flex flex-wrap items-center gap-1.5 justify-end">
                               {item.allergens && item.allergens.length > 0 && (
                                 <div className="flex items-center gap-1 bg-gray-100 dark:bg-zinc-800 px-2 py-1 rounded-full border border-gray-200 dark:border-zinc-700">
@@ -653,6 +658,22 @@ export function PublicMenuView({
                     )}
                   </div>
                 </div>
+
+                {/* Bileşenler */}
+                {selectedItem.ingredients && selectedItem.ingredients.length > 0 && (
+                  <div className="mt-2 bg-emerald-50/50 dark:bg-emerald-950/20 rounded-2xl p-4 border border-emerald-100 dark:border-emerald-900/30">
+                    <h4 className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-3">
+                      {t.ingredients}
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedItem.ingredients.map((ing) => (
+                        <span key={ing} className="bg-white dark:bg-[#2c2c2e] text-gray-800 dark:text-zinc-200 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-emerald-200 dark:border-emerald-800/40">
+                          {ing}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Alerjenler */}
                 {selectedItem.allergens && selectedItem.allergens.length > 0 && (

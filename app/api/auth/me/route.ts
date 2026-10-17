@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { requireUser } from '@/lib/auth-middleware'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { normalizeOrgStatus } from '@/lib/org-status'
 import { ORG_PROFILE_COLUMNS, ORG_PROFILE_COLUMNS_BASE, isMissingSchemaError, orgRowToRestaurant } from '@/lib/restaurant-profile'
 
 export async function GET(request: NextRequest) {
@@ -57,7 +58,7 @@ export async function GET(request: NextRequest) {
             business_phone: org.business_phone,
             onboardingCompleted: !!org.onboarding_completed_at,
             onboardingStep: org.onboarding_step || null,
-            status: org.status === 'suspended' ? 'suspended' : 'active',
+            status: normalizeOrgStatus(org.status),
             statusReason: org.status_reason || '',
           }
         : null,

@@ -30,6 +30,7 @@ import {
   useOrgMenus,
   type FlatMenuItem,
 } from './shared'
+import { UnsavedChangesDialog, useBeforeUnload } from '@/components/dashboard/unsaved-changes'
 
 interface DraftComponent {
   itemId: string
@@ -171,6 +172,8 @@ export function CampaignsContent() {
 
   return (
     <SitePageShell
+      tourPage="campaigns"
+      tourReady={!loading}
       title="Kampanyalar"
       description="Menünüzdeki ürünlerden paketler oluşturun (ör. Bira + Patates). Menüde en üstte “Kampanyalı Ürünler” olarak görünür."
       subdomain={subdomain}
@@ -308,6 +311,11 @@ function CampaignEditor({
   const [query, setQuery] = useState('')
   const [saving, setSaving] = useState(false)
   const multipleMenus = org.menus.length > 1
+  const [closePrompt, setClosePrompt] = useState(false)
+  const dirty = useMemo(() => JSON.stringify(draft) !== JSON.stringify(initial), [draft, initial])
+  useBeforeUnload(dirty)
+  // Kaydedilmemiş değişiklik varken kapatma (X, Esc, dışarı tıklama, Vazgeç) önce sorar
+  const requestClose = () => (dirty ? setClosePrompt(true) : onClose())
 
   const update = (patch: Partial<Draft>) =>
     setDraft((d) => {
@@ -393,7 +401,7 @@ function CampaignEditor({
   }
 
   return (
-    <Dialog open onOpenChange={(v) => !v && !saving && onClose()}>
+    <Dialog open onOpenChange={(v) => !v && !saving && requestClose()}>
       <DialogContent className="max-h-[92vh] max-w-4xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{draft.id ? 'Kampanyayı düzenle' : 'Yeni kampanya'}</DialogTitle>
@@ -539,13 +547,29 @@ function CampaignEditor({
         </div>
 
         <div className="flex justify-end gap-2 border-t pt-4">
-          <Button variant="outline" onClick={onClose} disabled={saving}>
+          <Button variant="outline" onClick={requestClose} disabled={saving}>
             Vazgeç
           </Button>
           <Button onClick={save} disabled={saving}>
             {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Kaydet
           </Button>
         </div>
+
+        <UnsavedChangesDialog
+          open={closePrompt}
+          saving={saving}
+          onStay={() => setClosePrompt(false)}
+          onDiscard={() => {
+            setClosePrompt(false)
+            onClose()
+          }}
+          onSave={async () => {
+            setClosePrompt(false)
+            await save()
+          }}
+          discardLabel="Kaydetmeden kapat"
+          saveLabel="Kaydet ve kapat"
+        />
       </DialogContent>
     </Dialog>
   )

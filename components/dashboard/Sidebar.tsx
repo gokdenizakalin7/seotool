@@ -6,13 +6,16 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { QrCode, Menu as MenuIcon, LayoutDashboard, Settings, X, LogOut, Store, Smartphone, ShieldCheck, ChefHat, Gift, BadgePercent, CalendarDays, Info, ExternalLink } from 'lucide-react'
+import { QrCode, Menu as MenuIcon, LayoutDashboard, Settings, X, LogOut, Smartphone, ShieldCheck, Gift, BadgePercent, CalendarDays, Info, ExternalLink, CircleHelp } from 'lucide-react'
+import { QrChefMark, QrChefWordmark } from '@/components/brand/qr-chef-logo'
 import { siteUrl } from '@/lib/site-url'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import { signOutClient } from '@/lib/session'
-import { confirmLeave } from '@/lib/leave-guard'
+import { leaveTo } from '@/lib/leave-guard'
+import { useTour } from '@/components/tour/TourProvider'
 
-type NavItem = { to: string; label: string; icon: React.ElementType; active: boolean; featured?: boolean }
+/** tour: panel rehberinin vurguladığı öğe kimliği (data-tour) */
+type NavItem = { to: string; label: string; icon: React.ElementType; active: boolean; featured?: boolean; tour: string }
 
 export function Sidebar({ 
   isSidebarOpen, 
@@ -31,26 +34,28 @@ export function Sidebar({
   const path = location.pathname.replace(/\/$/, '')
 
   const navItems: NavItem[] = [
-    { to: '/dashboard', label: 'Kontrol Paneli', icon: LayoutDashboard, active: path === '/dashboard' },
-    { to: '/dashboard/menu-editor', label: 'Canlı Menü Editörü', icon: Smartphone, active: path.startsWith('/dashboard/menu-editor'), featured: true },
-    { to: '/dashboard/menus', label: 'Menü Listesi', icon: MenuIcon, active: path.startsWith('/dashboard/menus') },
-    { to: '/dashboard/qr-codes', label: 'QR Kodlar & Masalar', icon: QrCode, active: path.startsWith('/dashboard/qr-codes') },
-    { to: '/dashboard/settings', label: 'Restoran Ayarları', icon: Settings, active: path.startsWith('/dashboard/settings') },
+    { to: '/dashboard', label: 'Kontrol Paneli', icon: LayoutDashboard, active: path === '/dashboard', tour: 'nav-dashboard' },
+    { to: '/dashboard/menu-editor', label: 'Canlı Menü Editörü', icon: Smartphone, active: path.startsWith('/dashboard/menu-editor'), featured: true, tour: 'nav-menu-editor' },
+    { to: '/dashboard/menus', label: 'Menü Listesi', icon: MenuIcon, active: path.startsWith('/dashboard/menus'), tour: 'nav-menus' },
+    { to: '/dashboard/qr-codes', label: 'QR Kodlar & Masalar', icon: QrCode, active: path.startsWith('/dashboard/qr-codes'), tour: 'nav-qr' },
+    { to: '/dashboard/settings', label: 'Restoran Ayarları', icon: Settings, active: path.startsWith('/dashboard/settings'), tour: 'nav-settings' },
   ]
 
   // Müşterinin QR ile açtığı işletme sitesinin bölümleri
   const siteItems: NavItem[] = [
-    { to: '/dashboard/campaigns', label: 'Kampanyalar', icon: Gift, active: path.startsWith('/dashboard/campaigns') },
-    { to: '/dashboard/price-plans', label: 'Fiyat Planları', icon: BadgePercent, active: path.startsWith('/dashboard/price-plans') },
-    { to: '/dashboard/events', label: 'Etkinlikler', icon: CalendarDays, active: path.startsWith('/dashboard/events') },
-    { to: '/dashboard/about', label: 'Hakkımızda', icon: Info, active: path.startsWith('/dashboard/about') },
+    { to: '/dashboard/campaigns', label: 'Kampanyalar', icon: Gift, active: path.startsWith('/dashboard/campaigns'), tour: 'nav-campaigns' },
+    { to: '/dashboard/price-plans', label: 'Fiyat Planları', icon: BadgePercent, active: path.startsWith('/dashboard/price-plans'), tour: 'nav-price-plans' },
+    { to: '/dashboard/events', label: 'Etkinlikler', icon: CalendarDays, active: path.startsWith('/dashboard/events'), tour: 'nav-events' },
+    { to: '/dashboard/about', label: 'Hakkımızda', icon: Info, active: path.startsWith('/dashboard/about'), tour: 'nav-about' },
   ]
   const { restaurant } = useRestaurant()
+  const { start: startTour } = useTour()
 
   const renderItem = (item: NavItem) => (
     <Link
       key={item.to}
       to={item.to}
+      data-tour={item.tour}
       onClick={() => window.innerWidth < 1024 && setIsSidebarOpen(false)}
       className={`group relative flex items-center rounded-2xl px-3.5 py-3 text-sm font-semibold transition-colors ${
         item.active ? 'text-primary-foreground' : 'text-muted-foreground hover:bg-accent/70 hover:text-foreground'
@@ -73,11 +78,11 @@ export function Sidebar({
     </Link>
   )
 
-  const handleLogout = async () => {
-    if (!confirmLeave()) return
-    await signOutClient()
-    navigate('/login')
-  }
+  const handleLogout = () =>
+    leaveTo(async () => {
+      await signOutClient()
+      navigate('/login')
+    })
 
   return (
     <motion.aside
@@ -89,14 +94,13 @@ export function Sidebar({
       <div className="min-h-0 overflow-y-auto">
         <div className="flex h-20 items-center justify-between px-5">
           <Link to="/dashboard" className="flex items-center gap-3">
-            <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-border/60 bg-primary/10 shadow-lg backdrop-blur-xl dark:border-white/20 dark:bg-white/10">
-              <QrCode className="h-6 w-6 text-foreground" />
-              <div className="absolute -right-2 -top-2 rounded-full border border-border/60 bg-card p-0.5 dark:border-white/10 dark:bg-black/60">
-                <ChefHat className="h-4 w-4 text-foreground" />
-              </div>
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border/60 bg-primary/10 shadow-lg backdrop-blur-xl dark:border-white/20 dark:bg-white/10">
+              <QrChefMark size={32} className="text-foreground" />
             </div>
             <div className="leading-tight">
-              <span className="block text-lg font-extrabold tracking-tight text-foreground">QR Chef</span>
+              <span className="block text-lg font-extrabold tracking-tight text-foreground">
+                <QrChefWordmark />
+              </span>
               <span className="block text-[11px] font-medium text-muted-foreground">Restoran Yönetim Paneli</span>
             </div>
           </Link>
@@ -110,19 +114,34 @@ export function Sidebar({
           <p className="px-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Menü</p>
           {navItems.map(renderItem)}
 
-          <p className="px-3 pb-1 pt-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Web Sitem</p>
-          {siteItems.map(renderItem)}
-          {restaurant?.subdomain && (
-            <a
-              href={siteUrl(restaurant.subdomain)}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center rounded-2xl px-3.5 py-3 text-sm font-semibold text-muted-foreground transition-colors hover:bg-accent/70 hover:text-foreground"
-            >
-              <ExternalLink className="mr-3 h-[18px] w-[18px]" />
-              Sitemi Gör
-            </a>
-          )}
+          <div className="space-y-1.5" data-tour="nav-site">
+            <p className="px-3 pb-1 pt-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Web Sitem</p>
+            {siteItems.map(renderItem)}
+            {restaurant?.subdomain && (
+              <a
+                href={siteUrl(restaurant.subdomain)}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center rounded-2xl px-3.5 py-3 text-sm font-semibold text-muted-foreground transition-colors hover:bg-accent/70 hover:text-foreground"
+              >
+                <ExternalLink className="mr-3 h-[18px] w-[18px]" />
+                Sitemi Gör
+              </a>
+            )}
+          </div>
+
+          <p className="px-3 pb-1 pt-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Yardım</p>
+          <button
+            type="button"
+            onClick={() => {
+              if (window.innerWidth < 1024) setIsSidebarOpen(false)
+              startTour()
+            }}
+            className="flex w-full items-center rounded-2xl px-3.5 py-3 text-sm font-semibold text-muted-foreground transition-colors hover:bg-accent/70 hover:text-foreground"
+          >
+            <CircleHelp className="mr-3 h-[18px] w-[18px]" />
+            Panel Rehberi
+          </button>
 
           {userRole === 'superadmin' && (
             <div className="mt-3 border-t border-border/60 pt-3">
@@ -155,11 +174,8 @@ export function Sidebar({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuItem onClick={() => confirmLeave('/dashboard/settings') && navigate('/dashboard/settings')}>
+            <DropdownMenuItem onClick={() => leaveTo(() => navigate('/dashboard/settings'), '/dashboard/settings')}>
               <Settings className="h-4 w-4 mr-2" /> Restoran Ayarları
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => confirmLeave('/business') && navigate('/business')}>
-              <Store className="h-4 w-4 mr-2" /> Restoran Rehberi
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout} className="text-red-600">
