@@ -425,8 +425,8 @@
       "espresso cup"
     ],
     "judgeNote": "Any espresso served in a small cup is acceptable.",
-    "subject": "A white ceramic espresso cup holding a double shot of espresso with a thick hazelnut-colored crema, on a saucer with a small spoon",
-    "note": "görsel tarifi"
+    "subject": "A slightly larger white porcelain espresso cup on a saucer filled with a double shot of black espresso under a thick tiger-striped hazelnut-brown crema, no milk, no latte art, a small spoon on the saucer, a short glass of water beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "espresso-macchiato": {
     "stockQueries": [
@@ -882,8 +882,8 @@
     "note": "görsel tarifi"
   },
   "papatya-cayi": {
-    "subject": "A clear glass teacup of light golden chamomile tea with a few chamomile flowers floating, dried chamomile blossoms scattered beside the cup",
-    "note": "görsel tarifi"
+    "subject": "A clear glass teacup on a saucer filled with clear pale golden-yellow chamomile tea, steam rising, a few small dried white-and-yellow chamomile flowers on the saucer and table beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "rezene-cayi": {
     "subject": "A clear glass teacup of pale yellow fennel tea, a small spoonful of fennel seeds beside the cup",
@@ -946,8 +946,8 @@
     "note": "görsel tarifi"
   },
   "sicak-cikolata": {
-    "subject": "A ceramic mug of rich dark hot chocolate topped with a swirl of whipped cream and chocolate shavings, a few small marshmallows and a piece of dark chocolate beside it",
-    "note": "görsel tarifi"
+    "subject": "A white ceramic mug of thick rich dark hot chocolate topped with a swirl of whipped cream and a sprinkle of cocoa powder, a few small marshmallows beside the mug, steam rising",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "sicak-elma-suyu": {
     "subject": "A clear glass mug of warm amber apple cider with a cinnamon stick and an apple slice, a few whole cloves and a red apple beside it, gentle steam",
@@ -986,8 +986,8 @@
     "note": "görsel tarifi"
   },
   "espresso": {
-    "subject": "A small white ceramic espresso cup with a single shot of espresso topped with a rich tiger-striped golden crema, on a saucer with a small spoon",
-    "note": "görsel tarifi"
+    "subject": "A single small white porcelain demitasse cup on a matching saucer holding one shot of black espresso with a thick hazelnut-brown crema on top, no milk, no latte art, no foam pattern, a small spoon and a sugar cube on the saucer",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "espresso-con-panna": {
     "subject": "A small glass espresso cup with a shot of dark espresso topped with a generous dollop of whipped cream, on a saucer",
@@ -1018,12 +1018,12 @@
     "note": "görsel tarifi"
   },
   "white-mocha": {
-    "subject": "A white ceramic mug of white chocolate mocha topped with whipped cream and white chocolate shavings",
-    "note": "görsel tarifi"
+    "subject": "A white ceramic cup on a saucer filled with a pale ivory creamy white chocolate mocha, topped with whipped cream and a drizzle of white chocolate sauce, a few white chocolate shavings, the drink is light cream colored, not brown",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "aeropress": {
-    "subject": "An AeroPress coffee maker standing on a glass carafe of freshly brewed dark coffee, with a ceramic cup of black coffee beside it",
-    "note": "görsel tarifi"
+    "subject": "An AeroPress coffee maker: a narrow transparent grey plastic tube with a plunger pushed in, sitting upright on top of a glass mug, dark coffee visible in the mug, a round paper filter disc and a small scoop of ground coffee beside it, no French press, no metal mesh",
+    "note": "görsel tarifi (denetim düzeltmesi 2)"
   },
   "batch-brew": {
     "subject": "A white ceramic mug of black filter coffee, a glass coffee server of brewed coffee softly behind it",
@@ -1106,8 +1106,8 @@
     "note": "görsel tarifi"
   },
   "naneli-limonata": {
-    "subject": "A tall glass of pale green blended mint lemonade, slightly frosty and opaque, over ice with a lemon wheel and a fresh mint sprig",
-    "note": "görsel tarifi"
+    "subject": "A tall clear glass of blended mint lemonade, pale light green and slightly frothy, with ice, a lemon slice and a sprig of fresh mint on the rim",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "osmanli-serbeti": {
     "subject": "A tall glass of deep ruby-red spiced Ottoman sherbet over ice with a cinnamon stick, a few cloves and dried rosehips beside the glass",
@@ -1142,8 +1142,8 @@
     "note": "görsel tarifi"
   },
   "seftali-cayi": {
-    "subject": "A clear glass teacup of soft golden-peach fruit tea, a ripe peach and dried peach pieces beside the cup",
-    "note": "görsel tarifi"
+    "subject": "A clear glass teacup on a saucer filled with hot amber peach fruit tea, steam rising, no ice, a few dried peach pieces on the saucer",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "visne-cayi": {
     "subject": "A clear glass teacup of bright red sour cherry tea, a few fresh sour cherries with stems beside the cup",
@@ -1310,8 +1310,8 @@
     "note": "görsel tarifi"
   },
   "soguk-demleme-cay": {
-    "subject": "A tall glass of clear golden cold-brewed tea over ice, a glass carafe of cold brew tea with loose tea leaves softly behind it",
-    "note": "görsel tarifi"
+    "subject": "A tall clear glass of cold brew tea, clear amber color with ice cubes and a lemon slice, a small clear glass carafe of the tea beside it, indoor café counter",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "cold-brew": {
     "subject": "A tall glass of dark, clear cold brew coffee over large ice cubes, condensation on the glass",
@@ -1406,8 +1406,8 @@
     "note": "görsel tarifi"
   },
   "taze-karisik-meyve-suyu": {
-    "subject": "A clear glass of bright orange fresh mixed juice, an orange half, an apple and a carrot beside the glass",
-    "note": "görsel tarifi"
+    "subject": "A tall clear glass of fresh-squeezed orange, apple and carrot juice, bright vivid orange color, beside half an orange, an apple slice and a small carrot",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "taze-karpuz-suyu": {
     "subject": "A tall glass of bright pink-red fresh watermelon juice over ice, a watermelon wedge on the rim and watermelon slices beside it",
@@ -1434,8 +1434,8 @@
     "note": "görsel tarifi"
   },
   "dibek-kahvesi": {
-    "subject": "A small porcelain Turkish coffee cup on a saucer with lighter brown dibek coffee under a velvety foam, a small stone mortar and a glass of water beside it",
-    "note": "görsel tarifi"
+    "subject": "A small traditional Turkish coffee cup on a saucer filled with dibek coffee, a thick velvety light-brown Turkish coffee foam on top, no milk, no latte art, a small copper cezve and a glass of water beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "duble-turk-kahvesi": {
     "subject": "A larger porcelain cup of Turkish coffee on a saucer with a thick, dense dark tan foam with tiny bubbles, a glass of water and two pieces of Turkish delight beside it",
@@ -1486,16 +1486,16 @@
     "note": "görsel tarifi"
   },
   "oolong-cay": {
-    "subject": "A small clear glass teacup of amber oolong tea, a small heap of rolled dark green oolong tea leaves beside the cup",
-    "note": "görsel tarifi"
+    "subject": "A small clear glass teacup filled with brewed golden-amber oolong tea, a small clay teapot beside it and a few rolled dried oolong leaves on the saucer",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "rooibos-cayi": {
     "subject": "A clear glass teacup of reddish-amber rooibos tea, a small heap of red rooibos needles beside the cup",
     "note": "görsel tarifi"
   },
   "yasemin-cayi": {
-    "subject": "A clear glass teacup of pale golden jasmine green tea with a few jasmine blossoms floating, jasmine flowers beside the cup",
-    "note": "görsel tarifi"
+    "subject": "A clear glass teacup filled with pale greenish-golden jasmine green tea, steam rising, a few small dried white jasmine flowers on the saucer, no blooming tea ball",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "yesil-cay": {
     "subject": "A clear glass teacup of light green-yellow green tea, a small heap of loose green tea leaves beside the cup",
@@ -1510,8 +1510,8 @@
     "note": "görsel tarifi"
   },
   "kasarli-menemen": {
-    "subject": "A round two-handled copper sahan pan of menemen, soft scrambled eggs folded with chopped tomato and green pepper in a glossy red-orange sauce, a thick layer of melted stringy yellow kashar cheese on top, a basket of sliced white bread beside it",
-    "note": "görsel tarifi"
+    "subject": "A round two-handled copper sahan pan of Turkish menemen, soft scrambled eggs mixed with chopped tomato and green pepper in a red-orange sauce, covered on top with a smooth glossy layer of melted pale yellow cheese, no strands, no noodles, no pasta, a few chili flakes, sliced white bread beside the pan",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "kavurmali-menemen": {
     "subject": "A round two-handled copper sahan pan of menemen, scrambled eggs with tomato and green pepper, generous chunks of dark browned slow-cooked lamb kavurma mixed through, a few slices of white bread beside it",
@@ -1558,8 +1558,8 @@
     "note": "görsel tarifi"
   },
   "aperatif-tabagi": {
-    "subject": "A large wooden board laden with golden crispy breaded chicken strips, crunchy onion rings, breaded mozzarella sticks with cheese pulling out of one, and a pile of french fries, two small ceramic bowls of ketchup and ranch dip in the middle",
-    "note": "görsel tarifi"
+    "subject": "A large wooden board laden with golden crispy breaded chicken strips, crunchy onion rings, breaded mozzarella sticks and a pile of french fries, two small ceramic bowls of ketchup and ranch dip, the board fills the frame, plain dark wooden table, no people in the background",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   },
   "ton-balikli-salata": {
     "subject": "A wide white bowl of mixed green lettuce and rocket topped with flaked tuna, sweet corn, thin red onion rings, cherry tomato halves, cucumber slices and black olives, a lemon wedge on the rim, light dressing glistening",
@@ -1594,11 +1594,383 @@
     "note": "görsel tarifi"
   },
   "tuzlu-yer-fistigi": {
-    "subject": "A small white ceramic bowl heaped with roasted salted peanuts with their reddish-brown skins and visible salt crystals, a few peanuts scattered on the table beside the bowl",
-    "note": "görsel tarifi"
+    "subject": "A small white ceramic bowl filled to the top with shelled roasted salted peanuts, small round-oval split peanut halves with a few thin red skins, glistening with salt, not cashews, a few empty peanut shells on the table beside the bowl",
+    "note": "görsel tarifi (denetim düzeltmesi 2)"
   },
   "beyaz-peynirli-sandvic": {
     "subject": "A fresh half-baguette sandwich cut in two and stacked on a white plate, filled with thick slices of crumbly white feta-style cheese, ripe tomato slices, cucumber and a few black olives, a drizzle of olive oil and a sprinkle of dried oregano visible, a small bunch of parsley beside it",
     "note": "görsel tarifi"
+  },
+  "yogurtlu-semizotu": {
+    "subject": "A small white meze bowl of chopped fresh purslane leaves folded into thick strained garlic yogurt, a drizzle of olive oil on top and a few whole purslane sprigs as garnish",
+    "note": "görsel tarifi"
+  },
+  "zeytinyagli-enginar": {
+    "subject": "A round artichoke heart bottom without leaves on a small white plate, filled with diced carrots, potatoes and green peas cooked in olive oil, glossy, a sprig of fresh dill and a lemon slice on top",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "tarama": {
+    "subject": "A small white bowl of smooth pale pink tarama fish roe spread swirled on top, a drizzle of olive oil, a few black olives and a lemon wedge beside it, slices of toasted bread on the side",
+    "note": "görsel tarifi"
+  },
+  "rus-salatasi": {
+    "subject": "A small white bowl of creamy Russian salad with diced potato, carrot, green peas and pickles bound in mayonnaise, smooth top garnished with black olive slices and a parsley sprig",
+    "note": "görsel tarifi"
+  },
+  "saksuka": {
+    "subject": "A small white plate of şakşuka, fried cubes of eggplant, potato and green pepper coated in a thick glossy tomato sauce, served cold with a sprinkle of chopped parsley",
+    "note": "görsel tarifi"
+  },
+  "topik": {
+    "subject": "A slice of Armenian-Turkish topik on a small white plate: a pale beige dome made of mashed chickpea and potato, cut in half to show a soft brown caramelized onion filling with currants and pine nuts, drizzled with tahini and olive oil, dusted with cinnamon, a lemon wedge",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "yogurtlu-ispanak": {
+    "subject": "A small white meze bowl of cooked chopped spinach folded into thick garlic yogurt, a swirl of olive oil and a pinch of red pepper flakes on top",
+    "note": "görsel tarifi"
+  },
+  "tursu-tabagi": {
+    "subject": "A white plate of assorted Turkish pickles, sliced pickled cucumbers, green tomato wedges, cabbage, carrot sticks, small hot green peppers and a few pickled garlic cloves, vibrant and glistening with brine",
+    "note": "görsel tarifi"
+  },
+  "sezar-salata": {
+    "subject": "A wide white bowl of crisp romaine lettuce leaves coated in creamy Caesar dressing with golden croutons and shaved parmesan flakes, freshly ground black pepper on top, no chicken",
+    "note": "görsel tarifi"
+  },
+  "roka-salatasi": {
+    "subject": "A white plate of fresh green rocket leaves with cherry tomato halves and shaved parmesan, drizzled with olive oil and dark pomegranate molasses, a lemon wedge on the side",
+    "note": "görsel tarifi"
+  },
+  "piyaz": {
+    "subject": "A white plate of Antalya-style piyaz, white beans in a creamy tahini dressing with thin sliced red onion, tomato wedges, chopped parsley, half a boiled egg and a few black olives",
+    "note": "görsel tarifi"
+  },
+  "pizza-karisik": {
+    "subject": "A whole round thin-crust pizza on a wooden board, one slice slightly pulled out with a cheese stretch, topped with tomato sauce, melted mozzarella, slices of sucuk and sausage, mushrooms, green pepper, sweet corn and black olives",
+    "note": "görsel tarifi"
+  },
+  "pizza-bbq-chicken": {
+    "subject": "A whole round thin-crust pizza on a wooden board, one slice slightly pulled out with a cheese stretch, topped with shredded chicken in dark barbecue sauce, red onion rings, sweet corn and melted mozzarella, a zigzag drizzle of barbecue sauce across the top",
+    "note": "görsel tarifi"
+  },
+  "sosis-tava": {
+    "subject": "A small round copper pan of hot dog style pink-brown beef frankfurter sausages cut into thin coins and pan-fried until golden with blistered edges in butter, the sausage coins clearly cylindrical slices, small bowls of yellow mustard and ketchup beside the pan",
+    "note": "görsel tarifi (denetim düzeltmesi 2)"
+  },
+  "sardalya-izgara": {
+    "subject": "Five small slender grilled sardines wrapped in grilled vine leaves on a white oval plate, silver skin peeking out with char marks, lemon wedges and rocket leaves beside them, no wine glass",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "pizza-sucuklu": {
+    "subject": "A whole round thin-crust pizza on a wooden board, one slice slightly pulled out with a cheese stretch, topped with tomato sauce, melted mozzarella and many slices of sucuk curled and crisped at the edges, glistening with red paprika oil",
+    "note": "görsel tarifi"
+  },
+  "pizza-vejetaryen": {
+    "subject": "A whole round thin-crust pizza on a wooden board, one slice slightly pulled out with a cheese stretch, topped with tomato sauce, melted mozzarella, sliced mushrooms, green pepper, red onion, sweet corn, black olives and cherry tomato halves",
+    "note": "görsel tarifi"
+  },
+  "pizza-tonno": {
+    "subject": "A whole round thin-crust pizza on a wooden board, one slice slightly pulled out with a cheese stretch, topped with tomato sauce, melted mozzarella, flaked tuna, thin red onion rings and black olives",
+    "note": "görsel tarifi"
+  },
+  "pizza-napoli": {
+    "subject": "A whole round thin-crust pizza on a wooden board, one slice slightly pulled out with a cheese stretch, topped with tomato sauce, melted mozzarella, anchovy fillets, capers, black olives and a sprinkle of dried oregano",
+    "note": "görsel tarifi"
+  },
+  "pizza-kiymali": {
+    "subject": "A whole round thin-crust pizza on a wooden board, one slice slightly pulled out with a cheese stretch, topped with tomato sauce, melted mozzarella, crumbled seasoned minced beef, diced green pepper and onion",
+    "note": "görsel tarifi"
+  },
+  "pizza-pastirmali": {
+    "subject": "A whole round thin-crust pizza on a wooden board, one slice slightly pulled out with a cheese stretch, topped with tomato sauce, melted mozzarella and thin slices of pastırma cured beef with a dark red spice coating, a few green pepper rings",
+    "note": "görsel tarifi"
+  },
+  "smash-burger": {
+    "subject": "A smash burger on a wooden board: two thin smashed beef patties stacked with lacy crispy browned edges, melted American cheese between them, chopped onion and pickles, in a soft toasted bun, french fries beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "spicy-burger": {
+    "subject": "A tall burger on a wooden board, a thick beef patty with melted cheddar, sliced green jalapeños, lettuce, tomato and a bright red spicy sauce dripping down, in a toasted brioche bun, french fries beside it",
+    "note": "görsel tarifi"
+  },
+  "truffle-burger": {
+    "subject": "A gourmet burger on a dark slate board, a thick beef patty with melted cheese, sautéed mushrooms and a creamy truffle mayo in a glossy toasted brioche bun, a few french fries beside it",
+    "note": "görsel tarifi"
+  },
+  "kofte-salata": {
+    "subject": "A wide white bowl of mixed green leaves with sliced grilled meatballs on top, cherry tomato halves, cucumber slices and strips of roasted red pepper, a glossy pomegranate molasses dressing",
+    "note": "görsel tarifi"
+  },
+  "citir-tavuklu-salata": {
+    "subject": "A wide white bowl of mixed green leaves topped with golden breaded crispy chicken strips cut into pieces, sweet corn and cherry tomato halves, a drizzle of creamy ranch dressing",
+    "note": "görsel tarifi"
+  },
+  "avokadolu-salata": {
+    "subject": "A white plate of fanned sliced ripe avocado over fresh rocket, cherry tomato halves and cucumber slices, drizzled with lemon olive-oil dressing and sprinkled with toasted seeds",
+    "note": "görsel tarifi"
+  },
+  "peynirli-menemen": {
+    "subject": "A round two-handled copper sahan pan of Turkish menemen, soft scrambled eggs folded with chopped tomato and green pepper in a bright red-orange sauce, crumbled white feta cheese and a smooth glossy layer of melted pale yellow cheese, no strands, no noodles, no pasta on top, chopped parsley, well lit, sliced white bread beside the pan",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "cheddar-soslu-patates": {
+    "subject": "A white plate piled with golden crispy french fries generously covered with a smooth bright orange melted cheddar cheese sauce poured over the top, a few sliced green jalapeños, a small bowl of ketchup beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "barbun-tava": {
+    "subject": "An oval white plate with six small whole pan-fried red mullet fish, pink-red skin with golden crispy cornmeal crust, heads on, arranged side by side, lemon wedges, rocket leaves and thin red onion slices",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "cipura-izgara": {
+    "subject": "A whole grilled gilthead sea bream on a long white oval plate, silver-grey skin with dark charred grill marks, head and tail intact, white flesh, lemon halves, rocket leaves and thin red onion beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "firin-helva": {
+    "subject": "A small round brown clay dish of hot oven-baked tahini halva, the crumbly light beige halva caramelized golden brown on top, sprinkled with crushed walnuts, a scoop of vanilla ice cream melting on top",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "tahin-helvasi": {
+    "subject": "A small white plate with two thick slices of Turkish tahini halva, pale beige with a dry crumbly fibrous flaky texture, one plain slice and one slice marbled with cocoa swirls, a few pistachios beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "kiymali-gozleme": {
+    "subject": "A Turkish gözleme cut into four rectangular pieces stacked on a wooden board, thin pale yufka flatbread folded over and griddled with brown spots, the cut edges showing a filling of browned minced beef with onion, a lemon wedge and a glass of ayran beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "pastirmali-kasarli-gozleme": {
+    "subject": "A Turkish gözleme cut into four rectangular pieces stacked on a wooden board, thin pale yufka flatbread folded flat and griddled with brown spots, the cut edges showing thin translucent slices of dark ruby-red air-dried cured beef and melted cheese inside, not an open boat-shaped pide",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "dil-peyniri": {
+    "subject": "A small white plate with a soft rectangular block of white Turkish dil peyniri cheese, the block torn open at one end to show a layered fibrous texture like pulled mozzarella, two thick torn pieces beside it, a sprig of mint, it is a cheese block, not noodles, not pasta",
+    "note": "görsel tarifi (denetim düzeltmesi 2)"
+  },
+  "pastirma-porsiyon": {
+    "subject": "A small white plate with neatly fanned thin translucent slices of dark ruby-red air-dried cured beef (Turkish pastırma, similar to bresaola) each with a thick reddish-brown paprika and fenugreek paste crust along one edge, lean with no white fat spots, not salami, not sausage, a few slices of tomato and a sprig of parsley",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "cecil-peyniri": {
+    "subject": "A small white plate with a round ball of white Turkish çeçil cheese made of a thick cheese rope wound tightly like a ball of yarn, one thick loose rope end hanging off, sprinkled with dried thyme and red pepper flakes, it is solid cheese, not noodles, not pasta",
+    "note": "görsel tarifi (denetim düzeltmesi 2)"
+  },
+  "koy-kahvaltisi-2-kisilik-menu": {
+    "subject": "A generous Turkish village breakfast spread for two on a wooden table: small white plates of white feta cheese, butter, golden honey with thick white kaymak clotted cream, green and black olives, sliced tomato and cucumber, two boiled eggs, warm round bazlama flatbread, a small bowl of french fries, and two tulip-shaped Turkish tea glasses of red tea on saucers",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "pastirmali-kahvalti-tabagi": {
+    "subject": "A large white Turkish breakfast plate with fanned thin translucent slices of dark ruby-red air-dried cured beef (Turkish pastırma, similar to bresaola) each with a thick reddish-brown paprika and fenugreek paste crust along one edge, a small copper pan of fried eggs with pastırma, sliced yellow kashar cheese, black and green olives, tomato and cucumber slices, honey with butter, a bread basket beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "san-sebastian-cheesecake": {
+    "subject": "A slice of Basque burnt cheesecake on a white plate, a deeply caramelized almost black burnt top and edges, a creamy pale yellow soft custardy interior slightly oozing, dark chocolate sauce drizzled beside it, bright natural light",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "acili-ezme": {
+    "subject": "A small white meze bowl of Turkish acılı ezme, a finely minced almost paste-like bright red spicy salad of tomato, red pepper, onion and parsley glistening with pomegranate molasses and olive oil, no large chunks",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "fava": {
+    "subject": "A small white plate with a smooth firm slab of pale yellow Turkish fava broad bean purée cut into neat squares, drizzled with olive oil, garnished with chopped fresh dill, thin red onion rings and a lemon wedge",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "karisik-soguk-meze-tabagi": {
+    "subject": "A large white platter divided into six small portions of Turkish cold mezes: white garlic yogurt haydari, beige hummus, bright red acılı ezme, smoky eggplant salad, yellow fava slices and stuffed vine leaf sarma, drizzled with olive oil, no people",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "midye-dolma": {
+    "subject": "Five Turkish stuffed mussels midye dolma on a white plate, each black shell opened with the top shell lifted to show the spiced orange-brown rice with pine nuts and currants inside, lemon wedges between them",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "ciroz": {
+    "subject": "A small white plate of Turkish çiroz, dried mackerel flaked into thin golden-brown shreds, dressed with vinegar and olive oil, topped with plenty of chopped fresh dill and thin sliced green onion",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "karisik-sicak-meze-tabagi": {
+    "subject": "A large white platter of Turkish hot mezes: thin golden fried cheese cigar börek rolls, sliced fried paçanga börek, round green zucchini mücver fritters, golden fried calamari rings and a small clay dish of shrimp in tomato sauce, no vine leaves",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "pastirmali-humus": {
+    "subject": "A shallow white bowl of warm smooth hummus topped with a few thin translucent slices of dark ruby-red air-dried cured beef crisped in butter, toasted pine nuts and a drizzle of melted butter with paprika",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "pastirmali-kasarli-mantar": {
+    "subject": "A small round clay casserole dish of sautéed button mushrooms baked with thin translucent slices of dark ruby-red air-dried cured beef pieces and covered with melted bubbling golden cheese, chopped parsley on top",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "pacanga-boregi": {
+    "subject": "Turkish paçanga börek on a white plate, golden crispy fried yufka rolls cut diagonally into pieces, each cut end showing thin translucent slices of dark ruby-red air-dried cured beef, melted cheese and strips of roasted red pepper inside, a small bowl of yogurt dip",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "bazlama-tost": {
+    "subject": "A round thick fluffy Turkish bazlama flatbread toasted and cut in half, the halves stacked on a wooden board, golden griddle spots on the bread, melted cheese and slices of red sucuk sausage inside, tomato and pickles beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "pastirmali-yumurta": {
+    "subject": "A round two-handled copper sahan pan with thin translucent slices of dark ruby-red air-dried cured beef slightly crisped in butter and two fried eggs with bright runny yolks on top, sliced white bread beside the pan",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "leblebi": {
+    "subject": "A small white ceramic bowl filled with Turkish yellow roasted chickpeas leblebi, round pale yellow smooth hulled chickpeas, no skins, no spices, a few scattered on the table beside the bowl",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "kofte-durum": {
+    "subject": "A Turkish köfte dürüm on a wooden board: a thin soft lavaş flatbread rolled tightly into a long wrap and cut in half diagonally, the cut end showing pieces of grilled köfte, tomato, onion with sumac, parsley and roasted green pepper, not a tortilla, a few pickles beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "izgara-kofte": {
+    "subject": "A white plate with five flat oval Turkish grilled köfte patties, each about the size of a palm, thick and juicy with dark charred grill marks, not long finger-shaped, not round meatballs, served with a mound of white rice pilaf, two roasted green peppers, a grilled tomato and thin onion slices with sumac and parsley",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "ekmek-arasi-kavurma": {
+    "subject": "Half a loaf of crusty Turkish white bread split open lengthwise and stuffed with chunks of dark browned cubed beef kavurma glistening with fat, sliced tomato and roasted green pepper, black pepper on top, on a wooden board with a sheet of paper",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "kofte-ekmek": {
+    "subject": "Half a loaf of crusty Turkish white bread split open lengthwise and stuffed with four flat oval Turkish grilled köfte patties, each about the size of a palm, thick and juicy with dark charred grill marks, not long finger-shaped, not round meatballs, sliced tomato, onion with sumac and parsley and a roasted green pepper, on a wooden board with a sheet of paper",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "sutlac": {
+    "subject": "A small clear glass bowl of cold Turkish sütlaç rice pudding, smooth creamy pure white milky pudding with soft rice grains, dusted with ground cinnamon on top, not baked, no browned top",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "karisik-tost": {
+    "subject": "A Turkish pressed toastie cut diagonally into two triangles stacked on a white plate, golden toasted bread with grill press lines, smooth glossy melted pale yellow cheese, no strands, no noodles and round slices of dark red Turkish sucuk sausage, not pink visible at the cut, tomato slices and pickles on the side",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "karisik-omlet": {
+    "subject": "A folded fluffy golden three-egg omelette on a white plate, the fold open to show a filling of round slices of dark red Turkish sucuk sausage, not pink, melted kashar cheese, sliced mushrooms and green pepper, all yolks mixed, no fried eggs, tomato slices beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "menemen": {
+    "subject": "A round two-handled copper sahan pan of Turkish menemen: soft creamy scrambled eggs fully mixed with cooked chopped tomato, green pepper and onion into one glossy red-orange mixture, no whole yolks, no fried eggs, no raw tomato slices, chili flakes on top, sliced white bread beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "klasik-burger": {
+    "subject": "A classic beef burger on a wooden board: a toasted glossy brioche bun, a thick juicy grilled beef patty, crisp lettuce, tomato slices, pickles and burger sauce dripping, a side of straight-cut golden french fries",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "tavuklu-penne": {
+    "subject": "A wide shallow white bowl of penne in a creamy white sauce with grilled chicken pieces and sliced button mushrooms, sprinkled with fresh thyme and grated parmesan, a fork resting on the rim",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "sufle": {
+    "subject": "A small round chocolate lava cake soufflé on a white plate, cut open with a spoon so warm liquid dark chocolate flows out, dusted with powdered sugar, a scoop of vanilla ice cream beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "ton-balikli-sandvic": {
+    "subject": "A ciabatta sandwich cut in half and stacked on a white plate, filled with creamy tuna salad with sweet corn and pickles, crisp lettuce and tomato slices, a small side of french fries",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "kasarli-tost": {
+    "subject": "A Turkish pressed toastie cut diagonally into two triangles stacked on a white plate, golden toasted white bread with grill press lines, thick smooth glossy melted pale yellow cheese, no strands, no noodles oozing at the cut, pickles beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "kasarli-omlet": {
+    "subject": "A single folded fluffy golden three-egg omelette on a white plate, smooth glossy melted pale yellow cheese, no strands, no noodles oozing from the fold, sliced tomato beside it, only one omelette, no fried eggs",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "citir-kalamar-halkasi": {
+    "subject": "A white plate of golden crispy breadcrumb-coated calamari rings, clearly ring-shaped with holes, a small bowl of white tartar sauce and lemon wedges",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "levrek-izgara": {
+    "subject": "A whole grilled sea bass on a long white oval plate, silver skin with charred grill marks, head and tail intact, lemon slices, rocket leaves, thin red onion and grilled vegetables beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "palamut-izgara": {
+    "subject": "Three thick round cross-cut steaks of grilled bonito fish on a white oval plate, each steak showing a ring of silvery-blue fish skin around firm pale pinkish-beige fish flesh with a central backbone, charred grill marks, thin red onion slices, rocket leaves and lemon wedges, clearly fish, not beef",
+    "note": "görsel tarifi (denetim düzeltmesi 2)"
+  },
+  "iki-top-dondurma": {
+    "subject": "A small glass bowl with exactly two scoops of ice cream, one chocolate and one pistachio green, a wafer stick in between, only two scoops",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "cikolatali-gozleme": {
+    "subject": "A Turkish gözleme folded into a rectangle and cut in pieces on a wooden board, pale white yufka dough with brown griddle spots, the cut edges showing a filling of melted hazelnut chocolate spread, banana slices on the side, the dough itself is white not brown",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "acuka": {
+    "subject": "A small white meze bowl of acuka, a thick coarse deep red paste of red pepper paste, crushed walnuts and garlic, drizzled with olive oil, a few walnut halves on top",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "haslanmis-yumurta": {
+    "subject": "A peeled boiled egg cut in half on a small white plate, showing a firm white and a soft jammy orange yolk, sprinkled with salt and black pepper",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "mihlama-kuymak": {
+    "subject": "A small round copper pan of Turkish mıhlama: a smooth glossy molten yellow mixture of fine cornmeal cooked in butter, like a creamy cheesy polenta fondue, with melted stretchy white cheese pooled on top, a spoon lifting a long stretching string of cheese, no whole corn kernels, a basket of bread beside it",
+    "note": "görsel tarifi (denetim düzeltmesi 2)"
+  },
+  "orgu-peyniri": {
+    "subject": "A small white plate with a braided rope of Turkish örgü peyniri white cheese, plaited and partly pulled into thin threads, sprinkled with black nigella seeds",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "gozleme-ayran-menusu": {
+    "subject": "A Turkish gözleme cut into pieces stacked on a wooden board, pale yufka with brown griddle spots and white cheese filling, beside it a tall clear glass of foamy white ayran yogurt drink",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "menemen-menusu": {
+    "subject": "A tray with a copper sahan pan of Turkish menemen, soft scrambled eggs fully mixed with tomato and green pepper, no whole yolks, a small basket of sliced bread and a tulip-shaped Turkish tea glass of red tea on a saucer",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "peynir-tabagi": {
+    "subject": "A wooden board of Turkish cheeses: a block of white Ezine feta, slices of aged yellow kashar, crumbly white tulum cheese, a braided örgü cheese and a nest of stringy çeçil cheese, garnished with walnuts and grapes",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "mantarli-kremali-makarna": {
+    "subject": "A wide shallow white bowl of penne pasta tubes in a creamy mushroom sauce with sautéed sliced button mushrooms, grated parmesan and chopped parsley, penne only, no flat noodles",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "meyhane-pilavi": {
+    "subject": "A white plate of Turkish meyhane pilavı, reddish-orange bulgur wheat pilaf cooked with tomato and pepper paste and mixed with browned minced beef, sprinkled with chili flakes, a small bowl of yogurt beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "ege-kahvaltisi": {
+    "subject": "An Aegean Turkish breakfast spread on a light wooden table: white Ezine cheese, small black Gemlik olives, sliced tomatoes with oregano and olive oil, a plate of olive-oil wild greens, a small copper pan of menemen, bread and a Turkish tea glass",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "koy-kahvaltisi-kisi-basi": {
+    "subject": "A Turkish village breakfast for one on a wooden table: white village cheese, butter, homemade jam, two boiled village eggs, warm round bazlama flatbread, a small copper pan of round slices of dark red Turkish sucuk sausage, not pink with fried eggs, and a tulip-shaped Turkish tea glass",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "cacik": {
+    "subject": "A small white bowl of Turkish cacık, thin watery garlic yogurt soup with finely grated cucumber and chopped dill, drizzled with olive oil and dried mint, a few ice cubes floating",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "girit-ezmesi": {
+    "subject": "A small white meze plate of Girit ezmesi, a green-flecked creamy spread of white cheese mashed with plenty of chopped fresh dill, parsley and mint, crushed walnuts and pistachios on top, olive oil drizzle",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "lakerda": {
+    "subject": "A small white plate with thick pale pinkish-white slices of skinless salt-cured bonito lakerda, thin red onion rings, a drizzle of olive oil and black pepper, a lemon wedge",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "pancar-salatasi": {
+    "subject": "A small white bowl of Turkish beet salad, cubed beets folded into garlic yogurt turning it bright vivid pink-magenta, crushed walnuts on top",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "kasarli-mantar": {
+    "subject": "A small round clay dish of sautéed button mushrooms baked under a layer of fully melted bubbling golden cheese with browned spots, chopped parsley, hot and steaming",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "sigara-boregi": {
+    "subject": "A white plate of six thin golden crispy Turkish sigara börek, slim cigar-shaped fried yufka rolls with white cheese and parsley filling visible at one cut end, a sprig of parsley",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "ayvalik-tostu": {
+    "subject": "A Turkish Ayvalık toast: a long half loaf of bread pressed and toasted, cut open showing layers of sucuk, salami, sausage, melted kashar cheese, pickles, tomato and creamy Russian salad, ketchup and mayonnaise drizzled, on a wooden board",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "beyaz-peynirli-tost": {
+    "subject": "A Turkish pressed toastie cut diagonally into two triangles on a white plate, golden toasted bread, filled with crumbly white feta cheese, tomato slices and dried oregano visible at the cut, the cheese is white not yellow",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "hellimli-tost": {
+    "subject": "A closed pressed toastie cut diagonally on a white plate, golden toasted bread with press lines, slices of grilled halloumi cheese, tomato and fresh mint leaves visible at the cut",
+    "note": "görsel tarifi (denetim düzeltmesi)"
+  },
+  "pastirmali-omlet": {
+    "subject": "A folded fluffy golden three-egg omelette on a white plate, the fold open to show thin slices of dark ruby-red Turkish pastırma cured beef with a reddish-brown spice crust on the edge, not salami, not sausage and melted cheese inside, tomato slices beside it",
+    "note": "görsel tarifi (denetim düzeltmesi)"
   }
 }
