@@ -184,6 +184,10 @@ html.dark.panel-active .keep-light.text-muted-foreground { color: rgb(107 114 12
   .scan-attention, .scan-attention::after, .scan-attention svg { animation: none; }
 }
 
+/* Yana kaydırılan şeritler (menü kategori sekmeleri): kaydırma çubuğu gizli */
+.hide-scrollbar { scrollbar-width: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
 /* Tema geçişi: View Transitions için varsayılan çapraz solmayı kapat, dairesel açılma JS ile yapılır */
 ::view-transition-old(root),
 ::view-transition-new(root) {

@@ -85,13 +85,17 @@ export function SiteHeader({ restaurant, fallbackCover }: { restaurant: SiteRest
           </span>
         </button>
 
-        <div className="flex items-center bg-white/70 dark:bg-black/20 backdrop-blur-xl px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10">
+        <div className="relative flex items-center bg-white/70 dark:bg-black/20 backdrop-blur-xl px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10 focus-within:ring-2 focus-within:ring-black/20 dark:focus-within:ring-white/30">
           <Globe className="h-4 w-4 text-gray-700 dark:text-white/80 mr-1.5" />
+          <span aria-hidden className="text-xs font-bold text-gray-900 dark:text-white uppercase">
+            {lang}
+          </span>
+          {/* Seçici görünmez ve 16px: iOS, 16px'ten küçük yazılı form alanına dokununca sayfayı büyütür */}
           <select
             value={lang}
             onChange={(e) => setLang(e.target.value as SiteLang)}
             aria-label="Language"
-            className="text-xs bg-transparent font-bold text-gray-900 dark:text-white focus:outline-none cursor-pointer appearance-none uppercase"
+            className="absolute inset-0 h-full w-full cursor-pointer appearance-none opacity-0 text-base"
           >
             {SITE_LANGS.map((l) => (
               <option key={l} value={l} className="text-black">

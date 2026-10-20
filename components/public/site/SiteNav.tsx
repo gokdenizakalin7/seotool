@@ -1,10 +1,40 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { CalendarDays, Info, Phone, UtensilsCrossed } from 'lucide-react'
 import { sitePath, type SitePage } from '@/lib/site-url'
 import { useSiteLang } from './i18n'
+
+const NON_TEXT_INPUTS = new Set(['button', 'checkbox', 'color', 'file', 'hidden', 'image', 'radio', 'range', 'reset', 'submit'])
+
+function isTextField(el: EventTarget | null) {
+  if (el instanceof HTMLTextAreaElement) return true
+  if (el instanceof HTMLInputElement) return !NON_TEXT_INPUTS.has(el.type)
+  return el instanceof HTMLElement && el.isContentEditable
+}
+
+/**
+ * Yazı alanı odaktayken (ekran klavyesi açık) true. iOS'ta klavye açıkken sabit alt çubuk klavyenin
+ * üstünde değil sayfanın ortasında asılı kalıyor; bu sürede gizlenir.
+ */
+function useTextFieldFocused() {
+  const [focused, setFocused] = useState(false)
+  useEffect(() => {
+    const onFocusIn = (e: FocusEvent) => setFocused(isTextField(e.target))
+    // relatedTarget: odağı alan öğe (yoksa null; ör. boşluğa dokunup klavye kapatıldı)
+    const onFocusOut = (e: FocusEvent) => setFocused(isTextField(e.relatedTarget))
+    document.addEventListener('focusin', onFocusIn)
+    document.addEventListener('focusout', onFocusOut)
+    setFocused(isTextField(document.activeElement))
+    return () => {
+      document.removeEventListener('focusin', onFocusIn)
+      document.removeEventListener('focusout', onFocusOut)
+    }
+  }, [])
+  return focused
+}
 
 /**
  * Site sekmeleri: masaüstünde kapağın altında, mobilde altta sabit çubuk (menüdeki yapışkan kategori
@@ -13,6 +43,7 @@ import { useSiteLang } from './i18n'
 export function SiteNav({ slug, hasEvents }: { slug: string; hasEvents: boolean }) {
   const segment = useSelectedLayoutSegment()
   const { t } = useSiteLang()
+  const keyboardOpen = useTextFieldFocused()
 
   const items: { page: SitePage; label: string; icon: typeof Info }[] = [
     { page: '', label: t.navMenu, icon: UtensilsCrossed },
@@ -46,7 +77,7 @@ export function SiteNav({ slug, hasEvents }: { slug: string; hasEvents: boolean 
 
       <nav
         aria-label={t.navMenu}
-        className="sm:hidden fixed inset-x-0 bottom-0 z-50 border-t border-gray-200/80 dark:border-white/10 bg-white/95 dark:bg-[#1c1c1e]/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]"
+        className={`${keyboardOpen ? 'hidden' : ''} sm:hidden fixed inset-x-0 bottom-0 z-50 border-t border-gray-200/80 dark:border-white/10 bg-white/95 dark:bg-[#1c1c1e]/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]`}
       >
         <div className="grid" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
           {items.map(({ page, label, icon: Icon }) => (
