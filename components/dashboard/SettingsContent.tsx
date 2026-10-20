@@ -172,6 +172,8 @@ export function SettingsContent() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="space-y-6 max-w-5xl mx-auto"
+      data-tour-page="settings"
+      data-tour-ready="true"
     >
       <div>
         <h1 className="text-3xl font-extrabold tracking-tight text-foreground">Restoran Ayarları</h1>

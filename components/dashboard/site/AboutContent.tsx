@@ -10,6 +10,7 @@ import { ConfirmDialog } from '@/components/admin/shared/ui'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import { useBusinessTypes } from '@/lib/use-business-types'
 import { buildAboutTemplate } from '@/lib/about-template'
+import { UnsavedChangesDialog, useUnsavedChanges } from '@/components/dashboard/unsaved-changes'
 import { SitePageShell, siteApi, useOrgMenus } from './shared'
 
 const MAX = 2000
@@ -48,6 +49,8 @@ export function AboutContent() {
   }, [restaurant, org.customerMenu, getBusinessType])
 
   const dirty = text.trim() !== saved.trim()
+  // Kaydedilmemiş metin varken sayfadan ayrılma uyarısı
+  const guard = useUnsavedChanges(dirty && !isSuspended)
 
   const generate = async () => {
     setGenerating(true)
@@ -66,13 +69,15 @@ export function AboutContent() {
     }
   }
 
-  const handleSave = async () => {
+  const handleSave = async (): Promise<boolean> => {
     setSaving(true)
     try {
       await save({ aboutText: text.trim(), aboutSource: text.trim() ? source : undefined })
       toast.success(text.trim() ? 'Hakkımızda metni kaydedildi.' : 'Sitede otomatik metin gösterilecek.')
+      return true
     } catch (e: any) {
       toast.error(e.message)
+      return false
     } finally {
       setSaving(false)
     }
@@ -138,6 +143,19 @@ export function AboutContent() {
           </div>
         </CardContent>
       </Card>
+
+      <UnsavedChangesDialog
+        open={guard.open}
+        saving={saving}
+        onStay={guard.stay}
+        onDiscard={() => {
+          setText(saved)
+          guard.leave()
+        }}
+        onSave={async () => {
+          if (await handleSave()) guard.leave()
+        }}
+      />
 
       <ConfirmDialog
         open={!!confirmReplace}

@@ -13,6 +13,7 @@ import { catalogThumbUrl, isAnyCatalogImage } from '@/lib/image-url'
 import { generateItemImage } from '@/lib/image-generation-client'
 import type { CatalogMatch } from '@/lib/catalog-match'
 import { ChipAllergenInput } from './ChipAllergenInput'
+import { ChipIngredientInput } from './ChipIngredientInput'
 import { CatalogPickerPopover } from './CatalogPickerPopover'
 import type { EditorAction } from './useScanEditorState'
 import type { EditorItem, ItemIssue } from './types'
@@ -343,6 +344,13 @@ export const ScanItemCard = React.memo(function ScanItemCard({
               className="h-9 pl-8"
             />
           </div>
+        </div>
+        <div className="col-span-2">
+          <span className="mb-1 block text-[11px] font-semibold text-muted-foreground">Bileşenler</span>
+          <ChipIngredientInput
+            ingredients={item.ingredients || []}
+            onChange={(ingredients) => dispatch({ type: 'UPDATE_ITEM', itemId: item.id, patch: { ingredients } })}
+          />
         </div>
         <div className="col-span-2">
           <span className="mb-1 block text-[11px] font-semibold text-muted-foreground">Alerjenler</span>

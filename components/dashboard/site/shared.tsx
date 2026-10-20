@@ -34,6 +34,8 @@ export function SitePageShell({
   subdomain,
   page,
   actions,
+  tourPage,
+  tourReady,
   children,
 }: {
   title: string
@@ -42,6 +44,9 @@ export function SitePageShell({
   /** "Sitede gör" bağlantısının hedefi */
   page?: SitePage
   actions?: React.ReactNode
+  /** Panel rehberi: sayfa kimliği ve verinin yüklendiği bilgisi */
+  tourPage?: string
+  tourReady?: boolean
   children: React.ReactNode
 }) {
   return (
@@ -50,6 +55,8 @@ export function SitePageShell({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="space-y-6 max-w-5xl mx-auto"
+      data-tour-page={tourPage}
+      data-tour-ready={tourPage ? (tourReady ? 'true' : 'false') : undefined}
     >
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>

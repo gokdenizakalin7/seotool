@@ -203,3 +203,16 @@ html.theme-fade *::before,
 html.theme-fade *::after {
   transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease !important;
 }
+
+/* Panel rehberi: vurgulanan öğenin etrafındaki parlayan çerçeve */
+.tour-ring {
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  animation: tour-ring-pulse 2.2s ease-in-out infinite;
+}
+@keyframes tour-ring-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.18), 0 0 36px rgba(255, 255, 255, 0.2); }
+  50% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.08), 0 0 56px rgba(255, 255, 255, 0.32); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tour-ring { animation: none; box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.18); }
+}

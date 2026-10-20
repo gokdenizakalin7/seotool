@@ -2,7 +2,7 @@
  * Süper admin API'lerinin yanıt tipleri (istemci ve sunucu ortak).
  */
 
-export type OrgStatus = 'active' | 'suspended'
+export type OrgStatus = 'active' | 'suspended' | 'pending' | 'rejected'
 export type MemberRole = 'owner' | 'admin' | 'staff'
 
 export interface AdminOrgRow {
@@ -33,6 +33,51 @@ export interface AdminOrgRow {
   tableCount: number
   qrViews: number
   views30d: number
+}
+
+/** Kayıt başvurusu (status = pending | rejected): kayıt formu + kurulum sihirbazında toplanan her alan */
+export interface AdminApplication {
+  id: string
+  name: string
+  subdomain: string
+  status: OrgStatus
+  statusReason: string
+  statusChangedAt: string | null
+  createdAt: string
+  onboardingStep: string | null
+  onboardingCompleted: boolean
+  ownerName: string
+  ownerPhone: string
+  businessType: string | null
+  businessPhone: string
+  address: string
+  city: string
+  workingHours: string
+  googleMapsUrl: string
+  googleReviewUrl: string
+  instagramHandle: string
+  whatsappNumber: string
+  facebookUrl: string
+  tiktokHandle: string
+  xHandle: string
+  youtubeUrl: string
+  contactEmail: string
+  websiteUrl: string
+  wifiName: string
+  logoUrl: string
+  coverUrl: string
+  primaryColor: string
+  aboutText: string
+  owner: {
+    userId: string
+    email: string
+    createdAt: string | null
+    lastSignInAt: string | null
+    termsVersion: string | null
+    termsAcceptedAt: string | null
+  } | null
+  menuCount: number
+  itemCount: number
 }
 
 export interface AdminMember {
@@ -187,6 +232,8 @@ export interface AdminStats {
   organizations: number
   organizations_active: number
   organizations_suspended: number
+  organizations_pending: number
+  organizations_rejected: number
   organizations_onboarded: number
   users: number
   users_banned: number

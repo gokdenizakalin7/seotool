@@ -10,6 +10,7 @@ const itemSchema = z.object({
   price: z.union([z.string(), z.number()]).optional(),
   image_url: z.string().optional(),
   allergens: z.array(z.string()).optional(),
+  ingredients: z.array(z.string()).optional(),
   calories: z.number().nullable().optional(),
   is_available: z.boolean().optional(),
   is_featured: z.boolean().optional(),

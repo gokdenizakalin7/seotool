@@ -118,7 +118,8 @@ Menüdeki tüm kategori başlıklarını ve her kategorinin altındaki ürünler
 7. Menüdeki hiçbir geçerli kategoriyi ve ürünü atlama.
 8. Kaloriler: Her ürün için uzman bir diyetisyen gibi düşünerek, Türk mutfağı ve restoran standartlarına göre 1 kişilik porsiyon bazında ortalama kalori değerini (kcal) tahmin et. Ürün genellikle garnitürle (ör: burgerin yanındaki patates) sunuluyorsa kaloriyi buna göre hesapla. İçeceklerde standart fincan/bardak porsiyonunu baz al.
 11. Alerjenler: Her ürün için içerik tahmini yaparak Türkçe isimleriyle olası alerjenleri bir dizi (array) olarak döndür. (Örn: ["Gluten", "Süt", "Yumurta", "Fıstık", "Deniz Ürünü", "Soya"]). Eğer tahmin edilemiyorsa veya alerjen yoksa boş dizi [] döndür.
-12. Açıklama: Her ürün için müşterinin iştahını açacak, kısa, şık ve açıklayıcı bir ürün açıklaması yaz (maksimum 1-2 cümle). (Örnek: "Taze demlenmiş, yumuşak içimli aromatik filtre kahve.")
+12. Açıklama: Her ürün için ürünün ana bileşenlerini (içindeki malzemeleri) açıkça belirten kısa bir açıklama yaz (maksimum 1-2 cümle). Sos, karışım veya özel bir bileşen varsa onun da içeriğini açıkla. (Örnek: Cafe de Paris Soslu Penne → "Penne makarna, Cafe de Paris sosu (tereyağı, hardal, kapari, maydanoz, sarımsak), parmesan peyniri rendesi." Filtre Kahve → "Taze çekilmiş Arabica kahve çekirdeği, sıcak su ile demleme.")
+13. Bileşenler: Her ürün için ana malzemeleri (bileşenlerini) Türkçe olarak bir dizi (array) halinde döndür. Ürünün içerisindeki temel malzemeleri yaz (örn: pesto soslu makarna → ["Makarna", "Krema", "Fesleğen", "Çam fıstığı", "Parmesan peyniri"]). İçeceklerde de ana malzemeleri belirt (örn: latte → ["Espresso", "Süt"]). Malzeme tahmin edilemiyorsa boş dizi [] döndür.
 
 Lütfen çıktıyı tam olarak şu JSON şemasında ver:
 {
@@ -132,7 +133,8 @@ Lütfen çıktıyı tam olarak şu JSON şemasında ver:
           "description": "string",
           "price": "string",
           "calories": "number (tahmini 1 porsiyon kcal, eğer tahmin edemiyorsan null yaz)",
-          "allergens": ["string", "string"]
+          "allergens": ["string", "string"],
+          "ingredients": ["string", "string"]
         }
       ]
     }
@@ -225,6 +227,7 @@ Lütfen çıktıyı tam olarak şu JSON şemasında ver:
       price: string
       calories: number | null
       allergens: string[]
+      ingredients: string[]
       image_url: string
       catalog_item_id: string | null
       match: CatalogMatchInfo
@@ -237,6 +240,7 @@ Lütfen çıktıyı tam olarak şu JSON şemasında ver:
         price: sanitizePrice(item.price || ''),
         calories: typeof item.calories === 'number' ? item.calories : null,
         allergens: Array.isArray(item.allergens) ? item.allergens.map((a: any) => sanitizeText(String(a), 50)) : [],
+        ingredients: Array.isArray(item.ingredients) ? item.ingredients.map((i: any) => sanitizeText(String(i), 80)) : [],
         image_url: '',
         catalog_item_id: null,
         match: { level: 'none', candidates: [] },

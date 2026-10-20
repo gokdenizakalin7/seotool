@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { AlertTriangle, BadgePercent, CalendarClock, Hand, Loader2, Pencil, Plus, RefreshCw, Trash2, X, Zap } from 'lucide-react'
+import { AlertTriangle, BadgePercent, CalendarClock, CircleHelp, Hand, Loader2, Pencil, Plus, RefreshCw, Trash2, X, Zap } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -20,6 +20,7 @@ import {
   type ScheduleWindow,
 } from '@/lib/price-plan'
 import { cn } from '@/lib/utils'
+import { UnsavedChangesDialog, useBeforeUnload, useUnsavedChanges } from '@/components/dashboard/unsaved-changes'
 import { MigrationNotice, SiteApiError, SitePageShell, isoToLocalInput, localInputToIso, siteApi, useOrgMenus } from './shared'
 
 interface PlansResponse {
@@ -301,6 +302,16 @@ function ModeCard({
   const [customUntil, setCustomUntil] = useState(isoToLocalInput(state.mode.manualUntil))
   const [saving, setSaving] = useState(false)
 
+  // "Uygula"ya basılmamış seçim varken sayfadan ayrılma uyarısı
+  const savedDuration: 'forever' | 'tonight' | 'custom' = state.mode.manualUntil ? 'custom' : 'forever'
+  const dirty =
+    mode !== state.mode.mode ||
+    (mode === 'manual' &&
+      (planId !== (state.mode.activePlanId || '') ||
+        duration !== savedDuration ||
+        (duration === 'custom' && customUntil !== isoToLocalInput(state.mode.manualUntil))))
+  const guard = useUnsavedChanges(dirty && !disabled)
+
   useEffect(() => {
     setMode(state.mode.mode)
     setPlanId(state.mode.activePlanId || '')
@@ -308,11 +319,11 @@ function ModeCard({
     setCustomUntil(isoToLocalInput(state.mode.manualUntil))
   }, [state.mode])
 
-  const save = async () => {
+  const save = async (): Promise<boolean> => {
     const until = mode === 'manual' ? (duration === 'tonight' ? tonightAt4() : duration === 'custom' ? localInputToIso(customUntil) : null) : null
     if (mode === 'manual' && duration === 'custom' && !until) {
       toast.error('Bitiş tarihini seçin.')
-      return
+      return false
     }
     setSaving(true)
     try {
@@ -322,8 +333,10 @@ function ModeCard({
       })
       toast.success(mode === 'auto' ? 'Fiyatlar takvime göre otomatik değişecek.' : 'Fiyat planı uygulandı.')
       onSaved(data.mode)
+      return true
     } catch (e: any) {
       toast.error(e.message)
+      return false
     } finally {
       setSaving(false)
     }
@@ -389,6 +402,24 @@ function ModeCard({
         <Button onClick={save} disabled={disabled || saving}>
           {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Uygula
         </Button>
+
+        <UnsavedChangesDialog
+          open={guard.open}
+          saving={saving}
+          onStay={guard.stay}
+          onDiscard={() => {
+            setMode(state.mode.mode)
+            setPlanId(state.mode.activePlanId || '')
+            setDuration(savedDuration)
+            setCustomUntil(isoToLocalInput(state.mode.manualUntil))
+            guard.leave()
+          }}
+          onSave={async () => {
+            if (await save()) guard.leave()
+          }}
+          discardLabel="Uygulamadan çık"
+          saveLabel="Uygula ve çık"
+        />
       </CardContent>
     </Card>
   )
@@ -419,6 +450,12 @@ function PlanEditor({
     )
   )
   const [filter, setFilter] = useState('')
+  const [showHelp, setShowHelp] = useState(false)
+  const [closePrompt, setClosePrompt] = useState(false)
+  const dirty = useMemo(() => JSON.stringify(draft) !== JSON.stringify(initial), [draft, initial])
+  useBeforeUnload(dirty)
+  // Kaydedilmemiş değişiklik varken kapatma (X, Esc, dışarı tıklama, Vazgeç) önce sorar
+  const requestClose = () => (dirty ? setClosePrompt(true) : onClose())
 
   const amount = parsePrice(draft.amount)?.amount ?? NaN
   const signedValue = Number.isFinite(amount) ? (draft.direction === 'down' ? -amount : amount) : 0
@@ -494,14 +531,25 @@ function PlanEditor({
   }
 
   return (
-    <Dialog open onOpenChange={(v) => !v && !saving && onClose()}>
+    <Dialog open onOpenChange={(v) => !v && !saving && requestClose()}>
       <DialogContent className="max-h-[92vh] max-w-4xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{draft.id ? 'Fiyat planını düzenle' : 'Yeni fiyat planı'}</DialogTitle>
+          <div className="flex flex-wrap items-center gap-2 pr-8">
+            <DialogTitle>{draft.id ? 'Fiyat planını düzenle' : 'Yeni fiyat planı'}</DialogTitle>
+            <button
+              type="button"
+              onClick={() => setShowHelp((v) => !v)}
+              aria-expanded={showHelp}
+              className="inline-flex items-center gap-1 rounded-full border border-border bg-card/60 px-2.5 py-1 text-xs font-semibold text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            >
+              <CircleHelp className="h-3.5 w-3.5" /> {showHelp ? 'Yardımı gizle' : 'Nasıl kullanılır?'}
+            </button>
+          </div>
           <DialogDescription>Mevcut menü fiyatlarından türetilir; menüde fiyat değiştirdiğinizde plan da otomatik güncellenir.</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
+          {showHelp && <PlanEditorHelp currency={currency} />}
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Plan adı">
               <Input value={draft.name} maxLength={60} placeholder="Etkinlik Fiyatları" onChange={(e) => update({ name: e.target.value })} />
@@ -716,7 +764,7 @@ function PlanEditor({
           </div>
 
           <div className="flex justify-end gap-2 border-t pt-4">
-            <Button variant="outline" onClick={onClose} disabled={saving}>
+            <Button variant="outline" onClick={requestClose} disabled={saving}>
               Vazgeç
             </Button>
             <Button onClick={save} disabled={saving}>
@@ -724,7 +772,72 @@ function PlanEditor({
             </Button>
           </div>
         </div>
+
+        <UnsavedChangesDialog
+          open={closePrompt}
+          saving={saving}
+          onStay={() => setClosePrompt(false)}
+          onDiscard={() => {
+            setClosePrompt(false)
+            onClose()
+          }}
+          onSave={async () => {
+            setClosePrompt(false)
+            await save()
+          }}
+          discardLabel="Kaydetmeden kapat"
+          saveLabel="Kaydet ve kapat"
+        />
       </DialogContent>
     </Dialog>
+  )
+}
+
+/** "Nasıl kullanılır?" paneli: plan editöründeki her seçeneğin ne işe yaradığı */
+function PlanEditorHelp({ currency }: { currency: string }) {
+  const items: { title: string; text: string }[] = [
+    {
+      title: 'Fiyat planı nedir?',
+      text: 'Menünüzdeki fiyatlardan türetilen ikinci bir fiyat listesidir (etkinlik gecesi, happy hour, hafta sonu…). QR kodunuz değişmez; plan devredeyken müşteri yeni fiyatları görür, indirimlerde eski fiyat üstü çizili kalır. Menüde bir ürünün fiyatını değiştirirseniz plan da kendiliğinden güncellenir.',
+    },
+    {
+      title: 'Plan adı ve müşteriye duyuru',
+      text: 'Ad yalnızca panelde görünür. Duyuru yazarsanız plan geçerliyken menünün üstünde bir şerit olarak gösterilir (ör. "Bu akşam canlı müzik: etkinlik fiyatları geçerlidir").',
+    },
+    {
+      title: 'Yön, tür ve miktar',
+      text: `Yön: "Artış" fiyatları yükseltir, "İndirim" düşürür. Tür: "Yüzde" seçilirse her ürün kendi fiyatının o yüzdesi kadar değişir; "Sabit tutar" seçilirse her ürüne aynı tutar (${currency}) eklenir ya da çıkarılır.`,
+    },
+    {
+      title: 'Yuvarlama',
+      text: 'Hesaplanan fiyat tam sayıya, 5\'in ya da 10\'un katına yuvarlanır (ör. 93,50 → 95). "Yok" seçilirse kuruşlu sonuç olduğu gibi kalır.',
+    },
+    {
+      title: 'Hariç tutulan kategoriler',
+      text: 'İşaretlediğiniz kategorilerin ürünleri bu plandan etkilenmez; fiyatı sabit kalması gereken ürünler (su, sigara vb.) için kullanışlıdır.',
+    },
+    {
+      title: 'Haftalık takvim',
+      text: 'Açarsanız, Fiyat modu "Otomatik"teyken plan seçtiğiniz gün ve saatlerde kendiliğinden devreye girer; pencere bitince normal fiyatlara dönülür. Bitiş başlangıçtan önceyse pencere ertesi güne taşar (20:00–02:00). Takvim kapalıysa planı Fiyat modu kartından "Elle seç" ile uygularsınız.',
+    },
+    {
+      title: 'Fiyat önizlemesi ve ürüne özel fiyat',
+      text: `Tablo her ürünün mevcut ve yeni fiyatını gösterir. "Özel fiyat" kutusuna yazdığınız tutar o ürün için kuralın yerine geçer; "Uygulama" işaretli ürün bu planda hiç değişmez. Alttaki örnek satırı kuralın 100 ${currency} için sonucunu gösterir.`,
+    },
+  ]
+  return (
+    <div className="space-y-3 rounded-xl border border-primary/30 bg-primary/5 p-4 text-sm">
+      <p className="flex items-center gap-2 font-bold text-foreground">
+        <CircleHelp className="h-4 w-4" /> Nasıl kullanılır?
+      </p>
+      <dl className="grid gap-3 sm:grid-cols-2">
+        {items.map((it) => (
+          <div key={it.title}>
+            <dt className="font-semibold text-foreground">{it.title}</dt>
+            <dd className="text-xs leading-relaxed text-muted-foreground">{it.text}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
   )
 }

@@ -11,6 +11,7 @@ import { useAdminQuery } from '../lib/use-admin-query'
 
 interface Settings {
   signup_enabled: boolean
+  signup_requires_approval: boolean
   image_gen_org_daily_cap: number
   image_gen_daily_cap: number
   suspended_menu_message: string
@@ -59,6 +60,16 @@ export function SettingsPage() {
             </span>
           </span>
           <Switch checked={f.signup_enabled} onChange={(v) => setF({ ...f, signup_enabled: v })} />
+        </label>
+        <label className="mt-4 flex items-center justify-between gap-4 border-t border-border/60 pt-4 text-sm">
+          <span>
+            <span className="font-semibold">Yeni kayıtlar onay beklesin</span>
+            <span className="block text-xs text-muted-foreground">
+              Açıkken /signup'tan kaydolan işletme "Başvurular"da listelenir; siz onaylayana kadar sitesi yayınlanmaz (panelini
+              kullanabilir). Kapalıyken kayıt anında aktif olur.
+            </span>
+          </span>
+          <Switch checked={f.signup_requires_approval} onChange={(v) => setF({ ...f, signup_requires_approval: v })} />
         </label>
       </Panel>
 

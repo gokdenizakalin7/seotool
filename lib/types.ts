@@ -1,4 +1,4 @@
-export type AccountStatus = 'active' | 'suspended'
+export type AccountStatus = 'active' | 'suspended' | 'pending' | 'rejected'
 
 export type ProductTag =
   | 'hot'
@@ -34,6 +34,7 @@ export interface MenuItem {
   calories?: number
   calorie_source?: 'auto' | 'manual' | 'detailed'
   allergens?: string[]
+  ingredients?: string[]
   macros?: {
     protein: number
     carbs: number

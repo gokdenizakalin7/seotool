@@ -1,3 +1,4 @@
+import { normalizeOrgStatus } from '@/lib/org-status'
 import { z } from 'zod'
 import type { Restaurant } from '@/lib/types'
 import { SLUG_RE, isReservedSlug } from '@/lib/site-url'
@@ -216,7 +217,7 @@ export function orgRowToRestaurant(row: any, extra: { email?: string; role?: str
     name: row.name || 'Restoranım',
     subdomain: row.subdomain,
     currency: row.currency || '₺',
-    status: row.status === 'suspended' ? 'suspended' : 'active',
+    status: normalizeOrgStatus(row.status),
     statusReason: row.status_reason || '',
     statusChangedAt: row.status_changed_at || null,
     role: extra.role,

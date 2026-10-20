@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { ConfirmDialog, Field, Switch } from '@/components/admin/shared/ui'
+import { ConfirmDialog, Field, NativeSelect, Switch } from '@/components/admin/shared/ui'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import { compressImageFile, IMAGE_PRESETS } from '@/lib/image-compression'
 import {
@@ -20,6 +20,7 @@ import {
   type SiteEvent,
 } from '@/lib/events'
 import { cn } from '@/lib/utils'
+import { UnsavedChangesDialog, useBeforeUnload } from '@/components/dashboard/unsaved-changes'
 import { MigrationNotice, SiteApiError, SitePageShell, siteApi } from './shared'
 
 interface Draft {
@@ -37,6 +38,67 @@ interface Draft {
 
 function todayIstanbul(): string {
   return toIstanbulInput(new Date().toISOString()).date
+}
+
+/* ---- Açılır tarih / saat listeleri (tarayıcının tarih-saat kutuları yerine) ---- */
+
+const DAY_FMT = new Intl.DateTimeFormat('tr-TR', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })
+
+/** "2026-10-16" → yerel takvim günü (saat dilimi kayması olmasın diye öğlen) */
+function dayFromIso(iso: string): Date {
+  const [y, m, d] = iso.split('-').map(Number)
+  return new Date(y, (m || 1) - 1, d || 1, 12)
+}
+
+function isoFromDay(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+function addDays(iso: string, n: number): string {
+  const d = dayFromIso(iso)
+  d.setDate(d.getDate() + n)
+  return isoFromDay(d)
+}
+
+function labelDay(iso: string, today: string): string {
+  const base = DAY_FMT.format(dayFromIso(iso))
+  if (iso === today) return `Bugün · ${base}`
+  if (iso === addDays(today, 1)) return `Yarın · ${base}`
+  return base
+}
+
+/** Bugünden itibaren `days` gün; seçili değer listede yoksa (ör. geçmiş etkinlik) başa eklenir */
+function dateOptions(current: string, days: number): { value: string; label: string }[] {
+  const today = todayIstanbul()
+  const out: { value: string; label: string }[] = []
+  for (let i = 0; i < days; i++) {
+    const iso = addDays(today, i)
+    out.push({ value: iso, label: labelDay(iso, today) })
+  }
+  if (current && !out.some((o) => o.value === current)) out.unshift({ value: current, label: labelDay(current, today) })
+  return out
+}
+
+/** Başlangıç gününden sonraki haftalar (aynı gün): haftalık tekrarın son tarihi için */
+function weeklyUntilOptions(startIso: string, current: string): { value: string; label: string }[] {
+  const out: { value: string; label: string }[] = []
+  for (let n = 1; n <= 52; n++) {
+    const iso = addDays(startIso, 7 * n)
+    out.push({ value: iso, label: `${DAY_FMT.format(dayFromIso(iso))} · ${n} hafta` })
+  }
+  if (current && !out.some((o) => o.value === current)) out.unshift({ value: current, label: DAY_FMT.format(dayFromIso(current)) })
+  return out
+}
+
+/** 15 dakikalık adımlarla 00:00–23:45; seçili saat adımda değilse (ör. 21:10) listeye eklenir */
+const TIME_OPTIONS: string[] = Array.from({ length: 24 * 4 }, (_, i) => {
+  const h = Math.floor(i / 4)
+  const m = (i % 4) * 15
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
+})
+
+function timeOptions(current: string): string[] {
+  return current && !TIME_OPTIONS.includes(current) ? [...TIME_OPTIONS, current].sort() : TIME_OPTIONS
 }
 
 const emptyDraft = (): Draft => ({
@@ -255,6 +317,11 @@ function EventEditor({
   const [uploading, setUploading] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
   const update = (patch: Partial<Draft>) => setDraft((d) => ({ ...d, ...patch }))
+  const [closePrompt, setClosePrompt] = useState(false)
+  const dirty = useMemo(() => JSON.stringify(draft) !== JSON.stringify(initial), [draft, initial])
+  useBeforeUnload(dirty)
+  // Kaydedilmemiş değişiklik varken kapatma (X, Esc, dışarı tıklama, Vazgeç) önce sorar
+  const requestClose = () => (dirty ? setClosePrompt(true) : onClose())
 
   const uploadPoster = async (file: File) => {
     setUploading(true)
@@ -304,7 +371,7 @@ function EventEditor({
   const crossesMidnight = draft.endTime && draft.endTime < draft.startTime
 
   return (
-    <Dialog open onOpenChange={(v) => !v && !saving && !uploading && onClose()}>
+    <Dialog open onOpenChange={(v) => !v && !saving && !uploading && requestClose()}>
       <DialogContent className="max-h-[92vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{draft.id ? 'Etkinliği düzenle' : 'Yeni etkinlik'}</DialogTitle>
@@ -326,13 +393,39 @@ function EventEditor({
           </Field>
           <div className="grid gap-3 sm:grid-cols-3">
             <Field label="Tarih">
-              <Input type="date" value={draft.date} onChange={(e) => update({ date: e.target.value })} />
+              <NativeSelect
+                value={draft.date}
+                onChange={(e) => {
+                  const date = e.target.value
+                  // Son tarih yeni başlangıçtan önce kalırsa temizlenir
+                  update({ date, repeatUntil: draft.repeatUntil && draft.repeatUntil <= date ? '' : draft.repeatUntil })
+                }}
+              >
+                {dateOptions(draft.date, 180).map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </NativeSelect>
             </Field>
             <Field label="Başlangıç">
-              <Input type="time" value={draft.startTime} onChange={(e) => update({ startTime: e.target.value })} />
+              <NativeSelect value={draft.startTime} onChange={(e) => update({ startTime: e.target.value })}>
+                {timeOptions(draft.startTime).map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </NativeSelect>
             </Field>
-            <Field label="Bitiş (isteğe bağlı)" hint={crossesMidnight ? 'Ertesi gün biter' : 'Boşsa 4 saat sayılır'}>
-              <Input type="time" value={draft.endTime} onChange={(e) => update({ endTime: e.target.value })} />
+            <Field label="Bitiş (isteğe bağlı)" hint={crossesMidnight ? 'Ertesi gün biter' : 'Belirsizse 4 saat sayılır'}>
+              <NativeSelect value={draft.endTime} onChange={(e) => update({ endTime: e.target.value })}>
+                <option value="">Belirsiz</option>
+                {timeOptions(draft.endTime).map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </NativeSelect>
             </Field>
           </div>
 
@@ -345,15 +438,26 @@ function EventEditor({
               <Switch checked={draft.repeatWeekly} onChange={(v) => update({ repeatWeekly: v })} label="Her hafta tekrarla" />
             </div>
             {draft.repeatWeekly && (
-              <Field label="Son tarih (isteğe bağlı)">
-                <Input type="date" value={draft.repeatUntil} min={draft.date} onChange={(e) => update({ repeatUntil: e.target.value })} />
+              <Field label="Son tarih (isteğe bağlı)" hint="Tekrar bu güne kadar sürer; Süresiz seçilirse siz kapatana kadar devam eder.">
+                <NativeSelect value={draft.repeatUntil} onChange={(e) => update({ repeatUntil: e.target.value })}>
+                  <option value="">Süresiz</option>
+                  {weeklyUntilOptions(draft.date, draft.repeatUntil).map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </NativeSelect>
               </Field>
             )}
           </div>
 
-          <Field label="Afiş (isteğe bağlı)" group>
+          <Field
+            label="Afiş (isteğe bağlı)"
+            hint="Önerilen boyut 1200 × 900 px (4:3, yatay). JPG, PNG veya WebP; büyük dosyalar yüklenirken otomatik küçültülür. Sitede 4:3 oranında gösterilir, farklı orandaki görseller kenarlardan kırpılır."
+            group
+          >
             <div className="flex items-center gap-3">
-              <div className="h-24 w-24 overflow-hidden rounded-xl bg-muted">
+              <div className="h-24 w-32 overflow-hidden rounded-xl bg-muted">
                 {draft.posterUrl ? (
                   <img src={draft.posterUrl} alt="" className="h-full w-full object-cover" />
                 ) : (
@@ -397,13 +501,29 @@ function EventEditor({
         </div>
 
         <div className="flex justify-end gap-2 border-t pt-4">
-          <Button variant="outline" onClick={onClose} disabled={saving || uploading}>
+          <Button variant="outline" onClick={requestClose} disabled={saving || uploading}>
             Vazgeç
           </Button>
           <Button onClick={save} disabled={saving || uploading}>
             {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Kaydet
           </Button>
         </div>
+
+        <UnsavedChangesDialog
+          open={closePrompt}
+          saving={saving}
+          onStay={() => setClosePrompt(false)}
+          onDiscard={() => {
+            setClosePrompt(false)
+            onClose()
+          }}
+          onSave={async () => {
+            setClosePrompt(false)
+            await save()
+          }}
+          discardLabel="Kaydetmeden kapat"
+          saveLabel="Kaydet ve kapat"
+        />
       </DialogContent>
     </Dialog>
   )

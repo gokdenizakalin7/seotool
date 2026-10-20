@@ -56,11 +56,11 @@ export const updateOrganizationSchema = profileUpdateSchema
 
 export const statusSchema = z
   .object({
-    status: z.enum(['active', 'suspended']),
+    status: z.enum(['active', 'suspended', 'pending', 'rejected']),
     reason: clean(500).optional().default(''),
   })
-  .refine((v) => v.status === 'active' || v.reason.length >= 3, {
-    message: 'Askıya alma sebebi zorunludur',
+  .refine((v) => (v.status !== 'suspended' && v.status !== 'rejected') || v.reason.length >= 3, {
+    message: 'Sebep zorunludur',
     path: ['reason'],
   })
 
@@ -256,6 +256,7 @@ export const templateContentSchema = z.object({
 
 export const settingsSchema = z.object({
   signup_enabled: z.boolean().optional(),
+  signup_requires_approval: z.boolean().optional(),
   image_gen_org_daily_cap: z.number().int().min(0).max(1000).optional(),
   image_gen_daily_cap: z.number().int().min(0).max(10000).optional(),
   suspended_menu_message: clean(300).optional(),

@@ -6,6 +6,7 @@ export interface ParsedItem {
   calories?: number
   description?: string
   allergens?: string[]
+  ingredients?: string[]
   image_url?: string
   /** Kataloğa bağlantı (eşleşme kabul edildiyse) */
   catalog_item_id?: string | null

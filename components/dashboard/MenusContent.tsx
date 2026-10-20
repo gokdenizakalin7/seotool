@@ -140,6 +140,8 @@ export function MenusContent() {
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.3 }}
       className="space-y-6"
+      data-tour-page="menus"
+      data-tour-ready={isLoading ? 'false' : 'true'}
     >
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -207,12 +209,16 @@ export function MenusContent() {
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {menus.map(menu => {
+          {menus.map((menu, index) => {
             const totalItems = menu.categories?.reduce((total, cat) => total + (cat.items?.length || 0), 0) || 0
             const activeCats = menu.categories?.filter(c => c.is_active).length || 0
             
             return (
-              <Card key={menu.id} className={`overflow-hidden hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 ${!menu.is_listed ? 'opacity-70' : ''}`}>
+              <Card
+                key={menu.id}
+                data-tour={index === 0 ? 'menu-card' : undefined}
+                className={`overflow-hidden hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 ${!menu.is_listed ? 'opacity-70' : ''}`}
+              >
                 <div className="relative h-48 w-full">
                   {menu.image_url ? (
                     <img

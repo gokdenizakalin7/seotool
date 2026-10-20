@@ -4,6 +4,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useS
 import { authFetch } from '@/lib/api-client'
 import { extractPrimaryBrandColorFromDataUrl } from '@/lib/extract-brand-color'
 import type { Restaurant } from '@/lib/types'
+import { isReadOnlyStatus } from '@/lib/org-status'
 import { clearImpersonation, getImpersonatedOrgId } from '@/lib/impersonation'
 
 export type ProfilePatch = Record<string, unknown>
@@ -16,8 +17,10 @@ interface RestaurantContextValue {
   onboardingCompleted: boolean
   /** Süper admin başka bir restoranın panelinde */
   impersonating: boolean
-  /** Restoran askıda: panel salt-okunur */
+  /** Restoran askıda ya da başvurusu reddedildi: panel salt-okunur */
   isSuspended: boolean
+  /** Kayıt başvurusu sistem yöneticisi onayını bekliyor: panel kullanılabilir, site yayında değil */
+  isPending: boolean
   refresh: () => Promise<void>
   /** Sunucuya kaydeder ve yerel durumu günceller. Hata varsa fırlatır. */
   save: (patch: ProfilePatch) => Promise<Restaurant>
@@ -160,8 +163,9 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
       isLoading,
       onboardingCompleted,
       impersonating,
-      // Süper admin askıdaki restoranda da düzenleyebilir
-      isSuspended: restaurant?.status === 'suspended' && !impersonating,
+      // Süper admin askıdaki / reddedilen restoranda da düzenleyebilir
+      isSuspended: isReadOnlyStatus(restaurant?.status) && !impersonating,
+      isPending: restaurant?.status === 'pending',
       refresh,
       save,
       uploadAsset,

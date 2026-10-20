@@ -8,6 +8,7 @@ import { AccountBanners } from '@/components/dashboard/AccountBanners'
 import { Sidebar } from '@/components/dashboard/Sidebar'
 import { Header } from '@/components/dashboard/Header'
 import { PanelThemeProvider, PanelBackground } from '@/components/theme/PanelTheme'
+import { TourProvider } from '@/components/tour/TourProvider'
 import {
   AboutContent,
   CampaignsContent,
@@ -63,6 +64,8 @@ export function DashboardLayout() {
 
   return (
     <PanelThemeProvider>
+    {/* Panel rehberi: ilk girişlerde zorunlu tur; sonra üst bardaki (?) menüsünden bölüm bölüm */}
+    <TourProvider setSidebarOpen={setIsSidebarOpen}>
     <div className="relative flex h-screen overflow-hidden bg-background text-foreground">
       <PanelBackground />
       <Sidebar 
@@ -119,6 +122,7 @@ export function DashboardLayout() {
         </main>
       </div>
     </div>
+    </TourProvider>
     </PanelThemeProvider>
   )
 }

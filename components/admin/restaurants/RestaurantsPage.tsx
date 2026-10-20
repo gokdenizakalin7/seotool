@@ -3,11 +3,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
-import { Building2, ExternalLink, LogIn, PauseCircle, PlayCircle, Plus, Search } from 'lucide-react'
+import { Building2, CheckCircle2, ExternalLink, LogIn, PauseCircle, PlayCircle, Plus, Search, XCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import type { AdminOrgRow } from '@/lib/admin-types'
+import type { AdminOrgRow, OrgStatus } from '@/lib/admin-types'
 import {
   Badge,
   EmptyState,
@@ -17,6 +17,7 @@ import {
   PageHeader,
   Pager,
   Panel,
+  RejectDialog,
   SuspendDialog,
   Tabs,
   useDebounced,
@@ -27,14 +28,14 @@ import { startImpersonation } from '../lib/impersonate'
 import { CreateRestaurantDialog } from './CreateRestaurantDialog'
 import { sitePath } from '@/lib/site-url'
 
-type StatusFilter = 'all' | 'active' | 'suspended'
+type StatusFilter = 'all' | 'active' | 'pending' | 'rejected' | 'suspended'
 
 interface ListResponse {
   organizations: AdminOrgRow[]
   total: number
   page: number
   size: number
-  counts: { all: number; active: number; suspended: number }
+  counts: { all: number; active: number; suspended: number; pending: number; rejected: number }
 }
 
 export function RestaurantsPage() {
@@ -46,6 +47,7 @@ export function RestaurantsPage() {
   const page = Number(params.get('page')) || 1
   const [createOpen, setCreateOpen] = useState(params.get('new') === '1')
   const [suspendTarget, setSuspendTarget] = useState<AdminOrgRow | null>(null)
+  const [rejectTarget, setRejectTarget] = useState<AdminOrgRow | null>(null)
 
   const update = (patch: Record<string, string | null>) => {
     const next = new URLSearchParams(params)
@@ -65,11 +67,20 @@ export function RestaurantsPage() {
     `/api/admin/organizations${qs({ q, status: status === 'all' ? null : status, page, size: 50 })}`
   )
 
-  const setStatus = async (org: AdminOrgRow, next: 'active' | 'suspended', reason = '') => {
+  const setStatus = async (org: AdminOrgRow, next: OrgStatus, reason = '') => {
     try {
       await adminApi(`/api/admin/organizations/${org.id}/status`, { method: 'PATCH', body: { status: next, reason } })
-      toast.success(next === 'suspended' ? `"${org.name}" askıya alındı.` : `"${org.name}" aktifleştirildi.`)
+      toast.success(
+        next === 'suspended'
+          ? `"${org.name}" askıya alındı.`
+          : next === 'rejected'
+            ? `"${org.name}" başvurusu reddedildi.`
+            : org.status === 'pending' || org.status === 'rejected'
+              ? `"${org.name}" onaylandı; sitesi yayında.`
+              : `"${org.name}" aktifleştirildi.`
+      )
       setSuspendTarget(null)
+      setRejectTarget(null)
       list.reload()
     } catch (e) {
       toast.error(errorMessage(e))
@@ -97,6 +108,8 @@ export function RestaurantsPage() {
           tabs={[
             { id: 'all', label: `Tümü${counts ? ` (${counts.all})` : ''}` },
             { id: 'active', label: `Aktif${counts ? ` (${counts.active})` : ''}` },
+            { id: 'pending', label: `Onay bekliyor${counts ? ` (${counts.pending})` : ''}` },
+            { id: 'rejected', label: `Reddedildi${counts ? ` (${counts.rejected})` : ''}` },
             { id: 'suspended', label: `Askıda${counts ? ` (${counts.suspended})` : ''}` },
           ]}
         />
@@ -203,13 +216,24 @@ export function RestaurantsPage() {
                         >
                           <LogIn className="mr-1 h-3.5 w-3.5" /> Panele Gir
                         </Button>
-                        {o.status === 'active' ? (
+                        {o.status === 'active' && (
                           <Button size="sm" variant="ghost" title="Askıya al" className="text-red-600 hover:bg-red-500/10" onClick={() => setSuspendTarget(o)}>
                             <PauseCircle className="h-4 w-4" />
                           </Button>
-                        ) : (
+                        )}
+                        {o.status === 'suspended' && (
                           <Button size="sm" variant="ghost" title="Aktifleştir" className="text-green-600 hover:bg-green-500/10" onClick={() => setStatus(o, 'active')}>
                             <PlayCircle className="h-4 w-4" />
+                          </Button>
+                        )}
+                        {(o.status === 'pending' || o.status === 'rejected') && (
+                          <Button size="sm" variant="ghost" title="Başvuruyu onayla" className="text-green-600 hover:bg-green-500/10" onClick={() => setStatus(o, 'active')}>
+                            <CheckCircle2 className="h-4 w-4" />
+                          </Button>
+                        )}
+                        {o.status === 'pending' && (
+                          <Button size="sm" variant="ghost" title="Başvuruyu reddet" className="text-red-600 hover:bg-red-500/10" onClick={() => setRejectTarget(o)}>
+                            <XCircle className="h-4 w-4" />
                           </Button>
                         )}
                       </div>
@@ -242,6 +266,14 @@ export function RestaurantsPage() {
           onOpenChange={(v) => !v && setSuspendTarget(null)}
           orgName={suspendTarget.name}
           onSubmit={(reason) => setStatus(suspendTarget, 'suspended', reason)}
+        />
+      )}
+      {rejectTarget && (
+        <RejectDialog
+          open
+          onOpenChange={(v) => !v && setRejectTarget(null)}
+          orgName={rejectTarget.name}
+          onSubmit={(reason) => setStatus(rejectTarget, 'rejected', reason)}
         />
       )}
 

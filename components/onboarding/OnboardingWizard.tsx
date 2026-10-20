@@ -3,7 +3,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, ArrowRight, Camera, Check, ChefHat, Loader2, Plus, QrCode, Sparkles } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Camera, Check, Clock, Loader2, Plus, Sparkles } from 'lucide-react'
+import { QrChefMark, QrChefWordmark } from '@/components/brand/qr-chef-logo'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { PanelThemeProvider, PanelBackground, ThemeToggle } from '@/components/theme/PanelTheme'
@@ -37,7 +38,7 @@ const STEPS: { id: StepId; title: string; desc: string; skippable: boolean }[] =
 
 function Wizard() {
   const navigate = useNavigate()
-  const { restaurant, isLoading, save } = useRestaurant()
+  const { restaurant, isLoading, isPending, save } = useRestaurant()
   const [stepIdx, setStepIdx] = useState(0)
   const [draft, setDraft] = useState<ProfileDraft>(() => draftFromRestaurant(null))
   const [busy, setBusy] = useState(false)
@@ -116,7 +117,8 @@ function Wizard() {
     }
   }
 
-  if (isLoading || !restaurant) {
+  // Kaldığı adım belirlenmeden çizilmez: yenilemede 1. adım bir an görünüp sonra atlamasın
+  if (isLoading || !restaurant || !initialized) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-background">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -137,11 +139,10 @@ function Wizard() {
         {/* Üst bar */}
         <header className="flex items-center justify-between gap-3 pb-4">
           <div className="flex items-center gap-2 font-extrabold text-xl">
-            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card/60">
-              <QrCode className="h-5 w-5" />
-              <ChefHat className="absolute -right-2 -top-2 h-5 w-5 rounded-full bg-background p-0.5" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card/60">
+              <QrChefMark size={28} />
             </div>
-            QR Chef
+            <QrChefWordmark />
           </div>
           <div className="flex items-center gap-3">
             {stepIdx >= 1 && !isLast && (
@@ -157,6 +158,17 @@ function Wizard() {
             <ThemeToggle />
           </div>
         </header>
+
+        {/* Onay bekleyen başvuru: site yayında değil */}
+        {isPending && (
+          <div className="mb-4 flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2.5 text-xs text-amber-900 dark:text-amber-100">
+            <Clock className="mt-0.5 h-4 w-4 shrink-0" />
+            <span>
+              <b>Başvurun inceleniyor.</b> Siten sistem yöneticisi onaylayana kadar yayına girmez; kurulumu şimdi tamamla,
+              onaylandığında otomatik açılır.
+            </span>
+          </div>
+        )}
 
         {/* İlerleme */}
         <div className="mb-6">
@@ -189,9 +201,15 @@ function Wizard() {
                 {step.id === 'basics' && (
                   <>
                     <BasicsSection draft={draft} setDraft={setDraft} />
-                    <p className="text-xs text-muted-foreground break-all">
-                      Menü adresin: <span className="font-mono font-semibold text-foreground">{menuUrl}</span>
-                    </p>
+                    <div className="rounded-xl border border-border/60 bg-card/50 px-3 py-2.5 text-xs text-muted-foreground">
+                      <p className="break-all">
+                        Site adresin: <span className="font-mono font-semibold text-foreground">{menuUrl}</span>
+                      </p>
+                      <p className="mt-1 leading-relaxed">
+                        Adres işletme adından türetilir ve kurulum bitene kadar adla birlikte güncellenir. Kurulum tamamlanınca
+                        sabitlenir; QR kodların bu adrese basılır.
+                      </p>
+                    </div>
                   </>
                 )}
                 {step.id === 'brand' && <BrandSection draft={draft} setDraft={setDraft} />}
