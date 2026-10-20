@@ -337,9 +337,14 @@ export function PublicMenuView({
 
           <div className="relative w-full max-w-md mx-auto">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-500" />
+            {/* Mobilde 16px: iOS Safari daha küçük yazılı alana odaklanınca sayfayı büyütür, sayfa yana kayar */}
             <input
               placeholder={t.searchPlaceholder}
-              className="w-full pl-10 pr-4 h-10 text-sm bg-white dark:bg-[#2c2c2e]/60 backdrop-blur-xl rounded-full shadow-[0_4px_16px_rgb(0,0,0,0.05)] border border-gray-100/80 dark:border-white/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-400 dark:text-zinc-200 font-medium"
+              enterKeyHint="search"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') e.currentTarget.blur()
+              }}
+              className="w-full pl-10 pr-4 h-10 text-base sm:text-sm bg-white dark:bg-[#2c2c2e]/60 backdrop-blur-xl rounded-full shadow-[0_4px_16px_rgb(0,0,0,0.05)] border border-gray-100/80 dark:border-white/5 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-400 dark:text-zinc-200 font-medium"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
