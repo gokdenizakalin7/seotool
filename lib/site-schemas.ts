@@ -60,26 +60,41 @@ export const priceModeSchema = z.object({
 
 /* ---------------- Kampanyalar ---------------- */
 
+const campaignPrice = z.number().finite().min(0).max(1_000_000)
+
+/** Fiyat planı penceresinden farkı: başlangıç = bitiş (00:00–00:00) o günün tamamı demek */
+const campaignWindowSchema = z.object({
+  days: z.array(z.number().int().min(1).max(7)).min(1, 'En az bir gün seçin').max(7),
+  start: clock,
+  end: clock,
+})
+
 export const campaignInputSchema = z
   .object({
     subdomain: subdomainField,
+    kind: z.enum(['bundle', 'per_item']).default('bundle'),
     name: clean(80).pipe(z.string().min(2, 'Kampanya adı en az 2 karakter olmalı')),
     description: clean(300).default(''),
-    price: z.number().finite().min(0).max(1_000_000),
+    /** Paket fiyatı; indirimli ürünlerde her ürünün kendi fiyatı var */
+    price: campaignPrice.nullable().optional(),
     imageUrl: imageUrl.nullable().optional(),
     isActive: z.boolean().default(true),
     displayOrder: z.number().int().min(0).max(10000).optional(),
     validFrom: isoDateTime.nullable().optional(),
     validUntil: isoDateTime.nullable().optional(),
+    schedule: z.array(campaignWindowSchema).max(7).default([]),
     items: z
-      .array(z.object({ itemId: z.uuid(), quantity: z.number().int().min(1).max(20) }))
+      .array(z.object({ itemId: z.uuid(), quantity: z.number().int().min(1).max(20), price: campaignPrice.nullable().optional() }))
       .min(1, 'En az bir ürün seçin')
-      .max(10, 'En fazla 10 ürün'),
+      .max(30, 'En fazla 30 ürün'),
   })
   .refine(
     (c) => !c.validFrom || !c.validUntil || Date.parse(c.validUntil) > Date.parse(c.validFrom),
     'Bitiş tarihi başlangıçtan sonra olmalı'
   )
+  .refine((c) => c.kind !== 'bundle' || c.price != null, 'Kampanya fiyatı gerekli')
+  .refine((c) => c.kind !== 'bundle' || c.items.length <= 10, 'Bir pakette en fazla 10 ürün olabilir')
+  .refine((c) => c.kind !== 'per_item' || c.items.every((i) => i.price != null), 'Her ürün için kampanya fiyatı girin')
 
 export type CampaignInput = z.infer<typeof campaignInputSchema>
 

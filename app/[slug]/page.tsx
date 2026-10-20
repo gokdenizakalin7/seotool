@@ -4,15 +4,16 @@ import { getPublicMenus } from '@/lib/server/public-menu'
 import { firstParam, getSiteCampaigns, getSiteEvents, getSitePricePlans, requireSite, type SearchParams } from '@/lib/server/site'
 import { priceModeFromOrg } from '@/lib/server/site-data'
 import { applyPlanToPrice, applyPricePlanToMenu, resolveEffectivePlan } from '@/lib/price-plan'
-import { buildCampaignCategory, type CampaignComponent } from '@/lib/campaigns'
+import { applyItemDealsToMenu, buildCampaignCategory, type CampaignComponent } from '@/lib/campaigns'
 import { eventOccurrences, istanbulDateKey } from '@/lib/events'
 import { sitePath } from '@/lib/site-url'
-import type { Menu } from '@/lib/types'
+import type { Menu, MenuItem } from '@/lib/types'
 
 /**
  * Sitenin ana sayfası: menü. QR buraya açılır (?table=..&tid=.. masa sayacı için).
  * Fiyatlar istek anında geçerli fiyat planına göre (elle seçim > takvim > normal) hesaplanır;
- * kampanyalar "Kampanyalı Ürünler" kategorisi olarak en üstte görünür.
+ * kampanyalar "Kampanyalı Ürünler" kategorisi olarak en üstte görünür. İndirimli ürün kampanyaları
+ * (ör. 19:00'a kadar Tuborg 165 ₺) ürünün kendi kategorisindeki fiyatını da değiştirir.
  */
 export default async function SiteMenuPage({
   params,
@@ -39,9 +40,15 @@ export default async function SiteMenuPage({
   const baseMenu: Menu | undefined = menus[0]
   const pricedMenu = baseMenu ? applyPricePlanToMenu(baseMenu, effective.plan, currency) : undefined
 
-  // Kampanya "normal toplam"ı menüde o an görünen fiyatlarla tutarlı olsun
+  // Kampanya "normal" fiyatları menüde o an görünen (plan uygulanmış) fiyatlarla tutarlı olsun
   const shownPrices = new Map<string, string>()
-  for (const cat of pricedMenu?.categories || []) for (const item of cat.items || []) shownPrices.set(item.id, item.price)
+  const menuItems = new Map<string, MenuItem>()
+  for (const cat of pricedMenu?.categories || []) {
+    for (const item of cat.items || []) {
+      shownPrices.set(item.id, item.price)
+      menuItems.set(item.id, item)
+    }
+  }
   const priceOf = (component: CampaignComponent) => {
     const item = component.item
     if (!item) return null
@@ -50,11 +57,11 @@ export default async function SiteMenuPage({
       applyPlanToPrice(item.price, { itemId: item.id, categoryId: item.category_id }, effective.plan, currency).price
     )
   }
-  const campaignCategory = buildCampaignCategory(campaigns, { now, currency, priceOf })
+  const campaignCategory = buildCampaignCategory(campaigns, { now, currency, priceOf, menuItemOf: (id) => menuItems.get(id) })
 
-  let menu = pricedMenu
+  let menu = pricedMenu ? applyItemDealsToMenu(pricedMenu, campaigns, { now, currency }) : undefined
   if (campaignCategory) {
-    const shell: Menu = pricedMenu ?? {
+    const shell: Menu = menu ?? {
       id: 'kampanyalar',
       name: restaurant.name,
       description: '',

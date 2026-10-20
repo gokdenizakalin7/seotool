@@ -6,13 +6,16 @@ import type { Campaign } from '@/lib/campaigns'
 
 function campaignColumns(input: CampaignInput) {
   return {
+    kind: input.kind,
     name: input.name,
     description: input.description,
-    price: input.price,
+    // İndirimli ürünlerde sütun zorunlu: en düşük ürün fiyatı (sıralama/özet için)
+    price: input.kind === 'per_item' ? Math.min(...input.items.map((i) => i.price ?? 0)) : (input.price ?? 0),
     image_url: input.imageUrl || null,
     is_active: input.isActive,
     valid_from: input.validFrom || null,
     valid_until: input.validUntil || null,
+    schedule: input.schedule,
     updated_at: new Date().toISOString(),
   }
 }
@@ -23,11 +26,18 @@ function campaignColumns(input: CampaignInput) {
  */
 async function buildComponents(orgId: string, input: CampaignInput) {
   const scope = await getOrgMenuScope(orgId)
-  const rows = []
+  const rows: ComponentRow[] = []
   for (const [index, component] of input.items.entries()) {
     const item = scope.items.get(component.itemId)
     if (!item) return { error: 'Seçilen ürünlerden biri menünüzde bulunamadı. Sayfayı yenileyip tekrar deneyin.' as const }
-    rows.push({ item_id: item.id, item_name: item.name, quantity: component.quantity, display_order: index })
+    const perItem = input.kind === 'per_item'
+    rows.push({
+      item_id: item.id,
+      item_name: item.name,
+      quantity: perItem ? 1 : component.quantity,
+      price: perItem ? (component.price ?? null) : null,
+      display_order: index,
+    })
   }
   return { rows }
 }
@@ -37,7 +47,9 @@ async function readCampaign(id: string): Promise<Campaign | null> {
   return data ? mapCampaignRow(data) : null
 }
 
-async function replaceComponents(campaignId: string, rows: { item_id: string; item_name: string; quantity: number; display_order: number }[]) {
+type ComponentRow = { item_id: string; item_name: string; quantity: number; price: number | null; display_order: number }
+
+async function replaceComponents(campaignId: string, rows: ComponentRow[]) {
   const { error: delErr } = await supabaseAdmin.from('campaign_items').delete().eq('campaign_id', campaignId)
   if (delErr) return delErr
   const { error } = await supabaseAdmin.from('campaign_items').insert(rows.map((r) => ({ ...r, campaign_id: campaignId })))

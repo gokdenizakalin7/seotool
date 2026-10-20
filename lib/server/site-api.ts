@@ -31,7 +31,7 @@ export async function parseJsonBody<S extends z.ZodTypeAny>(
 /** Veritabanı hatasını yanıta çevirir; migration 15 uygulanmamışsa açıklayıcı 503 */
 export function dbErrorResponse(label: string, error: { code?: string; message?: string } | null) {
   if (isMissingSchemaError(error)) {
-    return jsonError(503, 'Bu özellik için veritabanı güncellemesi (migration 15) henüz uygulanmadı.', 'MIGRATION_REQUIRED')
+    return jsonError(503, 'Bu özellik için veritabanı güncellemesi henüz uygulanmadı.', 'MIGRATION_REQUIRED')
   }
   console.error(`${label}:`, error?.message || error)
   return jsonError(500, 'İşlem sırasında bir hata oluştu.')

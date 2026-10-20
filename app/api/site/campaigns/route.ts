@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { requireSubdomainAccess } from '@/lib/auth-middleware'
 import { campaignInputSchema } from '@/lib/site-schemas'
 import { dbErrorResponse, jsonError, parseJsonBody } from '@/lib/server/site-api'
-import { loadCampaigns } from '@/lib/server/site-data'
+import { CAMPAIGN_SELECT, loadCampaigns } from '@/lib/server/site-data'
 import { createCampaign } from '@/lib/server/campaign-store'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
@@ -13,8 +13,8 @@ export async function GET(request: Request) {
   const access = await requireSubdomainAccess(request, subdomain, { allowSuspended: true })
   if ('response' in access) return access.response
 
-  // Tablo yoksa (migration 15) loadCampaigns boş döner; panelin uyarı gösterebilmesi için ayrıca sına
-  const probe = await supabaseAdmin.from('campaigns').select('id').limit(1)
+  // Tablo ya da sütunlar yoksa (migration 15 / 18) loadCampaigns boş döner; panelin uyarı gösterebilmesi için ayrıca sına
+  const probe = await supabaseAdmin.from('campaigns').select(CAMPAIGN_SELECT).limit(1)
   if (probe.error) return dbErrorResponse('campaigns GET', probe.error)
 
   const { data: org } = await supabaseAdmin.from('organizations').select('currency').eq('id', access.organizationId).maybeSingle()

@@ -79,14 +79,14 @@ export function SitePageShell({
   )
 }
 
-/** Migration 15 uygulanmadıysa (API 503 MIGRATION_REQUIRED) gösterilen açıklama */
-export function MigrationNotice() {
+/** Migration uygulanmadıysa (API 503 MIGRATION_REQUIRED) gösterilen açıklama */
+export function MigrationNotice({ file = '15_business_site.sql' }: { file?: string }) {
   return (
     <div className="glass-card border-dashed p-8 text-center">
       <Database className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
       <h3 className="mb-1 text-lg font-semibold text-foreground">Veritabanı güncellemesi bekleniyor</h3>
       <p className="mx-auto max-w-md text-sm text-muted-foreground">
-        Bu özellik için <code className="font-mono">supabase/migrations/15_business_site.sql</code> dosyasının Supabase SQL
+        Bu özellik için <code className="font-mono">supabase/migrations/{file}</code> dosyasının Supabase SQL
         Editor&apos;de çalıştırılması gerekiyor.
       </p>
     </div>

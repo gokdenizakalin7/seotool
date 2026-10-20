@@ -56,7 +56,7 @@ export function priceModeFromOrg(row: any): PriceModeState {
 }
 
 export const CAMPAIGN_SELECT =
-  'id, name, description, price, image_url, is_active, display_order, valid_from, valid_until, campaign_items ( item_id, item_name, quantity, display_order, items ( id, name, price, image_url, is_available, category_id ) )'
+  'id, kind, name, description, price, image_url, is_active, display_order, valid_from, valid_until, schedule, campaign_items ( item_id, item_name, quantity, price, display_order, items ( id, name, price, image_url, is_available, category_id ) )'
 
 export function mapCampaignRow(row: any): Campaign {
   const items = [...(row.campaign_items || [])]
@@ -65,6 +65,7 @@ export function mapCampaignRow(row: any): Campaign {
       itemId: ci.item_id || null,
       name: ci.item_name,
       quantity: toNumber(ci.quantity, 1),
+      price: ci.price == null ? null : toNumber(ci.price),
       item: ci.items
         ? {
             id: ci.items.id,
@@ -78,6 +79,7 @@ export function mapCampaignRow(row: any): Campaign {
     }))
   return {
     id: row.id,
+    kind: row.kind === 'per_item' ? 'per_item' : 'bundle',
     name: row.name,
     description: row.description || '',
     price: toNumber(row.price),
@@ -86,6 +88,7 @@ export function mapCampaignRow(row: any): Campaign {
     displayOrder: toNumber(row.display_order),
     validFrom: row.valid_from || null,
     validUntil: row.valid_until || null,
+    schedule: toSchedule(row.schedule),
     items,
   }
 }

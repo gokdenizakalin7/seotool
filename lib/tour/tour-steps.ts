@@ -248,7 +248,7 @@ export const TOUR_STEPS: TourStep[] = [
     title: 'Web Sitem: müşterinizin gördüğü site',
     body: ['QR kodu okutan müşteri yalnızca bir menü değil, işletmenize ait küçük bir web sitesi görür. Bu bölümler o siteyi doldurur:'],
     bullets: [
-      'Kampanyalar: ürün paketleri (ör. Bira + Patates), menünün en üstünde öne çıkar',
+      'Kampanyalar: ürün paketleri (ör. Bira + Patates) ya da belli gün ve saatlerde indirimli ürünler (ör. 19:00\'a kadar Efes 165 ₺), menünün en üstünde öne çıkar',
       'Fiyat Planları: happy hour, maç günü gibi dönemlere özel fiyatlar; QR kod değişmez',
       'Etkinlikler: canlı müzik, maç yayını gibi duyurular',
       'Hakkımızda: sitenizdeki tanıtım metni (yapay zeka ile taslak oluşturabilirsiniz)',
