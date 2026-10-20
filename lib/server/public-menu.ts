@@ -78,7 +78,7 @@ export const getPublicMenus = cache(async (subdomain: string): Promise<Menu[]> =
       categories (
         id, parent_id, name, description, display_order, is_active,
         items (
-          id, name, description, price, image_url, allergens, calories, is_available, is_featured, display_order, tags
+          id, name, description, price, image_url, allergens, ingredients, calories, is_available, is_featured, display_order, tags
         )
       )
     `)

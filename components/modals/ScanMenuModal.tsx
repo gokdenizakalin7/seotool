@@ -229,6 +229,7 @@ export function ScanMenuModal({ isOpen, onClose, onMenuCreated }: ScanMenuModalP
           price: i.price ? String(i.price) : '',
           calories: typeof i.calories === 'number' ? i.calories : (parseInt(i.calories) || undefined),
           allergens: Array.isArray(i.allergens) ? i.allergens : [],
+          ingredients: Array.isArray(i.ingredients) ? i.ingredients : [],
           image_url: i.image_url || '',
           // Katalog eşleştirmesi (sunucu): bağlantı + öneri bilgisi
           catalog_item_id: typeof i.catalog_item_id === 'string' ? i.catalog_item_id : null,
@@ -282,6 +283,7 @@ export function ScanMenuModal({ isOpen, onClose, onMenuCreated }: ScanMenuModalP
           price: item.price,
           image_url: item.image_url || '',
           allergens: item.allergens && item.allergens.length > 0 ? item.allergens : undefined,
+          ingredients: item.ingredients && item.ingredients.length > 0 ? item.ingredients : undefined,
           calories: item.calories || undefined,
           display_order: itemIdx + 1,
           is_available: true,
