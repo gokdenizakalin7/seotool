@@ -88,3 +88,6 @@ node_modules/
 # Katalog görsel üretimi çalışma dosyaları
 scripts/catalog-images/.work/
 !.env.example
+
+# Claude Code yerel araç dosyaları
+.claude/

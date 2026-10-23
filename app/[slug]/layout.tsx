@@ -4,7 +4,8 @@ import { SiteShell } from '@/components/public/site/SiteShell'
 import { getBusinessTypeCover, hasImageCredits } from '@/lib/server/public-menu'
 import { getSiteEvents, getSiteRestaurant } from '@/lib/server/site'
 import { eventOccurrences } from '@/lib/events'
-import { isValidSiteSlug, siteOrigin, sitePath } from '@/lib/site-url'
+import { isValidSiteSlug } from '@/lib/site-url'
+import { jsonLdHtml, restaurantJsonLd } from '@/lib/site-seo'
 
 /**
  * İşletme sitesi: qr-chef.com.tr/<slug> (Menü), /etkinlikler, /hakkimizda, /iletisim.
@@ -24,18 +25,18 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   if (!isValidSiteSlug(slug)) return {}
   const r = await getSiteRestaurant(slug)
   if (!r) return {}
-  if (r.suspended) return { title: r.name, robots: { index: false } }
+  // absolute: kök layout'un "%s | QR Chef" şablonu işletmenin kendi sitesine eklenmesin
+  if (r.suspended) return { title: { absolute: r.name }, robots: { index: false } }
 
   const fallback = `${r.name}${r.city ? `, ${r.city}` : ''} — menü, kampanyalar, etkinlikler ve iletişim bilgileri.`
   const description = (r.about_text || fallback).replace(/\s+/g, ' ').trim().slice(0, 160)
   const image = r.cover_url || r.logo_url || undefined
-  const origin = siteOrigin()
+  // canonical burada değil, her sayfanın kendisinde (layout'taki alt sayfalara miras kalıp onları menünün kopyası yapar)
   return {
-    title: { default: r.name, template: `%s | ${r.name}` },
+    title: { absolute: r.name, template: `%s | ${r.name}` },
     description,
-    openGraph: { title: r.name, description, type: 'website', locale: 'tr_TR', images: image ? [image] : undefined },
+    openGraph: { title: r.name, description, type: 'website', locale: 'tr_TR', siteName: r.name, images: image ? [image] : undefined },
     icons: r.logo_url ? { icon: r.logo_url } : undefined,
-    ...(origin ? { metadataBase: new URL(origin), alternates: { canonical: sitePath(slug) } } : {}),
   }
 }
 
@@ -70,6 +71,7 @@ export default async function SiteLayout({ children, params }: { children: React
   return (
     <>
       <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdHtml(restaurantJsonLd(restaurant, slug)) }} />
       <SiteShell
         restaurant={restaurant}
         slug={slug}

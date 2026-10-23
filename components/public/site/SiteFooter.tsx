@@ -30,7 +30,11 @@ export function SiteFooter({
         <div className="container mx-auto px-4">
           <p className="flex items-center justify-center gap-1.5">
             {restaurant.logo_url && <img src={restaurant.logo_url} alt="" className="h-4 w-4 rounded object-contain" />}©{' '}
-            {new Date().getFullYear()} {restaurant.name} • Powered by <strong>QR Chef</strong>
+            {new Date().getFullYear()} {restaurant.name} • Powered by{' '}
+            {/* Her işletme sitesinden ana sayfaya bağlantı: "QR menü" aramalarında ana sayfanın otoritesi */}
+            <a href="/" target="_blank" rel="noopener" className="font-bold hover:underline">
+              QR Chef QR Menü
+            </a>
           </p>
           <div className="flex justify-center space-x-4 mt-1.5 text-[11px]">
             <button onClick={() => setIsTermsOpen(true)} className="hover:underline text-gray-400 dark:text-zinc-500">

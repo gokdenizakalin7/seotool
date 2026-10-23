@@ -10,12 +10,17 @@ const geistSans = localFont({
   preload: false,
 });
 
+// Yalnızca tüm sayfalarda doğru olanlar: canonical, Open Graph görseli ve JSON-LD ana sayfada (app/page.tsx);
+// burada olsalar işletme siteleri (app/[slug]) dahil her sayfaya miras kalırdı
 export const metadata: Metadata = {
-  title: "QR Chef - Dijital QR Menü Yönetim Sistemi",
+  metadataBase: new URL(canonicalOrigin()),
+  title: { default: "QR Chef - Dijital QR Menü Yönetim Sistemi", template: "%s | QR Chef" },
   description: "QR kodlu dijital menülerinizi kolayca oluşturun, yönetin ve paylaşın.",
+  applicationName: "QR Chef",
 };
 
 import { Toaster } from 'sonner';
+import { canonicalOrigin } from '@/lib/site-url';
 
 export default function RootLayout({
   children,

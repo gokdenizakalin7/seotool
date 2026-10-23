@@ -4,8 +4,12 @@ import { brandColor } from '@/components/public/site/types'
 import { getBusinessTypeInfo, getPublicMenus } from '@/lib/server/public-menu'
 import { requireSite, type SearchParams } from '@/lib/server/site'
 import { buildAboutTemplate } from '@/lib/about-template'
+import { sitePath } from '@/lib/site-url'
 
-export const metadata: Metadata = { title: 'Hakkımızda' }
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  return { title: 'Hakkımızda', alternates: { canonical: sitePath(slug, 'hakkimizda') } }
+}
 
 export default async function SiteAboutPage({
   params,

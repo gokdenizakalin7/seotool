@@ -1,7 +1,6 @@
-'use client'
+import { redirect } from 'next/navigation'
 
-import { ClientApp } from '@/components/ClientApp'
-
+// Eski aktivasyon linkleri: şifreyi artık admin belirliyor
 export default function ActivatePage() {
-  return <ClientApp />
+  redirect('/login')
 }

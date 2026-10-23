@@ -1,12 +1,13 @@
+import type { Metadata } from 'next'
 import { PublicMenuView } from '@/components/public/PublicMenuView'
 import type { SiteNotice } from '@/components/public/site/types'
 import { getPublicMenus } from '@/lib/server/public-menu'
-import { firstParam, getSiteCampaigns, getSiteEvents, getSitePricePlans, requireSite, type SearchParams } from '@/lib/server/site'
+import { firstParam, getSiteCampaigns, getSiteEvents, getSitePricePlans, getSiteRestaurant, requireSite, type SearchParams } from '@/lib/server/site'
 import { priceModeFromOrg } from '@/lib/server/site-data'
 import { applyPlanToPrice, applyPricePlanToMenu, resolveEffectivePlan } from '@/lib/price-plan'
 import { applyItemDealsToMenu, buildCampaignCategory, type CampaignComponent } from '@/lib/campaigns'
 import { eventOccurrences, istanbulDateKey } from '@/lib/events'
-import { sitePath } from '@/lib/site-url'
+import { isValidSiteSlug, sitePath } from '@/lib/site-url'
 import type { Menu, MenuItem } from '@/lib/types'
 
 /**
@@ -15,6 +16,18 @@ import type { Menu, MenuItem } from '@/lib/types'
  * kampanyalar "Kampanyalı Ürünler" kategorisi olarak en üstte görünür. İndirimli ürün kampanyaları
  * (ör. 19:00'a kadar Tuborg 165 ₺) ürünün kendi kategorisindeki fiyatını da değiştirir.
  */
+/** Menü sayfası "<işletme> menü ve fiyatları" aramalarına; masa QR'ının ?table=..&tid=.. sorgusu canonical'a girmez */
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  if (!isValidSiteSlug(slug)) return {}
+  const r = await getSiteRestaurant(slug)
+  if (!r || r.suspended) return {}
+  return {
+    title: { absolute: `${r.name} Menü ve Fiyatları${r.city ? ` | ${r.city}` : ''}` },
+    alternates: { canonical: sitePath(slug) },
+  }
+}
+
 export default async function SiteMenuPage({
   params,
   searchParams,

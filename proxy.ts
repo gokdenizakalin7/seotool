@@ -169,6 +169,11 @@ export function proxy(request: NextRequest) {
   // Sunucu kimliğini gizle
   response.headers.delete('x-powered-by')
 
+  // qr-chef.vercel.app ve önizleme dağıtımları ana sitenin kopyası: arama motorlarında yalnızca qr-chef.com.tr listelensin
+  if ((request.headers.get('host') || '').toLowerCase().endsWith('.vercel.app')) {
+    response.headers.set('X-Robots-Tag', 'noindex')
+  }
+
   return response
 }
 
