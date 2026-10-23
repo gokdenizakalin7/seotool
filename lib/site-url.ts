@@ -65,6 +65,14 @@ export function siteOrigin(): string {
   return ''
 }
 
+/** Üretim alan adı: arama motorlarına bildirilen tek adres (www, *.vercel.app kopyaları buraya işaret eder) */
+export const PRODUCTION_ORIGIN = 'https://qr-chef.com.tr'
+
+/** Canonical, sitemap ve yapısal veride kullanılan kök adres; NEXT_PUBLIC_SITE_URL yoksa üretim alan adı */
+export function canonicalOrigin(): string {
+  return (process.env.NEXT_PUBLIC_SITE_URL || '').trim().replace(/\/+$/, '') || PRODUCTION_ORIGIN
+}
+
 /** Site içi yol: /kafe-adi veya /kafe-adi/etkinlikler */
 export function sitePath(slug: string, page: SitePage = ''): string {
   return `/${encodeURIComponent(slug)}${page ? `/${page}` : ''}`

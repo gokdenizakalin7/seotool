@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { AppLink } from '@/components/landing/AppLink'
 import { AnimatePresence, motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import {
@@ -526,9 +526,9 @@ export function SiteShowcase() {
           </p>
           <div className="relative mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button size="lg" className="h-14 rounded-full bg-white px-8 text-lg font-bold text-black shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all hover:scale-105 hover:bg-gray-200" asChild>
-              <Link to="/signup">
+              <AppLink to="/signup">
                 Ücretsiz Başla <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+              </AppLink>
             </Button>
             <span className="font-mono text-sm text-white/40">{SITE_HOST}/işletmeniz</span>
           </div>

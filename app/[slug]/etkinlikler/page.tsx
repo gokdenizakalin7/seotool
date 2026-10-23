@@ -1,10 +1,21 @@
 import type { Metadata } from 'next'
 import { EventsView, type EventCard } from '@/components/public/site/EventsView'
 import { brandColor } from '@/components/public/site/types'
-import { getSiteEvents, requireSite, type SearchParams } from '@/lib/server/site'
+import { getSiteEvents, getSiteRestaurant, requireSite, type SearchParams } from '@/lib/server/site'
 import { eventOccurrences, groupOccurrences, type EventOccurrence } from '@/lib/events'
+import { isValidSiteSlug, sitePath } from '@/lib/site-url'
 
-export const metadata: Metadata = { title: 'Etkinlikler' }
+/** Yaklaşan etkinlik yoksa sayfa boş: menüde bağlantısı da gizli, arama motoruna kapalı (sitemap'te de yok) */
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const r = isValidSiteSlug(slug) ? await getSiteRestaurant(slug) : null
+  const hasEvents = r?.id ? eventOccurrences(await getSiteEvents(r.id)).length > 0 : false
+  return {
+    title: 'Etkinlikler',
+    alternates: { canonical: sitePath(slug, 'etkinlikler') },
+    ...(hasEvents ? {} : { robots: { index: false, follow: true } }),
+  }
+}
 
 const toCard = (o: EventOccurrence): EventCard => ({
   key: `${o.event.id}-${o.start}`,
