@@ -339,6 +339,9 @@ export function LiveMenuEditor() {
   const [isCompressingPhoto, setIsCompressingPhoto] = useState(false)
   const [compressedPhotoInfo, setCompressedPhotoInfo] = useState<string | null>(null)
 
+  // AI TOPLU ZENGİNLEŞTİRME (KALORİ/ALERJEN) STATE'LERİ
+  const [isEnriching, setIsEnriching] = useState(false)
+
   // AI KALORİ TAHMİNİ STATE'LERİ
   const [isEstimatingCalories, setIsEstimatingCalories] = useState(false)
   const [calorieSource, setCalorieSource] = useState<'auto' | 'manual' | 'detailed'>('manual')
@@ -982,6 +985,78 @@ export function LiveMenuEditor() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
 
+  // Kalorisi hiç girilmemiş ürünler (sunucudaki kuralla aynı: 0 girilmiş sayılır)
+  const itemsNeedingEnrich = useMemo(() => {
+    if (!menu) return 0
+    let count = 0
+    for (const cat of menu.categories) {
+      for (const item of cat.items) {
+        if (item.calories == null) count++
+      }
+    }
+    return count
+  }, [menu])
+
+  const handleEnrichAll = async () => {
+    if (!subdomain || isEnriching || itemsNeedingEnrich === 0) return
+    setIsEnriching(true)
+    try {
+      const res = await authFetch('/api/menus/enrich', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subdomain }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        toast.error(data.error || 'Zenginleştirme başarısız.')
+        return
+      }
+      if (data.enrichedCount === 0) {
+        if (data.failedCount === 0) toast.info(data.message || 'Tüm ürünlerde bilgi zaten mevcut.')
+        else toast.error(data.message || 'AI servisi yanıt vermedi, lütfen tekrar deneyin.')
+        return
+      }
+      if (Array.isArray(data.enriched) && data.enriched.length > 0) {
+        const enrichMap = new Map<string, any>(data.enriched.map((e: any) => [e.id, e]))
+        const applyEnrich = (m: Menu): Menu => ({
+          ...m,
+          categories: m.categories.map(cat => ({
+            ...cat,
+            items: cat.items.map(item => {
+              const e = enrichMap.get(item.id)
+              if (!e) return item
+              return {
+                ...item,
+                ...(e.calories != null ? { calories: e.calories, calorie_source: 'auto' as const } : {}),
+                ...(e.allergens ? { allergens: e.allergens } : {}),
+                ...(e.ingredients ? { ingredients: e.ingredients } : {}),
+              }
+            }),
+          })),
+        })
+        setMenu(prev => (prev ? applyEnrich(prev) : prev))
+        // Sunucu ürünleri zaten yazdı: "son kayıtlı" snapshot'a da işle ki kaydedilmemiş değişiklik uyarısı çıkmasın
+        setLastSavedJson(prev => {
+          if (!prev || prev === '__none__') return prev
+          const saved = safeJsonParse<Menu | null>(prev, null)
+          return saved ? JSON.stringify(applyEnrich(saved)) : prev
+        })
+      }
+      toast.success(data.message || `${data.enrichedCount} ürün güncellendi.`, {
+        description: data.totalRemaining > 0
+          ? `${data.totalRemaining} ürün daha kaldı — butona tekrar basın.`
+          : data.failedCount > 0
+            ? `${data.failedCount} ürün güncellenemedi.`
+            : `Kalan günlük hak: ${data.remaining ?? '–'}`,
+        duration: data.totalRemaining > 0 ? 8000 : 4000,
+      })
+    } catch (e: any) {
+      toast.error(`Bağlantı hatası: ${e.message}`)
+    } finally {
+      setIsEnriching(false)
+    }
+  }
+
   const activeCategoriesForPreview = menu ? menu.categories.filter(c => c.is_active) : []
   const filteredPreviewCategories = activeCategoriesForPreview.map(cat => {
     const items = cat.items.filter(item => 
@@ -1217,25 +1292,14 @@ export function LiveMenuEditor() {
               </div>
             </CardHeader>
             <CardContent className="p-4 space-y-3">
-              <div className="grid sm:grid-cols-2 gap-3">
-                <div className="space-y-1">
-                  <Label htmlFor="m-name" className="text-xs">Menü Adı</Label>
-                  <Input 
-                    id="m-name" 
-                    value={menu.name} 
-                    onChange={(e) => setMenu(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
-                    className="h-8 text-sm"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="m-desc" className="text-xs">Açıklama / Karşılama Notu</Label>
-                  <Input 
-                    id="m-desc" 
-                    value={menu.description} 
-                    onChange={(e) => setMenu(prev => prev ? ({ ...prev, description: e.target.value }) : null)}
-                    className="h-8 text-sm"
-                  />
-                </div>
+              <div className="space-y-1">
+                <Label htmlFor="m-name" className="text-xs">Menü Adı</Label>
+                <Input
+                  id="m-name"
+                  value={menu.name}
+                  onChange={(e) => setMenu(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                  className="h-8 text-sm sm:max-w-sm"
+                />
               </div>
             </CardContent>
           </Card>
@@ -1248,6 +1312,23 @@ export function LiveMenuEditor() {
                 <p className="text-xs text-gray-500">Kategorileri açıp kapatabilir, sıralayabilir ve ürün ekleyebilirsiniz.</p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
+                {itemsNeedingEnrich > 0 && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleEnrichAll}
+                    disabled={isEnriching}
+                    className="border-amber-400 bg-amber-50 text-amber-800 hover:bg-amber-100 font-semibold"
+                  >
+                    {isEnriching ? (
+                      <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />
+                    ) : (
+                      <Sparkles className="h-3.5 w-3.5 mr-1.5 text-amber-600" />
+                    )}
+                    {isEnriching ? 'AI analiz ediyor...' : `AI ile ${itemsNeedingEnrich} Ürüne Kalori/Alerjen Ekle`}
+                    <span className="ml-1 text-[10px] opacity-70">(3/gün)</span>
+                  </Button>
+                )}
                 <Button size="sm" variant="outline" onClick={() => setIsTemplateModalOpen(true)}>
                   <BookOpen className="h-3.5 w-3.5 mr-1 text-primary" /> Şablon Yükle
                 </Button>
@@ -1442,8 +1523,9 @@ export function LiveMenuEditor() {
                             {/* 3. KALORİ (INPUT) */}
                             <div className="flex justify-center">
                               <div className="relative w-full max-w-[80px]">
-                                <Input 
-                                  defaultValue={item.calories || ''}
+                                <Input
+                                  key={`cal-${item.calories ?? ''}`}
+                                  defaultValue={item.calories ?? ''}
                                   type="number"
                                   placeholder="450"
                                   onBlur={(e) => {
@@ -1462,7 +1544,8 @@ export function LiveMenuEditor() {
 
                             {/* 4. ALERJENLER (INPUT) */}
                             <div className="flex justify-center">
-                              <Input 
+                              <Input
+                                key={`alg-${(item.allergens || []).join('|')}`}
                                 defaultValue={item.allergens ? item.allergens.join(', ') : ''}
                                 placeholder="Ör: Süt, Fıstık"
                                 onBlur={(e) => {
