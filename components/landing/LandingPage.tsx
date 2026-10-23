@@ -140,7 +140,7 @@ export function LandingPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className={`p-8 rounded-[32px] backdrop-blur-xl transition-all group relative overflow-hidden ${feature.highlight ? 'bg-white/10 border border-white/30 shadow-[0_0_30px_rgba(255,255,255,0.08)] hover:bg-white/20 hover:border-white/50' : 'bg-white/5 border border-white/10 hover:bg-white/10'}`}
+                    className={`p-8 rounded-[32px] backdrop-blur-xl transition-colors group relative overflow-hidden ${feature.highlight ? 'bg-white/10 border border-white/30 shadow-[0_0_30px_rgba(255,255,255,0.08)] hover:bg-white/20 hover:border-white/50' : 'bg-white/5 border border-white/10 hover:bg-white/10'}`}
                   >
                     {feature.highlight && (
                       <div className="absolute top-0 right-0 p-6 opacity-30 group-hover:opacity-80 transition-opacity">
