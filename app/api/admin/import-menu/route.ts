@@ -4,6 +4,9 @@ import { adminRoute, jsonError, parseBody } from '@/lib/server/admin/http'
 import { logAdminAction } from '@/lib/server/admin/audit'
 import { z } from 'zod'
 import { randomUUID } from 'crypto'
+import { localizeOrgItemImages } from '@/lib/server/localize-item-images'
+
+export const maxDuration = 300
 
 const itemSchema = z.object({
   name: z.string().min(1),
@@ -80,12 +83,15 @@ export async function POST(request: NextRequest) {
 
     const totalItems = categories.reduce((sum, c) => sum + c.items.length, 0)
 
+    // Crawl edilen dış görseller hotlink kalmasın: WebP'ye çevrilip Storage'a alınır
+    const images = await localizeOrgItemImages(org.id)
+
     await logAdminAction({
       actor: user,
       action: 'import_menu',
       targetType: 'organization',
       targetId: org.id,
-      after: { menuName, categoryCount: categories.length, itemCount: totalItems },
+      after: { menuName, categoryCount: categories.length, itemCount: totalItems, imagesConverted: images.converted, imagesFailed: images.failed },
     })
 
     return NextResponse.json({
@@ -93,6 +99,7 @@ export async function POST(request: NextRequest) {
       menuName,
       categoryCount: categories.length,
       itemCount: totalItems,
+      images,
     })
   })
 }
