@@ -8,6 +8,7 @@ import { applyPlanToPrice, applyPricePlanToMenu, resolveEffectivePlan } from '@/
 import { applyItemDealsToMenu, buildCampaignCategory, type CampaignComponent } from '@/lib/campaigns'
 import { eventOccurrences, istanbulDateKey } from '@/lib/events'
 import { isValidSiteSlug, sitePath } from '@/lib/site-url'
+import { jsonLdHtml, menuDescription, menuJsonLd, sitePageMetadata } from '@/lib/site-seo'
 import type { Menu, MenuItem } from '@/lib/types'
 
 /**
@@ -20,12 +21,9 @@ import type { Menu, MenuItem } from '@/lib/types'
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   if (!isValidSiteSlug(slug)) return {}
-  const r = await getSiteRestaurant(slug)
+  const [r, menus] = await Promise.all([getSiteRestaurant(slug), getPublicMenus(slug)])
   if (!r || r.suspended) return {}
-  return {
-    title: { absolute: `${r.name} Menü ve Fiyatları${r.city ? ` | ${r.city}` : ''}` },
-    alternates: { canonical: sitePath(slug) },
-  }
+  return sitePageMetadata(r, slug, '', `${r.name} Menü ve Fiyatları${r.city ? ` | ${r.city}` : ''}`, menuDescription(r, menus[0]))
 }
 
 export default async function SiteMenuPage({
@@ -107,13 +105,18 @@ export default async function SiteMenuPage({
     })
   }
 
+  const menuLd = menuJsonLd(restaurant, slug, menu)
   return (
-    <PublicMenuView
-      restaurant={restaurant}
-      menu={menu}
-      tableName={firstParam(query.table) || firstParam(query.masa)}
-      tableId={firstParam(query.tid)}
-      notices={notices}
-    />
+    <>
+      {/* Menü yapısal verisi: müşterinin şu an gördüğü fiyatlarla (kampanya kategorisi hariç) */}
+      {menuLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdHtml(menuLd) }} />}
+      <PublicMenuView
+        restaurant={restaurant}
+        menu={menu}
+        tableName={firstParam(query.table) || firstParam(query.masa)}
+        tableId={firstParam(query.tid)}
+        notices={notices}
+      />
+    </>
   )
 }

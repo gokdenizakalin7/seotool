@@ -11,7 +11,8 @@
     "catalog:images:apply": "node --env-file-if-exists=.env.local --import tsx scripts/catalog-images/apply.ts",
     "catalog:images:sheet": "node --env-file-if-exists=.env.local --import tsx scripts/catalog-images/contact-sheet.ts",
     "catalog:import": "node --env-file-if-exists=.env.local --import tsx scripts/seed/import-catalog.ts",
-    "catalog:match:smoke": "node --env-file-if-exists=.env.local --import tsx scripts/catalog-match-smoke.ts"
+    "catalog:match:smoke": "node --env-file-if-exists=.env.local --import tsx scripts/catalog-match-smoke.ts",
+    "images:localize": "node --env-file-if-exists=.env.local --import tsx scripts/localize-item-images.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

@@ -52,9 +52,11 @@ export function SiteHeader({ restaurant, fallbackCover }: { restaurant: SiteRest
     <header className="relative h-40 sm:h-52 w-full bg-[#e9e9ee] dark:bg-[#1c1c1e] overflow-hidden rounded-b-[28px] shadow-[0_12px_32px_rgba(0,0,0,0.08)]">
       {/* Giriş animasyonları CSS ile: sunucudan gelen HTML, JS yüklenmeden görünür ve canlanır */}
       <div className="h-full w-full animate-in zoom-in-105 slide-in-from-bottom-2.5 duration-[1200ms] ease-out">
+        {/* Sayfanın en büyük görseli (LCP): öncelikli iner */}
         <img
           src={heroCoverSrc}
           alt={restaurant.name}
+          fetchPriority="high"
           className={`w-full h-full ${coverUsesLogo ? 'object-contain opacity-60 dark:opacity-35 blur-[1px]' : 'object-cover opacity-90 dark:opacity-45'}`}
         />
       </div>

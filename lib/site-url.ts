@@ -10,7 +10,8 @@ export type SitePage = '' | (typeof SITE_PAGES)[number]
 
 /**
  * İşletme adı olarak kullanılamayan yollar: panel (SPA) sayfaları, Next dosya kuralları ve olası gelecekteki sayfalar.
- * supabase/migrations/14_stable_ids_and_slugs.sql içindeki is_reserved_slug() ile AYNI liste olmalı (testle denetlenir).
+ * Veritabanındaki is_reserved_slug() ile AYNI liste olmalı (son tanım: supabase/migrations/19_reserve_qr_menu_slug.sql;
+ * testle denetlenir).
  * Yeni bir üst düzey panel yolu eklenirse buraya da eklenmeli ve app/ altında statik bir klasör almalı.
  */
 export const RESERVED_SLUGS = [
@@ -18,7 +19,7 @@ export const RESERVED_SLUGS = [
   'blog', 'business', 'catalog', 'contact', 'dashboard', 'destek', 'etkinlikler', 'events', 'favicon',
   'fiyatlar', 'fonts', 'gizlilik', 'gorsel-kaynaklari', 'hakkimizda', 'help', 'hesap', 'icon',
   'iletisim', 'kampanyalar', 'kosullar', 'kvkk', 'login', 'logout', 'manifest', 'menu', 'null',
-  'onboarding', 'opengraph-image', 'panel', 'preview', 'pricing', 'privacy', 'public', 'qr',
+  'onboarding', 'opengraph-image', 'panel', 'preview', 'pricing', 'privacy', 'public', 'qr', 'qr-menu',
   'register', 'robots', 'settings', 'signup', 'site', 'sitemap', 'static', 'support', 'terms',
   'twitter-image', 'undefined', 'www', 'yardim',
 ] as const

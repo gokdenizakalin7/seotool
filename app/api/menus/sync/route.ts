@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin as supabase } from '@/lib/supabase-admin'
 import { requireSubdomainAccess } from '@/lib/auth-middleware'
+import { isDataImageUrl, storeItemDataUrl } from '@/lib/server/localize-item-images'
 import { z } from 'zod'
 
 const itemSchema = z.object({
@@ -60,6 +61,44 @@ function normalizeMenusForRpc(menus: z.infer<typeof menuSchema>[]) {
       })),
     })),
   }))
+}
+
+const IMAGE_UPLOAD_CONCURRENCY = 6
+
+/**
+ * Panelde yüklenen ürün fotoğrafları base64 gelir: kayıttan önce Storage'a yüklenip adresle değiştirilir
+ * (veritabanında base64 kalırsa müşteri sayfasının HTML'i MB'larca büyür). Aynı görsel bir kez yüklenir;
+ * yüklenemeyen görsel olduğu gibi kaydedilir, kayıt bozulmaz. { istemci ürün kimliği: yeni adres } döner.
+ */
+async function storeDataUrlImages(organizationId: string, menus: z.infer<typeof menuSchema>[]): Promise<Record<string, string>> {
+  const itemsByData = new Map<string, z.infer<typeof itemSchema>[]>()
+  for (const menu of menus) {
+    for (const cat of menu.categories || []) {
+      for (const item of cat.items || []) {
+        if (!isDataImageUrl(item.image_url)) continue
+        itemsByData.set(item.image_url, [...(itemsByData.get(item.image_url) || []), item])
+      }
+    }
+  }
+
+  const stored: Record<string, string> = {}
+  const queue = [...itemsByData]
+  const worker = async () => {
+    for (let next = queue.shift(); next; next = queue.shift()) {
+      const [dataUrl, items] = next
+      try {
+        const url = await storeItemDataUrl(organizationId, dataUrl)
+        for (const item of items) {
+          item.image_url = url
+          if (item.id) stored[item.id] = url
+        }
+      } catch (e) {
+        console.warn('menus/sync görsel yüklenemedi:', (e as Error).message)
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(IMAGE_UPLOAD_CONCURRENCY, queue.length) }, worker))
+  return stored
 }
 
 function parseIdMap(rpcData: unknown): Record<string, string> {
@@ -130,6 +169,7 @@ export async function POST(request: Request) {
       }
     }
 
+    const storedImages = await storeDataUrlImages(organizationId, menus)
     const menusPayload = normalizeMenusForRpc(menus)
 
     const { data: rpcData, error } = await supabase.rpc('sync_menus_transaction', {
@@ -150,7 +190,11 @@ export async function POST(request: Request) {
       idMap = await buildIdMapFallback(organizationId, menus)
     }
 
-    return NextResponse.json({ success: true, idMap })
+    // Editör base64 görseli yeni adresle değiştirsin (sonraki kayıtta yeniden yüklenmesin); kimlik kayıttan sonraki gerçek kimlik
+    const imageUrls: Record<string, string> = {}
+    for (const [id, url] of Object.entries(storedImages)) imageUrls[idMap[id] ?? id] = url
+
+    return NextResponse.json({ success: true, idMap, imageUrls })
   } catch (err: unknown) {
     console.error('Sync error:', err)
     return NextResponse.json({ error: 'Menü kaydedilemedi.' }, { status: 500 })

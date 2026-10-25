@@ -55,7 +55,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import { compressImageFile, IMAGE_PRESETS, formatFileSize } from '@/lib/image-compression'
 import { safeJsonParse } from '@/lib/utils'
-import { remapMenuIds } from '@/lib/menu-ids'
+import { applyStoredImages, remapMenuIds } from '@/lib/menu-ids'
 import { siteUrl } from '@/lib/site-url'
 import { catalogThumbUrl } from '@/lib/image-url'
 import { generateItemImage } from '@/lib/image-generation-client'
@@ -365,19 +365,22 @@ export function LiveMenuEditor() {
   // Sunucunun verdiği gerçek menü kimliğini uygula (geçici "menu-..." kimliği kopya menü üretmesin)
   const adoptServerIds = async (res: Response, savedMenu?: Menu): Promise<Record<string, string>> => {
     let idMap: Record<string, string> = {}
+    let imageUrls: Record<string, string> = {}
     try {
       const data = await res.clone().json()
       idMap = data?.idMap || {}
+      imageUrls = data?.imageUrls || {}
     } catch {
       // yanıt JSON değilse yok say
     }
-    // Menü, kategori ve ürünlerin geçici kimlikleri gerçek kimliklerle değişir (kayıtlar arasında sabit kalırlar)
-    if (Object.keys(idMap).length > 0) {
-      setMenu(prev => (prev ? remapMenuIds(prev, idMap) : prev))
+    // Menü, kategori ve ürünlerin geçici kimlikleri gerçek kimliklerle değişir (kayıtlar arasında sabit kalırlar);
+    // Storage'a yüklenen fotoğrafların base64'ü adresle değişir (sonraki kayıtta yeniden yüklenmez)
+    if (Object.keys(idMap).length > 0 || Object.keys(imageUrls).length > 0) {
+      setMenu(prev => (prev ? applyStoredImages(remapMenuIds(prev, idMap), imageUrls) : prev))
     }
     // Başarıyla kaydedilen sürümü "temiz" olarak işaretle
     if (savedMenu) {
-      setLastSavedJson(JSON.stringify(remapMenuIds(savedMenu, idMap)))
+      setLastSavedJson(JSON.stringify(applyStoredImages(remapMenuIds(savedMenu, idMap), imageUrls)))
     }
     return idMap
   }

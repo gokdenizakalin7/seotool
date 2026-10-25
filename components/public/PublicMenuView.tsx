@@ -375,7 +375,7 @@ export function PublicMenuView({
             </div>
           )}
 
-          {landingVisible ? (
+          {landingVisible && (
             /* Karşılama: büyük kategori kartları */
             <div className="pt-2 pb-12">
               <h2 className="mb-3 text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-zinc-100">{t.categoriesTitle}</h2>
@@ -420,9 +420,11 @@ export function PublicMenuView({
                 })}
               </div>
             </div>
-          ) : (
-          /* Dergi Bento Izgarası */
-          <div className="space-y-10 pt-2 pb-12">
+          )}
+
+          {/* Dergi Bento Izgarası. Karşılama kartları görünürken de sunucu HTML'inde (gizli): arama motorları ürün adı,
+              fiyat ve açıklamayı kategoriye tıklamadan okur; gizli bölümdeki lazy görseller açılana kadar inmez */}
+          <div className="space-y-10 pt-2 pb-12" hidden={landingVisible}>
             {!activeMenu || filteredCategories.length === 0 ? (
               <div className="text-center py-20 bg-white dark:bg-[#2c2c2e] rounded-[32px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-gray-400 dark:text-zinc-500 text-base font-medium">
                 <Utensils className="h-10 w-10 mx-auto mb-3 opacity-20" />
@@ -438,10 +440,10 @@ export function PublicMenuView({
                 >
                   <div className="mb-2 flex items-end justify-between border-b border-gray-200/60 dark:border-white/10 pb-2">
                     <div>
-                      <h3 className="font-bold text-lg sm:text-xl text-gray-900 dark:text-zinc-100 tracking-tight capitalize flex items-center gap-1.5">
+                      <h2 className="font-bold text-lg sm:text-xl text-gray-900 dark:text-zinc-100 tracking-tight capitalize flex items-center gap-1.5">
                         {category.id === CAMPAIGN_CATEGORY_ID && <Gift className="h-5 w-5" style={{ color: primaryColor }} />}
                         {categoryLabel(category)}
-                      </h3>
+                      </h2>
                       {category.description && (
                         <p className="text-xs text-gray-500 dark:text-zinc-500 mt-0.5 font-medium max-w-lg line-clamp-2">{category.description}</p>
                       )}
@@ -465,8 +467,9 @@ export function PublicMenuView({
                           ${!item.is_available ? 'opacity-50 grayscale' : ''}
                         `}
                       >
-                        {/* Görsel Alanı */}
-                        {item.image_url ? (
+                        {/* Görsel Alanı. Liste gizliyken (karşılama kartları) base64 görsel çizilmez: veri zaten sayfa
+                            yükünde, HTML'e ikinci kez gömülünce sayfa MB'larca büyüyordu (bkz. npm run images:localize) */}
+                        {item.image_url && !(landingVisible && item.image_url.startsWith('data:')) ? (
                           <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-[18px] overflow-hidden bg-gray-50 dark:bg-[#3a3a3c]/60 relative shadow-inner">
                             <img
                               src={catalogThumbUrl(item.image_url)}
@@ -491,7 +494,7 @@ export function PublicMenuView({
                         <div className="flex-1 flex flex-col justify-between py-1 pr-2 min-w-0">
                           <div>
                             <div className="flex items-start justify-between gap-2">
-                              <h4 className="font-extrabold text-[15px] sm:text-[17px] text-gray-900 dark:text-zinc-100 leading-tight mb-1 truncate">{item.name}</h4>
+                              <h3 className="font-extrabold text-[15px] sm:text-[17px] text-gray-900 dark:text-zinc-100 leading-tight mb-1 truncate">{item.name}</h3>
                             </div>
                             <p className="text-[11px] sm:text-[12px] text-gray-500 dark:text-zinc-500 line-clamp-2 leading-relaxed font-medium">{item.description}</p>
                           </div>
@@ -553,7 +556,6 @@ export function PublicMenuView({
               ))
             )}
           </div>
-          )}
 
         </main>
 

@@ -1,14 +1,16 @@
 import type { Metadata } from 'next'
 import { AboutView } from '@/components/public/site/AboutView'
 import { brandColor } from '@/components/public/site/types'
-import { getBusinessTypeInfo, getPublicMenus } from '@/lib/server/public-menu'
-import { requireSite, type SearchParams } from '@/lib/server/site'
-import { buildAboutTemplate } from '@/lib/about-template'
-import { sitePath } from '@/lib/site-url'
+import { getSiteAbout, getSiteRestaurant, requireSite, type SearchParams } from '@/lib/server/site'
+import { isValidSiteSlug } from '@/lib/site-url'
+import { breadcrumbJsonLd, jsonLdHtml, sitePageMetadata } from '@/lib/site-seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  return { title: 'Hakkımızda', alternates: { canonical: sitePath(slug, 'hakkimizda') } }
+  const r = isValidSiteSlug(slug) ? await getSiteRestaurant(slug) : null
+  const about = r ? await getSiteAbout(slug) : null
+  if (!r || !about) return {}
+  return sitePageMetadata(r, slug, 'hakkimizda', `${r.name} Hakkında${r.city ? ` | ${r.city}` : ''}`, about.text)
 }
 
 export default async function SiteAboutPage({
@@ -22,30 +24,24 @@ export default async function SiteAboutPage({
   const restaurant = await requireSite(slug, 'hakkimizda', await searchParams)
   if (restaurant.suspended) return null
 
-  const [menus, typeInfo] = await Promise.all([getPublicMenus(slug), getBusinessTypeInfo(restaurant.business_type)])
-  const categories = (menus[0]?.categories || []).filter((c) => !c.parent_id && c.items?.length).map((c) => c.name)
-  const featured = (menus[0]?.categories || []).flatMap((c) => c.items || []).filter((i) => i.is_featured).map((i) => i.name)
-
   // İşletme metin yazmadıysa türüne ve menüsüne göre otomatik metin
-  const text =
-    restaurant.about_text?.trim() ||
-    buildAboutTemplate({
-      name: restaurant.name,
-      businessType: restaurant.business_type,
-      typeLabel: typeInfo.label,
-      city: restaurant.city,
-      categories,
-      featured,
-    })
+  const about = await getSiteAbout(slug)
+  if (!about) return null
 
   return (
-    <AboutView
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbJsonLd(restaurant, slug, 'hakkimizda', 'Hakkımızda')) }}
+      />
+      <AboutView
       restaurant={restaurant}
       slug={slug}
-      text={text}
-      typeLabel={typeInfo.label}
-      categories={categories.slice(0, 6)}
+      text={about.text}
+      typeLabel={about.typeLabel}
+      categories={about.categories.slice(0, 6)}
       primaryColor={brandColor(restaurant)}
-    />
+      />
+    </>
   )
 }

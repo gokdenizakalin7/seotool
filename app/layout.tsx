@@ -17,7 +17,24 @@ export const metadata: Metadata = {
   title: { default: "QR Chef - Dijital QR Menü Yönetim Sistemi", template: "%s | QR Chef" },
   description: "QR kodlu dijital menülerinizi kolayca oluşturun, yönetin ve paylaşın.",
   applicationName: "QR Chef",
+  verification: searchConsoleVerification(),
 };
+
+/**
+ * Arama motoru sahiplik doğrulaması (Google Search Console, Yandex Webmaster, Bing Webmaster): ortam değişkeni
+ * tanımlıysa meta etiketi basılır. Derleme anında okunur; değer değişince yeniden dağıtım gerekir.
+ */
+function searchConsoleVerification(): Metadata["verification"] {
+  const google = process.env.GOOGLE_SITE_VERIFICATION?.trim()
+  const yandex = process.env.YANDEX_VERIFICATION?.trim()
+  const bing = process.env.BING_SITE_VERIFICATION?.trim()
+  if (!google && !yandex && !bing) return undefined
+  return {
+    ...(google ? { google } : {}),
+    ...(yandex ? { yandex } : {}),
+    ...(bing ? { other: { "msvalidate.01": bing } } : {}),
+  }
+}
 
 import { Toaster } from 'sonner';
 import { canonicalOrigin } from '@/lib/site-url';

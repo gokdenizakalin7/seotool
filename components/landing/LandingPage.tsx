@@ -4,10 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { AppLink } from '@/components/landing/AppLink'
 import { Button } from '@/components/ui/button'
 import { QrCode, Smartphone, Eye, Wifi, ShieldCheck, Utensils, Sparkles, ArrowRight, Wand2, Flame, ChefHat } from 'lucide-react'
-import { TermsOfServiceModal } from '@/components/modals/TermsOfServiceModal'
-import { PrivacyPolicyModal } from '@/components/modals/PrivacyPolicyModal'
-import { ContactModal } from '@/components/modals/ContactModal'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { QrChefMark, QrChefWordmark } from '@/components/brand/qr-chef-logo'
 import { SiteShowcase } from '@/components/landing/SiteShowcase'
 
@@ -20,16 +17,20 @@ const BACKGROUND_IMAGES = [
   'https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=2070&auto=format&fit=crop', // Steak on grill
 ]
 
-export function LandingPage() {
-  const [isTermsOpen, setIsTermsOpen] = useState(false)
-  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false)
-  const [isContactOpen, setIsContactOpen] = useState(false)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+interface LandingPageProps {
+  /** Sunucuda çizilen ek bölümler (işletme türleri, SSS, rehber); panel SPA'sındaki landing'de yok */
+  sections?: React.ReactNode
+  /** Sunucuda çizilen site haritası bağlantıları (alt bilgi) */
+  footerLinks?: React.ReactNode
+}
+
+export function LandingPage({ sections, footerLinks }: LandingPageProps = {}) {
+  // step sürekli artar: görünen görsel step % 6; şimdiye kadar görünenler (söner) ve sıradaki (önden iner) DOM'da
+  const [step, setStep] = useState(0)
+  const currentImageIndex = step % BACKGROUND_IMAGES.length
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % BACKGROUND_IMAGES.length)
-    }, 5000)
+    const interval = setInterval(() => setStep((prev) => prev + 1), 5000)
     return () => clearInterval(interval)
   }, [])
 
@@ -37,17 +38,21 @@ export function LandingPage() {
     <div className="bg-black text-white font-sans selection:bg-white/30">
       {/* Dynamic Luxury Background */}
       <div className="fixed inset-0 z-0 bg-black">
-        {BACKGROUND_IMAGES.map((img, index) => (
-          <div
-            key={img}
-            className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${
-              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
-            }`}
-            style={{
-              backgroundImage: `url("${img}")` 
-            }}
-          />
-        ))}
+        {/* Yalnızca görünmüş ve sıradaki görseller DOM'da: opacity-0 arka planlar da indirildiği için altı büyük görsel
+            ilk açılışta birlikte inip sayfayı yavaşlatıyordu */}
+        {BACKGROUND_IMAGES.map((img, index) =>
+          index <= step + 1 ? (
+            <div
+              key={img}
+              className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${
+                index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+              style={{
+                backgroundImage: `url("${img}")`
+              }}
+            />
+          ) : null
+        )}
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/50 to-black/80 backdrop-blur-[2px]" />
       </div>
 
@@ -152,25 +157,25 @@ export function LandingPage() {
 
           {/* İşletme sitesi tanıtımı: kaydırdıkça canlanan modül bölümleri */}
           <SiteShowcase />
+
+          {sections}
         </main>
 
-        <footer className="w-full py-8 px-6 border-t border-white/10 bg-black/40 backdrop-blur-md">
+        <footer className="w-full py-10 px-6 border-t border-white/10 bg-black/40 backdrop-blur-md">
+          {footerLinks && <div className="container mx-auto mb-10">{footerLinks}</div>}
           <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-white/40 font-medium">© 2026 QR Chef • QR Menü ve İşletme Sitesi</p>
+            <p className="text-sm text-white/40 font-medium">© {new Date().getFullYear()} QR Chef • QR Menü ve İşletme Sitesi</p>
+            {/* Modal değil sayfa bağlantısı: hukuki sayfalar taranabilir ve paylaşılabilir */}
             <nav className="flex gap-6">
-              <button onClick={() => setIsTermsOpen(true)} className="text-sm text-white/40 hover:text-white transition-colors">
+              <AppLink to="/kosullar" className="text-sm text-white/40 hover:text-white transition-colors">
                 Kullanım Koşulları
-              </button>
-              <button onClick={() => setIsPrivacyOpen(true)} className="text-sm text-white/40 hover:text-white transition-colors">
+              </AppLink>
+              <AppLink to="/gizlilik" className="text-sm text-white/40 hover:text-white transition-colors">
                 Gizlilik Politikası
-              </button>
+              </AppLink>
             </nav>
           </div>
         </footer>
-
-        <TermsOfServiceModal isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
-        <PrivacyPolicyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
-        <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
       </div>
     </div>
   )

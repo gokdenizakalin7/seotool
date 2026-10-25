@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { PublicMenuPreview } from '@/components/public/PublicMenuPreview'
 import { hasImageCredits } from '@/lib/server/public-menu'
 import { findMovedSlug } from '@/lib/server/site-data'
@@ -47,5 +47,6 @@ export default async function LegacyMenuPage({
   // Ayrılmış ada sahipken migration 14'te yeniden adlandırılan işletmeler: geçmişten yeni ada
   const target = isValidSiteSlug(slug) ? slug : await findMovedSlug(slug)
   if (!target) notFound()
-  redirect(legacyMenuRedirectPath(target, search.toString()))
+  // Kalıcı (308): arama motoru eski adresin sıralamasını işletme sitesine taşısın
+  permanentRedirect(legacyMenuRedirectPath(target, search.toString()))
 }
