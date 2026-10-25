@@ -1,11 +1,11 @@
 import React from 'react'
-import { LEGAL_COMPANY as C, LEGAL_UPDATED_AT, LEGAL_VERSION } from '@/lib/legal'
+import { LEGAL_COMPANY as C, LEGAL_UPDATED_AT, LEGAL_VERSION, legalPartyName } from '@/lib/legal'
 
 /**
  * Hukuki metinler: Kullanım Koşulları (platform hizmet sözleşmesi) ve Gizlilik Politikası / KVKK Aydınlatma Metni.
  * Kayıt formu, açılış sayfası alt bilgisi ve /kosullar, /gizlilik sayfaları aynı içeriği gösterir.
- * Köşeli parantezli alanlar lib/legal.ts içinden doldurulur. Metin hukuki danışmanlık yerine geçmez; yayına
- * almadan önce şirket avukatının gözden geçirmesi önerilir.
+ * Taraf ve iletişim bilgileri lib/legal.ts'ten gelir; boş alanlar gösterilmez (şirket henüz kurulmadı).
+ * Metin hukuki danışmanlık yerine geçmez; bir avukatın gözden geçirmesi önerilir.
  */
 
 const h = 'text-base font-bold text-gray-900 mt-6 first:mt-0'
@@ -20,14 +20,27 @@ export function LegalMeta() {
   )
 }
 
+/** Hizmeti sunan tarafın bilgileri; yalnızca dolu alanlar */
 function CompanyBlock() {
+  const rows: [string, string][] = [
+    [C.name ? 'Unvan' : 'Hizmeti sunan', C.name ? `${C.name} (${C.brand})` : C.operatorName || `${C.brand} markasıyla hizmet veren gerçek kişi`],
+    ['Web sitesi', C.website],
+    ['Adres', C.address],
+    ['MERSİS', C.mersis],
+    ['Vergi dairesi / no', C.taxOffice],
+    ['KEP', C.kep],
+    ['E-posta', C.email],
+    ['Telefon', C.phone],
+  ]
   return (
     <ul className={ul}>
-      <li>Unvan: {C.name} ({C.brand})</li>
-      <li>Adres: {C.address}</li>
-      <li>MERSİS: {C.mersis} · Vergi: {C.taxOffice}</li>
-      <li>KEP: {C.kep}</li>
-      <li>E-posta: {C.email} · Telefon: {C.phone}</li>
+      {rows
+        .filter(([, value]) => value)
+        .map(([label, value]) => (
+          <li key={label}>
+            {label}: {value}
+          </li>
+        ))}
     </ul>
   )
 }
@@ -41,7 +54,7 @@ export function TermsOfServiceText() {
     <div className="space-y-3">
       <h3 className={h}>1. Taraflar ve Kapsam</h3>
       <p className={p}>
-        Bu Kullanım Koşulları (&quot;Sözleşme&quot;), {C.name} (&quot;{C.brand}&quot; veya &quot;Platform&quot;) ile {C.brand}&apos;e
+        Bu Kullanım Koşulları (&quot;Sözleşme&quot;), {legalPartyName()} (&quot;{C.brand}&quot; veya &quot;Platform&quot;) ile {C.brand}&apos;e
         kaydolan işletme (&quot;İşletme&quot; veya &quot;Siz&quot;) arasında; dijital menü, masa QR kodları, işletme sitesi ve bunlara
         bağlı özelliklerin (&quot;Hizmet&quot;) kullanımını düzenler.
       </p>
@@ -209,7 +222,10 @@ export function TermsOfServiceText() {
 
       <h3 className={h}>13. Uygulanacak Hukuk ve Yetkili Mahkeme</h3>
       <p className={p}>
-        Bu Sözleşme Türk hukukuna tabidir. Uyuşmazlıklarda {C.court} mahkemeleri ve icra daireleri yetkilidir.
+        Bu Sözleşme Türk hukukuna tabidir.{' '}
+        {C.court
+          ? `Uyuşmazlıklarda ${C.court} mahkemeleri ve icra daireleri yetkilidir.`
+          : "Uyuşmazlıklarda 6100 sayılı Hukuk Muhakemeleri Kanunu'nun genel yetki kurallarına göre yetkili Türkiye Cumhuriyeti mahkemeleri ve icra daireleri yetkilidir."}
       </p>
 
       <h3 className={h}>14. Çeşitli Hükümler</h3>
@@ -236,11 +252,11 @@ export function PrivacyPolicyText() {
       <h3 className={h}>1. Veri Sorumlusu</h3>
       <p className={p}>
         6698 sayılı Kişisel Verilerin Korunması Kanunu (&quot;KVKK&quot;) uyarınca kişisel verileriniz, veri sorumlusu sıfatıyla
-        {' '}{C.name} (&quot;{C.brand}&quot;) tarafından aşağıda açıklanan kapsamda işlenir. Bu metin KVKK m. 10 ve Aydınlatma
-        Yükümlülüğünün Yerine Getirilmesinde Uyulacak Usul ve Esaslar Hakkında Tebliğ&apos;e göre hazırlanmıştır.
+        {' '}{legalPartyName()} (&quot;{C.brand}&quot;) tarafından aşağıda açıklanan kapsamda işlenir. Bu metin KVKK m. 10 ve
+        Aydınlatma Yükümlülüğünün Yerine Getirilmesinde Uyulacak Usul ve Esaslar Hakkında Tebliğ&apos;e göre hazırlanmıştır.
       </p>
       <CompanyBlock />
-      <p className={p}>KVKK başvuruları için e-posta: {C.privacyEmail}</p>
+      <p className={p}>KVKK başvuruları ve kişisel verilerle ilgili sorularınız için e-posta: {C.email}</p>
 
       <h3 className={h}>2. Kimlerin Verisini İşliyoruz</h3>
       <ul className={ul}>
@@ -305,9 +321,8 @@ export function PrivacyPolicyText() {
           iyileştirilmesi ve anonim istatistik.
         </li>
         <li>
-          <b>Açık rıza (m. 5/1):</b> yalnızca ticari elektronik ileti gönderimi ve bu metinde açık rızaya dayandığı belirtilen
-          yurt dışı aktarımlar için. Rızanızı dilediğiniz zaman geri alabilirsiniz; geri alma, önceki işlemelerin hukuka
-          uygunluğunu etkilemez.
+          <b>Açık rıza (m. 5/1):</b> yalnızca ticari elektronik ileti gönderimi için. Rızanızı dilediğiniz zaman geri
+          alabilirsiniz; geri alma, önceki işlemelerin hukuka uygunluğunu etkilemez.
         </li>
       </ul>
 
@@ -328,10 +343,12 @@ export function PrivacyPolicyText() {
       </p>
       <ul className={ul}>
         <li>
-          <b>Supabase, Inc.</b> — veritabanı, kimlik doğrulama ve dosya depolama (sunucu bölgesi: [AB/ABD]).
+          <b>Supabase, Inc.</b> — veritabanı, kimlik doğrulama (giriş kodu e-postaları dâhil) ve dosya depolama (sunucu
+          bölgesi: Frankfurt, Almanya).
         </li>
         <li>
-          <b>Vercel, Inc.</b> — uygulamanın barındırılması ve dağıtımı (ABD ve küresel uç sunucular).
+          <b>Vercel, Inc.</b> — uygulamanın barındırılması ve dağıtımı (uygulama sunucuları Frankfurt, Almanya; statik
+          içerik küresel uç sunuculardan).
         </li>
         <li>
           <b>Cloudflare, Inc.</b> — yapay zekâ ile ürün görseli üretimi ve ağ/güvenlik hizmetleri.
@@ -341,18 +358,14 @@ export function PrivacyPolicyText() {
           tahmini ve katalog eşleştirme. Yüklediğiniz menü fotoğrafı ve ürün adları Google&apos;a iletilir.
         </li>
         <li>
-          <b>Resend, Inc.</b> — işlem e-postalarının gönderilmesi (e-posta bildirimi gönderildiğinde).
-        </li>
-        <li>
           <b>Yetkili kamu kurum ve kuruluşları</b> (hukuki yükümlülük) ile <b>hukuk ve mali müşavirler</b> (hakkın korunması).
         </li>
       </ul>
       <p className={p}>
-        Bu sağlayıcıların sunucuları yurt dışında bulunabilir. Yurt dışına aktarımlar; 7499 sayılı Kanun ile değişik KVKK m. 9
-        uyarınca Kişisel Verileri Koruma Kurulu&apos;nun yeterlilik kararı bulunan ülkelere, yeterlilik kararı bulunmayan ülkelere
-        ise Kurul tarafından ilan edilen standart sözleşme hükümlerinin imzalanması ve Kurul&apos;a bildirilmesi şartıyla ya da
-        KVKK m. 9/6&apos;daki istisnalar (ör. sözleşmenin ifası için zorunlu olması) kapsamında yapılır. [Yayına almadan önce: her
-        yurt dışı sağlayıcıyla standart sözleşme imzalanmalı ve 5 iş günü içinde Kurul&apos;a bildirilmelidir.]
+        Yukarıdaki hizmet sağlayıcılarının tamamı yurt dışında yerleşiktir; veritabanı ve uygulama sunucuları Almanya&apos;da bulunur, yapay zekâ
+        ve destek hizmetleri ABD dâhil başka ülkelerde işlenebilir. Yurt dışına aktarımlar, 7499 sayılı Kanun ile değişik KVKK
+        m. 9 uyarınca Kişisel Verileri Koruma Kurulu&apos;nun ilan ettiği standart sözleşmeler gibi uygun güvencelerle ya da
+        m. 9/6&apos;da sayılan arızi aktarım hâlleri kapsamında yapılır.
       </p>
 
       <h3 className={h}>7. Saklama Süreleri</h3>
@@ -379,9 +392,12 @@ export function PrivacyPolicyText() {
         <li>kanuna aykırı işleme nedeniyle zarara uğramanız hâlinde zararın giderilmesini talep etme</li>
       </ul>
       <p className={p}>
-        haklarına sahipsiniz. Başvurularınızı Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ&apos;e uygun olarak yazılı
-        şekilde {C.address} adresine, {C.kep} KEP adresine ya da sistemimizde kayıtlı e-posta adresinizden {C.privacyEmail}
-        adresine iletebilirsiniz. Başvurular en geç 30 gün içinde ücretsiz sonuçlandırılır (Kurul tarifesindeki ücretler saklıdır).
+        haklarına sahipsiniz. Başvurularınızı Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ&apos;e uygun olarak,
+        sistemimizde kayıtlı e-posta adresinizden ya da güvenli elektronik imza veya mobil imzayla imzaladığınız bir dilekçeyle
+        {' '}{C.email} adresine iletebilirsiniz{C.address ? `; yazılı başvurularınızı ${C.address} adresine` : ''}
+        {C.kep ? `, KEP ile başvurularınızı ${C.kep} adresine` : ''}
+        {C.address || C.kep ? ' gönderebilirsiniz' : ''}. Başvurular en geç 30 gün içinde ücretsiz sonuçlandırılır (Kurul
+        tarifesindeki ücretler saklıdır).
         Başvurunuzun reddedilmesi veya yanıtsız kalması hâlinde Kişisel Verileri Koruma Kurulu&apos;na şikâyette bulunabilirsiniz
         (KVKK m. 14).
       </p>
@@ -389,9 +405,8 @@ export function PrivacyPolicyText() {
       <h3 className={h}>9. Site Ziyaretçileri (İşletmenin Müşterileri)</h3>
       <p className={p}>
         Bir işletmenin QR menüsünü veya sitesini görüntülemek için hesap açılmaz. Bu kullanımda yalnızca görüntülenme sayısı, QR
-        koddaki masa numarası, cihaz türü (mobil/masaüstü) ve tarih tutulur; garson veya hesap çağrısı yapılırsa masa numarası ve
-        yazılan not işletmeye iletilir. IP adresi yalnızca sunucu güvenlik günlüklerinde geçici olarak yer alır; reklam veya takip
-        çerezi kullanılmaz.
+        koddaki masa bilgisi, cihaz türü (mobil/masaüstü) ve tarih tutulur. IP adresi yalnızca sunucu güvenlik günlüklerinde
+        geçici olarak yer alır; reklam veya takip çerezi kullanılmaz.
       </p>
       <p className={p}>
         Bu verilerin veri sorumlusu, menüyü yayınlayan işletmedir; {C.brand} işletme adına veri işleyen olarak hareket eder ve
@@ -410,7 +425,7 @@ export function PrivacyPolicyText() {
       <h3 className={h}>11. Veri Güvenliği</h3>
       <p className={p}>
         Veriler aktarımda TLS ile şifrelenir; satır düzeyinde erişim kontrolü, rol tabanlı yetkilendirme, şifrelerin geri
-        döndürülemez biçimde özetlenmesi ve erişim kayıtları uygulanır; verilere yalnızca görevi gerektiren sınırlı personel erişir.
+        döndürülemez biçimde özetlenmesi ve erişim kayıtları uygulanır; verilere yalnızca yetkili sistem yöneticisi erişir.
         Veri ihlali hâlinde KVKK m. 12 uyarınca en kısa sürede ve en geç 72 saat içinde Kurul&apos;a ve etkilenen kişilere bildirim
         yapılır.
       </p>
