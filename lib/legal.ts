@@ -20,5 +20,5 @@ export const LEGAL_COMPANY = {
   phone: '[TELEFON]',
   /** Uyuşmazlıklarda yetkili mahkeme şehri */
   court: '[ŞEHİR]',
-  website: 'qr-chef.vercel.app',
+  website: 'qr-chef.com.tr',
 }

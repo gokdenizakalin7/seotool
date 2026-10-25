@@ -1,12 +1,15 @@
 import type { Metadata } from 'next'
 import { ContactView } from '@/components/public/site/ContactView'
 import { brandColor } from '@/components/public/site/types'
-import { requireSite, type SearchParams } from '@/lib/server/site'
-import { sitePath } from '@/lib/site-url'
+import { getSiteRestaurant, requireSite, type SearchParams } from '@/lib/server/site'
+import { isValidSiteSlug } from '@/lib/site-url'
+import { breadcrumbJsonLd, contactDescription, jsonLdHtml, sitePageMetadata } from '@/lib/site-seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  return { title: 'İletişim', alternates: { canonical: sitePath(slug, 'iletisim') } }
+  const r = isValidSiteSlug(slug) ? await getSiteRestaurant(slug) : null
+  if (!r || r.suspended) return {}
+  return sitePageMetadata(r, slug, 'iletisim', `${r.name} İletişim, Adres ve Çalışma Saatleri`, contactDescription(r))
 }
 
 export default async function SiteContactPage({
@@ -21,5 +24,13 @@ export default async function SiteContactPage({
   if (restaurant.suspended) return null
 
   // İşletme bilgisi (schema.org JSON-LD) layout'ta, sitenin tüm sayfalarında
-  return <ContactView restaurant={restaurant} primaryColor={brandColor(restaurant)} />
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbJsonLd(restaurant, slug, 'iletisim', 'İletişim')) }}
+      />
+      <ContactView restaurant={restaurant} primaryColor={brandColor(restaurant)} />
+    </>
+  )
 }

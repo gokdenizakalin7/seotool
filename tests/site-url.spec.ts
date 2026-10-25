@@ -13,15 +13,15 @@ import {
   tableQrUrl,
 } from '../lib/site-url'
 
-test('ayrılmış adlar migration 14 ile aynı', () => {
-  const sql = readFileSync(path.join(__dirname, '../supabase/migrations/14_stable_ids_and_slugs.sql'), 'utf8')
+test('ayrılmış adlar veritabanındaki son is_reserved_slug tanımıyla aynı (migration 19)', () => {
+  const sql = readFileSync(path.join(__dirname, '../supabase/migrations/19_reserve_qr_menu_slug.sql'), 'utf8')
   const block = sql.slice(sql.indexOf('FUNCTION public.is_reserved_slug'), sql.indexOf(']::text[]'))
   const fromSql = [...block.matchAll(/'([a-z0-9-]+)'/g)].map((m) => m[1]).sort()
   expect(fromSql).toEqual([...RESERVED_SLUGS].sort())
 })
 
 test('panel yolları işletme adı olamaz', () => {
-  for (const slug of ['dashboard', 'admin', 'login', 'signup', 'onboarding', 'business', 'gorsel-kaynaklari', 'menu', 'api']) {
+  for (const slug of ['dashboard', 'admin', 'login', 'signup', 'onboarding', 'business', 'gorsel-kaynaklari', 'menu', 'api', 'blog', 'qr-menu']) {
     expect(isReservedSlug(slug)).toBe(true)
     expect(isValidSiteSlug(slug)).toBe(false)
   }

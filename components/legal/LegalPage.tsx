@@ -1,11 +1,14 @@
 'use client'
 
-import { Link } from 'react-router-dom'
+import { AppLink as Link } from '@/components/landing/AppLink'
 import { ArrowLeft } from 'lucide-react'
 import { QrChefMark, QrChefWordmark } from '@/components/brand/qr-chef-logo'
 import { LegalMeta, PrivacyPolicyText, TermsOfServiceText } from './LegalTexts'
 
-/** /kosullar ve /gizlilik: hukuki metinlerin herkese açık, yazdırılabilir sayfaları */
+/**
+ * /kosullar ve /gizlilik: hukuki metinlerin herkese açık, yazdırılabilir sayfaları. Sunucuda çizilir
+ * (app/kosullar, app/gizlilik); panel SPA'sının içinden açılınca da aynı bileşen (AppLink router'a göre seçer).
+ */
 export function LegalPage({ kind }: { kind: 'terms' | 'privacy' }) {
   const title = kind === 'terms' ? 'Kullanım Koşulları' : 'Gizlilik Politikası ve KVKK Aydınlatma Metni'
   const other = kind === 'terms' ? { to: '/gizlilik', label: 'Gizlilik Politikası' } : { to: '/kosullar', label: 'Kullanım Koşulları' }

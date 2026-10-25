@@ -3,17 +3,18 @@ import { EventsView, type EventCard } from '@/components/public/site/EventsView'
 import { brandColor } from '@/components/public/site/types'
 import { getSiteEvents, getSiteRestaurant, requireSite, type SearchParams } from '@/lib/server/site'
 import { eventOccurrences, groupOccurrences, type EventOccurrence } from '@/lib/events'
-import { isValidSiteSlug, sitePath } from '@/lib/site-url'
+import { isValidSiteSlug } from '@/lib/site-url'
+import { breadcrumbJsonLd, eventsDescription, eventsJsonLd, jsonLdHtml, sitePageMetadata } from '@/lib/site-seo'
 
 /** Yaklaşan etkinlik yoksa sayfa boş: menüde bağlantısı da gizli, arama motoruna kapalı (sitemap'te de yok) */
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const r = isValidSiteSlug(slug) ? await getSiteRestaurant(slug) : null
-  const hasEvents = r?.id ? eventOccurrences(await getSiteEvents(r.id)).length > 0 : false
+  if (!r || r.suspended) return {}
+  const occurrences = r.id ? eventOccurrences(await getSiteEvents(r.id)) : []
   return {
-    title: 'Etkinlikler',
-    alternates: { canonical: sitePath(slug, 'etkinlikler') },
-    ...(hasEvents ? {} : { robots: { index: false, follow: true } }),
+    ...sitePageMetadata(r, slug, 'etkinlikler', `${r.name} Etkinlikleri${r.city ? ` | ${r.city}` : ''}`, eventsDescription(r, occurrences)),
+    ...(occurrences.length ? {} : { robots: { index: false, follow: true } }),
   }
 }
 
@@ -41,11 +42,21 @@ export default async function SiteEventsPage({
 
   // Gruplama sunucuda (istek anı): istemci saatine göre değişip hidrasyon farkı oluşmasın
   const now = new Date()
-  const groups = groupOccurrences(eventOccurrences(await getSiteEvents(restaurant.id), now), now)
+  const occurrences = eventOccurrences(await getSiteEvents(restaurant.id), now)
+  const groups = groupOccurrences(occurrences, now)
+  const eventsLd = eventsJsonLd(restaurant, slug, occurrences)
   return (
-    <EventsView
-      primaryColor={brandColor(restaurant)}
-      groups={{ today: groups.today.map(toCard), thisWeek: groups.thisWeek.map(toCard), later: groups.later.map(toCard) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbJsonLd(restaurant, slug, 'etkinlikler', 'Etkinlikler')) }}
+      />
+      {/* Google etkinlik sonuçları: her oturum ayrı Event */}
+      {eventsLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdHtml(eventsLd) }} />}
+      <EventsView
+        primaryColor={brandColor(restaurant)}
+        groups={{ today: groups.today.map(toCard), thisWeek: groups.thisWeek.map(toCard), later: groups.later.map(toCard) }}
+      />
+    </>
   )
 }
