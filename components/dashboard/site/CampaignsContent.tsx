@@ -278,7 +278,7 @@ export function CampaignsContent() {
           </Button>
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {campaigns.map((c) => {
             const status = campaignStatus(c)
             const perItem = c.kind === 'per_item'
@@ -568,7 +568,7 @@ function CampaignEditor({
           <DialogDescription>Yalnızca menünüzdeki ürünler listelenir. Ürün fiyatı değişirse “normal” fiyat da güncellenir.</DialogDescription>
         </DialogHeader>
 
-        <div role="radiogroup" aria-label="Kampanya türü" className="grid gap-2 sm:grid-cols-2">
+        <div role="radiogroup" aria-label="Kampanya türü" className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {KIND_OPTIONS.map((o) => {
             const on = draft.kind === o.kind
             return (
@@ -592,7 +592,7 @@ function CampaignEditor({
           })}
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Ürün seçici */}
           <div className="space-y-2">
             <div className="relative">

@@ -212,12 +212,12 @@ export function EventsContent() {
         <div className="space-y-6">
           <section className="space-y-3">
             <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Yaklaşan</h2>
-            {upcoming.length ? <div className="grid gap-4 md:grid-cols-2">{upcoming.map(renderRow)}</div> : <p className="text-sm text-muted-foreground">Yaklaşan etkinlik yok.</p>}
+            {upcoming.length ? <div className="grid grid-cols-1 gap-4 md:grid-cols-2">{upcoming.map(renderRow)}</div> : <p className="text-sm text-muted-foreground">Yaklaşan etkinlik yok.</p>}
           </section>
           {past.length > 0 && (
             <section className="space-y-3">
               <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Geçmiş</h2>
-              <div className="grid gap-4 md:grid-cols-2">{past.map(renderRow)}</div>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">{past.map(renderRow)}</div>
             </section>
           )}
         </div>
@@ -338,7 +338,7 @@ function EventEditor({
               onChange={(e) => update({ description: e.target.value })}
             />
           </Field>
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <Field label="Tarih">
               <NativeSelect
                 value={draft.date}

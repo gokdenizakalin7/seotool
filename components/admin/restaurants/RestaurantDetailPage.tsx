@@ -336,7 +336,7 @@ function ProfileTab({ detail, onSaved }: { detail: AdminOrgDetail; onSaved: () =
 
       <Panel>
         <PanelTitle>İşletme</PanelTitle>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {input('name', 'İşletme adı')}
           {input('ownerName', 'Yetkili adı')}
           <Field label="Site adresi (slug)" hint="Değişirse eski adres ve QR kodlar yeni adrese yönlendirilir">
@@ -360,7 +360,7 @@ function ProfileTab({ detail, onSaved }: { detail: AdminOrgDetail; onSaved: () =
 
       <Panel>
         <PanelTitle>İletişim ve adres</PanelTitle>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {input('phone', 'Telefon')}
           {input('whatsappNumber', 'WhatsApp', {}, '05xx… biçiminde girilebilir')}
           {input('instagramHandle', 'Instagram', {}, '@kullanici veya profil linki')}
@@ -388,7 +388,7 @@ function ProfileTab({ detail, onSaved }: { detail: AdminOrgDetail; onSaved: () =
 
       <Panel>
         <PanelTitle>Wi-Fi, görünüm ve kurulum</PanelTitle>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {input('wifiName', 'Wi-Fi adı')}
           {input('wifiPassword', 'Wi-Fi şifresi')}
           <Field label="Ana renk" group>
@@ -513,7 +513,7 @@ function BrandingPanel({ org, onChanged }: { org: Record<string, any>; onChanged
   return (
     <Panel>
       <PanelTitle>Marka görselleri</PanelTitle>
-      <div className="grid gap-6 sm:grid-cols-[auto_1fr]">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-[auto_1fr]">
         {slot('logo', org.logo_url, logoRef)}
         {slot('cover', org.cover_url, coverRef)}
       </div>
@@ -545,7 +545,7 @@ function StatusTab({
   const history = detail.audit.filter((a) => STATUS_ACTIONS.includes(a.action))
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
       <Panel>
         <PanelTitle>Hesap durumu</PanelTitle>
         <OrgStatusBadge status={status} reason={detail.org.status_reason} changedAt={detail.org.status_changed_at} />
@@ -643,7 +643,7 @@ function MembersTab({ orgId, members, onChanged }: { orgId: string; members: Adm
                 <TableHead>Kullanıcı</TableHead>
                 <TableHead>Rol</TableHead>
                 <TableHead>Durum</TableHead>
-                <TableHead>Son giriş</TableHead>
+                <TableHead className="hidden md:table-cell">Son giriş</TableHead>
                 <TableHead className="text-right">İşlemler</TableHead>
               </TableRow>
             </TableHeader>
@@ -669,7 +669,7 @@ function MembersTab({ orgId, members, onChanged }: { orgId: string; members: Adm
                       {m.mustChangePassword && <Badge tone="amber">Şifre değiştirmeli</Badge>}
                     </div>
                   </TableCell>
-                  <TableCell className="text-xs text-muted-foreground">{fmtRelative(m.lastSignInAt)}</TableCell>
+                  <TableCell className="hidden text-xs text-muted-foreground md:table-cell">{fmtRelative(m.lastSignInAt)}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-1">
                       <Button
@@ -907,7 +907,7 @@ function TablesTab({ detail }: { detail: AdminOrgDetail }) {
       {detail.tables.length === 0 ? (
         <p className="text-sm text-muted-foreground">Henüz QR masa oluşturulmamış.</p>
       ) : (
-        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
           {detail.tables.map((t) => (
             <div key={t.id} className="flex items-center justify-between rounded-2xl border border-border/60 px-3 py-2.5">
               <span className="flex items-center gap-2 text-sm font-medium">

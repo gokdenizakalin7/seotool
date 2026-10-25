@@ -299,7 +299,7 @@ function ApplicationCard({
       </div>
 
       {/* Toplanan bilgiler */}
-      <div className="mt-5 grid gap-5 border-t border-border/60 pt-5 md:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-5 grid grid-cols-1 gap-5 border-t border-border/60 pt-5 md:grid-cols-2 xl:grid-cols-4">
         <InfoGroup icon={User} title="Başvuru sahibi">
           <Row label="Ad soyad" value={a.ownerName} />
           <Row label="E-posta" value={a.owner?.email} href={a.owner?.email ? `mailto:${a.owner.email}` : undefined} mono />

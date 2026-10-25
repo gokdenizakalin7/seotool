@@ -89,31 +89,36 @@ export function CategoriesPage() {
       return (
         <div key={n.id}>
           <div
-            className={cn('group flex items-center gap-2 rounded-xl px-2 py-1.5 hover:bg-accent/50', !n.isActive && 'opacity-55')}
+            className={cn('group rounded-xl px-2 py-1.5 hover:bg-accent/50 sm:flex sm:items-center sm:gap-2', !n.isActive && 'opacity-55')}
             style={{ paddingLeft: 8 + n.depth * 22 }}
           >
-            <button
-              type="button"
-              onClick={() => toggle(n.id)}
-              className={cn('flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground', !n.children.length && 'invisible')}
-            >
-              {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-            </button>
-            <CategoryIcon name={n.icon} className="text-muted-foreground" />
-            <div className="min-w-0 flex-1">
-              <span className="font-medium text-foreground">{n.name}</span>
-              {n.nameEn && <span className="ml-2 text-xs text-muted-foreground">{n.nameEn}</span>}
-              <span className="ml-2 font-mono text-[11px] text-muted-foreground/70">{n.slug}</span>
+            {/* Dar ekranda ad bloğu üstte, işlem düğmeleri alt satırda; sm ve üstünde tek satır */}
+            <div className="flex min-w-0 items-center gap-2 sm:flex-1">
+              <button
+                type="button"
+                onClick={() => toggle(n.id)}
+                className={cn('flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-muted-foreground', !n.children.length && 'invisible')}
+              >
+                {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+              </button>
+              <CategoryIcon name={n.icon} className="shrink-0 text-muted-foreground" />
+              <div className="min-w-0 flex-1">
+                <span className="font-medium text-foreground">{n.name}</span>
+                <span className="block truncate text-xs text-muted-foreground sm:ml-2 sm:inline">
+                  {n.nameEn && <span>{n.nameEn}</span>}
+                  <span className={cn('font-mono text-[11px] text-muted-foreground/70', n.nameEn && 'ml-2')}>{n.slug}</span>
+                </span>
+              </div>
+              {!n.isActive && <Badge tone="neutral">Pasif</Badge>}
+              <Link
+                to={`/admin/catalog/items?categoryId=${n.id}`}
+                className="flex shrink-0 items-center gap-1 rounded-lg px-2 py-0.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                title="Ürünleri göster"
+              >
+                <Package className="h-3.5 w-3.5" /> {n.totalItems}
+              </Link>
             </div>
-            {!n.isActive && <Badge tone="neutral">Pasif</Badge>}
-            <Link
-              to={`/admin/catalog/items?categoryId=${n.id}`}
-              className="flex items-center gap-1 rounded-lg px-2 py-0.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
-              title="Ürünleri göster"
-            >
-              <Package className="h-3.5 w-3.5" /> {n.totalItems}
-            </Link>
-            <div className="flex items-center gap-0.5 opacity-60 transition-opacity group-hover:opacity-100">
+            <div className="mt-1 flex items-center gap-0.5 pl-8 sm:mt-0 sm:pl-0 sm:opacity-60 sm:transition-opacity sm:group-hover:opacity-100">
               {busyId === n.id && <Spinner className="mx-1" />}
               <Button size="icon" variant="ghost" className="h-7 w-7" disabled={idx === 0 || !!busyId} onClick={() => move(n, nodes, -1)} title="Yukarı">
                 <ArrowUp className="h-3.5 w-3.5" />
@@ -270,7 +275,7 @@ function CategoryDialog({
           <DialogTitle>{s.mode === 'create' ? 'Yeni kategori' : 'Kategoriyi düzenle'}</DialogTitle>
           <DialogDescription>Ad değişikliği yeni şablon uygulamalarında görünür; mevcut restoran menüleri değişmez.</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Field label="Ad (Türkçe)">
             <Input
               value={s.name}

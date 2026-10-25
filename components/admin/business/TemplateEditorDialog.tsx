@@ -203,7 +203,7 @@ export function TemplateEditorDialog({
         ) : loading ? (
           <LoadingBlock />
         ) : (
-          <div className="grid h-[60vh] gap-4 md:grid-cols-[minmax(240px,340px)_1fr]">
+          <div className="grid grid-cols-1 h-[60vh] gap-4 md:grid-cols-[minmax(240px,340px)_1fr]">
             <div className="overflow-y-auto rounded-2xl border border-border/60 p-1.5">{renderTree(tree)}</div>
             <div className="flex min-h-0 flex-col rounded-2xl border border-border/60">
               <div className="relative border-b border-border/60 p-2">

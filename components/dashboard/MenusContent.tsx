@@ -170,7 +170,7 @@ export function MenusContent() {
           </Button>
         </div>
       ) : isLoading && menus.length === 0 ? (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           <div className="h-80 animate-pulse rounded-2xl bg-muted" />
         </div>
       ) : menus.length === 0 ? (
@@ -208,7 +208,7 @@ export function MenusContent() {
           </div>
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {menus.map((menu, index) => {
             const totalItems = menu.categories?.reduce((total, cat) => total + (cat.items?.length || 0), 0) || 0
             const activeCats = menu.categories?.filter(c => c.is_active).length || 0

@@ -215,7 +215,7 @@ export function CreateUserDialog({
               </NativeSelect>
             </Field>
 
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <Field label="E-posta (giriş adı) *">
                 <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="off" />
               </Field>
@@ -272,7 +272,7 @@ export function CreateUserDialog({
                     </NativeSelect>
                   </div>
                 ) : (
-                  <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <Field label="İşletme adı *">
                       <Input
                         value={org.businessName}

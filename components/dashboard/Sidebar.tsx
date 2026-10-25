@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -85,8 +85,24 @@ export function Sidebar({
     })
 
   return (
+    <>
+      {/* Dar ekranda açık kenar çubuğunun arkası kararır, dokununca kapanır (masaüstünde çubuk sabit, karartma yok) */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div
+            key="sidebar-backdrop"
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setIsSidebarOpen(false)}
+            aria-hidden
+          />
+        )}
+      </AnimatePresence>
     <motion.aside
-      className="fixed inset-y-0 left-0 z-50 flex w-72 flex-col justify-between border-r border-border/60 bg-card/80 shadow-2xl backdrop-blur-2xl dark:border-white/10 dark:bg-black/40 lg:relative lg:shadow-none"
+      className="fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col justify-between border-r border-border/60 bg-card/80 shadow-2xl backdrop-blur-2xl dark:border-white/10 dark:bg-black/40 lg:relative lg:max-w-none lg:shadow-none"
       initial={false}
       animate={{ x: isSidebarOpen ? 0 : '-100%' }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
@@ -185,5 +201,6 @@ export function Sidebar({
         </DropdownMenu>
       </div>
     </motion.aside>
+    </>
   )
 }

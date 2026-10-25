@@ -34,6 +34,13 @@ export function hasScrollNavGuard() {
 
 let lenisInstance: Lenis | null = null
 
+/** Ana kaydırma alanını durdurur/başlatır (ör. editörün tam ekran önizlemesi açıkken arkadaki sayfa kaymasın) */
+export function lockMainScroll(locked: boolean) {
+  if (!lenisInstance) return
+  if (locked) lenisInstance.stop()
+  else lenisInstance.start()
+}
+
 /** getartcraft.com/apps ile aynı: Lenis, lerp 0.12 */
 export function useSmoothScroll(mainRef: React.RefObject<HTMLElement | null>) {
   useEffect(() => {

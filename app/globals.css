@@ -184,6 +184,16 @@ html.dark.panel-active .keep-light.text-muted-foreground { color: rgb(107 114 12
   .scan-attention, .scan-attention::after, .scan-attention svg { animation: none; }
 }
 
+/* iOS Safari 16px'ten küçük yazılı form alanına odaklanınca sayfayı yakınlaştırır ve sayfa yana kayar:
+   dokunmatik dar ekranda panel alanları en az 16px (masaüstü yoğun düzeni etkilenmez) */
+@media (max-width: 1023px) and (pointer: coarse) {
+  html.panel-active input:not([type='checkbox']):not([type='radio']):not([type='color']):not([type='file']):not([type='range']),
+  html.panel-active select,
+  html.panel-active textarea {
+    font-size: 16px;
+  }
+}
+
 /* Yana kaydırılan şeritler (menü kategori sekmeleri): kaydırma çubuğu gizli */
 .hide-scrollbar { scrollbar-width: none; }
 .hide-scrollbar::-webkit-scrollbar { display: none; }
