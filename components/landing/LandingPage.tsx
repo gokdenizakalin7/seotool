@@ -82,7 +82,9 @@ export function LandingPage({ sections, footerLinks }: LandingPageProps = {}) {
           {/* Hero Section */}
           <section className="w-full min-h-[90vh] flex items-center justify-center py-20 px-4 md:px-6">
             <div className="container mx-auto text-center max-w-5xl">
-              <div className="flex flex-col items-center space-y-8 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-8 motion-safe:duration-700">
+              {/* Yalnızca kayma, solma yok: başlık sayfanın en büyük öğesi (LCP); görünmez (opacity 0) başlarsa Google onu
+                  animasyon bitince sayar (PageSpeed mobil: LCP 4,5 sn) */}
+              <div className="flex flex-col items-center space-y-8 motion-safe:animate-in motion-safe:slide-in-from-bottom-8 motion-safe:duration-700">
                 <h1 className="flex flex-col items-center space-y-8">
                   <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.1)]">
                     <ChefHat className="h-4 w-4" aria-hidden="true" /> Yeni Nesil Akıllı QR Menü
@@ -164,13 +166,13 @@ export function LandingPage({ sections, footerLinks }: LandingPageProps = {}) {
         <footer className="w-full py-10 px-6 border-t border-white/10 bg-black/40 backdrop-blur-md">
           {footerLinks && <div className="container mx-auto mb-10">{footerLinks}</div>}
           <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-white/40 font-medium">© {new Date().getFullYear()} QR Chef • QR Menü ve İşletme Sitesi</p>
+            <p className="text-sm text-white/60 font-medium">© {new Date().getFullYear()} QR Chef • QR Menü ve İşletme Sitesi</p>
             {/* Modal değil sayfa bağlantısı: hukuki sayfalar taranabilir ve paylaşılabilir */}
             <nav className="flex gap-6">
-              <AppLink to="/kosullar" className="text-sm text-white/40 hover:text-white transition-colors">
+              <AppLink to="/kosullar" className="text-sm text-white/60 hover:text-white transition-colors">
                 Kullanım Koşulları
               </AppLink>
-              <AppLink to="/gizlilik" className="text-sm text-white/40 hover:text-white transition-colors">
+              <AppLink to="/gizlilik" className="text-sm text-white/60 hover:text-white transition-colors">
                 Gizlilik Politikası
               </AppLink>
             </nav>
