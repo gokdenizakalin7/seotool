@@ -8,14 +8,24 @@ import { motion } from 'framer-motion'
 import { QrChefMark, QrChefWordmark } from '@/components/brand/qr-chef-logo'
 import { SiteShowcase } from '@/components/landing/SiteShowcase'
 
-const BACKGROUND_IMAGES = [
-  'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop', // Luxury bar/restaurant
-  'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop', // Fine dining plating
-  'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=2574&auto=format&fit=crop', // Dark moody restaurant
-  'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=2070&auto=format&fit=crop', // Chef plating food
-  'https://images.unsplash.com/photo-1578474846511-04ba529f0b88?q=80&w=2574&auto=format&fit=crop', // Elegant table setup
-  'https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=2070&auto=format&fit=crop', // Steak on grill
+// Unsplash fotoğrafları; adres ekran genişliğine göre bgUrl ile kurulur
+const BACKGROUND_PHOTOS = [
+  'photo-1514362545857-3bc16c4c7d1b', // Luxury bar/restaurant
+  'photo-1414235077428-338989a2e8c0', // Fine dining plating
+  'photo-1555396273-367ea4eb4db5', // Dark moody restaurant
+  'photo-1550966871-3ed3cdb5ed0c', // Chef plating food
+  'photo-1578474846511-04ba529f0b88', // Elegant table setup
+  'photo-1600891964092-4316c288032e', // Steak on grill
 ]
+
+function bgUrl(photo: string, width: number) {
+  return `https://images.unsplash.com/${photo}?q=75&w=${width}&auto=format&fit=crop`
+}
+
+/** Ekranı dolduracak genişlik (cihaz piksel oranıyla), 828–2070 px: telefona 2070 px görsel inmesin */
+function bgWidthForScreen() {
+  return Math.min(2070, Math.max(828, Math.ceil((window.innerWidth * (window.devicePixelRatio || 1)) / 100) * 100))
+}
 
 interface LandingPageProps {
   /** Sunucuda çizilen ek bölümler (işletme türleri, SSS, rehber); panel SPA'sındaki landing'de yok */
@@ -27,12 +37,42 @@ interface LandingPageProps {
 export function LandingPage({ sections, footerLinks }: LandingPageProps = {}) {
   // step sürekli artar: görünen görsel step % 6; şimdiye kadar görünenler (söner) ve sıradaki (önden iner) DOM'da
   const [step, setStep] = useState(0)
-  const currentImageIndex = step % BACKGROUND_IMAGES.length
+  const currentImageIndex = step % BACKGROUND_PHOTOS.length
+  // Arka plan sayfa yüklendikten sonra iner (null: henüz değil). Sunucu HTML'inde olsaydı ilk boyamadan önce yüksek
+  // öncelikle istenen ~285 KB görsel, PageSpeed mobil ölçümünde başlığın (LCP) çizilmesini bekletiyordu.
+  const [bgWidth, setBgWidth] = useState<number | null>(null)
+  const [bgShown, setBgShown] = useState(false)
 
   useEffect(() => {
+    let cancelled = false
+    let timer = 0
+    const start = () => {
+      timer = window.setTimeout(() => {
+        const width = bgWidthForScreen()
+        // İlk görsel önce önbelleğe iner, sonra solarak açılır (boş kutu görünmesin)
+        const first = new Image()
+        first.onload = first.onerror = () => {
+          if (cancelled) return
+          setBgWidth(width)
+          requestAnimationFrame(() => requestAnimationFrame(() => !cancelled && setBgShown(true)))
+        }
+        first.src = bgUrl(BACKGROUND_PHOTOS[0], width)
+      }, 300)
+    }
+    if (document.readyState === 'complete') start()
+    else window.addEventListener('load', start, { once: true })
+    return () => {
+      cancelled = true
+      window.removeEventListener('load', start)
+      clearTimeout(timer)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!bgShown) return
     const interval = setInterval(() => setStep((prev) => prev + 1), 5000)
     return () => clearInterval(interval)
-  }, [])
+  }, [bgShown])
 
   return (
     <div className="bg-black text-white font-sans selection:bg-white/30">
@@ -40,19 +80,20 @@ export function LandingPage({ sections, footerLinks }: LandingPageProps = {}) {
       <div className="fixed inset-0 z-0 bg-black">
         {/* Yalnızca görünmüş ve sıradaki görseller DOM'da: opacity-0 arka planlar da indirildiği için altı büyük görsel
             ilk açılışta birlikte inip sayfayı yavaşlatıyordu */}
-        {BACKGROUND_IMAGES.map((img, index) =>
-          index <= step + 1 ? (
-            <div
-              key={img}
-              className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${
-                index === currentImageIndex ? 'opacity-100' : 'opacity-0'
-              }`}
-              style={{
-                backgroundImage: `url("${img}")`
-              }}
-            />
-          ) : null
-        )}
+        {bgWidth !== null &&
+          BACKGROUND_PHOTOS.map((photo, index) =>
+            index <= step + 1 ? (
+              <div
+                key={photo}
+                className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${
+                  bgShown && index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                }`}
+                style={{
+                  backgroundImage: `url("${bgUrl(photo, bgWidth)}")`
+                }}
+              />
+            ) : null
+          )}
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/50 to-black/80 backdrop-blur-[2px]" />
       </div>
 
