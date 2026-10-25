@@ -1,7 +1,9 @@
 'use client'
 
-import React, { Suspense, useState, useEffect } from 'react'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import React, { Suspense, forwardRef, useState, useEffect } from 'react'
+import { BrowserRouter, Link as RouterLink, Navigate, Route, Routes } from 'react-router-dom'
+import { Toaster } from 'sonner'
+import { RouterLinkContext, type AppLinkProps } from '@/components/landing/AppLink'
 
 import {
   AdminRoute,
@@ -14,6 +16,11 @@ import {
   Signup,
   pagesForPath,
 } from '@/components/lazy-pages'
+
+/** AppLink'in SPA içindeki karşılığı (bkz. components/landing/AppLink.tsx) */
+const SpaLink = forwardRef<HTMLAnchorElement, AppLinkProps>(function SpaLink(props, ref) {
+  return <RouterLink ref={ref} {...props} />
+})
 
 function FullPageSpinner() {
   return (
@@ -82,7 +89,11 @@ export function ClientApp() {
 
   return (
     <AppErrorBoundary>
+      {/* Bildirimler yalnızca panelde: kök layout'ta olsaydı müşteri sitesi ve ana sayfa paketine de girerdi */}
+      <Toaster position="top-right" richColors />
       <BrowserRouter>
+        {/* Landing ve hukuki sayfalardaki AppLink SPA içinde react-router bağlantısı kullansın */}
+        <RouterLinkContext.Provider value={SpaLink}>
         {/* Her sayfa ayrı paket (components/lazy-pages.ts): paket inene kadar tam ekran spinner */}
         <Suspense fallback={<FullPageSpinner />}>
         <Routes>
@@ -103,6 +114,7 @@ export function ClientApp() {
           <Route path="*" element={<LandingPage />} />
         </Routes>
         </Suspense>
+        </RouterLinkContext.Provider>
       </BrowserRouter>
     </AppErrorBoundary>
   )

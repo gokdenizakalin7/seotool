@@ -36,7 +36,6 @@ function searchConsoleVerification(): Metadata["verification"] {
   }
 }
 
-import { Toaster } from 'sonner';
 import { canonicalOrigin } from '@/lib/site-url';
 
 export default function RootLayout({
@@ -51,7 +50,7 @@ export default function RootLayout({
         className={`${geistSans.variable} antialiased`}
       >
         {children}
-        <Toaster position="top-right" richColors />
+        {/* Bildirimler (sonner) yalnızca panel SPA'sında: components/ClientApp.tsx */}
       </body>
     </html>
   );

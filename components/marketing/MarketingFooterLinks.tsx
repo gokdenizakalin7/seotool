@@ -7,7 +7,8 @@ import { FOOTER_COLUMNS } from '@/lib/marketing/nav'
  */
 export function MarketingFooterLinks({ tone = 'light' }: { tone?: 'light' | 'dark' }) {
   const heading = tone === 'dark' ? 'text-white/80' : 'text-gray-900'
-  const link = tone === 'dark' ? 'text-white/45 hover:text-white' : 'text-gray-500 hover:text-gray-900'
+  // Koyu zeminde en az white/70: daha soluk tonlar WCAG kontrast oranını (4.5:1) karşılamıyor
+  const link = tone === 'dark' ? 'text-white/70 hover:text-white' : 'text-gray-600 hover:text-gray-900'
   return (
     <nav aria-label="Site haritası" className="grid gap-8 sm:grid-cols-3">
       {FOOTER_COLUMNS.map((col) => (
