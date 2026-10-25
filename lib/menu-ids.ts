@@ -18,3 +18,20 @@ export function remapMenuIds(menu: Menu, idMap: Record<string, string>): Menu {
     })),
   }
 }
+
+/**
+ * Kayıtta Storage'a yüklenen base64 fotoğrafların yeni adresleri ({ ürün kimliği: adres }). Yalnızca hâlâ base64
+ * duran görsel değişir: kayıt sürerken başka fotoğraf seçildiyse o korunur (bir sonraki kayıtta yüklenir).
+ */
+export function applyStoredImages(menu: Menu, imageUrls: Record<string, string>): Menu {
+  if (!imageUrls || Object.keys(imageUrls).length === 0) return menu
+  return {
+    ...menu,
+    categories: (menu.categories || []).map((cat) => ({
+      ...cat,
+      items: (cat.items || []).map((item) =>
+        imageUrls[item.id] && item.image_url?.startsWith('data:') ? { ...item, image_url: imageUrls[item.id] } : item
+      ),
+    })),
+  }
+}
