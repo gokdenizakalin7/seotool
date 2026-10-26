@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils'
 import { compressImageFile, IMAGE_PRESETS } from '@/lib/image-compression'
 import { catalogThumbUrl, isAnyCatalogImage } from '@/lib/image-url'
 import { generateItemImage } from '@/lib/image-generation-client'
+import { AI_ITEM_IMAGES_ENABLED } from '@/lib/constants'
 import type { CatalogMatch } from '@/lib/catalog-match'
 import { ChipAllergenInput } from './ChipAllergenInput'
 import { ChipIngredientInput } from './ChipIngredientInput'
@@ -239,7 +240,7 @@ export const ScanItemCard = React.memo(function ScanItemCard({
         value={item.image_url}
         onChange={(v) => update({ image_url: v }, 'image')}
         badge={usingCatalogImage ? 'Katalog' : undefined}
-        onGenerate={subdomain && item.name.trim() ? handleGenerate : undefined}
+        onGenerate={AI_ITEM_IMAGES_ENABLED && subdomain && item.name.trim() ? handleGenerate : undefined}
         generating={generating}
       />
 

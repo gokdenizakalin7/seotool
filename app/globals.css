@@ -184,6 +184,31 @@ html.dark.panel-active .keep-light.text-muted-foreground { color: rgb(107 114 12
   .scan-attention, .scan-attention::after, .scan-attention svg { animation: none; }
 }
 
+/* "AI ile öner" (bileşen önerisi): ölçeklenmeden yumuşak parıltı + üzerinden geçen ışık */
+@keyframes ai-btn-glow {
+  0%, 100% { box-shadow: 0 0 6px rgba(139, 92, 246, 0.35); }
+  50% { box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2), 0 0 14px rgba(217, 70, 239, 0.55); }
+}
+.ai-glow {
+  position: relative;
+  overflow: hidden;
+  animation: ai-btn-glow 2.4s ease-in-out infinite;
+}
+.ai-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: scan-btn-shine 3s ease-in-out infinite;
+  pointer-events: none;
+}
+.ai-glow:disabled, .ai-glow:disabled::after { animation: none; }
+.ai-glow:disabled::after { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .ai-glow, .ai-glow::after { animation: none; }
+}
+
 /* iOS Safari 16px'ten küçük yazılı form alanına odaklanınca sayfayı yakınlaştırır ve sayfa yana kayar:
    dokunmatik dar ekranda panel alanları en az 16px (masaüstü yoğun düzeni etkilenmez) */
 @media (max-width: 1023px) and (pointer: coarse) {

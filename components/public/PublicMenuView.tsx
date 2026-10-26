@@ -21,7 +21,7 @@ import { flushSync } from 'react-dom'
 import type { Menu, MenuCategory, MenuItem, ProductTag } from '@/lib/types'
 import { catalogThumbUrl } from '@/lib/image-url'
 import { CAMPAIGN_CATEGORY_ID } from '@/lib/campaigns'
-import { parsePrice } from '@/lib/price'
+import { displayPrice, parsePrice } from '@/lib/price'
 import { formatEventTime } from '@/lib/events'
 import { useSiteLang } from '@/components/public/site/i18n'
 import { brandColor, type SiteNotice, type SiteRestaurant } from '@/components/public/site/types'
@@ -495,15 +495,25 @@ export function PublicMenuView({
                           <div>
                             <div className="flex items-start justify-between gap-2">
                               <h3 className="font-extrabold text-[15px] sm:text-[17px] text-gray-900 dark:text-zinc-100 leading-tight mb-1 truncate">{item.name}</h3>
+                              {!item.is_available && (
+                                <span className="shrink-0 rounded-full bg-gray-900 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-white dark:bg-zinc-100 dark:text-zinc-900">
+                                  {t.soldOut}
+                                </span>
+                              )}
                             </div>
                             <p className="text-[11px] sm:text-[12px] text-gray-500 dark:text-zinc-500 line-clamp-2 leading-relaxed font-medium">{item.description}</p>
+                            {item.ingredients && item.ingredients.length > 0 && (
+                              <p className="mt-0.5 text-[11px] sm:text-[12px] text-gray-500 dark:text-zinc-500 line-clamp-2 leading-relaxed font-medium">
+                                <span className="font-bold text-gray-700 dark:text-zinc-300">{t.ingredients}:</span> {item.ingredients.join(', ')}
+                              </p>
+                            )}
                           </div>
                           
                           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mt-2 pt-2 sm:mt-3 sm:pt-3 border-t border-gray-900/5">
                             <div className="flex shrink-0 flex-wrap items-baseline gap-x-2 gap-y-0.5">
-                              <span className="font-black text-lg sm:text-xl text-gray-900 dark:text-white">{item.price}</span>
+                              <span className="font-black text-lg sm:text-xl text-gray-900 dark:text-white">{displayPrice(item.price, restaurant?.currency)}</span>
                               {item.original_price && (
-                                <span className="text-xs font-semibold text-gray-400 dark:text-zinc-500 line-through">{item.original_price}</span>
+                                <span className="text-xs font-semibold text-gray-400 dark:text-zinc-500 line-through">{displayPrice(item.original_price, restaurant?.currency)}</span>
                               )}
                               {savingsPercent(item) && (
                                 <span
@@ -515,12 +525,7 @@ export function PublicMenuView({
                               )}
                             </div>
 
-                            {/* Bileşenler, Kalori ve Alerjenler */}
-                            {item.ingredients && item.ingredients.length > 0 && (
-                              <div className="flex items-center gap-1 text-[9px] sm:text-[10px] text-gray-500 dark:text-zinc-400">
-                                <span className="font-medium">{item.ingredients.join(', ')}</span>
-                              </div>
-                            )}
+                            {/* Kalori ve Alerjenler */}
                             <div className="flex flex-wrap items-center gap-1.5 justify-end">
                               {item.allergens && item.allergens.length > 0 && (
                                 <div className="flex items-center gap-1 bg-gray-100 dark:bg-zinc-800 px-2 py-1 rounded-full border border-gray-200 dark:border-zinc-700">
@@ -601,9 +606,9 @@ export function PublicMenuView({
                   <h3 className="text-3xl font-black text-gray-900 dark:text-zinc-100 tracking-tight leading-tight pr-4">{selectedItem.name}</h3>
                   {selectedItem.price && (
                     <div className="flex shrink-0 flex-col items-end">
-                      <span className="text-2xl font-black text-gray-900 dark:text-white">{selectedItem.price}</span>
+                      <span className="text-2xl font-black text-gray-900 dark:text-white">{displayPrice(selectedItem.price, restaurant?.currency)}</span>
                       {selectedItem.original_price && (
-                        <span className="text-sm font-semibold text-gray-400 dark:text-zinc-500 line-through">{selectedItem.original_price}</span>
+                        <span className="text-sm font-semibold text-gray-400 dark:text-zinc-500 line-through">{displayPrice(selectedItem.original_price, restaurant?.currency)}</span>
                       )}
                     </div>
                   )}
@@ -631,6 +636,22 @@ export function PublicMenuView({
                       {selectedItem.description}
                     </p>
                   )
+                )}
+
+                {/* Bileşenler: açıklamanın hemen ardından, içindekiler listesi gibi */}
+                {selectedItem.ingredients && selectedItem.ingredients.length > 0 && (
+                  <div className="mb-6 bg-emerald-50/50 dark:bg-emerald-950/20 rounded-2xl p-4 border border-emerald-100 dark:border-emerald-900/30">
+                    <h4 className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-3">
+                      {t.ingredients}
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedItem.ingredients.map((ing) => (
+                        <span key={ing} className="bg-white dark:bg-[#2c2c2e] text-gray-800 dark:text-zinc-200 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-emerald-200 dark:border-emerald-800/40">
+                          {ing}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 )}
 
                 <div className="grid grid-cols-2 gap-3 mb-6">
@@ -665,22 +686,6 @@ export function PublicMenuView({
                     )}
                   </div>
                 </div>
-
-                {/* Bileşenler */}
-                {selectedItem.ingredients && selectedItem.ingredients.length > 0 && (
-                  <div className="mt-2 bg-emerald-50/50 dark:bg-emerald-950/20 rounded-2xl p-4 border border-emerald-100 dark:border-emerald-900/30">
-                    <h4 className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-3">
-                      {t.ingredients}
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedItem.ingredients.map((ing) => (
-                        <span key={ing} className="bg-white dark:bg-[#2c2c2e] text-gray-800 dark:text-zinc-200 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-emerald-200 dark:border-emerald-800/40">
-                          {ing}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
 
                 {/* Alerjenler */}
                 {selectedItem.allergens && selectedItem.allergens.length > 0 && (
