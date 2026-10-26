@@ -10,7 +10,7 @@ export function MarketingFooterLinks({ tone = 'light' }: { tone?: 'light' | 'dar
   // Koyu zeminde en az white/70: daha soluk tonlar WCAG kontrast oranını (4.5:1) karşılamıyor
   const link = tone === 'dark' ? 'text-white/70 hover:text-white' : 'text-gray-600 hover:text-gray-900'
   return (
-    <nav aria-label="Site haritası" className="grid gap-8 sm:grid-cols-3">
+    <nav aria-label="Site haritası" className="grid grid-cols-1 gap-8 sm:grid-cols-3">
       {FOOTER_COLUMNS.map((col) => (
         <div key={col.title}>
           <p className={`text-sm font-bold ${heading}`}>{col.title}</p>

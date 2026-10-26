@@ -112,7 +112,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
         text="Menünüzün fotoğrafını yükleyin; ürünler, fiyatlar ve kaloriler otomatik çıksın. QR Chef şu an ücretsiz."
       />
 
-      <section className="mx-auto mt-16 grid max-w-3xl gap-10 px-4 sm:grid-cols-2 sm:px-6">
+      <section className="mx-auto mt-16 grid grid-cols-1 max-w-3xl gap-10 px-4 sm:grid-cols-2 sm:px-6">
         <div>
           <h2 className="text-lg font-bold text-gray-900">Diğer yazılar</h2>
           <ul className="mt-3 space-y-2">

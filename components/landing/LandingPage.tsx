@@ -74,8 +74,10 @@ export function LandingPage({ sections, footerLinks }: LandingPageProps = {}) {
     return () => clearInterval(interval)
   }, [bgShown])
 
+  // overflow-x-clip: ekran dışına taşan dekoratif katmanlar sayfayı yana kaydırılabilir yapmasın (iOS Safari bunları
+  // kaydırma alanına katıyordu); hidden değil, kaydırma kabı oluşmaz ve sticky öğeler bozulmaz
   return (
-    <div className="bg-black text-white font-sans selection:bg-white/30">
+    <div className="bg-black text-white font-sans selection:bg-white/30 overflow-x-clip">
       {/* Dynamic Luxury Background */}
       <div className="fixed inset-0 z-0 bg-black">
         {/* Yalnızca görünmüş ve sıradaki görseller DOM'da: opacity-0 arka planlar da indirildiği için altı büyük görsel
@@ -99,19 +101,20 @@ export function LandingPage({ sections, footerLinks }: LandingPageProps = {}) {
 
       <div className="relative z-10 flex flex-col min-h-screen">
         {/* Glassmorphism Header */}
-        <header className="px-6 lg:px-12 h-20 flex items-center fixed w-full bg-black/20 backdrop-blur-xl border-b border-white/10 z-50">
-          <AppLink className="flex items-center justify-center font-extrabold text-2xl text-white tracking-tight" to="/">
-            <QrChefMark size={40} secondary="rgba(255,255,255,0.6)" className="mr-3" />
+        {/* Dar ekranda boşluklar sıkılır: "Giriş Yap" iki satıra kırılıp logoya binmesin */}
+        <header className="px-4 sm:px-6 lg:px-12 h-20 flex items-center gap-3 fixed w-full bg-black/20 backdrop-blur-xl border-b border-white/10 z-50">
+          <AppLink className="flex min-w-0 items-center justify-center font-extrabold text-xl sm:text-2xl text-white tracking-tight" to="/">
+            <QrChefMark size={40} secondary="rgba(255,255,255,0.6)" className="mr-2 sm:mr-3" />
             <QrChefWordmark chefClassName="text-white/60" />
           </AppLink>
-          <nav className="ml-auto flex gap-6 sm:gap-8 items-center">
+          <nav className="ml-auto flex shrink-0 gap-3 sm:gap-8 items-center">
             <AppLink
               to="/login"
-              className="text-sm font-semibold text-white/70 hover:text-white transition-colors"
+              className="hidden whitespace-nowrap text-sm font-semibold text-white/70 hover:text-white transition-colors min-[375px]:inline"
             >
               Giriş Yap
             </AppLink>
-            <Button size="sm" className="bg-white text-black hover:bg-white/90 rounded-full px-6 font-bold" asChild>
+            <Button size="sm" className="bg-white text-black hover:bg-white/90 rounded-full px-4 sm:px-6 font-bold" asChild>
               <AppLink to="/signup">
                 Ücretsiz Başla
               </AppLink>

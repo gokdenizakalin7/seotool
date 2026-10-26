@@ -21,7 +21,7 @@ export function HomeSections() {
               Kafeden meyhaneye, her işletme türü için hazır kategori yapısı ve o türe özel kullanım örnekleri.
             </p>
           </div>
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {BUSINESS_PAGES.map((p) => (
               <li key={p.slug}>
                 <Link
@@ -66,7 +66,7 @@ export function HomeSections() {
               Tüm yazılar →
             </Link>
           </div>
-          <ul className="mt-8 grid gap-4 md:grid-cols-2">
+          <ul className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
             {BLOG_POSTS.map((p) => (
               <li key={p.slug}>
                 <Link

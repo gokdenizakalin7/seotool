@@ -316,7 +316,7 @@ function PhoneMockup({ active }: { active: ModuleKey }) {
   const navItems = ['Menü', 'Etkinlikler', 'Hakkımızda', 'İletişim']
   const current = SCREEN[active]
   return (
-    <div className="relative mx-auto w-[300px]">
+    <div className="relative mx-auto w-[300px] max-w-full">
       <div className="absolute -inset-8 rounded-[60px] bg-white/10 blur-3xl" aria-hidden="true" />
       <div className="relative overflow-hidden rounded-[44px] border border-white/20 bg-[#0a0c10] p-2.5 shadow-[0_30px_80px_rgba(0,0,0,0.6)]">
         <div className="overflow-hidden rounded-[36px] bg-[#0f1218]">
@@ -420,10 +420,12 @@ export function SiteShowcase() {
       </section>
 
       {/* Modüller: solda bloklar, sağda sabit telefon */}
-      <section ref={sectionRef} className="relative w-full">
+      <section ref={sectionRef} className="relative w-full overflow-x-clip">
+        {/* Ortalama Framer'da: style.y satır içi transform yazıp Tailwind'in -translate-x-1/2'sini eziyordu; ışık sağa
+            kayıp sayfayı telefonda ~900px'e genişletiyor, iOS'ta sayfa boşluğa kaydırılabiliyordu */}
         <motion.div
-          style={{ y: glowY }}
-          className="pointer-events-none absolute left-1/2 top-1/3 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-white/5 blur-[140px]"
+          style={{ x: '-50%', y: glowY }}
+          className="pointer-events-none absolute left-1/2 top-1/3 h-[700px] w-[700px] max-w-full rounded-full bg-white/5 blur-[140px]"
           aria-hidden="true"
         />
         <div className="container relative z-10 mx-auto px-4 md:px-6 lg:grid lg:grid-cols-2 lg:gap-20">
@@ -486,7 +488,7 @@ export function SiteShowcase() {
             <h2 className="text-4xl font-bold tracking-tight text-white md:text-5xl">Üç adımda yayında</h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-white/50">Tasarımcı, yazılımcı ya da ajans gerekmez.</p>
           </motion.div>
-          <ol className="grid gap-6 md:grid-cols-3">
+          <ol className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {STEPS.map((s, i) => (
               <motion.li
                 key={s.title}
