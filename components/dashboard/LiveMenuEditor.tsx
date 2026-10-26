@@ -60,6 +60,10 @@ import { siteUrl } from '@/lib/site-url'
 import { catalogThumbUrl } from '@/lib/image-url'
 import { generateItemImage } from '@/lib/image-generation-client'
 import { CatalogPickerPopover } from '@/components/modals/scan-editor/CatalogPickerPopover'
+import { IngredientEditor } from '@/components/dashboard/IngredientEditor'
+import { INGREDIENT_MAX_LENGTH, uniqueIngredients } from '@/lib/ingredients'
+import { AI_ITEM_IMAGES_ENABLED } from '@/lib/constants'
+import { StockSwitch } from '@/components/dashboard/StockSwitch'
 
 // KURUMSAL & SEO UYUMLU ANA KATEGORİ REHBERİ
 export const ORDERED_CATEGORY_GROUPS = [
@@ -342,6 +346,7 @@ export function LiveMenuEditor() {
   const [itemDesc, setItemDesc] = useState('')
   const [itemCalories, setItemCalories] = useState('')
   const [itemAllergens, setItemAllergens] = useState('')
+  const [itemIngredients, setItemIngredients] = useState<string[]>([])
   const [itemProtein, setItemProtein] = useState('')
   const [itemCarbs, setItemCarbs] = useState('')
   const [itemFat, setItemFat] = useState('')
@@ -676,6 +681,7 @@ export function LiveMenuEditor() {
       setItemDesc('')
       setItemCalories('')
       setItemAllergens('')
+      setItemIngredients([])
       setItemProtein('')
       setItemCarbs('')
       setItemFat('')
@@ -743,6 +749,7 @@ export function LiveMenuEditor() {
       setItemDesc(item.description || '')
       setItemCalories(item.calories ? item.calories.toString() : '')
       setItemAllergens(item.allergens ? item.allergens.join(', ') : '')
+      setItemIngredients(item.ingredients || [])
       setItemProtein(item.macros?.protein ? item.macros.protein.toString() : '')
       setItemCarbs(item.macros?.carbs ? item.macros.carbs.toString() : '')
       setItemFat(item.macros?.fat ? item.macros.fat.toString() : '')
@@ -761,6 +768,7 @@ export function LiveMenuEditor() {
       setItemDesc('')
       setItemCalories('')
       setItemAllergens('')
+      setItemIngredients([])
       setItemProtein('')
       setItemCarbs('')
       setItemFat('')
@@ -790,6 +798,7 @@ export function LiveMenuEditor() {
     const formattedPrice = sanitizePrice(rawFormattedPrice, 20)
     const cleanCalories = itemCalories ? parseInt(sanitizeText(itemCalories, 6)) : undefined
     const cleanAllergens = itemAllergens ? itemAllergens.split(',').map(s => sanitizeText(s.trim(), 40)).filter(Boolean) : []
+    const cleanIngredients = uniqueIngredients(itemIngredients.map(s => sanitizeText(s, INGREDIENT_MAX_LENGTH)))
     const macros = (itemProtein || itemCarbs || itemFat) ? {
       protein: itemProtein ? parseInt(sanitizeText(itemProtein, 6)) || 0 : 0,
       carbs: itemCarbs ? parseInt(sanitizeText(itemCarbs, 6)) || 0 : 0,
@@ -811,6 +820,7 @@ export function LiveMenuEditor() {
                   price: formattedPrice,
                   calories: cleanCalories,
                   allergens: cleanAllergens,
+                  ingredients: cleanIngredients,
                   macros: macros,
                   image_url: itemImage || '',
                   catalog_item_id: itemCatalogId ?? null,
@@ -833,6 +843,7 @@ export function LiveMenuEditor() {
         catalog_item_id: itemCatalogId ?? null,
         calories: cleanCalories,
         allergens: cleanAllergens,
+        ingredients: cleanIngredients,
         macros: macros,
         display_order: 1,
         is_available: true,
@@ -862,11 +873,7 @@ export function LiveMenuEditor() {
     }) : null)
   }
 
-  const toggleItemAvailability = (catId: string, itemId: string) => {
-    // Deprecated: Stok yönetimi yerine alerjen yönetimi getirildi
-  }
-
-  const handleInlineUpdate = (catId: string, itemId: string, field: 'price' | 'calories' | 'allergens', value: any) => {
+  const handleInlineUpdate = (catId: string, itemId: string, field: 'price' | 'calories' | 'allergens' | 'is_available', value: any) => {
     setMenu(prev => prev ? ({
       ...prev,
       categories: prev.categories.map(cat => 
@@ -1486,13 +1493,14 @@ export function LiveMenuEditor() {
                       Bu kategoride henüz ürün yok. "Ürün Ekle" butonuna basarak ilk lezzetinizi ekleyin.
                     </div>
                   ) : (
-                    <div className="flex flex-col md:min-w-[560px]">
+                    <div className="flex flex-col md:min-w-[640px]">
                       {/* KOLON BAŞLIKLARI (dar ekranda her alan kendi etiketini taşır) */}
-                      <div className="hidden md:grid grid-cols-[8fr_3fr_2fr_4fr_2fr] gap-2 px-3 py-2 bg-muted/40 border-y border-border text-[10px] font-bold text-muted-foreground uppercase">
+                      <div className="hidden md:grid grid-cols-[8fr_3fr_2fr_4fr_2fr_2fr] gap-2 px-3 py-2 bg-muted/40 border-y border-border text-[10px] font-bold text-muted-foreground uppercase">
                         <div>Ürün</div>
                         <div className="text-center">Fiyat</div>
                         <div className="text-center">Kalori</div>
                         <div className="text-center">Alerjenler</div>
+                        <div className="text-center">Stok</div>
                         <div className="text-right">İşlemler</div>
                       </div>
                       
@@ -1500,9 +1508,9 @@ export function LiveMenuEditor() {
                         {/* Dar ekranda kart: üstte ürün + işlemler, altta alanlar; md ve üstünde tablo satırı
                             (md:contents ile alan sarmalayıcısı ızgaradan çekilir, alanlar doğrudan sütunlara oturur) */}
                         {category.items.map((item) => (
-                          <div key={item.id} className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-2.5 p-3 hover:bg-accent/50 transition-colors md:grid-cols-[8fr_3fr_2fr_4fr_2fr] md:items-center md:gap-2">
-                            {/* 1. ÜRÜN BİLGİSİ */}
-                            <div className="flex min-w-0 items-center space-x-3 overflow-hidden">
+                          <div key={item.id} className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-2.5 p-3 hover:bg-accent/50 transition-colors md:grid-cols-[8fr_3fr_2fr_4fr_2fr_2fr] md:items-center md:gap-2">
+                            {/* 1. ÜRÜN BİLGİSİ (stok yoksa soluk: müşteri menüsünde "Tükendi") */}
+                            <div className={`flex min-w-0 items-center space-x-3 overflow-hidden transition-opacity ${item.is_available === false ? 'opacity-50' : ''}`}>
                               {item.image_url ? (
                                 <img 
                                   src={catalogThumbUrl(item.image_url)}
@@ -1595,9 +1603,18 @@ export function LiveMenuEditor() {
                                 className="h-8 text-[11px] text-center px-1 w-full md:max-w-[120px]"
                               />
                             </div>
+
+                            {/* 5. STOK: varsayılan "var"; tek tıkla "yok" */}
+                            <div className="col-span-2 flex items-center gap-2 md:col-span-1 md:justify-center">
+                              <span className="text-[10px] font-bold uppercase text-muted-foreground md:hidden">Stok</span>
+                              <StockSwitch
+                                checked={item.is_available !== false}
+                                onChange={(v) => handleInlineUpdate(category.id, item.id, 'is_available', v)}
+                              />
+                            </div>
                             </div>
 
-                            {/* 5. İŞLEMLER: dar ekranda ürün adının sağında (1. satır, 2. sütun), md ve üstünde son sütun */}
+                            {/* 6. İŞLEMLER: dar ekranda ürün adının sağında (1. satır, 2. sütun), md ve üstünde son sütun */}
                             <div className="col-start-2 row-start-1 flex items-center justify-end space-x-1 shrink-0 md:col-auto md:row-auto">
                               <Button 
                                 size="icon" 
@@ -2030,7 +2047,8 @@ export function LiveMenuEditor() {
             </div>
 
             {/* 4. AI KALORİ HESAPLAMA */}
-            <div className="space-y-2 p-3 rounded-xl border border-orange-200 bg-gradient-to-br from-orange-50/80 to-amber-50/50">
+            {/* Koyu temada açık gradyan panelin genel renk uyarlamasına girmiyor: düz, hafif turuncu yüzey */}
+            <div className="space-y-2 p-3 rounded-xl border border-orange-200 bg-gradient-to-br from-orange-50/80 to-amber-50/50 dark:border-orange-500/25 dark:bg-none dark:bg-orange-500/[0.06]">
               <div className="flex items-center justify-between">
                 <Label htmlFor="i-cal" className="font-bold text-gray-900 flex items-center gap-1.5">
                   <Flame className="h-4 w-4 text-orange-500" />
@@ -2044,7 +2062,7 @@ export function LiveMenuEditor() {
                     size="sm"
                     disabled={!itemName || itemName.trim().length < 2 || isEstimatingCalories}
                     onClick={handleEstimateCalories}
-                    className="h-7 text-[11px] font-bold border-orange-300 text-orange-700 hover:bg-orange-100 hover:text-orange-800 gap-1"
+                    className="h-7 text-[11px] font-bold border-orange-300 text-orange-700 hover:bg-orange-100 hover:text-orange-800 gap-1 dark:border-orange-500/40 dark:bg-transparent dark:text-orange-300 dark:hover:bg-orange-500/15 dark:hover:text-orange-200"
                   >
                     <Sparkles className="h-3 w-3" />
                     AI ile Hesapla
@@ -2065,7 +2083,7 @@ export function LiveMenuEditor() {
                   }}
                   className={`font-bold text-sm pr-10 ${
                     isEstimatingCalories ? 'opacity-60' : ''
-                  } ${!itemCalories ? 'border-red-300 bg-red-50/30' : 'border-orange-200'}`}
+                  } ${!itemCalories ? 'border-red-300 bg-red-50/30 dark:border-red-500/40 dark:bg-red-500/10' : 'border-orange-200 dark:border-orange-500/30'}`}
                   disabled={isEstimatingCalories}
                 />
                 {isEstimatingCalories && (
@@ -2077,14 +2095,14 @@ export function LiveMenuEditor() {
 
               {/* AI Tahmini Bilgi Notu */}
               {calorieSource === 'auto' && itemCalories && (
-                <div className="flex items-start gap-1.5 text-[11px] text-orange-700/90">
+                <div className="flex items-start gap-1.5 text-[11px] text-orange-700/90 dark:text-orange-300">
                   <Sparkles className="h-3 w-3 mt-0.5 shrink-0 text-orange-500" />
                   <div>
                     <span className="font-semibold">AI Tahmini</span> — Ortalama gerçeğe en yakın kalori hesabıdır. 
                     <button
                       type="button"
                       onClick={() => setShowDetailedCalorie(true)}
-                      className="underline font-bold hover:text-orange-900 ml-0.5"
+                      className="underline font-bold hover:text-orange-900 dark:hover:text-orange-200 ml-0.5"
                     >
                       Daha net hesaplama için detaylı hesaplama yaptırabilirsiniz.
                     </button>
@@ -2093,7 +2111,7 @@ export function LiveMenuEditor() {
               )}
 
               {calorieSource === 'detailed' && itemCalories && (
-                <div className="flex items-start gap-1.5 text-[11px] text-emerald-700/90">
+                <div className="flex items-start gap-1.5 text-[11px] text-emerald-700/90 dark:text-emerald-400">
                   <CheckCircle2 className="h-3 w-3 mt-0.5 shrink-0 text-emerald-500" />
                   <div>
                     <span className="font-semibold">Detaylı Hesaplama</span>
@@ -2120,7 +2138,7 @@ export function LiveMenuEditor() {
                 <button
                   type="button"
                   onClick={() => setShowDetailedCalorie(true)}
-                  className="text-[11px] text-orange-600 hover:text-orange-800 font-semibold underline underline-offset-2"
+                  className="text-[11px] text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 font-semibold underline underline-offset-2"
                 >
                   📝 Malzeme ve gramaj girerek detaylı hesaplama yap
                 </button>
@@ -2128,7 +2146,7 @@ export function LiveMenuEditor() {
 
               {/* Detaylı Hesaplama Paneli */}
               {showDetailedCalorie && (
-                <div className="space-y-2 pt-2 border-t border-orange-200/70">
+                <div className="space-y-2 pt-2 border-t border-orange-200/70 dark:border-orange-500/25">
                   <div className="flex items-center justify-between">
                     <p className="text-[11px] font-bold text-gray-700 flex items-center gap-1">
                       📝 Detaylı Kalori Hesaplama
@@ -2149,7 +2167,7 @@ export function LiveMenuEditor() {
                     value={ingredientText}
                     onChange={(e) => setIngredientText(e.target.value)}
                     rows={3}
-                    className="text-xs bg-white border-orange-200 focus-visible:ring-orange-300"
+                    className="text-xs bg-white border-orange-200 focus-visible:ring-orange-300 dark:border-orange-500/30"
                   />
                   <Button
                     type="button"
@@ -2176,7 +2194,7 @@ export function LiveMenuEditor() {
 
             {/* 4. AÇIKLAMA */}
             <div className="space-y-1">
-              <Label htmlFor="i-desc">Açıklama & İçindekiler</Label>
+              <Label htmlFor="i-desc">Açıklama</Label>
               <Textarea
                 id="i-desc"
                 placeholder="Porsiyon detayı, soslar, yan garnitürler..."
@@ -2186,6 +2204,16 @@ export function LiveMenuEditor() {
                 className="text-xs"
               />
             </div>
+
+            {/* 4b. BİLEŞENLER */}
+            <IngredientEditor
+              subdomain={subdomain}
+              name={itemName}
+              description={itemDesc}
+              category={targetCategoryObj?.name}
+              value={itemIngredients}
+              onChange={setItemIngredients}
+            />
 
             {/* 5. DOĞRUDAN DOSYA / FOTOĞRAF YÜKLEME */}
             <div className="space-y-1.5">
@@ -2265,22 +2293,24 @@ export function LiveMenuEditor() {
                       <BookOpen className="h-3.5 w-3.5 mr-1.5 text-primary" />
                       Katalogdan seç
                     </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      disabled={isGeneratingImage || !itemName.trim() || !subdomain}
-                      className="flex-auto text-xs font-semibold"
-                      onClick={handleGenerateImage}
-                      title="Yapay zeka ile ürün görseli üret (günlük ücretsiz kota)"
-                    >
-                      {isGeneratingImage ? (
-                        <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin text-violet-500" />
-                      ) : (
-                        <Sparkles className="h-3.5 w-3.5 mr-1.5 text-violet-500" />
-                      )}
-                      AI ile görsel üret
-                    </Button>
+                    {AI_ITEM_IMAGES_ENABLED && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={isGeneratingImage || !itemName.trim() || !subdomain}
+                        className="flex-auto text-xs font-semibold"
+                        onClick={handleGenerateImage}
+                        title="Yapay zeka ile ürün görseli üret (günlük ücretsiz kota)"
+                      >
+                        {isGeneratingImage ? (
+                          <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin text-violet-500" />
+                        ) : (
+                          <Sparkles className="h-3.5 w-3.5 mr-1.5 text-violet-500" />
+                        )}
+                        AI ile görsel üret
+                      </Button>
+                    )}
                   </div>
                   {itemCatalogId && (
                     <p className="text-[11px] text-emerald-600">

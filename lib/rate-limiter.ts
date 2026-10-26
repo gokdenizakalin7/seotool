@@ -193,6 +193,8 @@ export const RATE_LIMITS = {
   IMAGE_GENERATE: { limit: 10, windowSeconds: 600 },
   // "Hakkımızda" metni AI üretimi: kullanıcı başına saatte 10
   ABOUT_GENERATE: { limit: 10, windowSeconds: 3600 },
+  // AI bileşen önerisi (ürün düzenleme): kullanıcı başına dakikada 30 (aynı ürün sunucuda önbellekten döner)
+  INGREDIENT_SUGGEST: { limit: 30, windowSeconds: 60 },
   // AI menü zenginleştirme (kalori/alerjen toplu doldurma): org başına 24 saatte 3
   MENU_ENRICH: { limit: 3, windowSeconds: 86400 },
   // Genel API rotaları: Dakikada en fazla 100 istek (DDoS & Scraping koruması)
