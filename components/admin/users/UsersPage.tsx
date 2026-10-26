@@ -87,8 +87,8 @@ export function UsersPage() {
                   <TableHead>Kullanıcı</TableHead>
                   <TableHead>Restoran</TableHead>
                   <TableHead>Durum</TableHead>
-                  <TableHead>Son giriş</TableHead>
-                  <TableHead>Kayıt</TableHead>
+                  <TableHead className="hidden lg:table-cell">Son giriş</TableHead>
+                  <TableHead className="hidden lg:table-cell">Kayıt</TableHead>
                   <TableHead className="text-right" />
                 </TableRow>
               </TableHeader>
@@ -126,8 +126,8 @@ export function UsersPage() {
                         {!u.emailConfirmedAt && <Badge tone="neutral">E-posta onaysız</Badge>}
                       </div>
                     </TableCell>
-                    <TableCell className="text-xs text-muted-foreground">{fmtRelative(u.lastSignInAt)}</TableCell>
-                    <TableCell className="text-xs text-muted-foreground">{fmtDate(u.createdAt)}</TableCell>
+                    <TableCell className="hidden text-xs text-muted-foreground lg:table-cell">{fmtRelative(u.lastSignInAt)}</TableCell>
+                    <TableCell className="hidden text-xs text-muted-foreground lg:table-cell">{fmtDate(u.createdAt)}</TableCell>
                     <TableCell className="text-right">
                       <Button
                         size="sm"

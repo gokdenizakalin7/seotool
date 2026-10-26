@@ -36,7 +36,7 @@ export function OverviewPage() {
       {stats.loading && !s ? (
         <LoadingBlock />
       ) : s ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             label="Restoranlar"
             icon={Building2}
@@ -85,7 +85,7 @@ export function OverviewPage() {
         </div>
       ) : null}
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Panel>
           <PanelTitle
             actions={

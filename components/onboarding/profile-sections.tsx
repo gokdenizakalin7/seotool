@@ -484,7 +484,7 @@ export function SiteAddressSection({
 export function ContactSection({ draft, setDraft }: SectionProps) {
   return (
     <div className="space-y-4">
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Telefon">
           <Input value={draft.phone} maxLength={30} placeholder="0212 000 00 00" onChange={(e) => setDraft((d) => ({ ...d, phone: e.target.value }))} />
         </Field>
@@ -508,7 +508,7 @@ export function ContactSection({ draft, setDraft }: SectionProps) {
 export function WifiSection({ draft, setDraft }: SectionProps) {
   return (
     <div className="space-y-4">
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Wi-Fi Ağ Adı (SSID)">
           <Input value={draft.wifiName} maxLength={32} placeholder="Örn: Kafe_Misafir" onChange={(e) => setDraft((d) => ({ ...d, wifiName: e.target.value }))} />
         </Field>
@@ -526,7 +526,7 @@ export function SocialSection({ draft, setDraft, extended = false }: SectionProp
   return (
     <div className="space-y-4">
       {extended && <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Sosyal medya</p>}
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Instagram" hint="@kullaniciadi veya profil linki yazabilirsiniz.">
           <div className="relative">
             <span className="absolute left-3 top-2.5 font-bold text-muted-foreground">@</span>
@@ -551,7 +551,7 @@ export function SocialSection({ draft, setDraft, extended = false }: SectionProp
       </Field>
       {extended && (
         <>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Field label="Facebook" hint="Sayfanızın bağlantısı">
               <Input value={draft.facebookUrl} maxLength={300} placeholder="https://facebook.com/kafeadi" onChange={(e) => setDraft((d) => ({ ...d, facebookUrl: e.target.value }))} />
             </Field>
@@ -572,7 +572,7 @@ export function SocialSection({ draft, setDraft, extended = false }: SectionProp
             </Field>
           </div>
           <p className="pt-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">İletişim</p>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Field label="E-posta" hint="Sitenizin İletişim sayfasında görünür.">
               <Input type="email" value={draft.contactEmail} maxLength={200} placeholder="merhaba@kafeadi.com" onChange={(e) => setDraft((d) => ({ ...d, contactEmail: e.target.value }))} />
             </Field>

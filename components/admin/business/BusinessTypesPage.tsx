@@ -78,7 +78,7 @@ export function BusinessTypesPage() {
 
       {(types.error || templates.error) && <ErrorBanner message={types.error || templates.error || ''} onRetry={reloadAll} />}
 
-      <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[320px_1fr]">
         <Panel className="p-2 sm:p-2">
           {types.loading && !types.data ? (
             <LoadingBlock />
@@ -166,7 +166,7 @@ export function BusinessTypesPage() {
             ) : !shownTemplates.length ? (
               <EmptyState icon={Store} title="Bu türde şablon yok" hint="Yeni şablon oluşturup katalogdan kategori ve ürün seçin." />
             ) : (
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {shownTemplates.map((t) => {
                   const isDefault = current?.defaultTemplateSlug === t.slug
                   return (
@@ -336,7 +336,7 @@ function BusinessTypeDialog({
           <DialogTitle>{value ? 'İşletme türünü düzenle' : 'Yeni işletme türü'}</DialogTitle>
           <DialogDescription>Kayıt ve kurulum sihirbazında restoran sahiplerine gösterilir.</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-3 sm:grid-cols-[80px_1fr]">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-[80px_1fr]">
           <Field label="Emoji">
             <Input value={f.icon} onChange={(e) => setF({ ...f, icon: e.target.value })} className="text-center text-lg" maxLength={8} />
           </Field>
@@ -354,7 +354,7 @@ function BusinessTypeDialog({
         <Field label="Açıklama">
           <Input value={f.hint} onChange={(e) => setF({ ...f, hint: e.target.value })} placeholder="ör. Kahvaltı, kahve, tatlı" />
         </Field>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Field label="Renk" group>
             <div className="flex gap-2">
               <input type="color" value={f.color} onChange={(e) => setF({ ...f, color: e.target.value })} className="h-9 w-12 rounded-lg border border-input" />
@@ -448,7 +448,7 @@ function TemplateInfoDialog({
           <DialogTitle>{value ? 'Şablon bilgileri' : 'Yeni şablon'}</DialogTitle>
           <DialogDescription>Menü adı uygulandığında &quot;{f.venueType || f.name || 'Şablon'} Menüsü&quot; olur.</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-3 sm:grid-cols-[80px_1fr]">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-[80px_1fr]">
           <Field label="Emoji">
             <Input value={f.icon} onChange={(e) => setF({ ...f, icon: e.target.value })} className="text-center text-lg" maxLength={8} />
           </Field>
@@ -460,7 +460,7 @@ function TemplateInfoDialog({
             />
           </Field>
         </div>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Field label="Slug" hint={value ? 'Değiştirilemez' : undefined}>
             <Input value={f.slug} disabled={!!value} onChange={(e) => setF({ ...f, slug: slugify(e.target.value) })} className="font-mono" />
           </Field>

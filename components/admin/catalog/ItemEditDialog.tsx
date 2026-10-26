@@ -151,7 +151,7 @@ export function ItemEditDialog({
             </DialogDescription>
           </DialogHeader>
 
-          <div className="grid gap-6 md:grid-cols-[220px_1fr]">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-[220px_1fr]">
             {/* Görsel */}
             <div className="space-y-2">
               <div className="relative aspect-square overflow-hidden rounded-2xl border border-border/60 bg-muted/30">
@@ -220,7 +220,7 @@ export function ItemEditDialog({
 
             {/* Bilgiler */}
             <div className="space-y-4">
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <Field label="Ad (Türkçe)">
                   <Input
                     value={d.name}

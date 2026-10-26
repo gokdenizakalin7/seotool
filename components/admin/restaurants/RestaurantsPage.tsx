@@ -139,9 +139,9 @@ export function RestaurantsPage() {
                   <TableHead>Restoran</TableHead>
                   <TableHead>Sahip</TableHead>
                   <TableHead>Durum</TableHead>
-                  <TableHead className="text-right">Menü / Ürün</TableHead>
-                  <TableHead>Son giriş</TableHead>
-                  <TableHead>Kayıt</TableHead>
+                  <TableHead className="hidden text-right md:table-cell">Menü / Ürün</TableHead>
+                  <TableHead className="hidden lg:table-cell">Son giriş</TableHead>
+                  <TableHead className="hidden lg:table-cell">Kayıt</TableHead>
                   <TableHead className="text-right">İşlemler</TableHead>
                 </TableRow>
               </TableHeader>
@@ -201,11 +201,11 @@ export function RestaurantsPage() {
                         </Badge>
                       )}
                     </TableCell>
-                    <TableCell className="text-right text-sm tabular-nums">
+                    <TableCell className="hidden text-right text-sm tabular-nums md:table-cell">
                       {o.listedMenuCount}/{o.menuCount} · {o.itemCount}
                     </TableCell>
-                    <TableCell className="text-xs text-muted-foreground">{fmtRelative(o.owner?.lastSignInAt)}</TableCell>
-                    <TableCell className="text-xs text-muted-foreground">{fmtDate(o.createdAt)}</TableCell>
+                    <TableCell className="hidden text-xs text-muted-foreground lg:table-cell">{fmtRelative(o.owner?.lastSignInAt)}</TableCell>
+                    <TableCell className="hidden text-xs text-muted-foreground lg:table-cell">{fmtDate(o.createdAt)}</TableCell>
                     <TableCell className="text-right" onClick={(e) => e.stopPropagation()}>
                       <div className="flex justify-end gap-1.5">
                         <Button

@@ -176,7 +176,7 @@ export function PricePlansContent() {
               </Button>
             </div>
           ) : (
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {plans.map((plan) => {
                 const overrideCount = Object.keys(plan.overrides || {}).length
                 const isEffective = state.effective.planId === plan.id
@@ -349,7 +349,7 @@ function ModeCard({
         <CardDescription>Otomatikte takvimdeki plan devreye girer; elle seçtiğiniz plan (ya da normal fiyatlar) takvimin önüne geçer.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid gap-2 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {([
             { id: 'auto', icon: CalendarClock, title: 'Otomatik (takvime göre)', hint: 'Açık pencere yoksa normal fiyatlar' },
             { id: 'manual', icon: Hand, title: 'Elle seç', hint: 'Seçtiğiniz fiyatlar hemen geçerli olur' },
@@ -373,7 +373,7 @@ function ModeCard({
         </div>
 
         {mode === 'manual' && (
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Geçerli fiyatlar">
               <NativeSelect value={planId} onChange={(e) => setPlanId(e.target.value)}>
                 <option value="">Normal fiyatlar (menüdeki)</option>
@@ -550,7 +550,7 @@ function PlanEditor({
 
         <div className="space-y-6">
           {showHelp && <PlanEditorHelp currency={currency} />}
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Plan adı">
               <Input value={draft.name} maxLength={60} placeholder="Etkinlik Fiyatları" onChange={(e) => update({ name: e.target.value })} />
             </Field>
@@ -564,7 +564,7 @@ function PlanEditor({
             </Field>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
             <Field label="Yön">
               <NativeSelect value={draft.direction} onChange={(e) => update({ direction: e.target.value as 'up' | 'down' })}>
                 <option value="up">Artış (bindirim)</option>
@@ -830,7 +830,7 @@ function PlanEditorHelp({ currency }: { currency: string }) {
       <p className="flex items-center gap-2 font-bold text-foreground">
         <CircleHelp className="h-4 w-4" /> Nasıl kullanılır?
       </p>
-      <dl className="grid gap-3 sm:grid-cols-2">
+      <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {items.map((it) => (
           <div key={it.title}>
             <dt className="font-semibold text-foreground">{it.title}</dt>

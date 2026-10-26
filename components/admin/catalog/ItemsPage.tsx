@@ -70,7 +70,7 @@ export function ItemsPage() {
         }
       />
 
-      <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-[1fr_260px_170px_150px_auto]">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-[1fr_260px_170px_150px_auto]">
         <div className="relative">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input

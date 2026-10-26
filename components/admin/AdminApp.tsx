@@ -105,7 +105,7 @@ function AdminShell() {
   }
 
   const sidebar = (
-    <div className="flex h-full flex-col justify-between">
+    <div className="flex min-h-full flex-col justify-between">
       <div>
         <div className="flex h-16 items-center gap-3 px-5">
           <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-border/60 bg-primary/10 shadow-lg dark:border-white/20 dark:bg-white/10">
@@ -177,7 +177,7 @@ function AdminShell() {
       <PanelBackground />
 
       {/* Masaüstü yan menü */}
-      <aside className="relative z-20 hidden w-64 shrink-0 border-r border-border/60 bg-card/70 backdrop-blur-2xl dark:border-white/10 dark:bg-black/40 lg:block">
+      <aside className="relative z-20 hidden w-64 shrink-0 overflow-y-auto border-r border-border/60 bg-card/70 backdrop-blur-2xl dark:border-white/10 dark:bg-black/40 lg:block">
         {sidebar}
       </aside>
 
@@ -185,7 +185,7 @@ function AdminShell() {
       {open && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} />
-          <aside className="absolute inset-y-0 left-0 w-72 border-r border-border/60 bg-card shadow-2xl">
+          <aside className="absolute inset-y-0 left-0 w-72 max-w-[85vw] overflow-y-auto border-r border-border/60 bg-card shadow-2xl">
             <Button variant="ghost" size="icon" className="absolute right-2 top-3" onClick={() => setOpen(false)}>
               <X className="h-5 w-5" />
             </Button>

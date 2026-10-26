@@ -93,7 +93,7 @@ export default async function BusinessTypePage({ params }: { params: Params }) {
         <h2 className="text-center text-3xl font-extrabold tracking-tight text-gray-900">
           {page.plural} için QR Chef&apos;te neler var?
         </h2>
-        <div className="mt-8 grid gap-5 md:grid-cols-2">
+        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
           {page.benefits.map((b) => (
             <article key={b.title} className="rounded-3xl border border-gray-200 bg-white p-6 sm:p-8">
               <Sparkles className="h-6 w-6 text-gray-900" aria-hidden="true" />
@@ -106,7 +106,7 @@ export default async function BusinessTypePage({ params }: { params: Params }) {
 
       <section className="mx-auto mt-14 max-w-4xl px-4 sm:px-6">
         <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Her QR Chef menüsünde</h2>
-        <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+        <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {COMMON_FEATURES.map((f) => (
             <li key={f} className="flex items-start gap-3 text-gray-700">
               <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-900 text-white">
@@ -132,7 +132,7 @@ export default async function BusinessTypePage({ params }: { params: Params }) {
         </dl>
       </section>
 
-      <section className="mx-auto mt-16 grid max-w-4xl gap-10 px-4 sm:grid-cols-2 sm:px-6">
+      <section className="mx-auto mt-16 grid grid-cols-1 max-w-4xl gap-10 px-4 sm:grid-cols-2 sm:px-6">
         <div>
           <h2 className="text-lg font-bold text-gray-900">Diğer işletme türleri</h2>
           <ul className="mt-3 space-y-2">

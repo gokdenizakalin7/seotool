@@ -45,7 +45,7 @@ export function TourMenu({ className }: { className?: string }) {
           <CircleHelp className="h-4 w-4" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80">
+      <DropdownMenuContent align="end" className="w-80 max-w-[calc(100vw-1rem)]">
         <DropdownMenuLabel>
           <p className="text-sm font-bold">Panel Rehberi</p>
           <p className="text-xs font-normal text-muted-foreground">Ekranda göstererek adım adım anlatır</p>

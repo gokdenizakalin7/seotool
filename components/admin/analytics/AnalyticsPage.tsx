@@ -97,13 +97,13 @@ export function AnalyticsPage() {
         <LoadingBlock />
       ) : s ? (
         <>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <StatCard label="Menü görüntüleme (30 gün)" icon={Eye} value={n(s.views_30d)} hint="Aynı ziyaretçi 30 dakikada bir sayılır" />
             <StatCard label="QR masa okutması (toplam)" icon={QrCode} value={n(s.qr_views)} hint={`${n(s.tables)} QR masa`} />
             <StatCard label="Yayındaki menü" icon={Eye} value={n(s.menus_listed)} hint={`${n(s.organizations_active)} aktif restoran`} />
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[2fr_1fr]">
             <Panel>
               <PanelTitle>Günlük menü görüntüleme</PanelTitle>
               <BarSeries data={daily} label="görüntüleme" />
@@ -157,7 +157,7 @@ export function AnalyticsPage() {
                 <TableHead>Restoran</TableHead>
                 <TableHead className="text-right">Görüntüleme (30 gün)</TableHead>
                 <TableHead className="text-right">QR okutma (toplam)</TableHead>
-                <TableHead className="text-right">Masa</TableHead>
+                <TableHead className="hidden text-right sm:table-cell">Masa</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -171,7 +171,7 @@ export function AnalyticsPage() {
                   </TableCell>
                   <TableCell className="text-right tabular-nums">{n(o.views30d)}</TableCell>
                   <TableCell className="text-right tabular-nums">{n(o.qrViews)}</TableCell>
-                  <TableCell className="text-right tabular-nums">{n(o.tableCount)}</TableCell>
+                  <TableCell className="hidden text-right tabular-nums sm:table-cell">{n(o.tableCount)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -181,7 +181,7 @@ function Wizard() {
           </div>
         </div>
 
-        <div className="grid flex-1 gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <div className="grid grid-cols-1 flex-1 gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
           {/* Form */}
           <div className="glass-card rounded-[28px] p-6 sm:p-8">
             <AnimatePresence mode="wait">

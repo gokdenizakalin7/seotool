@@ -50,7 +50,7 @@ import { ScanMenuModal } from '@/components/modals/ScanMenuModal'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import { usePublicMenuPreview } from '@/lib/use-public-menu-preview'
 import { useBusinessTypes } from '@/lib/use-business-types'
-import { setScrollNavGuard } from '@/components/dashboard/ScrollNavigation'
+import { lockMainScroll, setScrollNavGuard } from '@/components/dashboard/ScrollNavigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import { compressImageFile, IMAGE_PRESETS, formatFileSize } from '@/lib/image-compression'
@@ -301,6 +301,21 @@ export function LiveMenuEditor() {
   // Müşterinin gördüğü gerçek menü sayfasını iframe içinde gösterir; düzenlemeler postMessage ile aktarılır
   const previewIframeRef = usePublicMenuPreview({ menu, restaurant: currentRestaurant, primaryColor })
   const [savedSuccess, setSavedSuccess] = useState(false)
+  // Dar ekranda (lg altı) telefon önizlemesi ızgarada değil, sağ alttaki düğmeyle açılan tam ekran katmandadır
+  const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false)
+  const rootRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (!mobilePreviewOpen) return
+    // Katman açıkken arkadaki panel (main) kaymasın: dokunmatik kaydırma ve Lenis durdurulur
+    const main = rootRef.current?.closest('main') as HTMLElement | null
+    const prevOverflow = main?.style.overflow ?? ''
+    if (main) main.style.overflow = 'hidden'
+    lockMainScroll(true)
+    return () => {
+      if (main) main.style.overflow = prevOverflow
+      lockMainScroll(false)
+    }
+  }, [mobilePreviewOpen])
 
   // HAZIR MENÜ ŞABLONU MODALI STATE'İ
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false)
@@ -1083,7 +1098,7 @@ export function LiveMenuEditor() {
     : DEFAULT_CATALOG_FALLBACK
 
   return (
-    <div className="space-y-6" data-tour-page="menu-editor" data-tour-ready={isLoading ? 'false' : 'true'}>
+    <div ref={rootRef} className="space-y-6" data-tour-page="menu-editor" data-tour-ready={isLoading ? 'false' : 'true'}>
       {/* Üst Bar */}
       <div className="glass-card flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 p-4">
         <div className="min-w-0">
@@ -1181,6 +1196,17 @@ export function LiveMenuEditor() {
             <Save className="h-4 w-4 mr-1.5" /> Şimdi Kaydet
           </Button>
         </div>
+      )}
+
+      {/* Dar ekranda canlı önizleme düğmesi; kayıt çubuğu görünürken onun üstüne çıkar */}
+      {menu && !isLoading && !mobilePreviewOpen && (
+        <Button
+          type="button"
+          onClick={() => setMobilePreviewOpen(true)}
+          className={`fixed right-4 z-40 h-12 rounded-full px-5 font-bold shadow-2xl lg:hidden ${isDirty ? 'bottom-[5.5rem]' : 'bottom-4'}`}
+        >
+          <Smartphone className="h-5 w-5" /> Önizleme
+        </Button>
       )}
 
       {isLoading ? (
@@ -1460,9 +1486,9 @@ export function LiveMenuEditor() {
                       Bu kategoride henüz ürün yok. "Ürün Ekle" butonuna basarak ilk lezzetinizi ekleyin.
                     </div>
                   ) : (
-                    <div className="flex flex-col min-w-[560px]">
-                      {/* KOLON BAŞLIKLARI */}
-                      <div className="grid grid-cols-[8fr_3fr_2fr_4fr_2fr] gap-2 px-3 py-2 bg-muted/40 border-y border-border text-[10px] font-bold text-muted-foreground uppercase">
+                    <div className="flex flex-col md:min-w-[560px]">
+                      {/* KOLON BAŞLIKLARI (dar ekranda her alan kendi etiketini taşır) */}
+                      <div className="hidden md:grid grid-cols-[8fr_3fr_2fr_4fr_2fr] gap-2 px-3 py-2 bg-muted/40 border-y border-border text-[10px] font-bold text-muted-foreground uppercase">
                         <div>Ürün</div>
                         <div className="text-center">Fiyat</div>
                         <div className="text-center">Kalori</div>
@@ -1471,10 +1497,12 @@ export function LiveMenuEditor() {
                       </div>
                       
                       <div className="divide-y divide-border">
+                        {/* Dar ekranda kart: üstte ürün + işlemler, altta alanlar; md ve üstünde tablo satırı
+                            (md:contents ile alan sarmalayıcısı ızgaradan çekilir, alanlar doğrudan sütunlara oturur) */}
                         {category.items.map((item) => (
-                          <div key={item.id} className="grid grid-cols-[8fr_3fr_2fr_4fr_2fr] items-center gap-2 p-3 hover:bg-accent/50 transition-colors">
+                          <div key={item.id} className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-2.5 p-3 hover:bg-accent/50 transition-colors md:grid-cols-[8fr_3fr_2fr_4fr_2fr] md:items-center md:gap-2">
                             {/* 1. ÜRÜN BİLGİSİ */}
-                            <div className="flex items-center space-x-3 overflow-hidden">
+                            <div className="flex min-w-0 items-center space-x-3 overflow-hidden">
                               {item.image_url ? (
                                 <img 
                                   src={catalogThumbUrl(item.image_url)}
@@ -1501,9 +1529,11 @@ export function LiveMenuEditor() {
                               </div>
                             </div>
 
+                            <div className="col-span-2 grid grid-cols-2 gap-2 md:contents">
                             {/* 2. FİYAT (INPUT) */}
-                            <div className="flex justify-center">
-                              <div className="relative w-full max-w-[80px]">
+                            <div className="md:flex md:justify-center">
+                              <span className="mb-1 block text-[10px] font-bold uppercase text-muted-foreground md:hidden">Fiyat</span>
+                              <div className="relative w-full md:max-w-[80px]">
                                 <Input 
                                   defaultValue={item.price ? item.price.replace(' ₺', '').replace('₺', '') : ''}
                                   placeholder="120"
@@ -1524,8 +1554,9 @@ export function LiveMenuEditor() {
                             </div>
 
                             {/* 3. KALORİ (INPUT) */}
-                            <div className="flex justify-center">
-                              <div className="relative w-full max-w-[80px]">
+                            <div className="md:flex md:justify-center">
+                              <span className="mb-1 block text-[10px] font-bold uppercase text-muted-foreground md:hidden">Kalori</span>
+                              <div className="relative w-full md:max-w-[80px]">
                                 <Input
                                   key={`cal-${item.calories ?? ''}`}
                                   defaultValue={item.calories ?? ''}
@@ -1546,7 +1577,8 @@ export function LiveMenuEditor() {
                             </div>
 
                             {/* 4. ALERJENLER (INPUT) */}
-                            <div className="flex justify-center">
+                            <div className="col-span-2 md:col-span-1 md:flex md:justify-center">
+                              <span className="mb-1 block text-[10px] font-bold uppercase text-muted-foreground md:hidden">Alerjenler</span>
                               <Input
                                 key={`alg-${(item.allergens || []).join('|')}`}
                                 defaultValue={item.allergens ? item.allergens.join(', ') : ''}
@@ -1560,12 +1592,13 @@ export function LiveMenuEditor() {
                                     handleInlineUpdate(category.id, item.id, 'allergens', allergensArr.length > 0 ? allergensArr : undefined)
                                   }
                                 }}
-                                className="h-8 text-[11px] text-center px-1 w-full max-w-[120px]"
+                                className="h-8 text-[11px] text-center px-1 w-full md:max-w-[120px]"
                               />
                             </div>
+                            </div>
 
-                            {/* 5. İŞLEMLER */}
-                            <div className="flex items-center justify-end space-x-1 shrink-0">
+                            {/* 5. İŞLEMLER: dar ekranda ürün adının sağında (1. satır, 2. sütun), md ve üstünde son sütun */}
+                            <div className="col-start-2 row-start-1 flex items-center justify-end space-x-1 shrink-0 md:col-auto md:row-auto">
                               <Button 
                                 size="icon" 
                                 variant="ghost" 
@@ -1596,20 +1629,37 @@ export function LiveMenuEditor() {
           </div>
         </div>
 
-        {/* SAĞ BÖLÜM: CANLI TELEFON SİMÜLATÖRÜ */}
-        <div className="lg:col-span-5 sticky top-20 flex flex-col items-center">
+        {/* SAĞ BÖLÜM: CANLI TELEFON SİMÜLATÖRÜ. lg altında ızgarada yer almaz; sağ alttaki düğmeyle tam ekran katman olarak
+            açılır (iframe tek ve hep bağlı kalır: postMessage eşitlemesi kesilmez) */}
+        <div
+          className={
+            mobilePreviewOpen
+              ? 'fixed inset-0 z-[70] flex flex-col items-center justify-center bg-black/80 p-3 backdrop-blur-sm lg:sticky lg:inset-auto lg:top-20 lg:z-auto lg:col-span-5 lg:justify-start lg:bg-transparent lg:p-0 lg:backdrop-blur-none'
+              : 'hidden lg:sticky lg:top-20 lg:col-span-5 lg:flex lg:flex-col lg:items-center'
+          }
+        >
           <div className="flex items-center justify-between w-full max-w-[360px] mb-2 px-1">
-            <div className="flex items-center space-x-1 text-xs font-bold text-gray-700">
-              <Smartphone className="h-4 w-4 text-primary" />
+            <div className={`flex items-center space-x-1 text-xs font-bold ${mobilePreviewOpen ? 'text-white lg:text-gray-700' : 'text-gray-700'}`}>
+              <Smartphone className={`h-4 w-4 ${mobilePreviewOpen ? 'text-white lg:text-primary' : 'text-primary'}`} />
               <span>Canlı Müşteri Önizlemesi</span>
             </div>
-            <span className="text-[10px] bg-green-100 text-green-800 font-bold px-2 py-0.5 rounded-full flex items-center">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-600 animate-pulse mr-1"></span> Canlı Senkronize
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] bg-green-100 text-green-800 font-bold px-2 py-0.5 rounded-full flex items-center">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-600 animate-pulse mr-1"></span> Canlı Senkronize
+              </span>
+              <button
+                type="button"
+                onClick={() => setMobilePreviewOpen(false)}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25 lg:hidden"
+                aria-label="Önizlemeyi kapat"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
           </div>
 
-          {/* TELEFON ÇERÇEVESİ */}
-          <div className="keep-light w-full max-w-[360px] h-[720px] bg-black rounded-[48px] p-3.5 shadow-2xl border-4 border-gray-800 relative flex flex-col justify-between overflow-hidden">
+          {/* TELEFON ÇERÇEVESİ (dar ekranda ekrana sığacak kadar kısalır) */}
+          <div className="keep-light w-full max-w-[360px] h-[min(720px,calc(100dvh_-_5.5rem))] lg:h-[720px] bg-black rounded-[48px] p-3.5 shadow-2xl border-4 border-gray-800 relative flex flex-col justify-between overflow-hidden">
             
             <div className="absolute top-5 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-full z-50 flex items-center justify-center">
               <div className="w-2.5 h-2.5 bg-gray-900 rounded-full mr-2"></div>
@@ -1711,16 +1761,18 @@ export function LiveMenuEditor() {
             </div>
           </div>
 
-          <div className="pt-3 border-t flex items-center justify-between text-xs text-gray-500">
+          <div className="pt-3 border-t flex flex-col gap-2 text-xs text-gray-500 sm:flex-row sm:items-center sm:justify-between">
             <span>💡 İpucu: Şablon yüklendikten sonra ürün ekleyebilir, fiyatları değiştirebilir veya istemediğiniz kategorileri tek tıkla gizleyebilirsiniz.</span>
-            {hasTypeMatches && (
-              <Button variant="ghost" size="sm" onClick={() => setShowAllTemplates((v) => !v)}>
-                {showAllTemplates ? 'Yalnızca işletme türüme uyanlar' : 'Tüm şablonları göster'}
+            <div className="flex shrink-0 flex-wrap items-center gap-2 sm:justify-end">
+              {hasTypeMatches && (
+                <Button variant="ghost" size="sm" onClick={() => setShowAllTemplates((v) => !v)}>
+                  {showAllTemplates ? 'Yalnızca işletme türüme uyanlar' : 'Tüm şablonları göster'}
+                </Button>
+              )}
+              <Button variant="outline" size="sm" onClick={() => setIsTemplateModalOpen(false)}>
+                Kapat
               </Button>
-            )}
-            <Button variant="outline" size="sm" onClick={() => setIsTemplateModalOpen(false)}>
-              Kapat
-            </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
@@ -2177,7 +2229,7 @@ export function LiveMenuEditor() {
                   </div>
                 )}
 
-                <div className="flex-1 space-y-1.5">
+                <div className="min-w-0 flex-1 space-y-1.5">
                   <Button 
                     type="button" 
                     variant="outline" 
@@ -2201,12 +2253,12 @@ export function LiveMenuEditor() {
                   <p className="text-[11px] text-gray-400">
                     {itemImage ? 'Seçilen görsel menüde kullanılacak.' : 'Fotoğraf yüklemezseniz varsayılan sade ikon gösterilir.'}
                   </p>
-                  <div className="flex gap-1.5">
+                  <div className="flex flex-wrap gap-1.5">
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
-                      className="flex-1 text-xs font-semibold"
+                      className="flex-auto text-xs font-semibold"
                       onClick={() => setCatalogPickerOpen(v => !v)}
                       title="Hazır katalog görseli seç (ücretsiz)"
                     >
@@ -2218,7 +2270,7 @@ export function LiveMenuEditor() {
                       variant="outline"
                       size="sm"
                       disabled={isGeneratingImage || !itemName.trim() || !subdomain}
-                      className="flex-1 text-xs font-semibold"
+                      className="flex-auto text-xs font-semibold"
                       onClick={handleGenerateImage}
                       title="Yapay zeka ile ürün görseli üret (günlük ücretsiz kota)"
                     >

@@ -38,7 +38,7 @@ export function AuditList({ entries, showTarget = true }: { entries: AuditLogEnt
                   const hasBefore = !!e.before && k in e.before
                   const hasAfter = !!e.after && k in e.after
                   return (
-                    <div key={k} className="font-mono">
+                    <div key={k} className="break-all font-mono">
                       <span className="text-foreground/70">{k}</span>:{' '}
                       {hasBefore && (
                         // Yalnızca önceki değer varsa (silinen kayıt) üstü çizilmez

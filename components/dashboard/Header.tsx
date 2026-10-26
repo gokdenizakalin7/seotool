@@ -34,17 +34,17 @@ export function Header({
 
   return (
     <header className="flex h-16 items-center justify-between border-b border-border/60 bg-card/60 px-4 backdrop-blur-xl dark:border-white/10 dark:bg-black/30 lg:px-6">
-      <div className="flex items-center space-x-3">
+      <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
         <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(true)} className="lg:hidden">
           <MenuIcon className="h-6 w-6" />
           <span className="sr-only">Menüyü Aç</span>
         </Button>
-        <div className="flex items-center space-x-2">
-          <span className="font-extrabold tracking-tight text-foreground text-lg">{restaurantName || 'Restoran Paneli'}</span>
+        <div className="min-w-0">
+          <span className="block truncate text-base font-extrabold tracking-tight text-foreground sm:text-lg">{restaurantName || 'Restoran Paneli'}</span>
         </div>
       </div>
 
-      <div className="flex items-center space-x-3">
+      <div className="flex shrink-0 items-center gap-2 sm:gap-3">
         <TourMenu />
         <ThemeToggle />
         <Button 

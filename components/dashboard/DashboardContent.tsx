@@ -85,7 +85,7 @@ export function DashboardContent() {
       className="space-y-8 max-w-5xl mx-auto py-4"
     >
       {/* Hoşgeldin Başlığı */}
-      <div className="flex flex-col items-center justify-center text-center space-y-4 py-14 px-4 glass-card !rounded-[32px] relative overflow-hidden">
+      <div className="flex flex-col items-center justify-center text-center space-y-4 py-10 px-4 glass-card sm:py-14 !rounded-[32px] relative overflow-hidden">
         {/* Dekoratif Arka Plan Öğeleri */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
         <div className="absolute -left-16 -top-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
@@ -94,7 +94,7 @@ export function DashboardContent() {
         <div data-reveal className="w-24 h-24 bg-primary/10 text-foreground rounded-[28px] flex items-center justify-center mb-2 z-10 shadow-2xl border border-border/60 backdrop-blur-xl dark:border-white/20 dark:bg-white/10">
           <img src={logoUrl || "/logo.jpg"} alt="Logo" className="w-full h-full object-contain rounded-[28px]" />
         </div>
-        <h1 data-reveal className="text-4xl md:text-5xl font-extrabold text-foreground tracking-tight z-10">
+        <h1 data-reveal className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground tracking-tight z-10">
           Hoş Geldiniz, {currentRestaurant?.name || 'Değerli İşletmeci'}!
         </h1>
         <p data-reveal className="text-muted-foreground max-w-xl text-lg z-10 leading-relaxed">
@@ -165,7 +165,7 @@ export function DashboardContent() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {checklist.map((item) => (
                 <button
                   key={item.id}
@@ -184,7 +184,7 @@ export function DashboardContent() {
       )}
 
       {/* Hızlı Erişim Kartları */}
-      <div data-reveal-group className="grid gap-6 md:grid-cols-3">
+      <div data-reveal-group className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {/* Menü Listesi */}
         <Card 
           data-reveal

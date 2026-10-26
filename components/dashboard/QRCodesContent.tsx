@@ -345,14 +345,14 @@ export function QRCodesContent() {
 
       {/* Masalar Tablosu */}
       <Card className="shadow-sm">
-        <CardHeader className="py-3 px-4 bg-muted/40 border-b flex flex-row items-center justify-between">
+        <CardHeader className="py-3 px-4 bg-muted/40 border-b flex flex-row flex-wrap items-start justify-between gap-2">
           <div>
             <CardTitle className="text-sm font-bold text-foreground">Masaya Özel QR Kodlar & Görüntüleme</CardTitle>
             <CardDescription className="text-xs text-muted-foreground">
               Masalarınız için ayrı QR kodlar; masa numarası ve Wi-Fi bilgisiyle profesyonel masa standı olarak yazdırabilirsiniz.
             </CardDescription>
           </div>
-          <span className="text-xs font-bold text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
+          <span className="shrink-0 whitespace-nowrap text-xs font-bold text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
             {tables.length} Masa Kayıtlı
           </span>
         </CardHeader>
@@ -397,6 +397,18 @@ export function QRCodesContent() {
                     </TableCell>
                     <TableCell>
                       <span className="font-bold text-sm text-foreground">{table.name}</span>
+                      {/* Dar ekranda gizlenen QR / okunma sütunlarının özeti */}
+                      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 sm:hidden">
+                        <span className="text-[11px] text-muted-foreground">{table.views} kez tarandı</span>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyLink(tableUrl, table.id)}
+                          className="flex items-center font-mono text-[11px] text-muted-foreground hover:text-primary"
+                        >
+                          {copiedId === table.id ? <Check className="h-3 w-3 mr-1 text-green-600" /> : <Copy className="h-3 w-3 mr-1" />}
+                          {copiedId === table.id ? 'Kopyalandı' : 'Linki Al'}
+                        </button>
+                      </div>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
                       <div className="flex items-center space-x-2">
@@ -497,7 +509,7 @@ export function QRCodesContent() {
       <Dialog open={isPrintModalOpen} onOpenChange={setIsPrintModalOpen}>
         <DialogContent className="sm:max-w-[800px] max-h-[92vh] overflow-y-auto flex flex-col p-6">
           <DialogHeader className="pb-3 border-b print:hidden">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <DialogTitle className="text-xl font-bold flex items-center">
                   <Printer className="h-5 w-5 mr-2 text-primary" />
@@ -565,7 +577,7 @@ export function QRCodesContent() {
           {/* A4 sayfaları gerçek mm ölçüsünde çizilir; önizlemede küçültülür (kapsayıcı stili dışa aktarılmaz) */}
           <div
             ref={printAreaRef}
-            className={`flex-1 flex justify-center ${isSheet ? 'items-start' : 'items-center'} py-4 bg-muted rounded-xl p-4 overflow-y-auto`}
+            className={`flex-1 flex justify-center ${isSheet ? 'items-start' : 'items-center'} py-4 bg-muted rounded-xl p-4 overflow-y-auto [&_svg[data-qr-page]]:h-auto [&_svg[data-qr-page]]:max-w-full`}
             style={isSheet ? { zoom: 0.8 } : undefined}
           >
             {/* 1. DİKEY AKRİLİK STAND ŞABLONU */}
@@ -594,7 +606,7 @@ export function QRCodesContent() {
 
             {/* 3. A4 GENEL QR SAYFASI: restoranın genel QR'ı, kesip her yerde kullanmak için */}
             {selectedTemplate === 'general_a4' && (
-              <div className="flex flex-col items-center gap-4">
+              <div className="flex w-full flex-col items-center gap-4">
                 <A4SheetPage
                   cards={Array.from({ length: SHEET_SIZE }, (_, i) => ({ key: String(i), link: menuLink, label: null }))}
                   restaurantName={currentRestaurant?.name || ''}
@@ -610,7 +622,7 @@ export function QRCodesContent() {
               tables.length === 0 ? (
                 <p className="py-8 text-center text-sm text-muted-foreground">Yazdırılacak masa yok. Önce masa ekleyin.</p>
               ) : (
-                <div className="flex flex-col items-center gap-4">
+                <div className="flex w-full flex-col items-center gap-4">
                   {chunk(tables.map((t) => ({ key: t.id, link: getTableLink(t), label: t.name })), SHEET_SIZE).map((cards, i) => (
                     <A4SheetPage
                       key={i}

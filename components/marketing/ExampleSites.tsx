@@ -9,7 +9,7 @@ export function ExampleSites({ title, sites }: { title: string; sites: ExampleSi
   return (
     <section className="mx-auto mt-16 max-w-6xl px-4 sm:px-6">
       <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">{title}</h2>
-      <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {sites.map((site) => (
           <li key={site.slug}>
             <Link
