@@ -3,6 +3,13 @@
  * spread across multiple files. Import from here instead of hardcoding.
  */
 
+/**
+ * İşletme kullanıcılarının AI ile ürün görseli üretmesi (Cloudflare, /api/items/generate-image).
+ * Kapalı: üretilen görseller şu an yeterince sağlıklı değil. Panel ve tarama editöründeki düğmeler gizlenir,
+ * API isteği reddeder. Yeniden açmak için true yapmak yeterli.
+ */
+export const AI_ITEM_IMAGES_ENABLED = false
+
 export const APP_ROLES = {
   SUPERADMIN: 'superadmin',
   ADMIN: 'admin',

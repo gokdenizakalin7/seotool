@@ -9,6 +9,7 @@ import { sanitizeText } from '@/lib/sanitizer'
 import { buildItemPrompt } from '@/lib/catalog-image-prompt'
 import { CloudflareImageError, generateCloudflareImage } from '@/lib/server/cloudflare-image'
 import { getPlatformSettings } from '@/lib/server/platform-settings'
+import { AI_ITEM_IMAGES_ENABLED } from '@/lib/constants'
 
 export const maxDuration = 60
 
@@ -51,7 +52,7 @@ export async function GET(req: NextRequest) {
   const access = await requireSubdomainAccess(req, subdomain, { allowSuspended: true })
   if ('response' in access) return access.response
   try {
-    return NextResponse.json({ configured: !!(process.env.CLOUDFLARE_ACCOUNT_ID && process.env.CLOUDFLARE_API_TOKEN), ...(await quotaSnapshot(access.organizationId)) })
+    return NextResponse.json({ configured: AI_ITEM_IMAGES_ENABLED && !!(process.env.CLOUDFLARE_ACCOUNT_ID && process.env.CLOUDFLARE_API_TOKEN), ...(await quotaSnapshot(access.organizationId)) })
   } catch (e) {
     console.error('image quota error:', e)
     return NextResponse.json({ error: 'Kota okunamadı.' }, { status: 500 })
@@ -70,6 +71,10 @@ export async function POST(req: NextRequest) {
   const access = await requireSubdomainAccess(req, sanitizeText(body.subdomain, 80))
   if ('response' in access) return access.response
   const { user, organizationId } = access
+
+  if (!AI_ITEM_IMAGES_ENABLED) {
+    return NextResponse.json({ error: 'AI görsel üretimi şu an kapalı. Fotoğraf yükleyebilir ya da katalogdan seçebilirsiniz.', code: 'DISABLED' }, { status: 403 })
+  }
 
   if (!process.env.CLOUDFLARE_ACCOUNT_ID || !process.env.CLOUDFLARE_API_TOKEN) {
     return NextResponse.json({ error: 'AI görsel üretimi bu sunucuda yapılandırılmamış.', code: 'NOT_CONFIGURED' }, { status: 503 })

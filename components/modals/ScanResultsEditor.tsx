@@ -52,6 +52,7 @@ import {
 } from './scan-editor/panels'
 import { useCalorieEstimate } from './scan-editor/useCalorieEstimate'
 import { useImageGenerate } from './scan-editor/useImageGenerate'
+import { AI_ITEM_IMAGES_ENABLED } from '@/lib/constants'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import { authFetch } from '@/lib/api-client'
 import { normalizeDishName } from '@/lib/catalog-match'
@@ -841,7 +842,7 @@ export function ScanResultsEditor({
               Önerileri kabul et ({suggestionTargets.length})
             </Button>
           )}
-          {subdomain &&
+          {subdomain && AI_ITEM_IMAGES_ENABLED &&
             (imageGen.running ? (
               <Button variant="outline" size="sm" onClick={imageGen.cancel} className="gap-1.5">
                 <Loader2 className="h-4 w-4 animate-spin" />
