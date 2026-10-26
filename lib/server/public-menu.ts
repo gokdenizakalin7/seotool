@@ -68,7 +68,10 @@ export const getPublicRestaurant = cache(async (subdomain: string): Promise<any 
   }
 })
 
-/** Yayındaki (is_listed) menüler; aktif kategoriler ve mevcut ürünlerle, editördeki sırayla. Müşteri ilkini görür. */
+/**
+ * Yayındaki (is_listed) menüler; aktif kategoriler ve tüm ürünlerle, editördeki sırayla. Müşteri ilkini görür.
+ * Stokta olmayan ürünler (is_available = false) gizlenmez; menüde soluk ve "Tükendi" olarak görünür.
+ */
 export const getPublicMenus = cache(async (subdomain: string): Promise<Menu[]> => {
   const { data, error } = await supabaseAdmin
     .from('menus')
@@ -88,7 +91,6 @@ export const getPublicMenus = cache(async (subdomain: string): Promise<Menu[]> =
     .order('display_order', { ascending: true, referencedTable: 'categories' })
     .order('display_order', { ascending: true, referencedTable: 'categories.items' })
     .eq('categories.is_active', true)
-    .eq('categories.items.is_available', true)
 
   if (error) {
     console.error('getPublicMenus:', error.message)

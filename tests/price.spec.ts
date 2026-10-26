@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { formatPrice, parsePrice, roundAmount } from '../lib/price'
+import { displayPrice, formatPrice, parsePrice, roundAmount } from '../lib/price'
 
 test.describe('parsePrice', () => {
   test('Türkçe ve İngilizce biçimler', () => {
@@ -30,6 +30,16 @@ test.describe('formatPrice / roundAmount', () => {
     expect(formatPrice(1250)).toBe('1.250 ₺')
     expect(formatPrice(85.5)).toBe('85,50 ₺')
     expect(formatPrice(12, '$')).toBe('12 $')
+  })
+  test('menü gösterimi: simgesiz fiyata para birimi eklenir', () => {
+    expect(displayPrice('450')).toBe('450 ₺')
+    expect(displayPrice('1250')).toBe('1.250 ₺')
+    expect(displayPrice('85,5', '$')).toBe('85,50 $')
+    expect(displayPrice('170 ₺')).toBe('170 ₺')
+    expect(displayPrice('12 TL')).toBe('12 TL')
+    expect(displayPrice('S:50/L:70')).toBe('S:50/L:70')
+    expect(displayPrice('450', null)).toBe('450 ₺')
+    expect(displayPrice(undefined)).toBe('')
   })
   test('yuvarlama', () => {
     expect(roundAmount(97.75, 'none')).toBe(97.75)

@@ -71,6 +71,17 @@ export function formatPrice(amount: number, currency: string | null | undefined 
   return symbol ? `${text} ${symbol}` : text
 }
 
+/**
+ * Menüde gösterilecek fiyat: simgesiz sayıya işletmenin para birimi eklenir ("450" → "450 ₺", "1250" → "1.250 ₺").
+ * Simgesi olan ("85 ₺") ya da okunamayan ("S:50 / L:70") metin olduğu gibi kalır.
+ */
+export function displayPrice(text: string | null | undefined, currency: string | null | undefined = '₺'): string {
+  const raw = (text ?? '').trim()
+  const parsed = parsePrice(raw)
+  if (!parsed || parsed.currency) return raw
+  return formatPrice(parsed.amount, currency || '₺')
+}
+
 export type Rounding = 'none' | '1' | '5' | '10'
 
 /** Fiyatı en yakın 1 / 5 / 10'un katına yuvarlar ('none': kuruş hassasiyeti); negatif olmaz */
