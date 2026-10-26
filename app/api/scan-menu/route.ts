@@ -6,6 +6,7 @@ import { logSecurityEvent } from '@/lib/security-logger'
 import { requireUser } from '@/lib/auth-middleware'
 import { logUnmatched, matchScannedItems } from '@/lib/server/catalog-matcher'
 import type { CatalogMatchInfo } from '@/lib/catalog-match'
+import { uniqueIngredients } from '@/lib/ingredients'
 
 export const maxDuration = 60
 
@@ -117,9 +118,12 @@ Menüdeki tüm kategori başlıklarını ve her kategorinin altındaki ürünler
 6. Türkçe karakterleri (ç, ğ, ı, ö, ş, ü, Ç, Ğ, İ, Ö, Ş, Ü) ve parantezli detayları (ör: "(French press)", "(Sütlü)") eksiksiz ve temiz yaz.
 7. Menüdeki hiçbir geçerli kategoriyi ve ürünü atlama.
 8. Kaloriler: Her ürün için uzman bir diyetisyen gibi düşünerek, Türk mutfağı ve restoran standartlarına göre 1 kişilik porsiyon bazında ortalama kalori değerini (kcal) tahmin et. Ürün genellikle garnitürle (ör: burgerin yanındaki patates) sunuluyorsa kaloriyi buna göre hesapla. İçeceklerde standart fincan/bardak porsiyonunu baz al.
-11. Alerjenler: Her ürün için içerik tahmini yaparak Türkçe isimleriyle olası alerjenleri bir dizi (array) olarak döndür. (Örn: ["Gluten", "Süt", "Yumurta", "Fıstık", "Deniz Ürünü", "Soya"]). Eğer tahmin edilemiyorsa veya alerjen yoksa boş dizi [] döndür.
-12. Açıklama: Her ürün için ürünün ana bileşenlerini (içindeki malzemeleri) açıkça belirten kısa bir açıklama yaz (maksimum 1-2 cümle). Sos, karışım veya özel bir bileşen varsa onun da içeriğini açıkla. (Örnek: Cafe de Paris Soslu Penne → "Penne makarna, Cafe de Paris sosu (tereyağı, hardal, kapari, maydanoz, sarımsak), parmesan peyniri rendesi." Filtre Kahve → "Taze çekilmiş Arabica kahve çekirdeği, sıcak su ile demleme.")
-13. Bileşenler: Her ürün için ana malzemeleri (bileşenlerini) Türkçe olarak bir dizi (array) halinde döndür. Ürünün içerisindeki temel malzemeleri yaz (örn: pesto soslu makarna → ["Makarna", "Krema", "Fesleğen", "Çam fıstığı", "Parmesan peyniri"]). İçeceklerde de ana malzemeleri belirt (örn: latte → ["Espresso", "Süt"]). Malzeme tahmin edilemiyorsa boş dizi [] döndür.
+9. Alerjenler: Her ürün için içerik tahmini yaparak Türkçe isimleriyle olası alerjenleri bir dizi (array) olarak döndür. (Örn: ["Gluten", "Süt", "Yumurta", "Fıstık", "Deniz Ürünü", "Soya"]). Eğer tahmin edilemiyorsa veya alerjen yoksa boş dizi [] döndür.
+10. Bileşenler (ingredients): HER ürün için bileşenleri Türkçe bir dizi olarak döndür; bu alan müşteri menüsünde açıklamanın altında "Bileşenler:" olarak gösterilir.
+   - Menüde ürünün altında veya yanında içerik/malzeme yazıyorsa (ör. "Votka – Cin – Limon Suyu", "domates, mozzarella, fesleğen") o malzemeleri AYNEN ve aynı sırayla kullan; kendinden ekleme ya da çıkarma yapma.
+   - Menüde yazmıyorsa ürünün ana malzemelerini tahmin et (örn: pesto soslu makarna → ["Makarna", "Krema", "Fesleğen", "Çam fıstığı", "Parmesan peyniri"], latte → ["Espresso", "Süt"], şişe bira → ["Su", "Arpa maltı", "Şerbetçiotu", "Maya"]).
+   - Her madde 1-3 kelime, ilk harfi büyük, gramaj ve marka yok, en fazla 8 madde. Gerçekten tahmin edilemiyorsa boş dizi [].
+11. Açıklama: Her ürün için iştah açıcı, kısa (1 cümle, en fazla ~120 karakter) bir tanıtım cümlesi yaz: pişirme/sunum şekli, lezzet karakteri, porsiyon ya da servis bilgisi. Bileşenleri virgülle sıralayan bir liste YAZMA (onlar ingredients alanında). Menüde ürünün kendi açıklaması varsa onu temel al. Menüde yazmayan iddialar uydurma ("kömür ateşinde", "ev yapımı", "günlük taze" gibi). (Örnek: Cafe de Paris Soslu Penne → "Tereyağlı, otlu Cafe de Paris sosuyla buluşan penne; üzerine parmesan rendesi." Filtre Kahve → "Taze çekilmiş çekirdekten demlenen, yumuşak içimli filtre kahve.")
 
 Lütfen çıktıyı tam olarak şu JSON şemasında ver:
 {
@@ -240,7 +244,7 @@ Lütfen çıktıyı tam olarak şu JSON şemasında ver:
         price: sanitizePrice(item.price || ''),
         calories: typeof item.calories === 'number' ? item.calories : null,
         allergens: Array.isArray(item.allergens) ? item.allergens.map((a: any) => sanitizeText(String(a), 50)) : [],
-        ingredients: Array.isArray(item.ingredients) ? item.ingredients.map((i: any) => sanitizeText(String(i), 80)) : [],
+        ingredients: Array.isArray(item.ingredients) ? uniqueIngredients(item.ingredients.map((i: any) => sanitizeText(String(i), 80))) : [],
         image_url: '',
         catalog_item_id: null,
         match: { level: 'none', candidates: [] },
