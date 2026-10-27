@@ -220,6 +220,25 @@ export const DEFAULT_CATALOG_FALLBACK = [
   { name: 'Şefin Özel Menü Lezzeti', defaultDescription: 'Taze mevsim malzemeleriyle günlük hazırlanan özel şef tabağı.', defaultCalories: 350, defaultImage: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400' }
 ]
 
+
+/** Aramada Türkçe karakter ve büyük/küçük harf farkı yok sayılır ("sise" → "Şişe") */
+const foldSearch = (s: string) =>
+  s
+    .toLocaleLowerCase('tr')
+    .replace(/[çğıöşü]/g, (c) => ({ ç: 'c', ğ: 'g', ı: 'i', ö: 'o', ş: 's', ü: 'u' })[c] as string)
+    .replace(/\s+/g, ' ')
+
+const itemMatchesSearch = (item: MenuItem, q: string) =>
+  foldSearch(item.name).includes(q) || foldSearch(item.description || '').includes(q)
+
+/** AI ile boş alan doldurma modları (/api/menus/enrich); her birinin günlük 3 hakkı var */
+type EnrichMode = 'nutrition' | 'ingredients' | 'description'
+const ENRICH_BUTTONS: { mode: EnrichMode; label: string }[] = [
+  { mode: 'nutrition', label: 'Kalori/Alerjen Ekle' },
+  { mode: 'ingredients', label: 'Bileşen Ekle' },
+  { mode: 'description', label: 'Açıklama Yaz' },
+]
+
 export function LiveMenuEditor() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -436,7 +455,18 @@ export function LiveMenuEditor() {
   const [compressedPhotoInfo, setCompressedPhotoInfo] = useState<string | null>(null)
 
   // AI TOPLU ZENGİNLEŞTİRME (KALORİ/ALERJEN) STATE'LERİ
-  const [isEnriching, setIsEnriching] = useState(false)
+  // AI ile boş alan doldurma: hangi mod çalışıyor (aynı anda tek istek)
+  const [enrichingMode, setEnrichingMode] = useState<EnrichMode | null>(null)
+  // Ürün listesinde arama (ad, açıklama, kategori adı)
+  const [itemSearch, setItemSearch] = useState('')
+  const searchQuery = foldSearch(itemSearch.trim())
+  const searchMatchCount = useMemo(() => {
+    if (!searchQuery || !menu) return 0
+    return menu.categories.reduce(
+      (n, c) => n + (foldSearch(c.name).includes(searchQuery) ? c.items.length : c.items.filter((i) => itemMatchesSearch(i, searchQuery)).length),
+      0
+    )
+  }, [menu, searchQuery])
 
   // AI KALORİ TAHMİNİ STATE'LERİ
   const [isEstimatingCalories, setIsEstimatingCalories] = useState(false)
@@ -1087,25 +1117,27 @@ export function LiveMenuEditor() {
   }, [])
 
   // Kalorisi hiç girilmemiş ürünler (sunucudaki kuralla aynı: 0 girilmiş sayılır)
+  // Moda göre alanı boş ürün sayısı (sunucudaki seçimle aynı kural)
   const itemsNeedingEnrich = useMemo(() => {
-    if (!menu) return 0
-    let count = 0
-    for (const cat of menu.categories) {
+    const counts: Record<EnrichMode, number> = { nutrition: 0, ingredients: 0, description: 0 }
+    for (const cat of menu?.categories || []) {
       for (const item of cat.items) {
-        if (item.calories == null) count++
+        if (item.calories == null) counts.nutrition++
+        if (!item.ingredients?.length) counts.ingredients++
+        if (!item.description?.trim()) counts.description++
       }
     }
-    return count
+    return counts
   }, [menu])
 
-  const handleEnrichAll = async () => {
-    if (!subdomain || isEnriching || itemsNeedingEnrich === 0) return
-    setIsEnriching(true)
+  const handleEnrichAll = async (mode: EnrichMode) => {
+    if (!subdomain || enrichingMode || itemsNeedingEnrich[mode] === 0) return
+    setEnrichingMode(mode)
     try {
       const res = await authFetch('/api/menus/enrich', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subdomain }),
+        body: JSON.stringify({ subdomain, mode }),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -1131,6 +1163,7 @@ export function LiveMenuEditor() {
                 ...(e.calories != null ? { calories: e.calories, calorie_source: 'auto' as const } : {}),
                 ...(e.allergens ? { allergens: e.allergens } : {}),
                 ...(e.ingredients ? { ingredients: e.ingredients } : {}),
+                ...(e.description ? { description: e.description } : {}),
               }
             }),
           })),
@@ -1154,7 +1187,7 @@ export function LiveMenuEditor() {
     } catch (e: any) {
       toast.error(`Bağlantı hatası: ${e.message}`)
     } finally {
-      setIsEnriching(false)
+      setEnrichingMode(null)
     }
   }
 
@@ -1424,22 +1457,25 @@ export function LiveMenuEditor() {
                 <p className="text-xs text-gray-500">Kategorileri açıp kapatabilir, sıralayabilir ve ürün ekleyebilirsiniz.</p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                {itemsNeedingEnrich > 0 && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={handleEnrichAll}
-                    disabled={isEnriching}
-                    className="border-amber-400 bg-amber-50 text-amber-800 hover:bg-amber-100 font-semibold"
-                  >
-                    {isEnriching ? (
-                      <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />
-                    ) : (
-                      <Sparkles className="h-3.5 w-3.5 mr-1.5 text-amber-600" />
-                    )}
-                    {isEnriching ? 'AI analiz ediyor...' : `AI ile ${itemsNeedingEnrich} Ürüne Kalori/Alerjen Ekle`}
-                    <span className="ml-1 text-[10px] opacity-70">(3/gün)</span>
-                  </Button>
+                {ENRICH_BUTTONS.map(({ mode, label }) =>
+                  itemsNeedingEnrich[mode] > 0 ? (
+                    <Button
+                      key={mode}
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleEnrichAll(mode)}
+                      disabled={!!enrichingMode}
+                      className="border-amber-400 bg-amber-50 text-amber-800 hover:bg-amber-100 font-semibold"
+                    >
+                      {enrichingMode === mode ? (
+                        <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />
+                      ) : (
+                        <Sparkles className="h-3.5 w-3.5 mr-1.5 text-amber-600" />
+                      )}
+                      {enrichingMode === mode ? 'AI yazıyor...' : `AI ile ${itemsNeedingEnrich[mode]} Ürüne ${label}`}
+                      <span className="ml-1 text-[10px] opacity-70">(3/gün)</span>
+                    </Button>
+                  ) : null
                 )}
                 <Button size="sm" variant="outline" onClick={() => setIsTemplateModalOpen(true)}>
                   <BookOpen className="h-3.5 w-3.5 mr-1 text-primary" /> Şablon Yükle
@@ -1449,6 +1485,39 @@ export function LiveMenuEditor() {
                 </Button>
               </div>
             </div>
+
+            {menu.categories.length > 0 && (
+              <div className="sticky top-2 z-20">
+                <div className="relative">
+                  <Search className="pointer-events-none absolute left-3 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    value={itemSearch}
+                    onChange={(e) => setItemSearch(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Escape') setItemSearch('')
+                    }}
+                    placeholder="Ürün ara: ad, açıklama ya da kategori…"
+                    aria-label="Menüde ürün ara"
+                    className="h-10 bg-background pl-9 pr-9 shadow-sm"
+                  />
+                  {itemSearch && (
+                    <button
+                      type="button"
+                      onClick={() => setItemSearch('')}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-muted-foreground hover:bg-accent hover:text-foreground"
+                      aria-label="Aramayı temizle"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+                {searchQuery && (
+                  <p className="mt-1 rounded bg-background/90 px-1 text-xs text-muted-foreground">
+                    {searchMatchCount > 0 ? `${searchMatchCount} ürün bulundu` : 'Aramayla eşleşen ürün yok.'}
+                  </p>
+                )}
+              </div>
+            )}
 
             {menu.categories.length === 0 && (
               <Card className="p-8 text-center border-dashed">
@@ -1464,7 +1533,13 @@ export function LiveMenuEditor() {
               </Card>
             )}
 
-            {menu.categories.map((category, index) => (
+            {menu.categories.map((category, index) => {
+              // Aramada: kategori adı eşleşirse tüm ürünleri, yoksa yalnızca eşleşen ürünleri; hiçbiri yoksa kategori gizli
+              const visibleItems = !searchQuery || foldSearch(category.name).includes(searchQuery)
+                ? category.items
+                : category.items.filter((item) => itemMatchesSearch(item, searchQuery))
+              if (searchQuery && visibleItems.length === 0) return null
+              return (
               <Card 
                 key={category.id} 
                 className={`transition-all border ${
@@ -1496,7 +1571,9 @@ export function LiveMenuEditor() {
                     <div>
                       <div className="flex items-center space-x-2">
                         <span className="font-bold text-foreground text-sm">{category.name}</span>
-                        <span className="text-[11px] text-muted-foreground">({category.items.length} Ürün)</span>
+                        <span className="text-[11px] text-muted-foreground">
+                          ({visibleItems.length !== category.items.length ? `${visibleItems.length}/` : ''}{category.items.length} Ürün)
+                        </span>
                       </div>
                       {category.description && (
                         <p className="text-xs text-muted-foreground line-clamp-1">{category.description}</p>
@@ -1583,7 +1660,7 @@ export function LiveMenuEditor() {
                       <div className="divide-y divide-border">
                         {/* Dar ekranda kart: üstte ürün + işlemler, altta alanlar; md ve üstünde tablo satırı
                             (md:contents ile alan sarmalayıcısı ızgaradan çekilir, alanlar doğrudan sütunlara oturur) */}
-                        {category.items.map((item) => (
+                        {visibleItems.map((item) => (
                           <div key={item.id} className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-2.5 p-3 hover:bg-accent/50 transition-colors md:grid-cols-[8fr_3fr_2fr_4fr_3fr_2fr] md:items-center md:gap-2">
                             {/* 1. ÜRÜN BİLGİSİ (stok yoksa ya da menüde gizliyse soluk) */}
                             <div className={`flex min-w-0 items-center space-x-3 overflow-hidden transition-opacity ${item.is_available === false || item.is_hidden ? 'opacity-50' : ''}`}>
@@ -1722,7 +1799,8 @@ export function LiveMenuEditor() {
                   )}
                 </CardContent>
               </Card>
-            ))}
+              )
+            })}
           </div>
         </div>
 
