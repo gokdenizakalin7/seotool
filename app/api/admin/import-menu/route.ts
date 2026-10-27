@@ -5,6 +5,7 @@ import { logAdminAction } from '@/lib/server/admin/audit'
 import { z } from 'zod'
 import { randomUUID } from 'crypto'
 import { localizeOrgItemImages } from '@/lib/server/localize-item-images'
+import { logUnmatched, matchScannedItems } from '@/lib/server/catalog-matcher'
 
 export const maxDuration = 300
 
@@ -43,6 +44,30 @@ export async function POST(request: NextRequest) {
 
     const menuId = `menu-${randomUUID()}`
 
+    // Kataloğa eşleştirme (fotoğraftan taramadaki kural): kesin eşleşen ürün kataloğa bağlanır.
+    // İşletmenin kendi görseli korunur; görseli olmayan ürüne katalog görseli verilir.
+    const flat = categories.flatMap((cat) => cat.items.map((item) => ({ name: item.name, category: cat.name })))
+    const infos = await matchScannedItems(flat, { menuName })
+    let k = 0
+    let catalogLinked = 0
+    let catalogImages = 0
+    const matched = categories.map((cat) => ({
+      ...cat,
+      items: cat.items.map((item) => {
+        const info = infos[k++]
+        if (info?.level !== 'auto' || !info.top) return { ...item, catalogItemId: null as string | null }
+        catalogLinked++
+        const useCatalogImage = !item.imageUrl.trim() && Boolean(info.top.image_url)
+        if (useCatalogImage) catalogImages++
+        return { ...item, catalogItemId: info.top.item_id, imageUrl: useCatalogImage ? info.top.image_url : item.imageUrl }
+      }),
+    }))
+    const unmatched = flat
+      .map((it, i) => ({ it, info: infos[i] }))
+      .filter(({ info }) => info?.level !== 'auto')
+      .map(({ it, info }) => ({ name: it.name, category_name: it.category, best_slug: info?.top?.slug ?? null, best_score: info?.top?.score ?? null }))
+    if (unmatched.length) logUnmatched(unmatched)
+
     const menusPayload = [
       {
         id: menuId,
@@ -52,7 +77,7 @@ export async function POST(request: NextRequest) {
         is_listed: true,
         layout: 'list',
         available_days: [0, 1, 2, 3, 4, 5, 6],
-        categories: categories.map((cat, catIdx) => ({
+        categories: matched.map((cat, catIdx) => ({
           id: `cat-${randomUUID()}`,
           name: cat.name,
           description: '',
@@ -64,6 +89,7 @@ export async function POST(request: NextRequest) {
             description: item.description,
             price: item.price,
             image_url: item.imageUrl,
+            catalog_item_id: item.catalogItemId,
             is_available: true,
             display_order: itemIdx,
           })),
@@ -91,7 +117,7 @@ export async function POST(request: NextRequest) {
       action: 'import_menu',
       targetType: 'organization',
       targetId: org.id,
-      after: { menuName, categoryCount: categories.length, itemCount: totalItems, imagesConverted: images.converted, imagesFailed: images.failed },
+      after: { menuName, categoryCount: categories.length, itemCount: totalItems, catalogLinked, catalogImages, imagesConverted: images.converted, imagesFailed: images.failed },
     })
 
     return NextResponse.json({
@@ -99,6 +125,7 @@ export async function POST(request: NextRequest) {
       menuName,
       categoryCount: categories.length,
       itemCount: totalItems,
+      catalog: { linked: catalogLinked, imagesFromCatalog: catalogImages },
       images,
     })
   })

@@ -38,6 +38,9 @@ const getAllergenIcon = (allergen: string) => {
 }
 
 /** Fiyat planı / kampanya indirimi: "%17" */
+/** Yapışkan kategori şeridinin altı (px): bölüm başlığı bu çizgiye gelince sekmesi aktif olur */
+const SCROLL_SPY_OFFSET = 104
+
 function savingsPercent(item: MenuItem): number | null {
   if (!item.original_price) return null
   const was = parsePrice(item.original_price)?.amount
@@ -146,50 +149,72 @@ export function PublicMenuView({
     scrollToCategory(categoryId)
   }
 
-  // Intersection Observer for Scroll Spy
+  // Kaydırma takibi: sekme çubuğunun altına gelmiş son bölüm aktiftir. IntersectionObserver eşiği uzun
+  // bölümlerde (mobilde tek sütun) hiç aşılmadığı için konum doğrudan ölçülür.
+  const categoryIdsKey = filteredCategories.map((c) => c.id).join('|')
   useEffect(() => {
-    if (filteredCategories.length === 0) return
-    
-    // Set initial active category if none is set
-    if (!activeCategory && filteredCategories.length > 0) {
-      setActiveCategory(filteredCategories[0].id)
+    if (landingVisible || !categoryIdsKey) return
+    const ids = categoryIdsKey.split('|')
+    let frame = 0
+    const update = () => {
+      frame = 0
+      if (isManualScrollRef.current) return
+      let current = ids[0]
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4
+      if (atBottom) {
+        current = ids[ids.length - 1]
+      } else {
+        for (const id of ids) {
+          const el = categoryRefs.current[id]
+          if (!el) continue
+          if (el.getBoundingClientRect().top > SCROLL_SPY_OFFSET) break
+          current = id
+        }
+      }
+      setActiveCategory((prev) => (prev === current ? prev : current))
     }
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update)
+    }
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [categoryIdsKey, landingVisible])
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (isManualScrollRef.current) return;
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveCategory(entry.target.id)
-          }
-        })
-      },
-      { rootMargin: '-96px 0px -75% 0px', threshold: 0.1 }
-    )
-
-    Object.values(categoryRefs.current).forEach((ref) => {
-      if (ref) observer.observe(ref)
-    })
-
-    return () => observer.disconnect()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredCategories])
+  // Sekmeye dokunulunca yumuşak kaydırma bitene kadar takip susar; mobilde uzun mesafeler 800 ms'yi aşabildiği için
+  // sabit süre yerine kaydırmanın durması beklenir
+  const releaseManualScrollRef = useRef<(() => void) | null>(null)
+  useEffect(() => () => releaseManualScrollRef.current?.(), [])
 
   const scrollToCategory = (categoryId: string) => {
-    isManualScrollRef.current = true
+    releaseManualScrollRef.current?.()
     setActiveCategory(categoryId)
     const element = categoryRefs.current[categoryId]
-    if (element) {
-      const yOffset = -96
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
-      window.scrollTo({ top: y, behavior: 'smooth' })
-      
-      setTimeout(() => {
-        isManualScrollRef.current = false
-      }, 800)
-    } else {
+    if (!element) return
+    isManualScrollRef.current = true
+    let idle = 0
+    const release = () => {
+      window.removeEventListener('scroll', onScroll)
+      window.clearTimeout(idle)
+      window.clearTimeout(cap)
       isManualScrollRef.current = false
+      releaseManualScrollRef.current = null
     }
+    const onScroll = () => {
+      window.clearTimeout(idle)
+      idle = window.setTimeout(release, 150)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    idle = window.setTimeout(release, 400)
+    const cap = window.setTimeout(release, 2500)
+    releaseManualScrollRef.current = release
+    const y = element.getBoundingClientRect().top + window.scrollY - SCROLL_SPY_OFFSET + 8
+    window.scrollTo({ top: y, behavior: 'smooth' })
   }
 
   const copyWifi = () => {
