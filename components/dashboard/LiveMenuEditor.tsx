@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { authFetch } from '@/lib/api-client'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -36,6 +36,7 @@ import {
   RotateCcw,
   BookOpen,
   CheckCircle2,
+  BadgePercent,
   ArrowRight,
   AlertCircle,
   Camera,
@@ -57,6 +58,7 @@ import { compressImageFile, IMAGE_PRESETS, formatFileSize } from '@/lib/image-co
 import { safeJsonParse } from '@/lib/utils'
 import { applyStoredImages, remapMenuIds } from '@/lib/menu-ids'
 import { siteUrl } from '@/lib/site-url'
+import { applyPricePlanToMenu, type PriceModeState, type PricePlan } from '@/lib/price-plan'
 import { catalogThumbUrl } from '@/lib/image-url'
 import { generateItemImage } from '@/lib/image-generation-client'
 import { CatalogPickerPopover } from '@/components/modals/scan-editor/CatalogPickerPopover'
@@ -302,8 +304,77 @@ export function LiveMenuEditor() {
   const [previewSelectedItem, setPreviewSelectedItem] = useState<MenuItem | null>(null)
   const [wifiCopied, setWifiCopied] = useState(false)
 
+  // FİYAT PLANLARI: önizleme seçilen planın fiyatlarıyla çizilir; "Müşteriye uygula" ile canlıya alınır.
+  // Editördeki menü ve fiyat alanları her zaman normal fiyatlardır, plan yalnızca önizlemeye uygulanır.
+  const [priceState, setPriceState] = useState<{
+    plans: PricePlan[]
+    currency: string
+    mode: PriceModeState
+    effective: { planId: string | null; source: 'manual' | 'schedule' | 'none'; until: string | null }
+  } | null>(null)
+  const [previewPlanId, setPreviewPlanId] = useState('')
+  const [isApplyingPlan, setIsApplyingPlan] = useState(false)
+
+  const loadPricePlans = useCallback(async () => {
+    if (!subdomain) return null
+    try {
+      const res = await authFetch(`/api/site/price-plans?subdomain=${encodeURIComponent(subdomain)}`)
+      if (!res.ok) return null
+      const data = await res.json()
+      setPriceState(data)
+      return data as NonNullable<typeof priceState>
+    } catch {
+      return null
+    }
+  }, [subdomain])
+
+  useEffect(() => {
+    loadPricePlans().then((data) => setPreviewPlanId(data?.effective.planId || ''))
+  }, [loadPricePlans])
+
+  const livePlanId = priceState?.effective.planId || ''
+  const previewPlan = priceState?.plans.find((p) => p.id === previewPlanId) || null
+  const previewMenu = useMemo(
+    () => (menu && previewPlan ? applyPricePlanToMenu(menu, previewPlan, priceState?.currency || '₺') : menu),
+    [menu, previewPlan, priceState?.currency]
+  )
+
+  const applyPreviewPlan = async () => {
+    if (!priceState) return
+    setIsApplyingPlan(true)
+    try {
+      const res = await authFetch('/api/site/price-mode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          previewPlan
+            ? { subdomain, mode: 'manual', planId: previewPlan.id, until: null }
+            : { subdomain, mode: 'auto', planId: null, until: null }
+        ),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data?.error || 'Fiyatlar uygulanamadı.')
+      const fresh = await loadPricePlans()
+      const stillPlan = fresh?.plans.find((p) => p.id === fresh.effective.planId)
+      if (previewPlan) {
+        toast.success(`"${previewPlan.name}" fiyatları müşteri menüsünde geçerli.`, { description: 'Siz değiştirene kadar devrede kalır.' })
+      } else if (stillPlan) {
+        setPreviewPlanId(stillPlan.id)
+        toast.info(`Takvimdeki "${stillPlan.name}" planı şu an açık olduğu için devrede.`, {
+          description: 'Takvimi beklemeden normal fiyatlara dönmek için Fiyat Planları sayfasında "Elle seç → Normal fiyatlar"ı kullanın.',
+        })
+      } else {
+        toast.success('Müşteri menüsünde normal fiyatlar geçerli.')
+      }
+    } catch (e: any) {
+      toast.error(e?.message || 'Fiyatlar uygulanamadı.')
+    } finally {
+      setIsApplyingPlan(false)
+    }
+  }
+
   // Müşterinin gördüğü gerçek menü sayfasını iframe içinde gösterir; düzenlemeler postMessage ile aktarılır
-  const previewIframeRef = usePublicMenuPreview({ menu, restaurant: currentRestaurant, primaryColor })
+  const previewIframeRef = usePublicMenuPreview({ menu: previewMenu, restaurant: currentRestaurant, primaryColor })
   const [savedSuccess, setSavedSuccess] = useState(false)
   // Dar ekranda (lg altı) telefon önizlemesi ızgarada değil, sağ alttaki düğmeyle açılan tam ekran katmandadır
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false)
@@ -1675,8 +1746,56 @@ export function LiveMenuEditor() {
             </div>
           </div>
 
+          {/* FİYAT PLANI: önizlemede planlar arasında geçiş, seçileni müşteriye uygula */}
+          {priceState && (
+            <div className="w-full max-w-[360px] mb-2 rounded-2xl border border-border bg-card px-3 py-2 shadow-sm">
+              {priceState.plans.length === 0 ? (
+                <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1.5">
+                    <BadgePercent className="h-4 w-4 text-primary" /> Fiyat planı yok
+                  </span>
+                  <button type="button" onClick={() => navigate('/dashboard/price-plans')} className="font-bold text-primary hover:underline">
+                    Plan oluştur
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <BadgePercent className="h-4 w-4 shrink-0 text-primary" />
+                    <select
+                      value={previewPlanId}
+                      onChange={(e) => setPreviewPlanId(e.target.value)}
+                      aria-label="Önizlemedeki fiyatlar"
+                      className="h-8 min-w-0 flex-1 rounded-lg border border-border bg-background px-2 text-xs font-semibold text-foreground"
+                    >
+                      <option value="">Normal fiyatlar{!livePlanId ? ' (canlıda)' : ''}</option>
+                      {priceState.plans.map((p) => (
+                        <option key={p.id} value={p.id}>
+                          {p.name}
+                          {p.id === livePlanId ? ' (canlıda)' : ''}
+                        </option>
+                      ))}
+                    </select>
+                    {previewPlanId !== livePlanId && (
+                      <Button size="sm" className="h-8 shrink-0 px-2.5 text-xs" onClick={applyPreviewPlan} disabled={isApplyingPlan}>
+                        {isApplyingPlan ? <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" /> : <Check className="mr-1 h-3.5 w-3.5" />}
+                        Müşteriye uygula
+                      </Button>
+                    )}
+                  </div>
+                  <p className="text-[11px] leading-snug text-muted-foreground">
+                    {previewPlanId === livePlanId
+                      ? `Müşteriler şu an ${previewPlan ? `"${previewPlan.name}"` : 'normal'} fiyatları görüyor${priceState.effective.source === 'schedule' ? ' (takvime göre)' : ''}.`
+                      : `Önizleme: ${previewPlan ? `"${previewPlan.name}"` : 'normal fiyatlar'}. Müşteriler hâlâ ${livePlanId ? `"${priceState.plans.find((p) => p.id === livePlanId)?.name}"` : 'normal'} fiyatları görüyor.`}
+                    {previewPlan && ' Editördeki fiyatlar normal fiyatlardır; plan bunlardan türetilir.'}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* TELEFON ÇERÇEVESİ (dar ekranda ekrana sığacak kadar kısalır) */}
-          <div className="keep-light w-full max-w-[360px] h-[min(720px,calc(100dvh_-_5.5rem))] lg:h-[720px] bg-black rounded-[48px] p-3.5 shadow-2xl border-4 border-gray-800 relative flex flex-col justify-between overflow-hidden">
+          <div className="keep-light w-full max-w-[360px] h-[min(720px,calc(100dvh_-_10rem))] lg:h-[720px] bg-black rounded-[48px] p-3.5 shadow-2xl border-4 border-gray-800 relative flex flex-col justify-between overflow-hidden">
             
             <div className="absolute top-5 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-full z-50 flex items-center justify-center">
               <div className="w-2.5 h-2.5 bg-gray-900 rounded-full mr-2"></div>
