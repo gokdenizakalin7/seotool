@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import {
   Search,
   Utensils,
@@ -566,9 +566,11 @@ export function PublicMenuView({
 
       {/* Ürün Detay Modalı */}
       <Dialog open={isItemModalOpen} onOpenChange={setIsItemModalOpen}>
-        <DialogContent className="sm:max-w-[480px] p-0 overflow-hidden max-h-[90vh] bg-white dark:bg-[#2c2c2e] rounded-[40px] border-none shadow-[0_40px_80px_rgba(0,0,0,0.2)]">
+        {/* Modal sabit yükseklikli flex sütun: görsel sabit, detay alanı kendi içinde kayar. dvh: mobil tarayıcı çubukları hesaba katılır */}
+        <DialogContent className="sm:max-w-[480px] p-0 gap-0 flex flex-col overflow-hidden max-h-[90dvh] bg-white dark:bg-[#2c2c2e] rounded-[40px] border-none shadow-[0_40px_80px_rgba(0,0,0,0.2)]">
           {selectedItem && (
-            <div className="relative h-full flex flex-col">
+            <div className="relative flex min-h-0 flex-1 flex-col">
+              <DialogTitle className="sr-only">{selectedItem.name}</DialogTitle>
               {/* Close Button on top of image */}
               <button 
                 onClick={() => setIsItemModalOpen(false)}
@@ -582,7 +584,7 @@ export function PublicMenuView({
 
               {/* Dev Görsel Alanı */}
               {selectedItem.image_url ? (
-                <div className="relative h-[300px] sm:h-[350px] w-full shrink-0">
+                <div className="relative h-[min(300px,35dvh)] sm:h-[min(350px,40dvh)] w-full shrink-0">
                   <img
                     src={selectedItem.image_url}
                     alt={selectedItem.name}
@@ -597,11 +599,11 @@ export function PublicMenuView({
                   )}
                 </div>
               ) : (
-                <div className="h-24 bg-gradient-to-b from-gray-100 to-white" />
+                <div className="h-24 shrink-0 bg-gradient-to-b from-gray-100 to-white" />
               )}
 
               {/* Detay Alanı */}
-              <div className="flex-1 overflow-y-auto px-6 pb-8 pt-4">
+              <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 pb-8 pt-4">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-3xl font-black text-gray-900 dark:text-zinc-100 tracking-tight leading-tight pr-4">{selectedItem.name}</h3>
                   {selectedItem.price && (

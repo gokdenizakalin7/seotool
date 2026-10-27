@@ -3,18 +3,17 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Check, Sparkles } from 'lucide-react'
 import { Breadcrumbs, MarketingShell, SignupCta } from '@/components/marketing/MarketingShell'
-import { ExampleSites } from '@/components/marketing/ExampleSites'
+import { DemoPhone } from '@/components/marketing/DemoPhone'
 import { BUSINESS_PAGES, businessPagePath, getBusinessPage } from '@/lib/marketing/business-pages'
+import { demoMenuPath } from '@/lib/marketing/demo-menus'
 import { BLOG_POSTS, blogPostPath } from '@/lib/blog/posts'
 import { breadcrumbLd, faqLd, marketingMetadata } from '@/lib/marketing/seo'
-import { listExampleSites } from '@/lib/server/marketing'
 import { jsonLdHtml } from '@/lib/site-seo'
 
 /**
- * İşletme türüne göre QR menü sayfası (/qr-menu/kafe …). Metin lib/marketing/business-pages.ts'te; örnek siteler
- * saatte bir yenilenir. Listede olmayan tür 404.
+ * İşletme türüne göre QR menü sayfası (/qr-menu/kafe …). Metin lib/marketing/business-pages.ts'te; demo menü
+ * kurgusal test verisidir (lib/marketing/demo-menus.ts), gerçek işletme gösterilmez. Listede olmayan tür 404.
  */
-export const revalidate = 3600
 export const dynamicParams = false
 
 export function generateStaticParams() {
@@ -42,7 +41,7 @@ const COMMON_FEATURES = [
 export default async function BusinessTypePage({ params }: { params: Params }) {
   const page = getBusinessPage((await params).tur)
   if (!page) notFound()
-  const examples = await listExampleSites({ type: page.type, limit: 6 })
+  const demoHref = demoMenuPath(page.slug)
   const others = BUSINESS_PAGES.filter((p) => p.slug !== page.slug)
 
   const crumbs = [
@@ -65,11 +64,9 @@ export default async function BusinessTypePage({ params }: { params: Params }) {
             <Link href="/signup" className="rounded-full bg-gray-900 px-6 py-3 font-bold text-white hover:bg-gray-700">
               Ücretsiz QR menü oluştur
             </Link>
-            {examples[0] && (
-              <Link href={`/${examples[0].slug}`} className="rounded-full border border-gray-300 px-6 py-3 font-bold text-gray-800 hover:bg-gray-50">
-                Örnek menüyü gör
-              </Link>
-            )}
+            <Link href={demoHref} className="rounded-full border border-gray-300 px-6 py-3 font-bold text-gray-800 hover:bg-gray-50">
+              Örnek menüyü gör
+            </Link>
           </div>
         </div>
       </section>
@@ -88,6 +85,8 @@ export default async function BusinessTypePage({ params }: { params: Params }) {
           değiştirebilirsiniz.
         </p>
       </section>
+
+      <DemoPhone name={page.name} src={`${demoHref}?embed=1`} href={demoHref} />
 
       <section className="mx-auto mt-14 max-w-6xl px-4 sm:px-6">
         <h2 className="text-center text-3xl font-extrabold tracking-tight text-gray-900">
@@ -117,8 +116,6 @@ export default async function BusinessTypePage({ params }: { params: Params }) {
           ))}
         </ul>
       </section>
-
-      <ExampleSites title={`QR Chef kullanan ${page.plural.toLocaleLowerCase('tr')}`} sites={examples} />
 
       <section className="mx-auto mt-16 max-w-4xl px-4 sm:px-6">
         <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Sık sorulan sorular</h2>
