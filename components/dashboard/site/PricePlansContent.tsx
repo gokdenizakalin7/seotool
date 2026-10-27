@@ -103,6 +103,24 @@ export function PricePlansContent() {
   const planName = (id: string | null | undefined) => plans.find((p) => p.id === id)?.name
   const overlaps = useMemo(() => findScheduleOverlaps(plans), [plans])
 
+  // Plan kartından tek tıkla: planı elle (süresiz) uygula ya da otomatik moda dön
+  const [applying, setApplying] = useState<string | null>(null)
+  const applyPlanNow = async (plan: PricePlan | null) => {
+    setApplying(plan?.id || 'auto')
+    try {
+      await siteApi<{ mode: PriceModeState }>('/api/site/price-mode', {
+        method: 'POST',
+        json: plan ? { subdomain, mode: 'manual', planId: plan.id, until: null } : { subdomain, mode: 'auto', planId: null, until: null },
+      })
+      toast.success(plan ? `"${plan.name}" fiyatları şu an geçerli. Siz değiştirene kadar devrede kalır.` : 'Fiyatlar takvime göre otomatik moda döndü.')
+      load()
+    } catch (e: any) {
+      toast.error(e?.message || 'Fiyat modu değiştirilemedi.')
+    } finally {
+      setApplying(null)
+    }
+  }
+
   const handleDelete = async () => {
     if (!deleteTarget) return
     try {
@@ -180,6 +198,7 @@ export function PricePlansContent() {
               {plans.map((plan) => {
                 const overrideCount = Object.keys(plan.overrides || {}).length
                 const isEffective = state.effective.planId === plan.id
+                const isManualActive = state.mode.mode === 'manual' && state.mode.activePlanId === plan.id
                 return (
                   <Card key={plan.id} className={cn(isEffective && 'ring-2 ring-primary')}>
                     <CardHeader className="pb-2">
@@ -210,7 +229,18 @@ export function PricePlansContent() {
                         )}
                         {plan.bannerText && <p className="italic">“{plan.bannerText}”</p>}
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex flex-wrap gap-2">
+                        {isManualActive ? (
+                          <Button size="sm" variant="outline" onClick={() => applyPlanNow(null)} disabled={isSuspended || !!applying}>
+                            {applying === 'auto' ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <X className="mr-1.5 h-3.5 w-3.5" />}
+                            Normal fiyatlara dön
+                          </Button>
+                        ) : (
+                          <Button size="sm" onClick={() => applyPlanNow(plan)} disabled={isSuspended || !!applying}>
+                            {applying === plan.id ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Zap className="mr-1.5 h-3.5 w-3.5" />}
+                            Şimdi uygula
+                          </Button>
+                        )}
                         <Button size="sm" variant="outline" onClick={() => setEditing(draftFromPlan(plan))} disabled={isSuspended}>
                           <Pencil className="mr-1.5 h-3.5 w-3.5" /> Düzenle
                         </Button>
