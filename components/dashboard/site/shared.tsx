@@ -98,6 +98,8 @@ export interface FlatMenuItem {
   categoryId: string
   categoryName: string
   parentCategoryId: string | null
+  /** Kategori müşteri menüsünde açık mı (kapalıysa ürünleri görünmez) */
+  categoryActive: boolean
   menuId: string
   menuName: string
 }
@@ -141,6 +143,7 @@ export function useOrgMenus(subdomain: string | undefined) {
             categoryId: cat.id,
             categoryName: cat.name,
             parentCategoryId: cat.parent_id || null,
+            categoryActive: cat.is_active !== false,
             menuId: menu.id,
             menuName: menu.name,
           })
