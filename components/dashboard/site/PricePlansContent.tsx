@@ -241,7 +241,7 @@ export function PricePlansContent() {
                             Şimdi uygula
                           </Button>
                         )}
-                        <Button size="sm" variant="outline" onClick={() => setEditing(draftFromPlan(plan))} disabled={isSuspended}>
+                        <Button size="sm" variant="outline" onClick={() => setEditing(draftFromPlan(plan))} disabled={isSuspended || loading}>
                           <Pencil className="mr-1.5 h-3.5 w-3.5" /> Düzenle
                         </Button>
                         <Button size="sm" variant="ghost" className="text-destructive" onClick={() => setDeleteTarget(plan)} disabled={isSuspended}>
@@ -264,7 +264,14 @@ export function PricePlansContent() {
           currency={currency}
           org={org}
           onClose={() => setEditing(null)}
-          onSaved={() => {
+          onSaved={(saved) => {
+            // Sunucunun döndürdüğü güncel plan listeye hemen yazılır: yenileme bitmeden
+            // "Düzenle"ye basılırsa editör eski (kaydedilmemiş) özel fiyatlarla açılmasın
+            if (saved) {
+              setState((s) =>
+                s ? { ...s, plans: s.plans.some((p) => p.id === saved.id) ? s.plans.map((p) => (p.id === saved.id ? saved : p)) : [...s.plans, saved] } : s
+              )
+            }
             setEditing(null)
             load()
           }}
@@ -468,7 +475,7 @@ function PlanEditor({
   currency: string
   org: ReturnType<typeof useOrgMenus>
   onClose: () => void
-  onSaved: () => void
+  onSaved: (plan?: PricePlan) => void
 }) {
   const [draft, setDraft] = useState<Draft>(initial)
   const [saving, setSaving] = useState(false)
@@ -560,12 +567,12 @@ function PlanEditor({
     }
     setSaving(true)
     try {
-      await siteApi(draft.id ? `/api/site/price-plans/${draft.id}` : '/api/site/price-plans', {
+      const res = await siteApi<{ plan?: PricePlan }>(draft.id ? `/api/site/price-plans/${draft.id}` : '/api/site/price-plans', {
         method: draft.id ? 'PATCH' : 'POST',
         json: payload,
       })
       toast.success('Fiyat planı kaydedildi.')
-      onSaved()
+      onSaved(res?.plan)
     } catch (e: any) {
       toast.error(e.message)
     } finally {
@@ -758,6 +765,12 @@ function PlanEditor({
                         <span className="flex flex-wrap items-center gap-2">
                           {group.name}
                           <span className="font-medium text-muted-foreground">{group.rows.length} ürün</span>
+                          {(() => {
+                            const n = group.rows.filter((r) => draft.overrides[r.item.id] != null).length
+                            return n > 0 ? (
+                              <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{n} özel fiyat</span>
+                            ) : null
+                          })()}
                           {draft.excludedCategoryIds.includes(group.id) && (
                             <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-800 dark:bg-amber-500/15 dark:text-amber-300">Bu planda hariç</span>
                           )}
