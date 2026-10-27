@@ -21,7 +21,7 @@ import {
 } from '@/lib/price-plan'
 import { cn } from '@/lib/utils'
 import { UnsavedChangesDialog, useBeforeUnload, useUnsavedChanges } from '@/components/dashboard/unsaved-changes'
-import { MigrationNotice, SiteApiError, SitePageShell, isoToLocalInput, localInputToIso, siteApi, useOrgMenus } from './shared'
+import { MigrationNotice, SiteApiError, SitePageShell, isoToLocalInput, localInputToIso, siteApi, useOrgMenus, type FlatMenuItem } from './shared'
 
 interface PlansResponse {
   plans: PricePlan[]
@@ -499,9 +499,22 @@ function PlanEditor({
     return [...seen.values()]
   }, [org.customerItems])
 
-  const rows = useMemo(() => {
+  // Ürünler menüdeki kategori sırasıyla, kategori başlıkları altında
+  const groups = useMemo(() => {
     const q = filter.trim().toLocaleLowerCase('tr')
-    return org.customerItems.filter((r) => !q || r.item.name.toLocaleLowerCase('tr').includes(q) || r.categoryName.toLocaleLowerCase('tr').includes(q))
+    const out: { id: string; name: string; active: boolean; rows: FlatMenuItem[] }[] = []
+    const byId = new Map<string, (typeof out)[number]>()
+    for (const r of org.customerItems) {
+      if (q && !r.item.name.toLocaleLowerCase('tr').includes(q) && !r.categoryName.toLocaleLowerCase('tr').includes(q)) continue
+      let g = byId.get(r.categoryId)
+      if (!g) {
+        g = { id: r.categoryId, name: r.categoryName, active: r.categoryActive, rows: [] }
+        byId.set(r.categoryId, g)
+        out.push(g)
+      }
+      g.rows.push(r)
+    }
+    return out
   }, [org.customerItems, filter])
 
   const update = (patch: Partial<Draft>) => setDraft((d) => ({ ...d, ...patch }))
@@ -723,7 +736,7 @@ function PlanEditor({
             ) : (
               <div className="max-h-[360px] overflow-auto rounded-xl border">
                 <table className="w-full text-sm">
-                  <thead className="sticky top-0 bg-muted text-xs uppercase text-muted-foreground">
+                  <thead className="sticky top-0 z-[2] bg-muted text-xs uppercase text-muted-foreground">
                     <tr>
                       <th className="px-3 py-2 text-left">Ürün</th>
                       <th className="px-3 py-2 text-right">Mevcut</th>
@@ -731,15 +744,36 @@ function PlanEditor({
                       <th className="px-3 py-2 text-left">Özel fiyat</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {rows.map(({ item, categoryId, categoryName, parentCategoryId }) => {
+                  {groups.length === 0 && (
+                    <tbody>
+                      <tr>
+                        <td colSpan={4} className="px-3 py-6 text-center text-sm text-muted-foreground">Aramayla eşleşen ürün yok.</td>
+                      </tr>
+                    </tbody>
+                  )}
+                  {groups.map((group) => (
+                  <tbody key={group.id}>
+                    <tr className="border-t bg-muted/60">
+                      <th colSpan={4} scope="colgroup" className="sticky top-[33px] z-[1] bg-muted px-3 py-1.5 text-left text-xs font-bold text-foreground">
+                        <span className="flex flex-wrap items-center gap-2">
+                          {group.name}
+                          <span className="font-medium text-muted-foreground">{group.rows.length} ürün</span>
+                          {draft.excludedCategoryIds.includes(group.id) && (
+                            <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-800 dark:bg-amber-500/15 dark:text-amber-300">Bu planda hariç</span>
+                          )}
+                          {!group.active && (
+                            <span className="rounded-full bg-muted-foreground/15 px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">Menüde gizli</span>
+                          )}
+                        </span>
+                      </th>
+                    </tr>
+                    {group.rows.map(({ item, categoryId, parentCategoryId }) => {
                       const result = applyPlanToPrice(item.price, { itemId: item.id, categoryId, parentCategoryId }, previewPlan, currency)
                       const isSkipped = Object.prototype.hasOwnProperty.call(draft.overrides, item.id) && draft.overrides[item.id] == null
                       return (
                         <tr key={item.id} className="border-t">
                           <td className="px-3 py-2">
                             <p className="font-medium text-foreground">{item.name}</p>
-                            <p className="text-xs text-muted-foreground">{categoryName}</p>
                           </td>
                           <td className="px-3 py-2 text-right text-muted-foreground">{item.price}</td>
                           <td className={cn('px-3 py-2 text-right font-semibold', result.changed && 'text-primary')}>
@@ -779,6 +813,7 @@ function PlanEditor({
                       )
                     })}
                   </tbody>
+                  ))}
                 </table>
               </div>
             )}
