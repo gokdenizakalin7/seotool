@@ -65,7 +65,8 @@ import { CatalogPickerPopover } from '@/components/modals/scan-editor/CatalogPic
 import { IngredientEditor } from '@/components/dashboard/IngredientEditor'
 import { INGREDIENT_MAX_LENGTH, uniqueIngredients } from '@/lib/ingredients'
 import { AI_ITEM_IMAGES_ENABLED } from '@/lib/constants'
-import { StockSwitch } from '@/components/dashboard/StockSwitch'
+import { HiddenToggle, StockSwitch } from '@/components/dashboard/StockSwitch'
+import { withoutHiddenItems } from '@/lib/menu-visibility'
 
 // KURUMSAL & SEO UYUMLU ANA KATEGORİ REHBERİ
 export const ORDERED_CATEGORY_GROUPS = [
@@ -335,7 +336,11 @@ export function LiveMenuEditor() {
   const livePlanId = priceState?.effective.planId || ''
   const previewPlan = priceState?.plans.find((p) => p.id === previewPlanId) || null
   const previewMenu = useMemo(
-    () => (menu && previewPlan ? applyPricePlanToMenu(menu, previewPlan, priceState?.currency || '₺') : menu),
+    // Telefon önizlemesi müşterinin gördüğü menü: gizli ürünler çıkarılır
+    () => {
+      const visible = menu ? withoutHiddenItems(menu) : menu
+      return visible && previewPlan ? applyPricePlanToMenu(visible, previewPlan, priceState?.currency || '₺') : visible
+    },
     [menu, previewPlan, priceState?.currency]
   )
 
@@ -944,7 +949,7 @@ export function LiveMenuEditor() {
     }) : null)
   }
 
-  const handleInlineUpdate = (catId: string, itemId: string, field: 'price' | 'calories' | 'allergens' | 'is_available', value: any) => {
+  const handleInlineUpdate = (catId: string, itemId: string, field: 'price' | 'calories' | 'allergens' | 'is_available' | 'is_hidden', value: any) => {
     setMenu(prev => prev ? ({
       ...prev,
       categories: prev.categories.map(cat => 
@@ -1566,12 +1571,12 @@ export function LiveMenuEditor() {
                   ) : (
                     <div className="flex flex-col md:min-w-[640px]">
                       {/* KOLON BAŞLIKLARI (dar ekranda her alan kendi etiketini taşır) */}
-                      <div className="hidden md:grid grid-cols-[8fr_3fr_2fr_4fr_2fr_2fr] gap-2 px-3 py-2 bg-muted/40 border-y border-border text-[10px] font-bold text-muted-foreground uppercase">
+                      <div className="hidden md:grid grid-cols-[8fr_3fr_2fr_4fr_3fr_2fr] gap-2 px-3 py-2 bg-muted/40 border-y border-border text-[10px] font-bold text-muted-foreground uppercase">
                         <div>Ürün</div>
                         <div className="text-center">Fiyat</div>
                         <div className="text-center">Kalori</div>
                         <div className="text-center">Alerjenler</div>
-                        <div className="text-center">Stok</div>
+                        <div className="text-center">Stok · Menü</div>
                         <div className="text-right">İşlemler</div>
                       </div>
                       
@@ -1579,9 +1584,9 @@ export function LiveMenuEditor() {
                         {/* Dar ekranda kart: üstte ürün + işlemler, altta alanlar; md ve üstünde tablo satırı
                             (md:contents ile alan sarmalayıcısı ızgaradan çekilir, alanlar doğrudan sütunlara oturur) */}
                         {category.items.map((item) => (
-                          <div key={item.id} className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-2.5 p-3 hover:bg-accent/50 transition-colors md:grid-cols-[8fr_3fr_2fr_4fr_2fr_2fr] md:items-center md:gap-2">
-                            {/* 1. ÜRÜN BİLGİSİ (stok yoksa soluk: müşteri menüsünde "Tükendi") */}
-                            <div className={`flex min-w-0 items-center space-x-3 overflow-hidden transition-opacity ${item.is_available === false ? 'opacity-50' : ''}`}>
+                          <div key={item.id} className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-2.5 p-3 hover:bg-accent/50 transition-colors md:grid-cols-[8fr_3fr_2fr_4fr_3fr_2fr] md:items-center md:gap-2">
+                            {/* 1. ÜRÜN BİLGİSİ (stok yoksa ya da menüde gizliyse soluk) */}
+                            <div className={`flex min-w-0 items-center space-x-3 overflow-hidden transition-opacity ${item.is_available === false || item.is_hidden ? 'opacity-50' : ''}`}>
                               {item.image_url ? (
                                 <img 
                                   src={catalogThumbUrl(item.image_url)}
@@ -1675,12 +1680,16 @@ export function LiveMenuEditor() {
                               />
                             </div>
 
-                            {/* 5. STOK: varsayılan "var"; tek tıkla "yok" */}
-                            <div className="col-span-2 flex items-center gap-2 md:col-span-1 md:justify-center">
+                            {/* 5. STOK ve MENÜDE GİZLE: stok yok = menüde "Tükendi"; gizli = menüde hiç yok */}
+                            <div className="col-span-2 flex flex-wrap items-center gap-2 md:col-span-1 md:justify-center">
                               <span className="text-[10px] font-bold uppercase text-muted-foreground md:hidden">Stok</span>
                               <StockSwitch
                                 checked={item.is_available !== false}
                                 onChange={(v) => handleInlineUpdate(category.id, item.id, 'is_available', v)}
+                              />
+                              <HiddenToggle
+                                hidden={!!item.is_hidden}
+                                onChange={(v) => handleInlineUpdate(category.id, item.id, 'is_hidden', v)}
                               />
                             </div>
                             </div>

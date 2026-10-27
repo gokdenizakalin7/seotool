@@ -2,20 +2,23 @@ import { NextResponse } from 'next/server'
 import { supabaseAdmin as supabase } from '@/lib/supabase-admin'
 import { requireSubdomainAccess } from '@/lib/auth-middleware'
 import { isDataImageUrl, storeItemDataUrl } from '@/lib/server/localize-item-images'
+import { isMissingSchemaError } from '@/lib/restaurant-profile'
 import { z } from 'zod'
 
+// Liste alanları null gelebilir (betikle eklenmiş eski ürünler); RPC dizi olmayan değeri '{}' yazar
 const itemSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1),
   description: z.string().optional(),
   price: z.union([z.string(), z.number()]).optional(),
   image_url: z.string().optional(),
-  allergens: z.array(z.string()).optional(),
-  ingredients: z.array(z.string()).optional(),
+  allergens: z.array(z.string()).nullable().optional(),
+  ingredients: z.array(z.string()).nullable().optional(),
   calories: z.number().nullable().optional(),
   is_available: z.boolean().optional(),
+  is_hidden: z.boolean().optional(),
   is_featured: z.boolean().optional(),
-  tags: z.array(z.string()).optional(),
+  tags: z.array(z.string()).nullable().optional(),
   display_order: z.number().optional(),
   // Kataloğa bağlantı; zod bilinmeyen alanları attığı için burada açıkça geçirilir
   catalog_item_id: z.uuid().nullable().optional(),
@@ -165,6 +168,21 @@ export async function POST(request: Request) {
         return NextResponse.json(
           { error: 'Bu menüyü düzenleme yetkiniz yok.', code: 'FORBIDDEN_RESOURCE' },
           { status: 403 }
+        )
+      }
+    }
+
+    // Gizli ürün varken items.is_hidden sütunu yoksa (migration 20 çalışmamış) RPC alanı sessizce yok sayar;
+    // kullanıcı ürünü gizledim sanmasın diye kayıt yapılmadan uyarı döner
+    if (menus.some((m) => m.categories?.some((c) => c.items?.some((i) => i.is_hidden)))) {
+      const { error: colErr } = await supabase.from('items').select('is_hidden').limit(1)
+      if (isMissingSchemaError(colErr)) {
+        return NextResponse.json(
+          {
+            error: 'Menüde gizleme için veritabanı güncellemesi bekleniyor (supabase/migrations/20_item_hidden.sql).',
+            code: 'MIGRATION_REQUIRED',
+          },
+          { status: 503 }
         )
       }
     }
