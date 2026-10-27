@@ -44,6 +44,8 @@ export interface MenuItem {
   variations?: ProductVariation[]
   display_order: number
   is_available: boolean
+  /** Menüde gizle: müşteri menüsünde hiç görünmez (silinmez; fiyat planı ve kampanya bağlantıları kalır) */
+  is_hidden?: boolean
   is_featured?: boolean
   /** Master katalog ürününe bağlantı (şablon/eşleştirme ile gelir); görsel yenilemede kullanılır */
   catalog_item_id?: string | null

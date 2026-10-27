@@ -3,6 +3,8 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 import { getSetting } from '@/lib/server/platform-settings'
 import { BUSINESS_TYPES } from '@/lib/business-types'
 import type { Menu } from '@/lib/types'
+import { withoutHiddenItems } from '@/lib/menu-visibility'
+import { isMissingSchemaError } from '@/lib/restaurant-profile'
 import credits from '@/public/catalog/credits.json'
 
 /**
@@ -68,21 +70,18 @@ export const getPublicRestaurant = cache(async (subdomain: string): Promise<any 
   }
 })
 
-/**
- * Yayındaki (is_listed) menüler; aktif kategoriler ve tüm ürünlerle, editördeki sırayla. Müşteri ilkini görür.
- * Stokta olmayan ürünler (is_available = false) gizlenmez; menüde soluk ve "Tükendi" olarak görünür.
- */
-export const getPublicMenus = cache(async (subdomain: string): Promise<Menu[]> => {
-  const { data, error } = await supabaseAdmin
+const PUBLIC_ITEM_COLUMNS =
+  'id, name, description, price, image_url, allergens, ingredients, calories, is_available, is_featured, display_order, tags'
+
+function queryPublicMenus(subdomain: string, itemColumns: string): PromiseLike<{ data: any[] | null; error: { code?: string; message: string } | null }> {
+  return supabaseAdmin
     .from('menus')
     .select(`
       id, name, description, image_url, layout,
       organizations!inner ( subdomain ),
       categories (
         id, parent_id, name, description, display_order, is_active,
-        items (
-          id, name, description, price, image_url, allergens, ingredients, calories, is_available, is_featured, display_order, tags
-        )
+        items ( ${itemColumns} )
       )
     `)
     .eq('organizations.subdomain', subdomain)
@@ -91,12 +90,30 @@ export const getPublicMenus = cache(async (subdomain: string): Promise<Menu[]> =
     .order('display_order', { ascending: true, referencedTable: 'categories' })
     .order('display_order', { ascending: true, referencedTable: 'categories.items' })
     .eq('categories.is_active', true)
+}
+
+/**
+ * Yayındaki (is_listed) menüler; aktif kategoriler ve görünür ürünlerle, editördeki sırayla. Müşteri ilkini görür.
+ * "Menüde gizle" işaretli ürünler (is_hidden) hiç gelmez. Stokta olmayan ürünler (is_available = false)
+ * gizlenmez; menüde soluk ve "Tükendi" olarak görünür.
+ */
+export const getPublicMenus = cache(async (subdomain: string): Promise<Menu[]> => {
+  let { data, error } = await queryPublicMenus(subdomain, `${PUBLIC_ITEM_COLUMNS}, is_hidden`)
+  // Migration 20 (items.is_hidden) çalışmadıysa menü boş kalmasın: sütunsuz sorgu (hiçbir ürün gizli değil)
+  if (isMissingSchemaError(error)) ({ data, error } = await queryPublicMenus(subdomain, PUBLIC_ITEM_COLUMNS))
 
   if (error) {
     console.error('getPublicMenus:', error.message)
     return []
   }
-  return (data || []).map(({ organizations: _org, ...menu }: any) => menu as Menu)
+  return (data || []).map(({ organizations: _org, ...menu }: any) => {
+    const visible = withoutHiddenItems(menu as Menu)
+    // is_hidden müşteri sayfasının verisine (HTML) taşınmaz
+    return {
+      ...visible,
+      categories: (visible.categories || []).map((c) => ({ ...c, items: (c.items || []).map(({ is_hidden: _h, ...i }) => i) })),
+    } as Menu
+  })
 })
 
 /**

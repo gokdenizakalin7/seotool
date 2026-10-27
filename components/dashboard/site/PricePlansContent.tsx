@@ -786,7 +786,12 @@ function PlanEditor({
                       return (
                         <tr key={item.id} className="border-t">
                           <td className="px-3 py-2">
-                            <p className="font-medium text-foreground">{item.name}</p>
+                            <p className="font-medium text-foreground">
+                              {item.name}
+                              {item.is_hidden && (
+                                <span className="ml-2 rounded-full bg-muted-foreground/15 px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">Menüde gizli</span>
+                              )}
+                            </p>
                           </td>
                           <td className="px-3 py-2 text-right text-muted-foreground">{item.price}</td>
                           <td className={cn('px-3 py-2 text-right font-semibold', result.changed && 'text-primary')}>
