@@ -694,6 +694,24 @@ export function LiveMenuEditor() {
     })
   }
 
+  // Sıkıştırılmış fotoğrafı hemen Storage'a yükler; menüye yalnızca adres girer (kayıt isteği küçük kalır).
+  // Yükleme başarısızsa base64 kalır, kayıt sırasında sunucu yine yükler.
+  const uploadItemPhoto = async (dataUrl: string): Promise<string> => {
+    try {
+      const res = await authFetch('/api/menus/upload-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subdomain, dataUrl }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok && typeof data.url === 'string') return data.url
+      console.warn('Fotoğraf yüklenemedi:', data.error)
+    } catch (err) {
+      console.warn('Fotoğraf yüklenemedi:', err)
+    }
+    return dataUrl
+  }
+
   // Fotoğraf Yükleme (Otomatik Akıllı Sıkıştırma: WebP/JPEG, Max 800px, %80 Kalite)
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -701,17 +719,19 @@ export function LiveMenuEditor() {
       try {
         setIsCompressingPhoto(true)
         const result = await compressImageFile(file, IMAGE_PRESETS.PRODUCT)
-        setItemImage(result.dataUrl)
+        setItemImage(await uploadItemPhoto(result.dataUrl))
         setCompressedPhotoInfo(
           `%${result.reductionPercent} sıkıştırıldı (${formatFileSize(result.originalSizeKB)} ➔ ${formatFileSize(result.compressedSizeKB)})`
         )
       } catch (err) {
         console.error('Fotoğraf sıkıştırma hatası:', err)
-        const reader = new FileReader()
-        reader.onloadend = () => {
-          setItemImage(reader.result as string)
-        }
-        reader.readAsDataURL(file)
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onloadend = () => resolve(reader.result as string)
+          reader.onerror = () => reject(reader.error)
+          reader.readAsDataURL(file)
+        }).catch(() => '')
+        if (dataUrl) setItemImage(await uploadItemPhoto(dataUrl))
       } finally {
         setIsCompressingPhoto(false)
         if (e.target) e.target.value = ''
@@ -2475,7 +2495,7 @@ export function LiveMenuEditor() {
                     {isCompressingPhoto ? (
                       <>
                         <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin text-primary" />
-                        Görsel Sıkıştırılıyor...
+                        Görsel yükleniyor...
                       </>
                     ) : (
                       <>
@@ -2575,7 +2595,7 @@ export function LiveMenuEditor() {
               </Button>
               <Button 
                 type="submit" 
-                disabled={!itemCalories || isEstimatingCalories || isDetailedEstimating}
+                disabled={!itemCalories || isEstimatingCalories || isDetailedEstimating || isCompressingPhoto}
                 className={!itemCalories ? 'opacity-50 cursor-not-allowed' : ''}
               >
                 {editingItem ? 'Güncellemeyi Kaydet' : 'Ürünü Menüye Ekle'}

@@ -118,10 +118,33 @@ export const getStoredMenus = (subdomain: string): Menu[] => {
   return mockMenusByRestaurant[subdomain] || []
 }
 
+/**
+ * Menünün yerel taslak yedeği (sayfa açılırken sunucu verisi gelene kadar gösterilir).
+ * Hiçbir zaman hata fırlatmaz: localStorage ~5 MB ile sınırlı ve panelde yüklenen base64 fotoğraflar
+ * bu sınırı aşabilir; eskiden setItem hatası kaydetmeyi istek atmadan durduruyordu.
+ * Sığmazsa gömülü (data:) görseller çıkarılarak yazılır, yine sığmazsa eski taslak silinir.
+ */
 export const setStoredMenus = (subdomain: string, menus: Menu[]): void => {
   mockMenusByRestaurant[subdomain] = menus
-  if (typeof window !== 'undefined') {
-    localStorage.setItem(`menus_${subdomain}`, JSON.stringify(menus))
+  if (typeof window === 'undefined') return
+  const key = `menus_${subdomain}`
+  try {
+    localStorage.setItem(key, JSON.stringify(menus))
+    return
+  } catch {}
+  try {
+    const slim = menus.map((m) => ({
+      ...m,
+      categories: (m.categories || []).map((c) => ({
+        ...c,
+        items: (c.items || []).map((i) => (i.image_url?.startsWith('data:') ? { ...i, image_url: '' } : i)),
+      })),
+    }))
+    localStorage.setItem(key, JSON.stringify(slim))
+  } catch {
+    try {
+      localStorage.removeItem(key)
+    } catch {}
   }
 }
 
