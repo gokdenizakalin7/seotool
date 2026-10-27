@@ -2,23 +2,19 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { Breadcrumbs, MarketingShell, SignupCta } from '@/components/marketing/MarketingShell'
-import { ExampleSites } from '@/components/marketing/ExampleSites'
 import { BUSINESS_PAGES, businessPagePath } from '@/lib/marketing/business-pages'
 import { breadcrumbLd, marketingMetadata } from '@/lib/marketing/seo'
-import { listExampleSites } from '@/lib/server/marketing'
 import { jsonLdHtml } from '@/lib/site-seo'
 
-/** İşletme türlerine göre QR menü sayfalarının dizini ve QR Chef kullanan işletmeler (saatte bir yenilenir) */
-export const revalidate = 3600
+/** İşletme türlerine göre QR menü sayfalarının dizini. Müşteri işletmeleri tanıtım sitesinde listelenmez. */
 
 const TITLE = 'İşletme Türüne Göre QR Menü: Kafe, Restoran, Bar, Pastane | QR Chef'
 const DESCRIPTION =
-  'Kafe, restoran, bar, nargile kafe, pastane, kebapçı, burger ve meyhane için QR menü. İşletmenize uygun özellikleri ve QR Chef kullanan gerçek işletmeleri görün.'
+  'Kafe, restoran, bar, nargile kafe, pastane, kebapçı, burger ve meyhane için QR menü. İşletmenize uygun özellikleri ve her türün demo menüsünü inceleyin.'
 
 export const metadata: Metadata = marketingMetadata({ title: TITLE, description: DESCRIPTION, path: '/qr-menu' })
 
-export default async function QrMenuIndexPage() {
-  const examples = await listExampleSites({ limit: 12 })
+export default function QrMenuIndexPage() {
   return (
     <MarketingShell>
       <script
@@ -61,8 +57,6 @@ export default async function QrMenuIndexPage() {
           ))}
         </ul>
       </section>
-
-      <ExampleSites title="QR Chef kullanan işletmeler" sites={examples} />
 
       <SignupCta
         title="Menünüz on dakikada dijitalde"

@@ -6,6 +6,7 @@ import { getSiteEvents, getSiteRestaurant } from '@/lib/server/site'
 import { eventOccurrences } from '@/lib/events'
 import { isValidSiteSlug } from '@/lib/site-url'
 import { jsonLdHtml, restaurantJsonLd } from '@/lib/site-seo'
+import { SITE_THEME_SCRIPT } from '@/lib/site-theme'
 
 /**
  * İşletme sitesi: qr-chef.com.tr/<slug> (Menü), /etkinlikler, /hakkimizda, /iletisim.
@@ -13,10 +14,6 @@ import { jsonLdHtml, restaurantJsonLd } from '@/lib/site-seo'
  * Panel (SPA) yolları statik klasörlerle (app/dashboard, app/signup…) bu rotadan önce eşleşir.
  */
 export const dynamic = 'force-dynamic'
-
-// Sistem koyu temadaysa sayfa ilk boyamadan önce koyu açılır (hidrasyondan sonra beyaz→siyah flaşı olmaz)
-const THEME_SCRIPT =
-  "try{if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark')}catch(e){}"
 
 type Params = Promise<{ slug: string }>
 
@@ -70,7 +67,7 @@ export default async function SiteLayout({ children, params }: { children: React
 
   return (
     <>
-      <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      <script dangerouslySetInnerHTML={{ __html: SITE_THEME_SCRIPT }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdHtml(restaurantJsonLd(restaurant, slug)) }} />
       <SiteShell
         restaurant={restaurant}
