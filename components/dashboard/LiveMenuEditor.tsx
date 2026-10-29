@@ -492,21 +492,29 @@ export function LiveMenuEditor() {
   const adoptServerIds = async (res: Response, savedMenu?: Menu): Promise<Record<string, string>> => {
     let idMap: Record<string, string> = {}
     let imageUrls: Record<string, string> = {}
+    let fingerprints: Record<string, string> = {}
     try {
       const data = await res.clone().json()
       idMap = data?.idMap || {}
       imageUrls = data?.imageUrls || {}
+      fingerprints = data?.fingerprints || {}
     } catch {
       // yanıt JSON değilse yok say
     }
     // Menü, kategori ve ürünlerin geçici kimlikleri gerçek kimliklerle değişir (kayıtlar arasında sabit kalırlar);
-    // Storage'a yüklenen fotoğrafların base64'ü adresle değişir (sonraki kayıtta yeniden yüklenmez)
-    if (Object.keys(idMap).length > 0 || Object.keys(imageUrls).length > 0) {
-      setMenu(prev => (prev ? applyStoredImages(remapMenuIds(prev, idMap), imageUrls) : prev))
+    // Storage'a yüklenen fotoğrafların base64'ü adresle değişir (sonraki kayıtta yeniden yüklenmez);
+    // parmak izi kayıt sonrası sürüme güncellenir (eski sekme koruması bir sonraki Kaydet'i reddetmesin)
+    const adopt = (m: Menu): Menu => {
+      const next = applyStoredImages(remapMenuIds(m, idMap), imageUrls)
+      const fp = fingerprints[next.id]
+      return fp ? { ...next, fingerprint: fp } : next
+    }
+    if (Object.keys(idMap).length > 0 || Object.keys(imageUrls).length > 0 || Object.keys(fingerprints).length > 0) {
+      setMenu(prev => (prev ? adopt(prev) : prev))
     }
     // Başarıyla kaydedilen sürümü "temiz" olarak işaretle
     if (savedMenu) {
-      setLastSavedJson(JSON.stringify(applyStoredImages(remapMenuIds(savedMenu, idMap), imageUrls)))
+      setLastSavedJson(JSON.stringify(adopt(savedMenu)))
     }
     return idMap
   }
@@ -521,10 +529,25 @@ export function LiveMenuEditor() {
     return JSON.stringify(menu) !== lastSavedJson
   }, [menu, lastSavedJson, isLoading])
 
+  // "Sayfayı yenile" (eski sekme uyarısı) tıklanınca kaydedilmemiş değişiklik sorusu sorulmasın
+  const skipUnloadGuardRef = useRef(false)
+  const reloadPage = () => {
+    skipUnloadGuardRef.current = true
+    window.location.reload()
+  }
+
+  // Eski sekme koruması: sunucu 409 STALE_MENU döndü → kayıt yapılmadı, kullanıcı yenilemeli
+  const showStaleMenuError = (message?: string) =>
+    toast.error(message || 'Menü başka bir yerden değişti; sayfayı yenileyin.', {
+      duration: 20000,
+      action: { label: 'Sayfayı yenile', onClick: reloadPage },
+    })
+
   // Sekmeyi kapatma / sayfayı yenileme uyarısı
   useEffect(() => {
     if (!isDirty) return
     const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (skipUnloadGuardRef.current) return
       e.preventDefault()
       e.returnValue = ''
     }
@@ -1087,7 +1110,11 @@ export function LiveMenuEditor() {
         body: JSON.stringify({ subdomain, menus: [menu] })
       })
       if (!res.ok) {
-        const err = await res.json()
+        const err = await res.json().catch(() => ({}))
+        if (res.status === 409 && err.code === 'STALE_MENU') {
+          showStaleMenuError(err.error)
+          return false
+        }
         throw new Error(err.error || 'Failed to save to Supabase')
       }
 
@@ -1171,8 +1198,10 @@ export function LiveMenuEditor() {
       }
       if (Array.isArray(data.enriched) && data.enriched.length > 0) {
         const enrichMap = new Map<string, any>(data.enriched.map((e: any) => [e.id, e]))
+        const newFingerprint: string | undefined = data.fingerprints?.[menu?.id || '']
         const applyEnrich = (m: Menu): Menu => ({
           ...m,
+          ...(newFingerprint ? { fingerprint: newFingerprint } : {}),
           categories: m.categories.map(cat => ({
             ...cat,
             items: cat.items.map(item => {
@@ -2027,6 +2056,7 @@ export function LiveMenuEditor() {
         onMenuCreated={async (scannedMenu) => {
           const newMenu: Menu = {
             id: menu?.id || `menu-${Date.now()}`,
+            fingerprint: menu?.fingerprint,
             name: scannedMenu.name || `${currentRestaurant?.name || 'Restoran'} Menüsü`,
             description: scannedMenu.description || 'Fotoğraftan taranarak oluşturulan menü',
             image_url: scannedMenu.image_url || currentRestaurant?.branding?.bannerUrl || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&h=400&fit=crop',
@@ -2048,7 +2078,11 @@ export function LiveMenuEditor() {
               body: JSON.stringify({ subdomain, menus: [newMenu] })
             })
             if (!res.ok) {
-              const err = await res.json()
+              const err = await res.json().catch(() => ({}))
+              if (res.status === 409 && err.code === 'STALE_MENU') {
+                showStaleMenuError(err.error)
+                return
+              }
               throw new Error(err.error || 'Bilinmeyen hata')
             }
             await adoptServerIds(res, newMenu)

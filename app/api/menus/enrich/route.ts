@@ -3,6 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 import { requireSubdomainAccess } from '@/lib/auth-middleware'
 import { getQuota, consumeQuota, RATE_LIMITS } from '@/lib/rate-limiter'
 import { sanitizeText } from '@/lib/sanitizer'
+import { loadMenuFingerprints } from '@/lib/server/menu-fingerprint'
 
 export const maxDuration = 120
 
@@ -318,6 +319,9 @@ export async function POST(req: NextRequest) {
   const consumed = enrichedCount > 0 && totalRemaining === 0
   if (consumed) consumeQuota(quotaKey, RATE_LIMITS.MENU_ENRICH.windowSeconds)
 
+  // Ürünler doğrudan yazıldı: editör güncel parmak iziyle yenilemeden kaydetmeye devam edebilsin
+  const fingerprints = enrichedCount > 0 ? await loadMenuFingerprints(orgId).catch(() => ({})) : {}
+
   console.log(`[enrich] Tamamlandı: ${enrichedCount} başarılı, ${failedCount} başarısız, ${totalRemaining} kalan`)
 
   const message =
@@ -336,5 +340,6 @@ export async function POST(req: NextRequest) {
     enriched,
     remaining: Math.max(0, RATE_LIMITS.MENU_ENRICH.limit - quota.used - (consumed ? 1 : 0)),
     message,
+    fingerprints,
   })
 }
