@@ -68,7 +68,13 @@ export function MenusContent() {
         // Yeni menüler gerçek kimlikleriyle gelsin: geçici menu- kimliği bir sonraki kayıtta kopya oluşturmasın
         await loadMenus()
       } else {
-        const err = await res.json()
+        const err = await res.json().catch(() => ({}))
+        if (res.status === 409 && err.code === 'STALE_MENU') {
+          // Eski sekme koruması: menüler başka yerden değişmiş; güncel listeyi çek, işlem tekrar yapılmalı
+          toast.error(err.error || 'Menüler başka bir yerden değişti; liste yenilendi.', { duration: 12000 })
+          await loadMenus()
+          return
+        }
         toast.error(`Senkronizasyon hatası: ${err.error || 'Bilinmeyen hata'}`)
         // Rollback
         setMenus(previousMenus)

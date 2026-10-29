@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { supabaseAdmin as supabase } from '@/lib/supabase-admin'
 import { requireSubdomainAccess } from '@/lib/auth-middleware'
+import { MENU_LOAD_SELECT, menuFingerprint } from '@/lib/server/menu-fingerprint'
 
 export async function GET(request: NextRequest) {
   try {
@@ -19,9 +20,7 @@ export async function GET(request: NextRequest) {
     // Menü + kategori + ürünler tek sorguda (eskiden 3 ardışık sorguydu)
     const { data: menusData, error: menusError } = await supabase
       .from('menus')
-      .select(
-        'id, name, description, image_url, is_listed, layout, created_at, updated_at, categories(*, items(*))'
-      )
+      .select(MENU_LOAD_SELECT)
       .eq('organization_id', orgData.id)
       .order('created_at', { ascending: true })
       .order('display_order', { ascending: true, referencedTable: 'categories' })
@@ -31,8 +30,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ menus: [] })
     }
 
+    // fingerprint: eski sekme koruması (bkz. lib/server/menu-fingerprint.ts); Kaydet bunu geri gönderir
     const menusWithDetails = menusData.map((menu: any) => ({
       ...menu,
+      fingerprint: menuFingerprint(menu),
       categories: (menu.categories || []).map((cat: any) => ({
         ...cat,
         items: cat.items || [],

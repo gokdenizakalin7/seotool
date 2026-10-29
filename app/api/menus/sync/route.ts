@@ -3,6 +3,7 @@ import { supabaseAdmin as supabase } from '@/lib/supabase-admin'
 import { requireSubdomainAccess } from '@/lib/auth-middleware'
 import { isDataImageUrl, storeItemDataUrl } from '@/lib/server/localize-item-images'
 import { isMissingSchemaError } from '@/lib/restaurant-profile'
+import { loadMenuFingerprints } from '@/lib/server/menu-fingerprint'
 import { z } from 'zod'
 
 // Liste alanları null gelebilir (betikle eklenmiş eski ürünler); RPC dizi olmayan değeri '{}' yazar
@@ -44,7 +45,13 @@ const menuSchema = z.object({
   layout: z.string().optional(),
   available_days: z.array(z.number()).optional(),
   categories: z.array(categorySchema).optional(),
+  // Yükleme anındaki içerik özeti (eski sekme koruması); mevcut menüler için zorunlu
+  fingerprint: z.string().optional(),
 })
+
+const STALE_MENU_MESSAGE =
+  'Menü, siz bu sayfayı açtıktan sonra başka bir yerden değişti (başka bir sekme, cihaz ya da panel işlemi). ' +
+  'O değişikliklerin üzerine yazılmaması için kayıt yapılmadı. Lütfen sayfayı yenileyip düzenlemenizi tekrar yapın.'
 
 const payloadSchema = z.object({
   subdomain: z.string().min(1),
@@ -52,7 +59,7 @@ const payloadSchema = z.object({
 })
 
 function normalizeMenusForRpc(menus: z.infer<typeof menuSchema>[]) {
-  return menus.map((menu) => ({
+  return menus.map(({ fingerprint: _fingerprint, ...menu }) => ({
     ...menu,
     categories: (menu.categories || []).map((cat, catIndex) => ({
       ...cat,
@@ -187,6 +194,20 @@ export async function POST(request: Request) {
       }
     }
 
+    // Eski sekme koruması: mevcut menülerin parmak izi, veritabanındaki güncel içerikle aynı olmalı.
+    // Parmak izi göndermeyen eski istemci (güncellemeden önce açılmış sekme) de yenilemeye yönlendirilir.
+    const existing = menus.filter((m) => !m.id.startsWith('menu-'))
+    if (existing.length) {
+      const current = await loadMenuFingerprints(organizationId, existing.map((m) => m.id))
+      const stale = existing.filter((m) => !m.fingerprint || current[m.id] !== m.fingerprint)
+      if (stale.length) {
+        return NextResponse.json(
+          { error: STALE_MENU_MESSAGE, code: 'STALE_MENU', staleMenuIds: stale.map((m) => m.id) },
+          { status: 409 }
+        )
+      }
+    }
+
     const storedImages = await storeDataUrlImages(organizationId, menus)
     const menusPayload = normalizeMenusForRpc(menus)
 
@@ -212,7 +233,11 @@ export async function POST(request: Request) {
     const imageUrls: Record<string, string> = {}
     for (const [id, url] of Object.entries(storedImages)) imageUrls[idMap[id] ?? id] = url
 
-    return NextResponse.json({ success: true, idMap, imageUrls })
+    // Kayıt sonrası güncel parmak izleri: aynı sekme yenilemeden kaydetmeye devam edebilsin
+    const savedIds = menus.map((m) => idMap[m.id] ?? m.id).filter((id) => !id.startsWith('menu-'))
+    const fingerprints = savedIds.length ? await loadMenuFingerprints(organizationId, savedIds) : {}
+
+    return NextResponse.json({ success: true, idMap, imageUrls, fingerprints })
   } catch (err: unknown) {
     console.error('Sync error:', err)
     return NextResponse.json({ error: 'Menü kaydedilemedi.' }, { status: 500 })

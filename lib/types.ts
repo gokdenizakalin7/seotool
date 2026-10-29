@@ -79,6 +79,8 @@ export interface Menu {
   created_at: string
   updated_at: string
   categories: MenuCategory[]
+  /** Yüklendiği andaki içerik özeti; Kaydet geri gönderir, menü o arada değiştiyse kayıt reddedilir (eski sekme koruması) */
+  fingerprint?: string
 }
 
 export interface QRCodeData {
