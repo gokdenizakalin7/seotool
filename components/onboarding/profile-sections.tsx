@@ -545,7 +545,7 @@ export function SocialSection({ draft, setDraft, extended = false }: SectionProp
       </div>
       <Field
         label="Google Yorum Linki"
-        hint="Google İşletme Profili > Yorum isteyin > Bağlantıyı kopyalayın. Menüde 4-5 yıldız veren müşteriler bu linke yönlendirilir."
+        hint="Google İşletme Profili > Yorum isteyin > Bağlantıyı kopyalayın. Menüdeki “Yorum Yap” düğmesi müşterileri bu bağlantıya götürür."
       >
         <Input value={draft.googleReviewUrl} placeholder="https://g.page/r/.../review" onChange={(e) => setDraft((d) => ({ ...d, googleReviewUrl: e.target.value }))} />
       </Field>

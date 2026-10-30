@@ -55,7 +55,7 @@ const MODULES: {
     kicker: 'Kampanyalar',
     title: 'Menünüzden ürün seçin, kampanya fiyatını yazın, bitiş tarihini belirleyin',
     desc: 'Kampanya menünüzle aynı üründen beslenir; fiyatı ayrı yerde tekrar yazmazsınız. Geçerlilik tarihi dolduğunda müşteriye gösterilmez, siz hiçbir şey yapmazsınız.',
-    bullets: ['Menüden ürün seçimi', 'Eski ve yeni fiyat yan yana', 'Tarihi dolan kampanya gizlenir'],
+    bullets: ['Menüden ürün seçimi', 'Pakette eski fiyat ve % avantaj', 'Tarihi dolan kampanya gizlenir'],
   },
   {
     key: 'plans',
@@ -70,8 +70,8 @@ const MODULES: {
     icon: Info,
     kicker: 'Hakkımızda ve İletişim',
     title: 'Hikayeniz, adresiniz, çalışma saatleriniz: misafir sormadan bulsun',
-    desc: 'Hakkımızda sayfasında işletmenizi anlatın. İletişim sayfasında telefon, WhatsApp ve Instagram tek dokunuşla açılır; adres haritaya, çalışma saatleri güne göre gösterilir.',
-    bullets: ['Hikayeniz ve fotoğraflarınız', 'Ara, WhatsApp, Instagram tek dokunuşla', 'Adres, harita ve çalışma saatleri'],
+    desc: 'Hakkımızda sayfasında işletmenizi anlatın. İletişim sayfasında telefon, WhatsApp ve Instagram tek dokunuşla açılır; adres haritada, yol tarifi tek dokunuşta.',
+    bullets: ['Hikayeniz, isterseniz yapay zekâyla yazılmış', 'Ara, WhatsApp, Instagram tek dokunuşla', 'Adres, harita ve çalışma saatleri'],
   },
 ]
 
@@ -175,7 +175,7 @@ function ScreenCampaigns() {
           {[
             { n: 'Izgara Köfte + Ayran', o: '320', y: '255' },
             { n: 'Tavuk Şiş + Salata', o: '290', y: '230' },
-            { n: 'Mercimek Çorbası', o: '95', y: '75' },
+            { n: 'Mercimek Çorbası + Pide', o: '120', y: '95' },
           ].map((p, i) => (
             <motion.div
               key={p.n}
@@ -298,7 +298,7 @@ function ScreenContact() {
         className="space-y-2 rounded-2xl border border-white/10 bg-white/5 p-3 text-[11px] text-white/70"
       >
         <p className="flex items-center gap-2"><MapPin className="h-3.5 w-3.5 shrink-0 text-white/50" aria-hidden="true" /> Bağdat Cad. No:112, Kadıköy</p>
-        <p className="flex items-center gap-2"><Clock className="h-3.5 w-3.5 shrink-0 text-white/50" aria-hidden="true" /> Bugün 09:00 – 23:30 · <span className="text-emerald-300">Açık</span></p>
+        <p className="flex items-center gap-2"><Clock className="h-3.5 w-3.5 shrink-0 text-white/50" aria-hidden="true" /> Her gün 09:00 – 23:30</p>
         <div className="mt-1 h-16 rounded-xl bg-[radial-gradient(circle_at_60%_40%,rgba(255,255,255,0.18),rgba(255,255,255,0.04))]" aria-hidden="true" />
       </motion.div>
     </div>
@@ -404,7 +404,7 @@ export function SiteShowcase() {
             viewport={{ once: true, margin: '-60px' }}
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1, delayChildren: 0.4 } } }}
             className="flex flex-wrap justify-center gap-2"
-            aria-label="Sitede bulunan sayfalar"
+            aria-label="Sitenizde bulunanlar"
           >
             {['Menü', 'Etkinlikler', 'Kampanyalar', 'Fiyat Planları', 'Hakkımızda', 'İletişim'].map((p) => (
               <motion.li
