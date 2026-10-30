@@ -349,7 +349,7 @@ export function QRCodesContent() {
           <div>
             <CardTitle className="text-sm font-bold text-foreground">Masaya Özel QR Kodlar & Görüntüleme</CardTitle>
             <CardDescription className="text-xs text-muted-foreground">
-              Masalarınız için ayrı QR kodlar; masa numarası ve Wi-Fi bilgisiyle profesyonel masa standı olarak yazdırabilirsiniz.
+              Masalarınız için ayrı QR kodlar; logonuz ve marka renginizle masa standı, sticker ya da A4 kes-kullan sayfası olarak yazdırabilirsiniz.
             </CardDescription>
           </div>
           <span className="shrink-0 whitespace-nowrap text-xs font-bold text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
