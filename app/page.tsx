@@ -5,6 +5,7 @@ import { MarketingFooterLinks } from '@/components/marketing/MarketingFooterLink
 import { canonicalOrigin } from '@/lib/site-url'
 import { jsonLdHtml } from '@/lib/site-seo'
 import { HOME_FAQ } from '@/lib/marketing/home-faq'
+import { LEGAL_COMPANY } from '@/lib/legal'
 import { faqLd, marketingMetadata, OG_IMAGE, ORGANIZATION_ID, WEBSITE_ID } from '@/lib/marketing/seo'
 
 /**
@@ -30,6 +31,9 @@ function homeJsonLd() {
         name: 'QR Chef',
         url: `${origin}/`,
         logo: `${origin}/icon.png`,
+        email: LEGAL_COMPANY.email,
+        // Markanın resmî hesapları: Google markayı bu hesaplarla eşleştirir (marka araması)
+        sameAs: ['https://www.instagram.com/qr.chef.menu'],
       },
       {
         '@type': 'WebSite',
