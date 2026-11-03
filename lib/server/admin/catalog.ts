@@ -5,7 +5,7 @@ import type { AdminCatalogCategory, AdminCatalogItem } from '@/lib/admin-types'
 
 export const CATEGORY_COLUMNS = 'id, parent_id, slug, name, name_en, icon, display_order, is_active, admin_edited_at'
 export const ITEM_COLUMNS =
-  'id, slug, primary_category_id, name, name_en, description, description_en, price_suggested, image_url, allergens, calories, tags, display_order, is_active, admin_edited_at, updated_at'
+  'id, slug, primary_category_id, name, name_en, description, description_en, price_suggested, image_url, allergens, ingredients, calories, tags, display_order, is_active, admin_edited_at, updated_at'
 
 export function mapCategory(r: any, itemCount = 0): AdminCatalogCategory {
   return {
@@ -34,6 +34,7 @@ export function mapItem(r: any): AdminCatalogItem {
     priceSuggested: r.price_suggested || '',
     imageUrl: r.image_url || '',
     allergens: r.allergens || [],
+    ingredients: r.ingredients || [],
     calories: r.calories ?? null,
     tags: r.tags || [],
     displayOrder: r.display_order ?? 0,

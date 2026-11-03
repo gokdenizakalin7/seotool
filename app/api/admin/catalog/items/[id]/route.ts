@@ -6,6 +6,7 @@ import { itemUpdateSchema } from '@/lib/server/admin/schemas'
 import { ITEM_COLUMNS, attachUsage, catalogChanged, mapItem } from '@/lib/server/admin/catalog'
 import { diffFields, logAdminAction } from '@/lib/server/admin/audit'
 import { removeCatalogImageFile } from '@/lib/server/admin/catalog-image'
+import { uniqueIngredients } from '@/lib/ingredients'
 
 type Ctx = { params: Promise<{ id: string }> }
 
@@ -28,7 +29,8 @@ export async function GET(request: NextRequest, { params }: Ctx) {
 
 /**
  * PATCH — ürün bilgileri. Restoranlara kopyalanmış ürünler etkilenmez (kopyalar bağımsızdır);
- * yalnızca görsel varsayılan olduğu sürece yayılır (bkz. /image).
+ * yalnızca görsel varsayılan olduğu sürece yayılır (bkz. /image) ve bileşenler, bağlı ürünlerde bileşen BOŞSA
+ * kopyalanır (backfill_catalog_item_ingredients; işletmenin kendi yazdığı bileşenlere dokunulmaz).
  */
 export async function PATCH(request: NextRequest, { params }: Ctx) {
   return adminRoute(request, 'catalog item update', async (actor) => {
@@ -51,6 +53,7 @@ export async function PATCH(request: NextRequest, { params }: Ctx) {
     if (input.descriptionEn !== undefined) update.description_en = input.descriptionEn
     if (input.priceSuggested !== undefined) update.price_suggested = input.priceSuggested
     if (input.allergens !== undefined) update.allergens = input.allergens
+    if (input.ingredients !== undefined) update.ingredients = uniqueIngredients(input.ingredients)
     if (input.calories !== undefined) update.calories = input.calories
     if (input.tags !== undefined) update.tags = input.tags
     if (input.isActive !== undefined) update.is_active = input.isActive
@@ -69,6 +72,13 @@ export async function PATCH(request: NextRequest, { params }: Ctx) {
     if (error) throw error
     catalogChanged()
 
+    let ingredientsFilled = 0
+    if (diff.after && 'ingredients' in diff.after && (data.ingredients?.length ?? 0) > 0) {
+      const { data: n, error: bfErr } = await supabaseAdmin.rpc('backfill_catalog_item_ingredients', { p_item_id: item.id })
+      if (bfErr) console.warn('backfill_catalog_item_ingredients:', bfErr.message)
+      else ingredientsFilled = Number(n) || 0
+    }
+
     await logAdminAction({
       actor,
       action: 'catalog_item.update',
@@ -79,7 +89,7 @@ export async function PATCH(request: NextRequest, { params }: Ctx) {
       after: diff.after,
     })
     const [withUsage] = await attachUsage([mapItem(data)])
-    return NextResponse.json({ item: withUsage })
+    return NextResponse.json({ item: withUsage, ingredientsFilled })
   })
 }
 

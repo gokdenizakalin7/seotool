@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
-import { ImageOff, ImagePlus, Sparkles, Trash2, Upload } from 'lucide-react'
+import { ImageOff, ImagePlus, Plus, Sparkles, Trash2, Upload, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -16,6 +16,7 @@ import {
   type ImagePropagationResult,
 } from '@/lib/admin-types'
 import { cn } from '@/lib/utils'
+import { uniqueIngredients } from '@/lib/ingredients'
 import { ConfirmDialog, Field, NativeSelect, Spinner, Switch } from '../shared/ui'
 import { adminApi, errorMessage, fmtDateTime, slugify } from '../lib/admin-api'
 import { buildTree, flattenTree } from './tree'
@@ -35,6 +36,7 @@ function toDraft(item: AdminCatalogItem | null, categoryId: string): Draft {
     description: item?.description || '',
     descriptionEn: item?.descriptionEn || '',
     allergens: item?.allergens || [],
+    ingredients: item?.ingredients || [],
     calories: item?.calories ?? null,
     tags: item?.tags || [],
     isActive: item?.isActive ?? true,
@@ -75,6 +77,7 @@ export function ItemEditDialog({
   const [prompt, setPrompt] = useState('')
   const [lastPropagation, setLastPropagation] = useState<ImagePropagationResult | null>(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
+  const [ingredientText, setIngredientText] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
   const options = useMemo(() => flattenTree(buildTree(categories)), [categories])
 
@@ -87,18 +90,30 @@ export function ItemEditDialog({
   const set = <K extends keyof Draft>(k: K, v: Draft[K]) => setD((p) => ({ ...p, [k]: v }))
   const toggleIn = (k: 'allergens' | 'tags', v: string) =>
     setD((p) => ({ ...p, [k]: p[k].includes(v) ? p[k].filter((x) => x !== v) : [...p[k], v] }))
+  // Virgülle birden fazla bileşen; tekrarlar ve boşlar atılır (lib/ingredients ile aynı kural)
+  const addIngredients = () => {
+    const parts = ingredientText.split(/[,;\n]/)
+    setD((p) => ({ ...p, ingredients: uniqueIngredients([...p.ingredients, ...parts]).slice(0, 12) }))
+    setIngredientText('')
+  }
 
   const save = async () => {
     setBusy(true)
     try {
       const body = { ...d, calories: d.calories === null || Number.isNaN(d.calories) ? null : d.calories }
       const res = current
-        ? await adminApi<{ item: AdminCatalogItem }>(`/api/admin/catalog/items/${current.id}`, {
+        ? await adminApi<{ item: AdminCatalogItem; ingredientsFilled?: number }>(`/api/admin/catalog/items/${current.id}`, {
             method: 'PATCH',
             body: (({ slug: _slug, ...rest }) => rest)(body),
           })
-        : await adminApi<{ item: AdminCatalogItem }>('/api/admin/catalog/items', { method: 'POST', body })
-      toast.success(current ? 'Ürün güncellendi.' : 'Ürün eklendi. Şimdi görsel ekleyebilirsiniz.')
+        : await adminApi<{ item: AdminCatalogItem; ingredientsFilled?: number }>('/api/admin/catalog/items', { method: 'POST', body })
+      toast.success(
+        current
+          ? res.ingredientsFilled
+            ? `Ürün güncellendi; bileşeni boş olan ${res.ingredientsFilled} restoran ürününe bileşenler kopyalandı.`
+            : 'Ürün güncellendi.'
+          : 'Ürün eklendi. Şimdi görsel ekleyebilirsiniz.'
+      )
       setCurrent(res.item)
       onSaved(res.item)
       if (current) onClose()
@@ -280,6 +295,46 @@ export function ItemEditDialog({
                       {a}
                     </Chip>
                   ))}
+                </div>
+              </Field>
+              <Field label="Bileşenler" group>
+                <p className="mb-1.5 text-xs text-muted-foreground">
+                  Şablonla ya da taramayla bu ürünü alan işletmelerin menüsünde "Bileşenler" olarak görünür (Bakanlık kuralı).
+                  Kaydedince bileşeni boş olan bağlı restoran ürünlerine de kopyalanır; işletmenin kendi yazdıkları korunur.
+                </p>
+                {d.ingredients.length > 0 && (
+                  <div className="mb-2 flex flex-wrap gap-1.5">
+                    {d.ingredients.map((ing) => (
+                      <span key={ing} className="inline-flex items-center gap-1 rounded-full border border-border bg-accent/40 px-2.5 py-0.5 text-xs font-medium">
+                        {ing}
+                        <button
+                          type="button"
+                          aria-label={`${ing} bileşenini kaldır`}
+                          className="rounded-full text-muted-foreground hover:text-foreground"
+                          onClick={() => set('ingredients', d.ingredients.filter((x) => x !== ing))}
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <Input
+                    value={ingredientText}
+                    placeholder="Makarna, Krema, Parmesan peyniri"
+                    maxLength={200}
+                    onChange={(e) => setIngredientText(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault()
+                        addIngredients()
+                      }
+                    }}
+                  />
+                  <Button type="button" variant="outline" size="sm" className="h-9 shrink-0" onClick={addIngredients} disabled={!ingredientText.trim()}>
+                    <Plus className="mr-1 h-3.5 w-3.5" /> Ekle
+                  </Button>
                 </div>
               </Field>
               <Field label="Etiketler" group>

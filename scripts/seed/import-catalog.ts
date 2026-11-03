@@ -25,7 +25,7 @@ import { fileURLToPath } from 'node:url';
 type SeedCategory = { slug: string; parent: string | null; name: string; name_en: string; icon: string; display_order: number };
 type SeedItem = {
   slug: string; primary_category: string; name: string; name_en: string; description: string; description_en: string;
-  price_suggested: string; calories: number; allergens: string[]; tags: string[]; image_url: string; display_order: number;
+  price_suggested: string; calories: number; allergens: string[]; ingredients?: string[]; tags: string[]; image_url: string; display_order: number;
 };
 type SeedTemplate = {
   slug: string; business_type: string; name: string; tagline: string; venue_type: string; icon: string; color: string;
@@ -114,6 +114,8 @@ async function main() {
       // PostgREST upsert yalnız verilen sütunları günceller, böylece import görselleri silmez.
       price_suggested: it.price_suggested, allergens: it.allergens, calories: it.calories,
       tags: it.tags, display_order: it.display_order, is_active: true,
+      // ingredients yalnız seed'de varsa gönderilir (migration 21): yoksa AI ile doldurulan değer korunur
+      ...(it.ingredients ? { ingredients: it.ingredients } : {}),
       ...(INCLUDE_EN ? { name_en: it.name_en, description_en: it.description_en } : {}),
     };
   });
