@@ -119,7 +119,8 @@ export function Signup() {
         refresh_token: data.session.refresh_token,
       })
       clearApiCache()
-      window.location.href = '/onboarding'
+      // Onay bekleyen başvuru kurulum sihirbazını görmez: bekleme ekranı (/dashboard, AuthGuard)
+      window.location.href = data.requiresApproval ? '/dashboard' : '/onboarding'
     } catch {
       setError('Bağlantı hatası. Lütfen tekrar deneyin.')
     } finally {

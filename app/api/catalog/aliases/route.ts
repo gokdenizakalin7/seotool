@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { supabaseAdmin } from '@/lib/supabase-admin'
-import { requireUser } from '@/lib/auth-middleware'
+import { requirePanelUser } from '@/lib/auth-middleware'
 import { checkRateLimit, consumeQuota, getClientIp, getQuota, RATE_LIMITS } from '@/lib/rate-limiter'
 import { sanitizeText } from '@/lib/sanitizer'
 import { isComboName, normalizeDishName } from '@/lib/catalog-match'
@@ -20,7 +20,7 @@ const schema = z.object({
  * Yalnız bilgi taşıyan çiftler kaydedilir (ürünün kendi adı değil, birleşik menü değil, ≥ 3 karakter).
  */
 export async function POST(req: NextRequest) {
-  const auth = await requireUser(req)
+  const auth = await requirePanelUser(req)
   if ('response' in auth) return auth.response
 
   const rl = checkRateLimit(`catalog_alias_${getClientIp(req)}`, RATE_LIMITS.CATALOG_ALIAS.limit, RATE_LIMITS.CATALOG_ALIAS.windowSeconds)

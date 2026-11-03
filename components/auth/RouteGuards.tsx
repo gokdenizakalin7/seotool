@@ -6,6 +6,7 @@ import { ShieldAlert, Lock, ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { authFetch } from '@/lib/api-client'
 import { isReadOnlyStatus } from '@/lib/org-status'
+import { PendingApproval } from './PendingApproval'
 
 /**
  * Admin Rota Kalkanı (AdminGuard)
@@ -115,15 +116,17 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
 
-type GuardState = 'loading' | 'ok' | 'denied'
+type GuardState = 'loading' | 'ok' | 'denied' | 'pending'
 
 /**
  * Oturum Kalkanı (AuthGuard)
- * /dashboard/* için giriş zorunlu. Onboarding'i bitmemiş restoran kullanıcısı /onboarding'e gider.
+ * /dashboard/* için giriş zorunlu. Onay bekleyen başvuru paneli hiç görmez (yalnızca bekleme ekranı);
+ * onboarding'i bitmemiş restoran kullanıcısı /onboarding'e gider.
  */
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate()
   const [state, setState] = useState<GuardState>('loading')
+  const [pendingInfo, setPendingInfo] = useState<{ name?: string | null; email?: string | null }>({})
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -140,6 +143,12 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         }
         const me = await res.json()
         const isAdmin = me.role === 'superadmin'
+        // Onay bekleyen başvuru: panel kapalı (sunucu da 403 ORG_PENDING döner); süper admin "Panele Gir" ile görebilir
+        if (!isAdmin && me.organization?.status === 'pending') {
+          setPendingInfo({ name: me.organization.name, email: me.email })
+          setState('pending')
+          return
+        }
         // Askıdaki restoran sihirbazda hiçbir şey kaydedemez: panelde askı bandını görsün
         if (!isAdmin && me.organization && !me.organization.onboardingCompleted && !isReadOnlyStatus(me.organization.status)) {
           navigate('/onboarding', { replace: true })
@@ -165,6 +174,8 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
       </div>
     )
   }
+
+  if (state === 'pending') return <PendingApproval businessName={pendingInfo.name} email={pendingInfo.email} />
 
   if (state === 'denied') {
     return (
@@ -206,7 +217,12 @@ export function OnboardingGuard({ children }: { children: React.ReactNode }) {
         const me = await res.json()
         if (me.role === 'superadmin') {
           navigate('/admin', { replace: true })
-        } else if (!me.organization || me.organization.onboardingCompleted || isReadOnlyStatus(me.organization.status)) {
+        } else if (
+          !me.organization ||
+          me.organization.onboardingCompleted ||
+          me.organization.status === 'pending' || // bekleme ekranı /dashboard'da
+          isReadOnlyStatus(me.organization.status)
+        ) {
           navigate('/dashboard', { replace: true })
         } else {
           setOk(true)

@@ -224,6 +224,8 @@ export interface CatalogItemRow {
   primary_category_id: string
   calories: number | null
   allergens: string[] | null
+  /** Migration 21 öncesi sütun yok: okuyucu alanı vermeyebilir */
+  ingredients?: string[] | null
   description: string | null
   display_order: number | null
 }
@@ -253,6 +255,7 @@ export interface CatalogEntry {
   category_root: CatalogRoot | null
   calories: number | null
   allergens: string[]
+  ingredients: string[]
   description: string
   display_order: number
   name_key: string
@@ -338,6 +341,7 @@ export function buildCatalogIndex(
       category_root: rootSlug === 'icecekler' || rootSlug === 'yiyecekler' ? rootSlug : null,
       calories: it.calories ?? null,
       allergens: it.allergens || [],
+      ingredients: it.ingredients || [],
       description: it.description || '',
       display_order: it.display_order ?? 0,
       name_key,

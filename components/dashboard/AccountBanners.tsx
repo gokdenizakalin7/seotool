@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import { ArrowLeft, Clock, PauseCircle, ShieldCheck, XCircle } from 'lucide-react'
+import { ArrowLeft, PauseCircle, ShieldCheck, XCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useRestaurant } from '@/components/providers/RestaurantProvider'
 import { clearImpersonation } from '@/lib/impersonation'
@@ -12,12 +12,11 @@ import { ORG_STATUS_LABELS } from '@/lib/org-status'
 /**
  * Restoran paneli üst bantları:
  *  - Süper admin "Panele Gir" ile başka restoranı görüntülüyorsa
- *  - Kayıt başvurusu onay bekliyorsa (site yayında değil; panel kullanılabilir)
  *  - Başvuru reddedildiyse ya da restoran askıya alındıysa (sebebiyle; panel salt-okunur, kaydetme 423 döner)
  */
 export function AccountBanners() {
   const navigate = useNavigate()
-  const { restaurant, impersonating, isSuspended, isPending } = useRestaurant()
+  const { restaurant, impersonating, isSuspended } = useRestaurant()
   const lastToast = useRef(0)
 
   useEffect(() => {
@@ -55,17 +54,6 @@ export function AccountBanners() {
           >
             <ArrowLeft className="mr-1 h-3.5 w-3.5" /> Admin paneline dön
           </Button>
-        </div>
-      )}
-      {isPending && !impersonating && (
-        <div className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-sm text-amber-900 dark:text-amber-100 lg:px-6">
-          <p className="flex items-center gap-2 font-semibold">
-            <Clock className="h-4 w-4 shrink-0" /> Başvurunuz inceleniyor
-          </p>
-          <p className="mt-0.5 text-xs">
-            İşletme siteniz ve QR menünüz, başvurunuz sistem yöneticisi tarafından onaylanana kadar yayına girmez. Bu sırada
-            kurulumu tamamlayıp menünüzü hazırlayabilirsiniz; onaylandığında siteniz otomatik olarak açılır.
-          </p>
         </div>
       )}
       {isSuspended && status === 'rejected' && (

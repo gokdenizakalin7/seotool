@@ -140,23 +140,56 @@ export interface OrgAccessOptions {
   allowSuspended?: boolean
 }
 
-/**
- * Org askıdaysa ya da başvurusu reddedildiyse (panel salt-okunur) sebebini döner.
- * Migration 11 çalışmadıysa (sütun yok) askıda sayılmaz. Onay bekleyen (pending) işletme yazabilir.
- */
-export async function getOrgSuspension(organizationId: string): Promise<{ reason: string; status: string } | null> {
+/** Org durumu; migration 11 çalışmadıysa (sütun yok) 'active' sayılır. */
+async function getOrgStatus(organizationId: string): Promise<{ status: string; reason: string }> {
   const { data, error } = await supabaseAdmin
     .from('organizations')
     .select('status, status_reason')
     .eq('id', organizationId)
     .maybeSingle()
-  if (error || !data || !isReadOnlyStatus(data.status)) return null
-  return { reason: data.status_reason || '', status: data.status }
+  if (error || !data) return { status: 'active', reason: '' }
+  return { status: data.status || 'active', reason: data.status_reason || '' }
+}
+
+/**
+ * Onay bekleyen (pending) başvuru: panel tamamen kapalı. Rakip işletmeler kayıt olup paneli gezerek
+ * (şablonlar, katalog, editör) kopyalıyordu; sistem yöneticisi onaylayana kadar hiçbir panel ucu yanıt vermez.
+ * /api/auth/me bu kontrolden muaf (bekleme ekranı durumu oradan okur); süper admin etkilenmez.
+ */
+function denyPending(): Denied {
+  return {
+    response: NextResponse.json(
+      { error: 'Başvurunuz onaylanana kadar panel kullanılamaz.', code: 'ORG_PENDING' },
+      { status: 403 }
+    ),
+  }
+}
+
+/**
+ * Restorana bağlı olmayan panel uçları için (tarama, katalog araması, şablon listesi, kalori tahmini):
+ * giriş zorunlu VE kullanıcının işletmesi onay beklemiyor olmalı. Süper admin her zaman geçer.
+ */
+export async function requirePanelUser(req: NextRequest | Request): Promise<{ user: AuthUser } | Denied> {
+  const auth = await requireUser(req)
+  if ('response' in auth) return auth
+  if (auth.user.isSuperAdmin) return auth
+
+  const { data } = await supabaseAdmin
+    .from('organization_members')
+    .select('organization_id')
+    .eq('user_id', auth.user.id)
+    .maybeSingle()
+  if (!data) return auth
+
+  const { status } = await getOrgStatus(data.organization_id)
+  if (status === 'pending') return denyPending()
+  return auth
 }
 
 /**
  * Kullanıcının verilen organizasyonun üyesi (veya süper admin) olmasını zorunlu kılar.
- * Askıya alınmış restoranda üyeler yazamaz (423 ORG_SUSPENDED); süper admin etkilenmez.
+ * Onay bekleyen işletme hiçbir uca erişemez (403 ORG_PENDING); askıya alınmış restoranda üyeler
+ * yazamaz (423 ORG_SUSPENDED); süper admin etkilenmez.
  */
 export async function requireOrgAccess(
   req: NextRequest | Request,
@@ -199,22 +232,22 @@ async function checkOrgAccess(
     )
   }
 
-  if (!opts.allowSuspended) {
-    const suspended = await getOrgSuspension(organizationId)
-    if (suspended) {
-      return {
-        response: NextResponse.json(
-          {
-            error:
-              suspended.status === 'rejected'
-                ? 'Başvurunuz onaylanmadığı için değişiklik yapılamaz.'
-                : 'Hesabınız askıya alındığı için değişiklik yapılamaz.',
-            code: 'ORG_SUSPENDED',
-            reason: suspended.reason,
-          },
-          { status: 423 }
-        ),
-      }
+  const org = await getOrgStatus(organizationId)
+  if (org.status === 'pending') return denyPending()
+
+  if (!opts.allowSuspended && isReadOnlyStatus(org.status)) {
+    return {
+      response: NextResponse.json(
+        {
+          error:
+            org.status === 'rejected'
+              ? 'Başvurunuz onaylanmadığı için değişiklik yapılamaz.'
+              : 'Hesabınız askıya alındığı için değişiklik yapılamaz.',
+          code: 'ORG_SUSPENDED',
+          reason: org.reason,
+        },
+        { status: 423 }
+      ),
     }
   }
 

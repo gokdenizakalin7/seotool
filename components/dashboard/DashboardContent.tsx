@@ -99,7 +99,7 @@ export function DashboardContent() {
         </h1>
         <p data-reveal className="text-muted-foreground max-w-xl text-lg z-10 leading-relaxed">
           {currentRestaurant?.status === 'pending'
-            ? 'Başvurunuz inceleniyor. Siteniz ve QR menünüz onaylandığında yayına girer; bu sırada menünüzü hazırlayıp QR kodlarınızı planlayabilirsiniz.'
+            ? 'Bu başvuru onay bekliyor. İşletme sahibi onaylanana kadar paneli göremez; siteniz ve QR menünüz onayla birlikte yayına girer.'
             : currentRestaurant?.status === 'rejected'
               ? 'Başvurunuz onaylanmadı. Siteniz yayınlanmıyor; ayrıntı için üstteki bilgi bandına bakın veya bizimle iletişime geçin.'
               : hasMenu && hasListedMenu
