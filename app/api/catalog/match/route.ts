@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { requireUser } from '@/lib/auth-middleware'
+import { requirePanelUser } from '@/lib/auth-middleware'
 import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limiter'
 import { sanitizeText } from '@/lib/sanitizer'
 import { matchScannedItems, searchCatalogServer } from '@/lib/server/catalog-matcher'
@@ -31,7 +31,7 @@ function rateLimited(req: NextRequest) {
 
 /** GET /api/catalog/match?q=latte&limit=8 — "Katalogdan seç" arama kutusu */
 export async function GET(req: NextRequest) {
-  const auth = await requireUser(req)
+  const auth = await requirePanelUser(req)
   if ('response' in auth) return auth.response
   const limited = rateLimited(req)
   if (limited) return limited
@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
 
 /** POST /api/catalog/match { items: [{ name, category? }], menuName? } — toplu eşleştirme */
 export async function POST(req: NextRequest) {
-  const auth = await requireUser(req)
+  const auth = await requirePanelUser(req)
   if ('response' in auth) return auth.response
   const limited = rateLimited(req)
   if (limited) return limited

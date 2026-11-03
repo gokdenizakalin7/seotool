@@ -3,8 +3,8 @@ import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limiter'
 import { validateBase64Image } from '@/lib/file-validator'
 import { sanitizeText, sanitizePrice } from '@/lib/sanitizer'
 import { logSecurityEvent } from '@/lib/security-logger'
-import { requireUser } from '@/lib/auth-middleware'
-import { logUnmatched, matchScannedItems } from '@/lib/server/catalog-matcher'
+import { requirePanelUser } from '@/lib/auth-middleware'
+import { getCatalogIndex, logUnmatched, matchScannedItems } from '@/lib/server/catalog-matcher'
 import type { CatalogMatchInfo } from '@/lib/catalog-match'
 import { uniqueIngredients } from '@/lib/ingredients'
 
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   const ip = getClientIp(req)
 
   // 0. OTURUM ZORUNLU (Gemini maliyetini yetkisiz kullanıma karşı koru)
-  const auth = await requireUser(req)
+  const auth = await requirePanelUser(req)
   if ('response' in auth) return auth.response
 
   // 1. RATE LIMIT KORUMASI (10 dakikada en fazla 5 tarama)
@@ -251,9 +251,11 @@ Lütfen çıktıyı tam olarak şu JSON şemasında ver:
       }))
     }))
 
-    // 3. KATALOG EŞLEŞTİRME: otomatik eşleşenlere katalog görseli + bağlantı; asla fırlatmaz (fail-open)
+    // 3. KATALOG EŞLEŞTİRME: otomatik eşleşenlere katalog görseli + bağlantı + (tarama boş bıraktıysa) katalog
+    //    bileşenleri; asla fırlatmaz (fail-open)
     const flat = cleanedCategories.flatMap((c, ci) => c.items.map((it, ii) => ({ ci, ii, name: it.name, category: c.name })))
     const infos = await matchScannedItems(flat, { menuName: sanitizedMenuName })
+    const catalogById = await getCatalogIndex().then((idx) => idx.byId).catch(() => null)
     const unmatched: { name: string; category_name: string; best_slug: string | null; best_score: number | null }[] = []
     flat.forEach((f, k) => {
       const info = infos[k]
@@ -262,6 +264,8 @@ Lütfen çıktıyı tam olarak şu JSON şemasında ver:
       if (info.level === 'auto' && info.top) {
         it.catalog_item_id = info.top.item_id
         it.image_url = info.top.image_url || ''
+        const entry = catalogById?.get(info.top.item_id)
+        if (it.ingredients.length === 0 && entry && entry.ingredients.length > 0) it.ingredients = uniqueIngredients(entry.ingredients)
       } else if (info.level === 'none' && it.name) {
         unmatched.push({
           name: it.name,

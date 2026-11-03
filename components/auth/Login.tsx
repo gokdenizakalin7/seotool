@@ -102,7 +102,8 @@ export function Login() {
         
         setClientSession({ role: meData.role, restaurant: org, userId: meData.id })
         primeApiCache('/api/auth/me', meData)
-        navigate(org.onboardingCompleted === false ? '/onboarding' : '/dashboard', { replace: true })
+        // Onay bekleyen başvuru sihirbaza değil bekleme ekranına (/dashboard, AuthGuard) gider
+        navigate(org.onboardingCompleted === false && org.status !== 'pending' ? '/onboarding' : '/dashboard', { replace: true })
       } else {
         setError('Hesabınıza atanmış bir restoran bulunamadı. Lütfen yönetici ile iletişime geçin.')
         await supabase.auth.signOut()

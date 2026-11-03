@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin as db } from '@/lib/supabase-admin'
-import { requireAuth } from '@/lib/auth-middleware'
+import { requirePanelUser } from '@/lib/auth-middleware'
 import type { CatalogTemplateSummary } from '@/lib/catalog-templates'
 
 // PostgREST varsayılan olarak 1000 satırda keser; tabloyu sayfalayarak oku.
@@ -19,7 +19,7 @@ async function fetchAll<T>(table: string, columns: string): Promise<T[]> {
 /** GET /api/templates[?business_type=cafe] — aktif şablonlar, display_order sıralı. */
 export async function GET(request: Request) {
   try {
-    const auth = await requireAuth(request)
+    const auth = await requirePanelUser(request)
     if ('response' in auth) return auth.response
 
     const businessType = new URL(request.url).searchParams.get('business_type')

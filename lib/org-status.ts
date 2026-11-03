@@ -1,7 +1,8 @@
 /**
  * İşletme hesap durumu (organizations.status). İstemci ve sunucu ortak.
  *  - active:    yayında, panel düzenlenebilir
- *  - pending:   /signup başvurusu; sistem yöneticisi onaylayana kadar site yayınlanmaz, panel kullanılabilir
+ *  - pending:   /signup başvurusu; sistem yöneticisi onaylayana kadar site yayınlanmaz ve panel KAPALIDIR
+ *               (yalnızca bekleme ekranı; API uçları 403 ORG_PENDING döner — rakipler kayıt olup paneli kopyalamasın)
  *  - rejected:  başvuru reddedildi; site yok, panel salt-okunur (sebep gösterilir)
  *  - suspended: askıda; site "hizmet dışı", panel salt-okunur (sebep gösterilir)
  */

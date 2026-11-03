@@ -9,6 +9,7 @@
  */
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { fetchAll } from '@/lib/server/fetch-all'
+import { isMissingSchemaError } from '@/lib/restaurant-profile'
 import { geminiJson, GEMINI_TEXT_MODELS } from '@/lib/server/gemini'
 import {
   buildCatalogIndex,
@@ -33,14 +34,22 @@ const UNMATCHED_LOG_MAX = 200
 let cache: { index: CatalogIndex; expires: number } | null = null
 let inflight: Promise<CatalogIndex> | null = null
 
+const ITEM_COLUMNS = 'id, slug, name, name_en, image_url, primary_category_id, calories, allergens, description, display_order'
+
+/** Aktif katalog ürünleri; migration 21 (ingredients) henüz çalışmadıysa bileşensiz okur */
+async function loadItems(): Promise<CatalogItemRow[]> {
+  try {
+    return await fetchAll<CatalogItemRow>(supabaseAdmin, 'catalog_items', `${ITEM_COLUMNS}, ingredients`, (q) => q.eq('is_active', true))
+  } catch (e: any) {
+    if (!isMissingSchemaError({ message: e?.message })) throw e
+    console.warn('[catalog-match] catalog_items.ingredients yok (migration 21 çalıştırılmadı); bileşensiz devam')
+    return fetchAll<CatalogItemRow>(supabaseAdmin, 'catalog_items', ITEM_COLUMNS, (q) => q.eq('is_active', true))
+  }
+}
+
 async function loadIndex(): Promise<CatalogIndex> {
   const [items, categories, aliases] = await Promise.all([
-    fetchAll<CatalogItemRow>(
-      supabaseAdmin,
-      'catalog_items',
-      'id, slug, name, name_en, image_url, primary_category_id, calories, allergens, description, display_order',
-      (q) => q.eq('is_active', true)
-    ),
+    loadItems(),
     fetchAll<CatalogCategoryRow>(supabaseAdmin, 'catalog_categories', 'id, parent_id, slug, name'),
     fetchAll<CatalogAliasRow>(supabaseAdmin, 'catalog_item_aliases', 'alias_norm, item_id, confirmations').catch((e) => {
       // 08 migration'ı henüz çalışmadıysa takma adsız devam et
