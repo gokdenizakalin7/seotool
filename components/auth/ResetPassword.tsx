@@ -79,7 +79,9 @@ function RequestLinkForm() {
   )
 }
 
-function NewPasswordForm({ tokenHash }: { tokenHash: string }) {
+function NewPasswordForm({ tokenHash: initialToken }: { tokenHash: string }) {
+  // Eski şifreyle aynı şifre reddedilince sunucu taze belirteç verir: yeni e-posta beklemeden tekrar denenir
+  const [tokenHash, setTokenHash] = useState(initialToken)
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [show, setShow] = useState(false)
@@ -101,6 +103,12 @@ function NewPasswordForm({ tokenHash }: { tokenHash: string }) {
       const data = await res.json().catch(() => ({}))
       if (!res.ok) {
         if (data.code === 'TOKEN_INVALID') return setStatus('expired')
+        if (data.code === 'SAME_PASSWORD') {
+          if (!data.tokenHash) return setStatus('expired')
+          setTokenHash(data.tokenHash)
+          setPassword('')
+          setConfirm('')
+        }
         setError(data.error || 'Şifre güncellenemedi. Lütfen tekrar deneyin.')
         setStatus('idle')
         return

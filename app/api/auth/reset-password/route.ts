@@ -16,7 +16,8 @@ const schema = z.object({
  * POST /api/auth/reset-password { tokenHash, password }
  * E-postadaki yenileme belirteci doğrulanır, şifre sunucuda değiştirilir ve doğrulamanın açtığı oturum kapatılır:
  * kullanıcı yeni şifresiyle /login'den girer (onay bekleyen başvuru denetimi orada).
- * Belirteç tek kullanımlıktır; şifre biçimi belirteç harcanmadan önce denetlenir.
+ * Belirteç tek kullanımlıktır; şifre biçimi belirteç harcanmadan önce denetlenir. Mevcut şifreyle aynı şifre
+ * reddedilir (SAME_PASSWORD, yanıtta yeniden denemek için yeni tokenHash).
  */
 export async function POST(request: NextRequest) {
   const rl = checkRateLimit(`reset_ip_${getClientIp(request)}`, RATE_LIMITS.AUTH_LOGIN.limit, RATE_LIMITS.AUTH_LOGIN.windowSeconds)
@@ -40,12 +41,24 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  // Yönetici açtığı hesapta "ilk girişte şifre değiştir" zorunluluğu da kalkar: şifreyi kullanıcı kendisi belirledi
-  const { error: updateErr } = await supabaseAdmin.auth.admin.updateUserById(data.user.id, {
-    password,
-    user_metadata: { ...(data.user.user_metadata || {}), must_change_password: false },
-  })
+  // Şifre doğrulamanın açtığı kullanıcı oturumuyla değişir (admin güncellemesi değil): Supabase yeni şifre eskisiyle
+  // aynıysa same_password döner. Yönetici açtığı hesapta "ilk girişte şifre değiştir" zorunluluğu da kalkar.
+  const { error: updateErr } = await anon.auth.updateUser({ password, data: { must_change_password: false } })
   if (data.session) await supabaseAdmin.auth.admin.signOut(data.session.access_token).catch(() => undefined)
+
+  // Belirteç harcandı: kullanıcı yeni e-posta beklemeden farklı bir şifre deneyebilsin diye taze belirteç verilir
+  // (geçerli bağlantıyı açan zaten bu hesabın sahibi)
+  if (updateErr && (updateErr.code === 'same_password' || /different from the old/i.test(updateErr.message))) {
+    const { data: link } = await supabaseAdmin.auth.admin.generateLink({ type: 'recovery', email: data.user.email || '' })
+    return NextResponse.json(
+      {
+        error: 'Yeni şifreniz mevcut şifrenizle aynı olamaz. Farklı bir şifre belirleyin.',
+        code: 'SAME_PASSWORD',
+        tokenHash: link?.properties?.hashed_token || null,
+      },
+      { status: 400 }
+    )
+  }
   if (updateErr) {
     console.error('reset-password update:', updateErr)
     const weak = /password/i.test(updateErr.message) && /weak|short|characters/i.test(updateErr.message)
