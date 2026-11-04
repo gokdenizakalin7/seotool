@@ -1,9 +1,11 @@
 import { LEGAL_COMPANY } from '@/lib/legal'
+import { canonicalOrigin } from '@/lib/site-url'
 import type { EmailMessage } from '@/lib/server/email'
 
 /**
  * İşlemsel e-posta şablonları (Türkçe). Her şablon konu + HTML + düz metin döner; alıcı çağıranda eklenir.
  * HTML e-posta istemcileri için tablo düzeni ve satır içi stil; dışarıdan gelen her metin escapeHtml'den geçer.
+ * Logo üretim alan adından yüklenir (public/email/logo.png); görseller kapalıysa yazı markası görünür.
  */
 
 type Template = Omit<EmailMessage, 'to'>
@@ -17,30 +19,107 @@ function escapeHtml(value: string): string {
     .replace(/'/g, '&#39;')
 }
 
-/** Ortak çerçeve: başlık, paragraflar, isteğe bağlı düğme ve alt bilgi */
-function layout(opts: { title: string; paragraphs: string[]; button?: { label: string; url: string }; note?: string }): string {
-  const paragraphs = opts.paragraphs
-    .map((p) => `<p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#27272a;">${p}</p>`)
-    .join('')
-  const button = opts.button
-    ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 24px;"><tr><td style="border-radius:12px;background:#09090b;">
-<a href="${escapeHtml(opts.button.url)}" style="display:inline-block;padding:14px 28px;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none;border-radius:12px;">${escapeHtml(opts.button.label)}</a>
-</td></tr></table>
-<p style="margin:0 0 16px;font-size:12px;line-height:1.5;color:#71717a;">Düğme çalışmazsa bu adresi tarayıcınıza yapıştırın:<br><a href="${escapeHtml(opts.button.url)}" style="color:#71717a;word-break:break-all;">${escapeHtml(opts.button.url)}</a></p>`
+type Tone = 'success' | 'warning' | 'danger' | 'neutral'
+
+const TONES: Record<Tone, { bg: string; fg: string; border: string }> = {
+  success: { bg: '#ecfdf5', fg: '#047857', border: '#a7f3d0' },
+  warning: { bg: '#fffbeb', fg: '#b45309', border: '#fde68a' },
+  danger: { bg: '#fef2f2', fg: '#b91c1c', border: '#fecaca' },
+  neutral: { bg: '#f4f4f5', fg: '#3f3f46', border: '#e4e4e7' },
+}
+
+const INK = '#0a0c10'
+const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif"
+
+/** Marka işareti (public/email/logo.png, koyu zemin için beyaz/gri); e-posta istemcileri SVG göstermez */
+function logoUrl(): string {
+  return `${canonicalOrigin()}/email/logo.png`
+}
+
+type LayoutOpts = {
+  /** Gelen kutusunda konunun yanında görünen önizleme metni */
+  preheader: string
+  badge?: { label: string; tone: Tone }
+  title: string
+  /** HTML paragraflar (dış metinler çağıranda escapeHtml'den geçmiş olmalı) */
+  paragraphs: string[]
+  /** Gri bilgi kutusu: etiket / değer satırları (değer HTML) */
+  details?: [string, string][]
+  /** Renkli vurgu kutusu (ör. red gerekçesi) */
+  callout?: { label: string; text: string; tone: Tone }
+  button?: { label: string; url: string }
+  note?: string
+}
+
+/** Ortak çerçeve: koyu logolu başlık, durum rozeti, başlık, metin, bilgi kutusu, düğme ve alt bilgi */
+function layout(opts: LayoutOpts): string {
+  const p = (html: string) => `<p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#3f3f46;">${html}</p>`
+
+  const badge = opts.badge
+    ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px;"><tr><td style="background:${TONES[opts.badge.tone].bg};border:1px solid ${TONES[opts.badge.tone].border};border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;letter-spacing:0.02em;color:${TONES[opts.badge.tone].fg};">${escapeHtml(opts.badge.label)}</td></tr></table>`
     : ''
-  const note = opts.note ? `<p style="margin:0;font-size:13px;line-height:1.5;color:#71717a;">${opts.note}</p>` : ''
+
+  const details = opts.details?.length
+    ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:4px 0 20px;background:#f4f4f5;border-radius:14px;">
+${opts.details
+  .map(
+    ([label, value], i) =>
+      `<tr><td style="padding:${i === 0 ? 19 : 13}px 12px ${i === opts.details!.length - 1 ? 16 : 10}px 16px;font-size:11px;line-height:1.5;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#71717a;width:76px;vertical-align:top;">${escapeHtml(label)}</td><td style="padding:${i === 0 ? 16 : 10}px 16px ${i === opts.details!.length - 1 ? 16 : 10}px 0;font-size:15px;line-height:1.5;color:${INK};font-weight:600;word-break:break-word;">${value}</td></tr>`
+  )
+  .join('\n')}
+</table>`
+    : ''
+
+  const callout = opts.callout
+    ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:4px 0 20px;"><tr><td style="background:${TONES[opts.callout.tone].bg};border-left:4px solid ${TONES[opts.callout.tone].fg};border-radius:12px;padding:14px 18px;">
+<p style="margin:0 0 4px;font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:${TONES[opts.callout.tone].fg};">${escapeHtml(opts.callout.label)}</p>
+<p style="margin:0;font-size:15px;line-height:1.55;color:${INK};">${escapeHtml(opts.callout.text)}</p>
+</td></tr></table>`
+    : ''
+
+  const button = opts.button
+    ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 28px;"><tr><td style="border-radius:14px;background:${INK};">
+<a href="${escapeHtml(opts.button.url)}" style="display:inline-block;padding:15px 30px;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none;border-radius:14px;">${escapeHtml(opts.button.label)} &rarr;</a>
+</td></tr></table>`
+    : ''
+
+  const fallback = opts.button
+    ? `<p style="margin:0 0 12px;font-size:12px;line-height:1.6;color:#a1a1aa;">Düğme çalışmazsa bu adresi tarayıcınıza yapıştırın:<br><a href="${escapeHtml(opts.button.url)}" style="color:#71717a;word-break:break-all;">${escapeHtml(opts.button.url)}</a></p>`
+    : ''
+  const note = opts.note ? `<p style="margin:0;font-size:13px;line-height:1.6;color:#71717a;">${opts.note}</p>` : ''
+  const footerBlock =
+    fallback || note
+      ? `<tr><td style="padding:0 28px 28px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="border-top:1px solid #e4e4e7;padding-top:20px;">${fallback}${note}</td></tr></table></td></tr>`
+      : ''
+
+  const site = canonicalOrigin()
+  const siteLabel = site.replace(/^https?:\/\//, '')
 
   return `<!doctype html>
-<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(opts.title)}</title></head>
-<body style="margin:0;padding:0;background:#f4f4f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;padding:32px 16px;"><tr><td align="center">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#ffffff;border-radius:20px;padding:32px;">
-<tr><td>
-<p style="margin:0 0 24px;font-size:20px;font-weight:800;color:#09090b;">QR <span style="color:#a1a1aa;">Chef</span></p>
-<h1 style="margin:0 0 16px;font-size:22px;line-height:1.3;font-weight:800;color:#09090b;">${escapeHtml(opts.title)}</h1>
-${paragraphs}${button}${note}
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light">
+<title>${escapeHtml(opts.title)}</title></head>
+<body style="margin:0;padding:0;background:#f4f4f5;font-family:${FONT};-webkit-font-smoothing:antialiased;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${escapeHtml(opts.preheader)}${'&#8203;&nbsp;'.repeat(40)}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;"><tr><td align="center" style="padding:24px 10px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border-radius:24px;overflow:hidden;border:1px solid #e4e4e7;">
+<tr><td style="background:${INK};padding:20px 28px;">
+<table role="presentation" cellpadding="0" cellspacing="0"><tr>
+<td style="vertical-align:middle;padding-right:12px;"><img src="${logoUrl()}" width="40" height="40" alt="" style="display:block;border:0;width:40px;height:40px;"></td>
+<td style="vertical-align:middle;font-size:21px;font-weight:800;letter-spacing:-0.01em;color:#ffffff;font-family:${FONT};">QR <span style="color:#a1a1aa;">Chef</span></td>
+</tr></table>
+</td></tr>
+<tr><td style="padding:32px 28px 8px;">
+${badge}<h1 style="margin:0 0 16px;font-size:24px;line-height:1.3;font-weight:800;letter-spacing:-0.01em;color:${INK};">${escapeHtml(opts.title)}</h1>
+${opts.paragraphs.map(p).join('\n')}
+${details}${callout}${button}
+</td></tr>
+${footerBlock}
+</table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;"><tr><td align="center" style="padding:20px 24px 0;font-size:12px;line-height:1.7;color:#a1a1aa;">
+<a href="${site}" style="color:#71717a;font-weight:700;text-decoration:none;">${siteLabel}</a> &nbsp;·&nbsp; <a href="mailto:${LEGAL_COMPANY.email}" style="color:#71717a;text-decoration:none;">${LEGAL_COMPANY.email}</a><br>
+Bu e-postayı QR Chef hesabınızla ilgili bir işlem nedeniyle aldınız.
 </td></tr></table>
-<p style="margin:16px 0 0;font-size:12px;color:#a1a1aa;">QR Chef · <a href="mailto:${LEGAL_COMPANY.email}" style="color:#a1a1aa;">${LEGAL_COMPANY.email}</a></p>
 </td></tr></table>
 </body></html>`
 }
@@ -54,10 +133,12 @@ export function passwordResetEmail(resetUrl: string): Template {
   return {
     subject: 'QR Chef şifre yenileme bağlantınız',
     html: layout({
+      preheader: 'Yeni şifrenizi belirlemek için bağlantı. 1 saat geçerlidir.',
+      badge: { label: 'Şifre yenileme', tone: 'neutral' },
       title,
       paragraphs: ['QR Chef hesabınız için şifre yenileme isteği aldık. Yeni şifrenizi belirlemek için aşağıdaki düğmeye tıklayın.'],
       button: { label: 'Yeni şifre belirle', url: resetUrl },
-      note: 'Bağlantı 1 saat geçerlidir ve bir kez kullanılabilir. Bu isteği siz yapmadıysanız e-postayı yok sayın; şifreniz değişmez.',
+      note: 'Bağlantı <b>1 saat</b> geçerlidir ve bir kez kullanılabilir. Bu isteği siz yapmadıysanız e-postayı yok sayın; şifreniz değişmez.',
     }),
     text: textBody([
       title,
@@ -75,6 +156,8 @@ export function verifyEmailEmail(verifyUrl: string, businessName: string): Templ
   return {
     subject: 'QR Chef e-posta doğrulama',
     html: layout({
+      preheader: `${businessName} kaydını tamamlamak için e-posta adresinizi doğrulayın.`,
+      badge: { label: 'Son bir adım', tone: 'warning' },
       title,
       paragraphs: [
         `<b>${escapeHtml(businessName)}</b> için QR Chef hesabınız oluşturuldu. Kaydı tamamlamak için e-posta adresinizi doğrulayın.`,
@@ -98,10 +181,12 @@ export function applicationReceivedEmail(businessName: string): Template {
   return {
     subject: `${businessName} QR Chef başvurunuz alındı`,
     html: layout({
+      preheader: 'Başvurunuzu inceliyoruz; onaylandığında size e-posta göndereceğiz.',
+      badge: { label: 'İnceleniyor', tone: 'warning' },
       title,
       paragraphs: [
         `<b>${escapeHtml(businessName)}</b> için QR Chef başvurunuz ekibimize ulaştı. Bilgilerinizi inceleyip en kısa sürede size döneceğiz.`,
-        'Başvurunuz onaylandığında bu adrese e-posta göndereceğiz; ardından kayıtta belirlediğiniz e-posta ve şifreyle giriş yapıp menünüzü hazırlayabilirsiniz.',
+        'Başvurunuz onaylandığında bu adrese e-posta göndereceğiz. Ardından kayıtta belirlediğiniz e-posta ve şifreyle giriş yapıp menünüzü hazırlayabilirsiniz.',
       ],
       note: 'Sorunuz olursa bu e-postayı yanıtlayarak bize ulaşabilirsiniz. Bu başvuruyu siz yapmadıysanız bize haber verin.',
     }),
@@ -118,17 +203,22 @@ export function applicationReceivedEmail(businessName: string): Template {
 
 export function applicationApprovedEmail(opts: { businessName: string; loginUrl: string; siteUrl: string }): Template {
   const title = 'Başvurunuz onaylandı 🎉'
+  const siteLabel = opts.siteUrl.replace(/^https?:\/\//, '')
   return {
     subject: `${opts.businessName} QR Chef'te yayında`,
     html: layout({
+      preheader: `${opts.businessName} işletme siteniz ve QR menünüz yayında.`,
+      badge: { label: 'Onaylandı', tone: 'success' },
       title,
       paragraphs: [
         `<b>${escapeHtml(opts.businessName)}</b> için başvurunuzu onayladık. İşletme siteniz ve QR menünüz artık yayında.`,
-        `Sitenizin adresi: <a href="${escapeHtml(opts.siteUrl)}" style="color:#09090b;font-weight:700;">${escapeHtml(opts.siteUrl)}</a>`,
-        'Kayıtta belirlediğiniz e-posta ve şifreyle panele giriş yapıp menünüzü düzenleyebilir, masa QR kodlarınızı yazdırabilirsiniz.',
+      ],
+      details: [
+        ['Siteniz', `<a href="${escapeHtml(opts.siteUrl)}" style="color:${INK};text-decoration:underline;">${escapeHtml(siteLabel)}</a>`],
+        ['Giriş', 'Kayıtta belirlediğiniz e-posta ve şifre'],
       ],
       button: { label: 'Panele giriş yap', url: opts.loginUrl },
-      note: 'Sorunuz olursa bu e-postayı yanıtlayarak bize ulaşabilirsiniz.',
+      note: 'Panelden menünüzü düzenleyebilir, masa QR kodlarınızı yazdırabilirsiniz. Sorunuz olursa bu e-postayı yanıtlayın.',
     }),
     text: textBody([
       title,
@@ -148,12 +238,12 @@ export function applicationRejectedEmail(opts: { businessName: string; reason: s
   return {
     subject: `${opts.businessName} QR Chef başvurusu`,
     html: layout({
+      preheader: `${opts.businessName} başvurunuzu şu an onaylayamadık.`,
+      badge: { label: 'Onaylanmadı', tone: 'danger' },
       title,
-      paragraphs: [
-        `<b>${escapeHtml(opts.businessName)}</b> için yaptığınız başvuruyu şu an onaylayamadık.`,
-        ...(opts.reason ? [`Gerekçe: ${escapeHtml(opts.reason)}`] : []),
-        'Bilgilerinizi güncelleyip yeniden değerlendirme istemek ya da soru sormak için bu e-postayı yanıtlayabilirsiniz.',
-      ],
+      paragraphs: [`<b>${escapeHtml(opts.businessName)}</b> için yaptığınız başvuruyu şu an onaylayamadık.`],
+      callout: opts.reason ? { label: 'Gerekçe', text: opts.reason, tone: 'danger' } : undefined,
+      note: 'Bilgilerinizi güncelleyip yeniden değerlendirme istemek ya da soru sormak için bu e-postayı yanıtlayabilirsiniz.',
     }),
     text: textBody([
       title,
@@ -184,8 +274,16 @@ export function newApplicationAdminEmail(opts: {
   return {
     subject: `${title}: ${opts.businessName}`,
     html: layout({
+      preheader: `${opts.businessName} · ${opts.ownerName} · ${opts.phone}`,
+      badge: opts.requiresApproval ? { label: 'Onay bekliyor', tone: 'warning' } : { label: 'Yeni kayıt', tone: 'neutral' },
       title,
-      paragraphs: rows.map(([k, v]) => `<b>${k}:</b> ${escapeHtml(v)}`),
+      paragraphs: [opts.requiresApproval ? 'Yeni bir işletme kaydoldu ve onayınızı bekliyor.' : 'Yeni bir işletme kaydoldu.'],
+      details: [
+        ['İşletme', escapeHtml(opts.businessName)],
+        ['Yetkili', escapeHtml(opts.ownerName)],
+        ['E-posta', `<a href="mailto:${escapeHtml(opts.email)}" style="color:${INK};">${escapeHtml(opts.email)}</a>`],
+        ['Telefon', `<a href="tel:${escapeHtml(opts.phone)}" style="color:${INK};">${escapeHtml(opts.phone)}</a>`],
+      ],
       button: { label: opts.requiresApproval ? 'Başvuruyu incele' : 'Admin paneli', url: opts.adminUrl },
     }),
     text: textBody([title, '', ...rows.map(([k, v]) => `${k}: ${v}`), '', opts.adminUrl]),
