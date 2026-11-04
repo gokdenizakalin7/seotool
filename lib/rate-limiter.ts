@@ -138,15 +138,26 @@ export function consumeQuota(key: string, windowSeconds: number): void {
 
 /**
  * Reverse-Proxy (Vercel, Cloudflare, Nginx) arkasındaki gerçek istemci IP adresini güvenle alır.
- * X-Forwarded-For sahteciliğini önlemek için en sol (ilk) IP'yi kullanır.
+ *
+ * Vercel'de yalnızca Vercel'in kendi yazdığı başlıklara güvenilir (x-vercel-forwarded-for, x-real-ip; istemcinin
+ * gönderdiği değerin üzerine yazılır). cf-connecting-ip'i Vercel silmez: site Cloudflare arkasında değilken her
+ * istek sahte bir değerle farklı IP gibi görünüp tüm IP sınırlarını aşabiliyordu. O başlık yalnızca
+ * TRUST_CLOUDFLARE_IP=true iken (alan adı gerçekten Cloudflare proxy'sinden geçiyorsa) okunur.
  */
 export function getClientIp(req: NextRequest | Request): string {
   try {
     const headers = req.headers
 
-    // Cloudflare gerçek IP
-    const cfIp = headers.get('cf-connecting-ip')
-    if (cfIp) return cfIp.trim()
+    if (process.env.VERCEL) {
+      const vercelIp = headers.get('x-vercel-forwarded-for')?.split(',')[0]?.trim()
+      if (vercelIp) return vercelIp
+    }
+
+    // Cloudflare gerçek IP (yalnızca Cloudflare proxy'si açıkça bildirildiyse)
+    if (process.env.TRUST_CLOUDFLARE_IP === 'true') {
+      const cfIp = headers.get('cf-connecting-ip')
+      if (cfIp) return cfIp.trim()
+    }
 
     // Standart Real-IP
     const realIp = headers.get('x-real-ip')
