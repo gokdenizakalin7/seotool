@@ -5,6 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limiter'
 import { getSetting } from '@/lib/server/platform-settings'
 import { LEGAL_VERSION } from '@/lib/legal'
+import { emailLinkOrigin, sendNewApplicationNotice, sendVerificationEmail } from '@/lib/server/account-emails'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -75,22 +76,25 @@ export async function POST(request: NextRequest) {
     // Başvuru onayı: işletme sistem yöneticisi onaylayana kadar 'pending' açılır (handle_new_user, migration 16)
     const requiresApproval = await getSetting('signup_requires_approval')
 
-    const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser({
-      email,
-      password,
-      // E-posta servisi bağlanana kadar doğrulama yok (EMAIL_VERIFICATION_REQUIRED=true ile açılacak)
-      email_confirm: process.env.EMAIL_VERIFICATION_REQUIRED !== 'true',
-      user_metadata: {
-        business_name: businessName,
-        owner_name: ownerName,
-        owner_phone: normalizePhone(ownerPhone),
-        requires_approval: requiresApproval,
-        // Kabul edilen sözleşme sürümü ve zamanı (ispat kaydı)
-        terms_version: LEGAL_VERSION,
-        terms_accepted_at: new Date().toISOString(),
-        terms_accepted_ip: ip,
-      },
-    })
+    const userMetadata = {
+      business_name: businessName,
+      owner_name: ownerName,
+      owner_phone: normalizePhone(ownerPhone),
+      requires_approval: requiresApproval,
+      // Kabul edilen sözleşme sürümü ve zamanı (ispat kaydı)
+      terms_version: LEGAL_VERSION,
+      terms_accepted_at: new Date().toISOString(),
+      terms_accepted_ip: ip,
+    }
+
+    // E-posta doğrulaması (EMAIL_VERIFICATION_REQUIRED=true): kullanıcı generateLink ile doğrulanmamış açılır, aynı
+    // çağrı doğrulama bağlantısının belirtecini de verir; e-postayı Supabase değil biz göndeririz (account-emails.ts)
+    const verifyEmail = process.env.EMAIL_VERIFICATION_REQUIRED === 'true'
+    let verificationToken = ''
+    const { data: created, error: createErr } = verifyEmail
+      ? await supabaseAdmin.auth.admin.generateLink({ type: 'signup', email, password, options: { data: userMetadata } })
+      : await supabaseAdmin.auth.admin.createUser({ email, password, email_confirm: true, user_metadata: userMetadata })
+    if (created && 'properties' in created) verificationToken = created.properties?.hashed_token || ''
 
     if (createErr || !created?.user) {
       const msg = (createErr?.message || '').toLowerCase()
@@ -116,9 +120,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Restoran kaydı oluşturulamadı. Lütfen tekrar deneyin.' }, { status: 500 })
     }
 
+    // Ekibe bildirim ve (gerekiyorsa) doğrulama e-postası; gönderilemese de kayıt tamamdır
+    const origin = emailLinkOrigin(request)
+    await Promise.all([
+      sendNewApplicationNotice({ businessName, ownerName, email, phone: normalizePhone(ownerPhone), requiresApproval }, origin),
+      verifyEmail && verificationToken ? sendVerificationEmail(email, verificationToken, businessName, origin) : null,
+    ])
+
     // Doğrulama zorunluysa oturum açma
-    if (process.env.EMAIL_VERIFICATION_REQUIRED === 'true') {
+    if (verifyEmail) {
       return NextResponse.json({ ok: true, verifyEmail: true, requiresApproval })
+    }
+
+    // Onay gereken başvuru oturum açmaz: sistem yöneticisi onaylayana kadar giriş de kapalı (app/api/auth/login)
+    if (requiresApproval) {
+      return NextResponse.json({ ok: true, requiresApproval, pendingApproval: true })
     }
 
     const anon = createClient(supabaseUrl, supabaseAnonKey, {

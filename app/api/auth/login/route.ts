@@ -1,9 +1,23 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limiter'
+import { supabaseAdmin } from '@/lib/supabase-admin'
+import { isSystemAdmin } from '@/lib/auth-middleware'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+
+/** Kullanıcının üye olduğu işletme onay bekliyor mu (/signup başvurusu, sistem yöneticisi henüz onaylamadı) */
+async function isPendingApplicant(userId: string): Promise<boolean> {
+  const { data: member } = await supabaseAdmin
+    .from('organization_members')
+    .select('organization_id')
+    .eq('user_id', userId)
+    .maybeSingle()
+  if (!member) return false
+  const { data: org } = await supabaseAdmin.from('organizations').select('status').eq('id', member.organization_id).maybeSingle()
+  return org?.status === 'pending'
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,13 +32,13 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, password } = await request.json()
-    
+
     const supabase = createClient(supabaseUrl, supabaseAnonKey, {
       auth: { autoRefreshToken: false, persistSession: false }
     })
 
     const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-    
+
     if (error) {
       // Admin panelinden girişi engellenen kullanıcı
       if (error.code === 'user_banned' || /banned/i.test(error.message)) {
@@ -34,6 +48,16 @@ export async function POST(request: NextRequest) {
         )
       }
       return NextResponse.json({ error: error.message }, { status: 400 })
+    }
+
+    // Onay bekleyen başvuru giriş yapamaz: açılan oturum hemen kapatılır, belirteç istemciye verilmez.
+    // (Doğrudan Supabase ile oturum açılsa bile panel uçları 403 ORG_PENDING döner; bkz. lib/auth-middleware.ts)
+    if (data.user && !isSystemAdmin(data.user) && (await isPendingApplicant(data.user.id))) {
+      if (data.session) await supabaseAdmin.auth.admin.signOut(data.session.access_token).catch(() => undefined)
+      return NextResponse.json(
+        { error: 'Hesabınız henüz onaylanmadı. Başvurunuz incelendikten sonra giriş yapabilirsiniz.', code: 'ORG_PENDING' },
+        { status: 403 }
+      )
     }
 
     return NextResponse.json({ data })

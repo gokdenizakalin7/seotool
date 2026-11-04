@@ -9,7 +9,7 @@ export const HOME_FAQ: { q: string; a: string }[] = [
   },
   {
     q: 'QR Chef ücretli mi?',
-    a: 'QR Chef şu an ücretsiz sunulmaktadır. Kayıt olduğunuzda hesabınız hemen açılır ve menünüzü hazırlamaya başlarsınız; işletme siteniz başvurunuz onaylandığında yayına girer.',
+    a: 'QR Chef şu an ücretsiz sunulmaktadır. Kayıt bir başvurudur: başvurunuzu inceleyip onayladığımızda hesabınızla giriş yapar, menünüzü hazırlamaya başlarsınız.',
   },
   {
     q: 'Menümü tek tek yazmam gerekiyor mu?',

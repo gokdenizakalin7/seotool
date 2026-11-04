@@ -69,7 +69,7 @@ export const BUSINESS_PAGES: BusinessPage[] = [
       },
       {
         q: 'Kafe QR menü için ücret ödemem gerekiyor mu?',
-        a: 'QR Chef şu an ücretsiz sunulmaktadır. Kayıt olup menünüzü yükleyerek hemen kullanmaya başlayabilirsiniz.',
+        a: 'QR Chef şu an ücretsiz sunulmaktadır. Kayıt formundan başvurun; başvurunuz onaylandığında giriş yapıp menünüzü yükleyebilirsiniz.',
       },
     ],
   },

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Loader2, ArrowRight, Lock, Mail, Eye, EyeOff } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { QrChefMark, QrChefWordmark } from '@/components/brand/qr-chef-logo'
@@ -11,6 +11,7 @@ import { clearImpersonation } from '@/lib/impersonation'
 import { primeApiCache } from '@/lib/api-client'
 import { preloadWhenIdle } from '@/lib/lazy-page'
 import { DashboardContent, DashboardRoute } from '@/components/lazy-pages'
+import { ApprovalNotice } from '@/components/auth/ApprovalNotice'
 
 export function Login() {
   const [email, setEmail] = useState('')
@@ -19,6 +20,9 @@ export function Login() {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
+  // Onay bekleyen başvuru: giriş reddedildi (403 ORG_PENDING) ya da açık oturumu kapatılıp buraya yönlendirildi (?onay=bekliyor)
+  const location = useLocation()
+  const [pendingApproval, setPendingApproval] = useState(() => new URLSearchParams(location.search).get('onay') === 'bekliyor')
 
   // Kullanıcı bilgilerini yazarken panel paketleri iner: girişten sonra panel beklemeden açılır
   useEffect(() => preloadWhenIdle([DashboardRoute, DashboardContent]), [])
@@ -26,6 +30,7 @@ export function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    setPendingApproval(false)
     setIsLoading(true)
 
     try {
@@ -40,6 +45,12 @@ export function Login() {
       })
 
       const responseData = await res.json()
+
+      if (responseData.code === 'ORG_PENDING') {
+        setPendingApproval(true)
+        setIsLoading(false)
+        return
+      }
 
       if (!res.ok || responseData.error) {
         setError(responseData.error || 'E-posta veya şifre hatalı.')
@@ -102,7 +113,7 @@ export function Login() {
         
         setClientSession({ role: meData.role, restaurant: org, userId: meData.id })
         primeApiCache('/api/auth/me', meData)
-        // Onay bekleyen başvuru sihirbaza değil bekleme ekranına (/dashboard, AuthGuard) gider
+        // Onay bekleyen başvurunun girişi sunucuda reddedilir; buraya gelirse /dashboard'daki AuthGuard oturumu kapatır
         navigate(org.onboardingCompleted === false && org.status !== 'pending' ? '/onboarding' : '/dashboard', { replace: true })
       } else {
         setError('Hesabınıza atanmış bir restoran bulunamadı. Lütfen yönetici ile iletişime geçin.')
@@ -200,6 +211,8 @@ export function Login() {
                 </div>
               </div>
             </div>
+
+            {pendingApproval && <ApprovalNotice kind="login" />}
 
             <AnimatePresence>
               {error && (
