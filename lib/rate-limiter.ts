@@ -181,6 +181,8 @@ export const RATE_LIMITS = {
   AUTH_LOGIN: { limit: 5, windowSeconds: 900 },
   // Kayıt: IP başına saatte en fazla 5 hesap
   AUTH_SIGNUP: { limit: 5, windowSeconds: 3600 },
+  // Şifre yenileme / doğrulama e-postası: IP ve e-posta başına saatte en fazla 5
+  AUTH_EMAIL: { limit: 5, windowSeconds: 3600 },
   // Logo/kapak yükleme: kullanıcı başına 10 dakikada 20
   ASSET_UPLOAD: { limit: 20, windowSeconds: 600 },
   // Katalog arama / eşleştirme: IP başına dakikada 60

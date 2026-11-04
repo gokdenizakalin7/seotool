@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limiter'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { isSystemAdmin } from '@/lib/auth-middleware'
+import { emailLinkOrigin, sendVerificationEmail } from '@/lib/server/account-emails'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -44,6 +45,26 @@ export async function POST(request: NextRequest) {
       if (error.code === 'user_banned' || /banned/i.test(error.message)) {
         return NextResponse.json(
           { error: 'Hesabınızın girişi yönetici tarafından engellendi. Lütfen bizimle iletişime geçin.', code: 'USER_BANNED' },
+          { status: 403 }
+        )
+      }
+      // E-postası doğrulanmamış kayıt (EMAIL_VERIFICATION_REQUIRED): şifre doğru, bağlantı yeniden gönderilir
+      if (error.code === 'email_not_confirmed') {
+        const key = `verify_resend_${String(email).toLowerCase()}`
+        if (checkRateLimit(key, RATE_LIMITS.AUTH_EMAIL.limit, RATE_LIMITS.AUTH_EMAIL.windowSeconds).success) {
+          const { data: link, error: linkErr } = await supabaseAdmin.auth.admin.generateLink({ type: 'signup', email, password })
+          if (link?.properties?.hashed_token) {
+            const businessName = link.user?.user_metadata?.business_name || 'İşletmeniz'
+            await sendVerificationEmail(email, link.properties.hashed_token, businessName, emailLinkOrigin(request))
+          } else if (linkErr) {
+            console.error('login verification resend:', linkErr)
+          }
+        }
+        return NextResponse.json(
+          {
+            error: 'E-posta adresiniz henüz doğrulanmadı. Doğrulama bağlantısını e-postanıza yeniden gönderdik; gelen kutunuzu ve spam klasörünü kontrol edin.',
+            code: 'EMAIL_NOT_CONFIRMED',
+          },
           { status: 403 }
         )
       }

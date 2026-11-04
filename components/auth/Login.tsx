@@ -210,6 +210,12 @@ export function Login() {
                   </button>
                 </div>
               </div>
+              <div className="text-right">
+                {/* SPA dışında: app/auth/sifre-yenile */}
+                <a href="/auth/sifre-yenile" className="pr-1 text-sm font-semibold text-white/60 transition-colors hover:text-white">
+                  Şifremi unuttum
+                </a>
+              </div>
             </div>
 
             {pendingApproval && <ApprovalNotice kind="login" />}
