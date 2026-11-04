@@ -5,6 +5,7 @@ import { getOrgMembers } from '@/lib/server/admin/orgs'
 import { adminNotifyEmail, sendEmail, type EmailResult } from '@/lib/server/email'
 import {
   applicationApprovedEmail,
+  applicationReceivedEmail,
   applicationRejectedEmail,
   newApplicationAdminEmail,
   passwordResetEmail,
@@ -12,7 +13,7 @@ import {
 } from '@/lib/server/email-templates'
 
 /**
- * Hesap e-postaları: şifre yenileme, e-posta doğrulama, başvuru onay/red ve ekibe yeni başvuru bildirimi.
+ * Hesap e-postaları: şifre yenileme, e-posta doğrulama, başvuru alındı/onay/red ve ekibe yeni başvuru bildirimi.
  *
  * Doğrulama ve yenileme bağlantıları Supabase'in kendi e-postasıyla değil, admin generateLink'in hashed_token'ı ile
  * bizim sayfalarımıza (/auth/…) kurulur: şablon Türkçe ve kodda, Supabase'de yönlendirme listesi gerekmez.
@@ -43,6 +44,11 @@ export async function sendPasswordResetEmail(email: string, origin: string): Pro
 export async function sendVerificationEmail(email: string, hashedToken: string, businessName: string, origin: string) {
   const url = `${origin}/auth/dogrula?token_hash=${encodeURIComponent(hashedToken)}`
   return sendEmail({ to: email, ...verifyEmailEmail(url, businessName) })
+}
+
+/** Başvuru sahibine "başvurunuz alındı" (onay gereken kayıtta; e-posta doğrulaması açıksa doğrulama e-postası yeter) */
+export async function sendApplicationReceivedEmail(email: string, businessName: string) {
+  return sendEmail({ to: email, ...applicationReceivedEmail(businessName) })
 }
 
 /** Ekibe yeni kayıt bildirimi */
