@@ -5,6 +5,7 @@ import { adminRoute, jsonError, parseBody } from '@/lib/server/admin/http'
 import { statusSchema } from '@/lib/server/admin/schemas'
 import { getOrgRow } from '@/lib/server/admin/orgs'
 import { logAdminAction } from '@/lib/server/admin/audit'
+import { emailLinkOrigin, sendApplicationDecisionEmail } from '@/lib/server/account-emails'
 
 type Ctx = { params: Promise<{ id: string }> }
 
@@ -12,6 +13,7 @@ type Ctx = { params: Promise<{ id: string }> }
  * PATCH /api/admin/organizations/[id]/status { status, reason }
  * active: onay/aktifleştirme (site yayına girer) · suspended: askı (site "hizmet dışı", panel salt-okunur, sebep zorunlu)
  * rejected: başvuru reddi (site yok, panel salt-okunur, sebep zorunlu) · pending: yeniden incelemeye al
+ * Onay ve redde işletme sahibine e-posta gider (lib/server/account-emails.ts); gönderilemese de durum kaydedilir.
  */
 export async function PATCH(request: NextRequest, { params }: Ctx) {
   return adminRoute(request, 'organization status', async (actor) => {
@@ -63,6 +65,8 @@ export async function PATCH(request: NextRequest, { params }: Ctx) {
       reason: reason || null,
     })
 
-    return NextResponse.json({ organization: data, changed: true })
+    const email = await sendApplicationDecisionEmail(data, org.status, status, reason, emailLinkOrigin(request))
+
+    return NextResponse.json({ organization: data, changed: true, emailSent: email ? email.ok : null })
   })
 }
