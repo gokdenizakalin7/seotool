@@ -97,7 +97,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
     faq: [
       {
         q: 'QR menü yapmak ne kadar sürer?',
-        a: 'Basılı menünüzün fotoğrafından aktarımla ürünler birkaç dakikada çıkar; kontrol edip site bilgilerinizi girmekle birlikte çoğu işletme yarım saat içinde yayına hazır olur.',
+        a: 'Başvurunuz onaylandıktan sonra basılı menünüzün fotoğrafından aktarımla ürünler birkaç dakikada çıkar; kontrol edip site bilgilerinizi girmekle birlikte çoğu işletme yarım saat içinde yayına hazır olur.',
       },
       {
         q: 'Karekod hangi boyutta basılmalı?',

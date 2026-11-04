@@ -74,8 +74,9 @@ export function TermsOfServiceText() {
       <h3 className={h}>2. Başvuru, Hesap ve Onay</h3>
       <ul className={ul}>
         <li>
-          Kayıt bir <b>başvurudur</b>. Hesabınız hemen açılır ve kurulum sihirbazıyla menünüzü hazırlayabilirsiniz; ancak işletme
-          siteniz ve QR menünüz, {C.brand} başvurunuzu inceleyip onaylayana kadar herkese açık yayınlanmaz.
+          Kayıt bir <b>başvurudur</b>. {C.brand} başvurunuzu inceleyip onaylayana kadar hesabınızla giriş yapılamaz; panel,
+          işletme siteniz ve QR menünüz kullanıma açılmaz. Onaydan sonra aynı e-posta ve şifreyle giriş yapıp kurulum
+          sihirbazıyla menünüzü hazırlarsınız.
         </li>
         <li>
           {C.brand}, başvuruyu makul bir süre içinde değerlendirir; işletmenin gerçekliğini veya yetkinizi doğrulamak için ek bilgi

@@ -19,7 +19,8 @@ export function Body() {
 
       <h2>2. Fotoğraftan otomatik aktarın</h2>
       <p>
-        QR Chef&apos;e <Link href="/signup">ücretsiz kaydolduktan</Link> sonra işletme türünüzü seçin ve menünüzün fotoğrafını yükleyin.
+        QR Chef&apos;e <Link href="/signup">ücretsiz başvurun</Link>; başvurunuz onaylandıktan sonra giriş yapıp işletme türünüzü
+        seçin ve menünüzün fotoğrafını yükleyin.
         Yapay zekâ ürün adlarını, fiyatları ve kategorileri okur; her ürünün porsiyon başına kalorisini tahmin eder. Sayfa sayfa
         fotoğraf yükleyebilirsiniz. Okunan sonuçları bir düzenleme ekranında görür, gerekirse düzeltirsiniz.
       </p>

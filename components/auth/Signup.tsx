@@ -9,6 +9,7 @@ import { supabase } from '@/lib/supabase'
 import { clearApiCache } from '@/lib/api-client'
 import { TermsOfServiceModal } from '@/components/modals/TermsOfServiceModal'
 import { PrivacyPolicyModal } from '@/components/modals/PrivacyPolicyModal'
+import { ApprovalNotice } from '@/components/auth/ApprovalNotice'
 
 const inputCls =
   'w-full bg-black/20 border text-white placeholder-white/30 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all shadow-inner'
@@ -45,6 +46,8 @@ export function Signup() {
   const [error, setError] = useState('')
   const [info, setInfo] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  // Onay gereken başvuru gönderildi: form yerine "başvurunuz alındı" ve iletişim bilgileri (giriş onaydan sonra açılır)
+  const [submittedFor, setSubmittedFor] = useState<string | null>(null)
   const [isTermsOpen, setIsTermsOpen] = useState(false)
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false)
   // Kayıt açık mı, başvuru onay bekler mi (sunucu ayarı)
@@ -105,6 +108,10 @@ export function Signup() {
         setError(data.error || 'Kayıt tamamlanamadı.')
         return
       }
+      if (data.pendingApproval) {
+        setSubmittedFor(businessName.trim())
+        return
+      }
       if (data.verifyEmail) {
         setInfo('Hesabınız oluşturuldu. Lütfen e-postanıza gelen doğrulama bağlantısına tıklayın.')
         return
@@ -119,8 +126,7 @@ export function Signup() {
         refresh_token: data.session.refresh_token,
       })
       clearApiCache()
-      // Onay bekleyen başvuru kurulum sihirbazını görmez: bekleme ekranı (/dashboard, AuthGuard)
-      window.location.href = data.requiresApproval ? '/dashboard' : '/onboarding'
+      window.location.href = '/onboarding'
     } catch {
       setError('Bağlantı hatası. Lütfen tekrar deneyin.')
     } finally {
@@ -165,17 +171,27 @@ export function Signup() {
         </div>
 
         <div className="bg-white/10 backdrop-blur-2xl border border-white/20 p-7 rounded-[32px] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
-          {signupState?.requiresApproval && !signupClosed && (
+          {signupState?.requiresApproval && !signupClosed && submittedFor === null && (
             <div className="mb-5 flex items-start gap-2.5 rounded-2xl border border-amber-300/30 bg-amber-400/10 px-3.5 py-3 text-xs leading-relaxed text-amber-50">
               <Clock className="mt-0.5 h-4 w-4 shrink-0 text-amber-200" />
               <span>
-                Kayıt bir <b>başvurudur</b>: hesabınız hemen açılır ve menünüzü hazırlayabilirsiniz, ancak işletme siteniz
-                başvurunuz incelenip onaylandıktan sonra yayına girer.
+                Kayıt bir <b>başvurudur</b>: başvurunuzu inceleyip onayladığımızda hesabınızla giriş yapar, menünüzü
+                hazırlamaya başlarsınız. Onaydan önce giriş yapılamaz.
               </span>
             </div>
           )}
 
-          {signupClosed ? (
+          {submittedFor !== null ? (
+            <div className="space-y-4">
+              <ApprovalNotice kind="submitted" businessName={submittedFor || undefined} />
+              <Link
+                to="/"
+                className="block w-full rounded-2xl border border-white/20 bg-white/10 py-3.5 text-center text-sm font-bold text-white hover:bg-white/15"
+              >
+                Ana sayfaya dön
+              </Link>
+            </div>
+          ) : signupClosed ? (
             <div className="rounded-2xl border border-white/15 bg-black/20 p-5 text-center text-sm text-white/80">
               Yeni kayıtlar şu an kapalı. Hesap açmak için bizimle iletişime geçin.
             </div>

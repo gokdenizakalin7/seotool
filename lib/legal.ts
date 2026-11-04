@@ -5,8 +5,8 @@
  * Henüz şirket kurulmadı: hizmeti QR Chef markasıyla bir gerçek kişi sunar. Boş bırakılan alanlar metinlerde gösterilmez.
  * Şirket kurulunca unvan, adres, MERSİS, vergi ve KEP bilgileri doldurulmalı, LEGAL_VERSION ve LEGAL_UPDATED_AT güncellenmelidir.
  */
-export const LEGAL_VERSION = '2026-10-25'
-export const LEGAL_UPDATED_AT = '25 Ekim 2026'
+export const LEGAL_VERSION = '2026-11-04'
+export const LEGAL_UPDATED_AT = '4 Kasım 2026'
 
 export const LEGAL_COMPANY = {
   /** Ticaret unvanı; şirket kurulunca (ör. "QR Chef Yazılım A.Ş.") */
