@@ -93,6 +93,29 @@ export function verifyEmailEmail(verifyUrl: string, businessName: string): Templ
   }
 }
 
+export function applicationReceivedEmail(businessName: string): Template {
+  const title = 'Başvurunuz alındı'
+  return {
+    subject: `${businessName} QR Chef başvurunuz alındı`,
+    html: layout({
+      title,
+      paragraphs: [
+        `<b>${escapeHtml(businessName)}</b> için QR Chef başvurunuz ekibimize ulaştı. Bilgilerinizi inceleyip en kısa sürede size döneceğiz.`,
+        'Başvurunuz onaylandığında bu adrese e-posta göndereceğiz; ardından kayıtta belirlediğiniz e-posta ve şifreyle giriş yapıp menünüzü hazırlayabilirsiniz.',
+      ],
+      note: 'Sorunuz olursa bu e-postayı yanıtlayarak bize ulaşabilirsiniz. Bu başvuruyu siz yapmadıysanız bize haber verin.',
+    }),
+    text: textBody([
+      title,
+      '',
+      `${businessName} için QR Chef başvurunuz ekibimize ulaştı. Bilgilerinizi inceleyip en kısa sürede size döneceğiz.`,
+      'Başvurunuz onaylandığında bu adrese e-posta göndereceğiz; ardından kayıtta belirlediğiniz e-posta ve şifreyle giriş yapabilirsiniz.',
+      '',
+      'Sorunuz olursa bu e-postayı yanıtlayarak bize ulaşabilirsiniz. Bu başvuruyu siz yapmadıysanız bize haber verin.',
+    ]),
+  }
+}
+
 export function applicationApprovedEmail(opts: { businessName: string; loginUrl: string; siteUrl: string }): Template {
   const title = 'Başvurunuz onaylandı 🎉'
   return {

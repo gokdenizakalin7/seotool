@@ -5,7 +5,12 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limiter'
 import { getSetting } from '@/lib/server/platform-settings'
 import { LEGAL_VERSION } from '@/lib/legal'
-import { emailLinkOrigin, sendNewApplicationNotice, sendVerificationEmail } from '@/lib/server/account-emails'
+import {
+  emailLinkOrigin,
+  sendApplicationReceivedEmail,
+  sendNewApplicationNotice,
+  sendVerificationEmail,
+} from '@/lib/server/account-emails'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -120,11 +125,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Restoran kaydı oluşturulamadı. Lütfen tekrar deneyin.' }, { status: 500 })
     }
 
-    // Ekibe bildirim ve (gerekiyorsa) doğrulama e-postası; gönderilemese de kayıt tamamdır
+    // Ekibe bildirim; başvuru sahibine doğrulama ya da (onay gerekiyorsa) "başvurunuz alındı". Gönderilemese de kayıt tamamdır
     const origin = emailLinkOrigin(request)
     await Promise.all([
       sendNewApplicationNotice({ businessName, ownerName, email, phone: normalizePhone(ownerPhone), requiresApproval }, origin),
-      verifyEmail && verificationToken ? sendVerificationEmail(email, verificationToken, businessName, origin) : null,
+      verifyEmail && verificationToken
+        ? sendVerificationEmail(email, verificationToken, businessName, origin)
+        : requiresApproval
+          ? sendApplicationReceivedEmail(email, businessName)
+          : null,
     ])
 
     // Doğrulama zorunluysa oturum açma
