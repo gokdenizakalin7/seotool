@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limiter'
 import { getSetting } from '@/lib/server/platform-settings'
+import { consumeLimits } from '@/lib/server/persistent-rate-limit'
 import { LEGAL_VERSION } from '@/lib/legal'
 import {
   emailLinkOrigin,
@@ -58,11 +59,15 @@ export async function POST(request: NextRequest) {
     }
 
     const ip = getClientIp(request)
+    // Bellek içi sınır ucuz ilk eleme; kalıcı sınır tüm sunucu örneklerinde ortak (her kayıt 2 e-posta gönderir)
     const rl = checkRateLimit(`signup_${ip}`, RATE_LIMITS.AUTH_SIGNUP.limit, RATE_LIMITS.AUTH_SIGNUP.windowSeconds)
-    if (!rl.success) {
+    const persisted = rl.success
+      ? await consumeLimits([{ key: ['signup:ip', ip], limit: RATE_LIMITS.AUTH_SIGNUP.limit, windowSeconds: RATE_LIMITS.AUTH_SIGNUP.windowSeconds }])
+      : null
+    if (!rl.success || !persisted?.ok) {
       return NextResponse.json(
         { error: 'Çok fazla kayıt denemesi. Lütfen daha sonra tekrar deneyin.' },
-        { status: 429, headers: { 'Retry-After': String(rl.resetSeconds) } }
+        { status: 429, headers: { 'Retry-After': String(persisted && !persisted.ok ? persisted.retryAfterSeconds : rl.resetSeconds) } }
       )
     }
 

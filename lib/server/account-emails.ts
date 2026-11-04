@@ -37,18 +37,18 @@ export async function sendPasswordResetEmail(email: string, origin: string): Pro
     return null
   }
   const url = `${origin}/auth/sifre-yenile?token_hash=${encodeURIComponent(data.properties.hashed_token)}`
-  return sendEmail({ to: email, ...passwordResetEmail(url) })
+  return sendEmail({ to: email, ...passwordResetEmail(url) }, 'user')
 }
 
 /** Doğrulama bağlantısını gönderir (hashed_token generateLink'ten: signup ya da yeniden gönderim) */
 export async function sendVerificationEmail(email: string, hashedToken: string, businessName: string, origin: string) {
   const url = `${origin}/auth/dogrula?token_hash=${encodeURIComponent(hashedToken)}`
-  return sendEmail({ to: email, ...verifyEmailEmail(url, businessName) })
+  return sendEmail({ to: email, ...verifyEmailEmail(url, businessName) }, 'user')
 }
 
 /** Başvuru sahibine "başvurunuz alındı" (onay gereken kayıtta; e-posta doğrulaması açıksa doğrulama e-postası yeter) */
 export async function sendApplicationReceivedEmail(email: string, businessName: string) {
-  return sendEmail({ to: email, ...applicationReceivedEmail(businessName) })
+  return sendEmail({ to: email, ...applicationReceivedEmail(businessName) }, 'user')
 }
 
 /** Ekibe yeni kayıt bildirimi */
@@ -57,7 +57,7 @@ export async function sendNewApplicationNotice(
   origin: string
 ) {
   const adminUrl = `${origin}/admin/${opts.requiresApproval ? 'applications' : 'restaurants'}`
-  return sendEmail({ to: adminNotifyEmail(), ...newApplicationAdminEmail({ ...opts, adminUrl }) })
+  return sendEmail({ to: adminNotifyEmail(), ...newApplicationAdminEmail({ ...opts, adminUrl }) }, 'team')
 }
 
 type OrgForEmail = { id: string; name: string | null; subdomain: string | null }
@@ -83,16 +83,19 @@ export async function sendApplicationDecisionEmail(
     const businessName = org.name || 'İşletmeniz'
 
     if (approved) {
-      return await sendEmail({
-        to: owner.email,
-        ...applicationApprovedEmail({
-          businessName,
-          loginUrl: `${origin}/login`,
-          siteUrl: org.subdomain ? `${origin}${sitePath(org.subdomain)}` : origin,
-        }),
-      })
+      return await sendEmail(
+        {
+          to: owner.email,
+          ...applicationApprovedEmail({
+            businessName,
+            loginUrl: `${origin}/login`,
+            siteUrl: org.subdomain ? `${origin}${sitePath(org.subdomain)}` : origin,
+          }),
+        },
+        'admin'
+      )
     }
-    return await sendEmail({ to: owner.email, ...applicationRejectedEmail({ businessName, reason }) })
+    return await sendEmail({ to: owner.email, ...applicationRejectedEmail({ businessName, reason }) }, 'admin')
   } catch (err) {
     console.error('[email] başvuru sonucu e-postası:', err)
     return null

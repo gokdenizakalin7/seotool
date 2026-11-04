@@ -4,6 +4,7 @@ import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limiter'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { isSystemAdmin } from '@/lib/auth-middleware'
 import { emailLinkOrigin, sendVerificationEmail } from '@/lib/server/account-emails'
+import { consumeLimits } from '@/lib/server/persistent-rate-limit'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -50,8 +51,8 @@ export async function POST(request: NextRequest) {
       }
       // E-postası doğrulanmamış kayıt (EMAIL_VERIFICATION_REQUIRED): şifre doğru, bağlantı yeniden gönderilir
       if (error.code === 'email_not_confirmed') {
-        const key = `verify_resend_${String(email).toLowerCase()}`
-        if (checkRateLimit(key, RATE_LIMITS.AUTH_EMAIL.limit, RATE_LIMITS.AUTH_EMAIL.windowSeconds).success) {
+        const { limit, windowSeconds } = RATE_LIMITS.AUTH_EMAIL
+        if ((await consumeLimits([{ key: ['verify-resend:email', String(email)], limit, windowSeconds }])).ok) {
           const { data: link, error: linkErr } = await supabaseAdmin.auth.admin.generateLink({ type: 'signup', email, password })
           if (link?.properties?.hashed_token) {
             const businessName = link.user?.user_metadata?.business_name || 'İşletmeniz'
