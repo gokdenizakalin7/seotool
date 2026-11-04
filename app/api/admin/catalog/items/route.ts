@@ -6,6 +6,7 @@ import { itemCreateSchema } from '@/lib/server/admin/schemas'
 import { ITEM_COLUMNS, attachUsage, catalogChanged, descendantIds, loadAllCategories, mapItem } from '@/lib/server/admin/catalog'
 import { logAdminAction } from '@/lib/server/admin/audit'
 import { foldTurkish } from '@/lib/catalog-match'
+import { uniqueIngredients } from '@/lib/ingredients'
 import type { AdminCatalogItem } from '@/lib/admin-types'
 
 /**
@@ -76,6 +77,7 @@ export async function POST(request: NextRequest) {
         description_en: input.descriptionEn,
         price_suggested: input.priceSuggested,
         allergens: input.allergens,
+        ingredients: uniqueIngredients(input.ingredients),
         calories: input.calories ?? null,
         tags: input.tags,
         is_active: input.isActive,

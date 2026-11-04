@@ -142,6 +142,7 @@ export const reorderSchema = z.object({
 })
 
 const allergenList = z.array(clean(40)).max(20)
+const ingredientList = z.array(clean(40)).max(12)
 const tagList = z.array(z.string().regex(/^[a-z_]{2,30}$/)).max(20)
 
 export const itemCreateSchema = z.object({
@@ -153,6 +154,7 @@ export const itemCreateSchema = z.object({
   descriptionEn: clean(600).optional().default(''),
   priceSuggested: clean(20).optional().default('0'),
   allergens: allergenList.optional().default([]),
+  ingredients: ingredientList.optional().default([]),
   calories: z.number().int().min(0).max(5000).nullable().optional(),
   tags: tagList.optional().default([]),
   isActive: z.boolean().optional().default(true),
@@ -166,6 +168,7 @@ export const itemUpdateSchema = z.object({
   descriptionEn: clean(600).optional(),
   priceSuggested: clean(20).optional(),
   allergens: allergenList.optional(),
+  ingredients: ingredientList.optional(),
   calories: z.number().int().min(0).max(5000).nullable().optional(),
   tags: tagList.optional(),
   isActive: z.boolean().optional(),

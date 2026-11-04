@@ -176,6 +176,8 @@ export interface AdminCatalogItem {
   priceSuggested: string
   imageUrl: string
   allergens: string[]
+  /** Bakanlık kuralı: şablonla/taramayla kopyalanan ürünlerde bileşenler buradan gelir */
+  ingredients: string[]
   calories: number | null
   tags: string[]
   displayOrder: number
